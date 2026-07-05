@@ -1,24 +1,22 @@
 @echo off
-title KreisligaManager Start
+title Requirements aktualisieren
 cd /d "%~dp0"
 
 echo ==========================================
-echo        KreisligaManager starten
+echo        requirements.txt aktualisieren
 echo ==========================================
 echo.
 
 if not exist ".venv\Scripts\activate.bat" (
     echo FEHLER: Virtuelle Umgebung nicht gefunden.
-    echo Erwartet: .venv\Scripts\activate.bat
-    echo.
     pause
     exit /b
 )
 
 call ".venv\Scripts\activate.bat"
 
-python main.py
+pip freeze > requirements.txt
 
 echo.
-echo Programm beendet.
+echo requirements.txt wurde aktualisiert.
 pause

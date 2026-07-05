@@ -1,24 +1,22 @@
 @echo off
-title KreisligaManager Start
+title KreisligaManager Build
 cd /d "%~dp0"
 
 echo ==========================================
-echo        KreisligaManager starten
+echo        Release Build
 echo ==========================================
 echo.
 
 if not exist ".venv\Scripts\activate.bat" (
     echo FEHLER: Virtuelle Umgebung nicht gefunden.
-    echo Erwartet: .venv\Scripts\activate.bat
-    echo.
     pause
     exit /b
 )
 
 call ".venv\Scripts\activate.bat"
 
-python main.py
-
+echo Dieser Build-Schritt wird spaeter mit PyInstaller erweitert.
+echo Aktuell ist noch kein Release-Build eingerichtet.
 echo.
-echo Programm beendet.
+
 pause
