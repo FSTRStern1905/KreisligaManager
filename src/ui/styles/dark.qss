@@ -1,0 +1,49 @@
+QMainWindow {
+    background-color: #1e1e1e;
+}
+
+QWidget {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-family: Segoe UI;
+    font-size: 14px;
+}
+
+QListWidget {
+    background-color: #252526;
+    border: none;
+    padding: 10px;
+}
+
+QListWidget::item {
+    padding: 12px;
+    border-radius: 6px;
+}
+
+QListWidget::item:selected {
+    background-color: #3a3d41;
+}
+
+QLabel#PageTitle {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+QFrame#InfoCard {
+    background-color: #2d2d30;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 100px;
+}
+
+QLabel#InfoCardTitle {
+    color: #b0b0b0;
+    font-size: 14px;
+}
+
+QLabel#InfoCardValue {
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: bold;
+}
