@@ -10,7 +10,9 @@ from PySide6.QtWidgets import (
 
 from src.database.repository import Repository
 from src.ui.windows.clubs_page import ClubsPage
+from src.ui.windows.competitions_page import CompetitionsPage
 from src.ui.windows.dashboard import Dashboard
+from src.ui.windows.leagues_page import LeaguesPage
 from src.ui.windows.matches_page import MatchesPage
 from src.ui.windows.seasons_page import SeasonsPage
 from src.ui.windows.teams_page import TeamsPage
@@ -38,7 +40,9 @@ class MainWindow(QMainWindow):
             [
                 "Dashboard",
                 "Vereine",
+                "Ligen",
                 "Saisons",
+                "Wettbewerbe",
                 "Mannschaften",
                 "Spieler",
                 "Spiele",
@@ -52,16 +56,22 @@ class MainWindow(QMainWindow):
 
         self.dashboard = Dashboard(self.repository)
         self.clubs_page = ClubsPage()
+        self.leagues_page = LeaguesPage()
         self.seasons_page = SeasonsPage()
+        self.competitions_page = CompetitionsPage()
         self.teams_page = TeamsPage()
         self.matches_page = MatchesPage()
 
         self.pages.addWidget(self.dashboard)
         self.pages.addWidget(self.clubs_page)
+        self.pages.addWidget(self.leagues_page)
         self.pages.addWidget(self.seasons_page)
+        self.pages.addWidget(self.competitions_page)
         self.pages.addWidget(self.teams_page)
 
-        player_placeholder = QLabel("Spieler kommt später")
+        player_placeholder = QLabel(
+            "Spielerverwaltung kommt in einem späteren Sprint"
+        )
         player_placeholder.setAlignment(Qt.AlignCenter)
         self.pages.addWidget(player_placeholder)
 
@@ -101,9 +111,17 @@ class MainWindow(QMainWindow):
             self.clubs_page.load_clubs()
             self.statusBar().showMessage("🏟 Vereinsverwaltung")
 
+        elif current_text == "Ligen":
+            self.leagues_page.load_leagues()
+            self.statusBar().showMessage("🏆 Ligaverwaltung")
+
         elif current_text == "Saisons":
             self.seasons_page.load_seasons()
             self.statusBar().showMessage("📅 Saisonverwaltung")
+
+        elif current_text == "Wettbewerbe":
+            self.competitions_page.load_competitions()
+            self.statusBar().showMessage("🏆 Wettbewerbsverwaltung")
 
         elif current_text == "Mannschaften":
             self.teams_page.load_teams()

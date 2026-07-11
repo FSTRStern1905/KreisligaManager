@@ -1,5 +1,52 @@
 # KreisligaManager – Roadmap
 
+KreisligaManager
+
+Architektur
+
+GUI
+│
+├── Dashboard
+├── Vereine
+├── Ligen
+├── Wettbewerbe
+├── Mannschaften
+├── Spieler
+├── Spiele
+
+Services
+
+Repositories
+
+SQLite
+
+Importer
+
+Simulation
+
+Club
+ │
+ ├── Team
+ │
+ └── Stadium
+
+League
+ │
+ └── Competition
+
+Competition
+ │
+ ├── Teams
+ ├── Matches
+ └── Table
+
+Match
+ │
+ ├── Events
+ ├── Lineups
+ ├── Weather
+ └── Referee
+ 
 ## Projektziel
 
 Der KreisligaManager soll eine Desktop-Anwendung für den Amateurfußball werden.

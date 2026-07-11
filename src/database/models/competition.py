@@ -2,20 +2,23 @@ from dataclasses import dataclass
 
 
 @dataclass(slots=True)
-class League:
+class Competition:
     """
-    Datenmodell einer Liga.
+    Datenmodell eines Wettbewerbs.
+
+    Beispiele:
+    - Kreisliga A 2026/27
+    - Kreisliga B 2026/27
+    - Kreispokal 2026/27
     """
+
+    competition_id: int | None = None
 
     league_id: int | None = None
 
-    association_id: int | None = None
+    season_id: int | None = None
 
     name: str = ""
-
-    level: int = 1
-
-    season_type: str = "Liga"
 
     active: bool = True
 
@@ -24,6 +27,4 @@ class League:
 
     @property
     def display_name(self) -> str:
-        if self.level > 0:
-            return f"{self.name} (Level {self.level})"
         return self.name

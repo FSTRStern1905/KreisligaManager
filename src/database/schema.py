@@ -13,13 +13,18 @@ class DatabaseSchema:
         self.create_associations_table()
         self.create_seasons_table()
         self.create_leagues_table()
+        self.create_competitions_table()
         self.create_clubs_table()
         self.create_teams_table()
+        self.create_competition_teams_table()
         self.create_players_table()
         self.create_stadiums_table()
         self.create_referees_table()
         self.create_event_types_table()
         self.create_matches_table()
+
+        self.ensure_matches_competition_id_column()
+
         self.create_lineups_table()
         self.create_events_table()
         self.create_formations_table()
@@ -36,73 +41,125 @@ class DatabaseSchema:
         self.cursor.execute("PRAGMA foreign_keys = ON;")
 
     def create_countries_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS countries (
                 country_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL UNIQUE,
                 iso_code TEXT
             );
-        """)
+            """
+        )
 
     def create_associations_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS associations (
                 association_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 country_id INTEGER NOT NULL,
                 name TEXT NOT NULL,
                 short_name TEXT,
-                FOREIGN KEY (country_id) REFERENCES countries(country_id)
+                FOREIGN KEY (country_id)
+                    REFERENCES countries(country_id)
             );
-        """)
+            """
+        )
 
     def create_seasons_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS seasons (
                 season_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL UNIQUE,
                 start_date TEXT,
                 end_date TEXT
             );
-        """)
+            """
+        )
 
     def create_leagues_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS leagues (
                 league_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 association_id INTEGER,
                 name TEXT NOT NULL,
                 level INTEGER,
                 season_type TEXT,
-                FOREIGN KEY (association_id) REFERENCES associations(association_id)
+                FOREIGN KEY (association_id)
+                    REFERENCES associations(association_id)
             );
-        """)
+            """
+        )
+
+    def create_competitions_table(self):
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS competitions (
+                competition_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                league_id INTEGER,
+                season_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                active INTEGER NOT NULL DEFAULT 1,
+                FOREIGN KEY (league_id)
+                    REFERENCES leagues(league_id),
+                FOREIGN KEY (season_id)
+                    REFERENCES seasons(season_id)
+            );
+            """
+        )
 
     def create_clubs_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS clubs (
                 club_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 association_id INTEGER,
                 name TEXT NOT NULL UNIQUE,
                 short_name TEXT,
                 city TEXT,
-                FOREIGN KEY (association_id) REFERENCES associations(association_id)
+                FOREIGN KEY (association_id)
+                    REFERENCES associations(association_id)
             );
-        """)
+            """
+        )
 
     def create_teams_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS teams (
                 team_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 club_id INTEGER NOT NULL,
                 name TEXT NOT NULL,
                 short_name TEXT,
                 team_number INTEGER,
-                FOREIGN KEY (club_id) REFERENCES clubs(club_id)
+                FOREIGN KEY (club_id)
+                    REFERENCES clubs(club_id)
             );
-        """)
+            """
+        )
+
+    def create_competition_teams_table(self):
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS competition_teams (
+                competition_team_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                competition_id INTEGER NOT NULL,
+                team_id INTEGER NOT NULL,
+                FOREIGN KEY (competition_id)
+                    REFERENCES competitions(competition_id)
+                    ON DELETE CASCADE,
+                FOREIGN KEY (team_id)
+                    REFERENCES teams(team_id)
+                    ON DELETE CASCADE,
+                UNIQUE (competition_id, team_id)
+            );
+            """
+        )
 
     def create_players_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS players (
                 player_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name TEXT,
@@ -112,42 +169,51 @@ class DatabaseSchema:
                 foot TEXT,
                 is_active INTEGER DEFAULT 1
             );
-        """)
+            """
+        )
 
     def create_stadiums_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS stadiums (
                 stadium_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 city TEXT,
                 capacity INTEGER
             );
-        """)
+            """
+        )
 
     def create_referees_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS referees (
                 referee_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name TEXT,
                 last_name TEXT NOT NULL,
                 association TEXT
             );
-        """)
+            """
+        )
 
     def create_event_types_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS event_types (
                 event_type_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 code TEXT NOT NULL UNIQUE,
                 name TEXT NOT NULL,
                 description TEXT
             );
-        """)
+            """
+        )
 
     def create_matches_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS matches (
                 match_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                competition_id INTEGER,
                 season_id INTEGER NOT NULL,
                 league_id INTEGER,
                 matchday INTEGER,
@@ -162,17 +228,42 @@ class DatabaseSchema:
                 away_goals INTEGER,
                 status TEXT DEFAULT 'scheduled',
                 notes TEXT,
-                FOREIGN KEY (season_id) REFERENCES seasons(season_id),
-                FOREIGN KEY (league_id) REFERENCES leagues(league_id),
-                FOREIGN KEY (home_team_id) REFERENCES teams(team_id),
-                FOREIGN KEY (away_team_id) REFERENCES teams(team_id),
-                FOREIGN KEY (stadium_id) REFERENCES stadiums(stadium_id),
-                FOREIGN KEY (referee_id) REFERENCES referees(referee_id)
+                FOREIGN KEY (competition_id)
+                    REFERENCES competitions(competition_id),
+                FOREIGN KEY (season_id)
+                    REFERENCES seasons(season_id),
+                FOREIGN KEY (league_id)
+                    REFERENCES leagues(league_id),
+                FOREIGN KEY (home_team_id)
+                    REFERENCES teams(team_id),
+                FOREIGN KEY (away_team_id)
+                    REFERENCES teams(team_id),
+                FOREIGN KEY (stadium_id)
+                    REFERENCES stadiums(stadium_id),
+                FOREIGN KEY (referee_id)
+                    REFERENCES referees(referee_id)
             );
-        """)
+            """
+        )
+
+    def ensure_matches_competition_id_column(self):
+        self.cursor.execute("PRAGMA table_info(matches);")
+        columns = {
+            row[1]
+            for row in self.cursor.fetchall()
+        }
+
+        if "competition_id" not in columns:
+            self.cursor.execute(
+                """
+                ALTER TABLE matches
+                ADD COLUMN competition_id INTEGER;
+                """
+            )
 
     def create_lineups_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS lineups (
                 lineup_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 match_id INTEGER NOT NULL,
@@ -181,14 +272,19 @@ class DatabaseSchema:
                 is_starting INTEGER DEFAULT 0,
                 shirt_number INTEGER,
                 position TEXT,
-                FOREIGN KEY (match_id) REFERENCES matches(match_id),
-                FOREIGN KEY (team_id) REFERENCES teams(team_id),
-                FOREIGN KEY (player_id) REFERENCES players(player_id)
+                FOREIGN KEY (match_id)
+                    REFERENCES matches(match_id),
+                FOREIGN KEY (team_id)
+                    REFERENCES teams(team_id),
+                FOREIGN KEY (player_id)
+                    REFERENCES players(player_id)
             );
-        """)
+            """
+        )
 
     def create_events_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS events (
                 event_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 match_id INTEGER NOT NULL,
@@ -200,49 +296,66 @@ class DatabaseSchema:
                 related_player_id INTEGER,
                 value TEXT,
                 notes TEXT,
-                FOREIGN KEY (match_id) REFERENCES matches(match_id),
-                FOREIGN KEY (event_type_id) REFERENCES event_types(event_type_id),
-                FOREIGN KEY (team_id) REFERENCES teams(team_id),
-                FOREIGN KEY (player_id) REFERENCES players(player_id),
-                FOREIGN KEY (related_player_id) REFERENCES players(player_id)
+                FOREIGN KEY (match_id)
+                    REFERENCES matches(match_id),
+                FOREIGN KEY (event_type_id)
+                    REFERENCES event_types(event_type_id),
+                FOREIGN KEY (team_id)
+                    REFERENCES teams(team_id),
+                FOREIGN KEY (player_id)
+                    REFERENCES players(player_id),
+                FOREIGN KEY (related_player_id)
+                    REFERENCES players(player_id)
             );
-        """)
+            """
+        )
 
     def create_formations_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS formations (
                 formation_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL UNIQUE
             );
-        """)
+            """
+        )
 
     def create_match_formations_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS match_formations (
                 match_formation_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 match_id INTEGER NOT NULL,
                 team_id INTEGER NOT NULL,
                 formation_id INTEGER NOT NULL,
-                FOREIGN KEY (match_id) REFERENCES matches(match_id),
-                FOREIGN KEY (team_id) REFERENCES teams(team_id),
-                FOREIGN KEY (formation_id) REFERENCES formations(formation_id)
+                FOREIGN KEY (match_id)
+                    REFERENCES matches(match_id),
+                FOREIGN KEY (team_id)
+                    REFERENCES teams(team_id),
+                FOREIGN KEY (formation_id)
+                    REFERENCES formations(formation_id)
             );
-        """)
+            """
+        )
 
     def create_staff_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS staff (
                 staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 team_id INTEGER,
                 first_name TEXT,
                 last_name TEXT NOT NULL,
                 role TEXT,
-                FOREIGN KEY (team_id) REFERENCES teams(team_id)
+                FOREIGN KEY (team_id)
+                    REFERENCES teams(team_id)
             );
-        """)
+            """
+        )
 
     def create_weather_table(self):
-        self.cursor.execute("""
+        self.cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS weather (
                 weather_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 match_id INTEGER NOT NULL,
@@ -250,21 +363,84 @@ class DatabaseSchema:
                 condition TEXT,
                 wind TEXT,
                 notes TEXT,
-                FOREIGN KEY (match_id) REFERENCES matches(match_id)
+                FOREIGN KEY (match_id)
+                    REFERENCES matches(match_id)
             );
-        """)
+            """
+        )
 
     def create_indexes(self):
         indexes = [
-            "CREATE INDEX IF NOT EXISTS idx_matches_season_id ON matches(season_id);",
-            "CREATE INDEX IF NOT EXISTS idx_matches_league_id ON matches(league_id);",
-            "CREATE INDEX IF NOT EXISTS idx_matches_home_team_id ON matches(home_team_id);",
-            "CREATE INDEX IF NOT EXISTS idx_matches_away_team_id ON matches(away_team_id);",
-            "CREATE INDEX IF NOT EXISTS idx_events_match_id ON events(match_id);",
-            "CREATE INDEX IF NOT EXISTS idx_events_player_id ON events(player_id);",
-            "CREATE INDEX IF NOT EXISTS idx_events_team_id ON events(team_id);",
-            "CREATE INDEX IF NOT EXISTS idx_lineups_match_id ON lineups(match_id);",
-            "CREATE INDEX IF NOT EXISTS idx_lineups_player_id ON lineups(player_id);"
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_competitions_league_id
+            ON competitions(league_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_competitions_season_id
+            ON competitions(season_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_competition_teams_competition_id
+            ON competition_teams(competition_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_competition_teams_team_id
+            ON competition_teams(team_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_matches_competition_id
+            ON matches(competition_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_matches_season_id
+            ON matches(season_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_matches_league_id
+            ON matches(league_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_matches_home_team_id
+            ON matches(home_team_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_matches_away_team_id
+            ON matches(away_team_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_events_match_id
+            ON events(match_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_events_player_id
+            ON events(player_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_events_team_id
+            ON events(team_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_lineups_match_id
+            ON lineups(match_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_lineups_player_id
+            ON lineups(player_id);
+            """,
         ]
 
         for index in indexes:
@@ -276,15 +452,46 @@ class DatabaseSchema:
             ("OWN_GOAL", "Eigentor", "Eigentor"),
             ("YELLOW_CARD", "Gelbe Karte", "Verwarnung"),
             ("RED_CARD", "Rote Karte", "Platzverweis"),
-            ("YELLOW_RED_CARD", "Gelb-Rote Karte", "Platzverweis nach zweiter Verwarnung"),
-            ("SUBSTITUTION_IN", "Einwechslung", "Spieler wird eingewechselt"),
-            ("SUBSTITUTION_OUT", "Auswechslung", "Spieler wird ausgewechselt"),
-            ("PENALTY_GOAL", "Elfmetertor", "Verwandelter Elfmeter"),
-            ("PENALTY_MISSED", "Elfmeter verschossen", "Nicht verwandelter Elfmeter"),
-            ("INJURY", "Verletzung", "Verletzungsereignis")
+            (
+                "YELLOW_RED_CARD",
+                "Gelb-Rote Karte",
+                "Platzverweis nach zweiter Verwarnung",
+            ),
+            (
+                "SUBSTITUTION_IN",
+                "Einwechslung",
+                "Spieler wird eingewechselt",
+            ),
+            (
+                "SUBSTITUTION_OUT",
+                "Auswechslung",
+                "Spieler wird ausgewechselt",
+            ),
+            (
+                "PENALTY_GOAL",
+                "Elfmetertor",
+                "Verwandelter Elfmeter",
+            ),
+            (
+                "PENALTY_MISSED",
+                "Elfmeter verschossen",
+                "Nicht verwandelter Elfmeter",
+            ),
+            (
+                "INJURY",
+                "Verletzung",
+                "Verletzungsereignis",
+            ),
         ]
 
-        self.cursor.executemany("""
-            INSERT OR IGNORE INTO event_types (code, name, description)
+        self.cursor.executemany(
+            """
+            INSERT OR IGNORE INTO event_types (
+                code,
+                name,
+                description
+            )
             VALUES (?, ?, ?);
-        """, event_types)
+            """,
+            event_types,
+        )
