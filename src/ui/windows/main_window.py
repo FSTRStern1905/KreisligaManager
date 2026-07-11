@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
 
 from src.database.repository import Repository
 from src.ui.windows.clubs_page import ClubsPage
-from src.ui.windows.competitions_page import CompetitionsPage
+from src.ui.windows.competition_workspace import CompetitionWorkspace
 from src.ui.windows.dashboard import Dashboard
 from src.ui.windows.leagues_page import LeaguesPage
 from src.ui.windows.matches_page import MatchesPage
@@ -24,8 +24,8 @@ class MainWindow(QMainWindow):
 
         self.repository = repository
 
-        self.setWindowTitle("KreisligaManager v0.2.0-dev")
-        self.resize(1100, 700)
+        self.setWindowTitle("KreisligaManager v0.3.0-dev")
+        self.resize(1200, 760)
 
         self.setup_ui()
 
@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         self.clubs_page = ClubsPage()
         self.leagues_page = LeaguesPage()
         self.seasons_page = SeasonsPage()
-        self.competitions_page = CompetitionsPage()
+        self.competition_workspace = CompetitionWorkspace()
         self.teams_page = TeamsPage()
         self.matches_page = MatchesPage()
 
@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
         self.pages.addWidget(self.clubs_page)
         self.pages.addWidget(self.leagues_page)
         self.pages.addWidget(self.seasons_page)
-        self.pages.addWidget(self.competitions_page)
+        self.pages.addWidget(self.competition_workspace)
         self.pages.addWidget(self.teams_page)
 
         player_placeholder = QLabel(
@@ -120,8 +120,8 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("📅 Saisonverwaltung")
 
         elif current_text == "Wettbewerbe":
-            self.competitions_page.load_competitions()
-            self.statusBar().showMessage("🏆 Wettbewerbsverwaltung")
+            self.competition_workspace.refresh()
+            self.statusBar().showMessage("🏆 Wettbewerbs-Arbeitsbereich")
 
         elif current_text == "Mannschaften":
             self.teams_page.load_teams()
