@@ -18,6 +18,9 @@ class DatabaseSchema:
         self.create_teams_table()
         self.create_competition_teams_table()
         self.create_players_table()
+
+        self.ensure_players_columns()
+
         self.create_stadiums_table()
         self.create_referees_table()
         self.create_event_types_table()
@@ -162,15 +165,48 @@ class DatabaseSchema:
             """
             CREATE TABLE IF NOT EXISTS players (
                 player_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                team_id INTEGER,
                 first_name TEXT,
                 last_name TEXT NOT NULL,
                 birthdate TEXT,
                 position TEXT,
+                shirt_number INTEGER,
                 foot TEXT,
-                is_active INTEGER DEFAULT 1
+                height_cm INTEGER,
+                weight_kg INTEGER,
+                nationality TEXT DEFAULT 'Deutschland',
+                is_active INTEGER DEFAULT 1,
+                FOREIGN KEY (team_id)
+                    REFERENCES teams(team_id)
+                    ON DELETE SET NULL
             );
             """
         )
+
+    def ensure_players_columns(self):
+        self.cursor.execute("PRAGMA table_info(players);")
+
+        columns = {
+            row[1]
+            for row in self.cursor.fetchall()
+        }
+
+        required_columns = {
+            "team_id": "INTEGER",
+            "shirt_number": "INTEGER",
+            "height_cm": "INTEGER",
+            "weight_kg": "INTEGER",
+            "nationality": "TEXT DEFAULT 'Deutschland'",
+        }
+
+        for column_name, column_definition in required_columns.items():
+            if column_name not in columns:
+                self.cursor.execute(
+                    f"""
+                    ALTER TABLE players
+                    ADD COLUMN {column_name} {column_definition};
+                    """
+                )
 
     def create_stadiums_table(self):
         self.cursor.execute(
@@ -248,6 +284,7 @@ class DatabaseSchema:
 
     def ensure_matches_competition_id_column(self):
         self.cursor.execute("PRAGMA table_info(matches);")
+
         columns = {
             row[1]
             for row in self.cursor.fetchall()
@@ -390,6 +427,11 @@ class DatabaseSchema:
             CREATE INDEX IF NOT EXISTS
                 idx_competition_teams_team_id
             ON competition_teams(team_id);
+            """,
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_players_team_id
+            ON players(team_id);
             """,
             """
             CREATE INDEX IF NOT EXISTS

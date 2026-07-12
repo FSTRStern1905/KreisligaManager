@@ -1,17 +1,25 @@
 import sqlite3
 from pathlib import Path
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
-    QListWidget,
     QMessageBox,
     QPushButton,
+    QTreeWidget,
+    QTreeWidgetItem,
     QVBoxLayout,
     QWidget,
 )
 
+from src.database.repositories.competition_repository import (
+    CompetitionRepository,
+)
+from src.database.repositories.match_repository import MatchRepository
+from src.services.match_service import MatchService
 from src.services.season_service import SeasonService
+from src.ui.dialogs.match_dialog import MatchDialog
 
 
 DATABASE_PATH = Path("data/database/kreisligamanager.db")
@@ -34,19 +42,50 @@ class CompetitionScheduleTab(QWidget):
         title = QLabel("Spielplan")
         title.setObjectName("PageTitle")
 
-        self.info_label = QLabel(
-            "Kein Wettbewerb ausgewählt"
-        )
+        self.info_label = QLabel("Kein Wettbewerb ausgewählt")
         self.info_label.setObjectName("InfoLabel")
 
-        self.schedule_list = QListWidget()
+        self.schedule_tree = QTreeWidget()
+        self.schedule_tree.setColumnCount(5)
+        self.schedule_tree.setHeaderLabels(
+            [
+                "Heim",
+                "Ergebnis",
+                "Auswärts",
+                "Status",
+                "Spiel-ID",
+            ]
+        )
+
+        self.schedule_tree.setColumnHidden(4, True)
+        self.schedule_tree.setRootIsDecorated(True)
+        self.schedule_tree.setAlternatingRowColors(True)
+        self.schedule_tree.setUniformRowHeights(True)
+
+        header = self.schedule_tree.header()
+        header.setStretchLastSection(False)
+        header.setSectionResizeMode(
+            0,
+            header.ResizeMode.Stretch,
+        )
+        header.setSectionResizeMode(
+            1,
+            header.ResizeMode.ResizeToContents,
+        )
+        header.setSectionResizeMode(
+            2,
+            header.ResizeMode.Stretch,
+        )
+        header.setSectionResizeMode(
+            3,
+            header.ResizeMode.ResizeToContents,
+        )
 
         button_layout = QHBoxLayout()
 
         self.generate_button = QPushButton(
             "⚽ Spielplan erzeugen"
         )
-
         self.refresh_button = QPushButton(
             "🔄 Aktualisieren"
         )
@@ -60,7 +99,7 @@ class CompetitionScheduleTab(QWidget):
 
         main_layout.addWidget(title)
         main_layout.addWidget(self.info_label)
-        main_layout.addWidget(self.schedule_list)
+        main_layout.addWidget(self.schedule_tree)
         main_layout.addLayout(button_layout)
 
         self.setLayout(main_layout)
@@ -72,6 +111,10 @@ class CompetitionScheduleTab(QWidget):
 
         self.refresh_button.clicked.connect(
             self.load_data
+        )
+
+        self.schedule_tree.itemDoubleClicked.connect(
+            self.edit_match
         )
 
     def set_competition(
@@ -87,7 +130,7 @@ class CompetitionScheduleTab(QWidget):
         self.load_data()
 
     def load_data(self):
-        self.schedule_list.clear()
+        self.schedule_tree.clear()
         self.matches.clear()
 
         if self.competition_id is None:
@@ -95,74 +138,43 @@ class CompetitionScheduleTab(QWidget):
             return
 
         connection = sqlite3.connect(DATABASE_PATH)
-        cursor = connection.cursor()
 
         try:
-            cursor.execute(
-                """
-                SELECT name
-                FROM competitions
-                WHERE competition_id = ?
-                """,
-                (self.competition_id,),
+            competition_repository = CompetitionRepository(
+                connection
             )
-
-            competition = cursor.fetchone()
+            competition = competition_repository.get_by_id(
+                self.competition_id
+            )
 
             if competition is None:
                 self.clear_data()
                 return
 
-            competition_name = competition[0]
+            match_repository = MatchRepository(connection)
+            match_service = MatchService(match_repository)
 
-            cursor.execute(
-                """
-                SELECT
-                    matches.matchday,
-                    home_teams.name,
-                    home_teams.short_name,
-                    away_teams.name,
-                    away_teams.short_name,
-                    matches.home_goals,
-                    matches.away_goals,
-                    matches.status
-                FROM matches
-                INNER JOIN teams AS home_teams
-                    ON home_teams.team_id =
-                       matches.home_team_id
-                INNER JOIN teams AS away_teams
-                    ON away_teams.team_id =
-                       matches.away_team_id
-                WHERE matches.competition_id = ?
-                ORDER BY
-                    matches.matchday,
-                    matches.match_id
-                """,
-                (self.competition_id,),
+            self.matches = (
+                match_service.get_matches_by_competition(
+                    self.competition_id
+                )
             )
-
-            self.matches = cursor.fetchall()
 
             matchday_count = len(
                 {
-                    match[0]
+                    match.matchday
                     for match in self.matches
+                    if match.matchday is not None
                 }
             )
 
-            match_count = len(self.matches)
-
             self.info_label.setText(
-                f"{competition_name} | "
+                f"{competition.name} | "
                 f"{matchday_count} Spieltage | "
-                f"{match_count} Spiele"
+                f"{len(self.matches)} Spiele"
             )
 
             if not self.matches:
-                self.schedule_list.addItem(
-                    "Noch kein Spielplan vorhanden."
-                )
-
                 self.generate_button.setEnabled(True)
                 self.refresh_button.setEnabled(True)
                 return
@@ -172,7 +184,7 @@ class CompetitionScheduleTab(QWidget):
             self.generate_button.setEnabled(False)
             self.refresh_button.setEnabled(True)
 
-        except sqlite3.Error as error:
+        except (sqlite3.Error, ValueError) as error:
             QMessageBox.critical(
                 self,
                 "Datenbankfehler",
@@ -188,54 +200,144 @@ class CompetitionScheduleTab(QWidget):
             connection.close()
 
     def show_schedule(self):
-        current_matchday = None
+        matchday_items = {}
 
         for match in self.matches:
-            matchday = match[0]
-            home_name = match[1]
-            home_short_name = match[2]
-            away_name = match[3]
-            away_short_name = match[4]
-            home_goals = match[5]
-            away_goals = match[6]
-            status = match[7]
+            matchday = match.matchday
 
-            if matchday != current_matchday:
-                current_matchday = matchday
-
-                if self.schedule_list.count() > 0:
-                    self.schedule_list.addItem("")
-
-                self.schedule_list.addItem(
-                    f"========== Spieltag {matchday} =========="
+            if matchday not in matchday_items:
+                matchday_item = QTreeWidgetItem(
+                    [
+                        f"Spieltag {matchday}",
+                        "",
+                        "",
+                        "",
+                        "",
+                    ]
                 )
 
-            home_display = self.format_team_name(
-                home_name,
-                home_short_name,
-            )
-
-            away_display = self.format_team_name(
-                away_name,
-                away_short_name,
-            )
-
-            if (
-                home_goals is not None
-                and away_goals is not None
-            ):
-                result_text = (
-                    f"{home_goals} : {away_goals}"
+                matchday_item.setFirstColumnSpanned(True)
+                matchday_item.setExpanded(True)
+                matchday_item.setFlags(
+                    matchday_item.flags()
+                    & ~Qt.ItemIsSelectable
                 )
-            else:
-                result_text = "- : -"
 
-            self.schedule_list.addItem(
-                f"{home_display}  "
-                f"{result_text}  "
-                f"{away_display}  "
-                f"[{status}]"
+                self.schedule_tree.addTopLevelItem(
+                    matchday_item
+                )
+
+                matchday_items[matchday] = matchday_item
+
+            match_item = QTreeWidgetItem(
+                [
+                    match.home_team_name,
+                    match.result_text,
+                    match.away_team_name,
+                    self.format_status(match.status),
+                    str(match.match_id),
+                ]
             )
+
+            match_item.setTextAlignment(
+                1,
+                Qt.AlignCenter,
+            )
+
+            matchday_items[matchday].addChild(
+                match_item
+            )
+
+    def edit_match(
+        self,
+        item: QTreeWidgetItem,
+        column: int,
+    ):
+        if item.parent() is None:
+            return
+
+        match_id_text = item.text(4)
+
+        if not match_id_text:
+            return
+
+        try:
+            match_id = int(match_id_text)
+        except ValueError:
+            return
+
+        connection = sqlite3.connect(DATABASE_PATH)
+
+        try:
+            repository = MatchRepository(connection)
+            service = MatchService(repository)
+
+            match = service.get_match(match_id)
+
+            if match is None:
+                QMessageBox.warning(
+                    self,
+                    "Spiel nicht gefunden",
+                    "Das ausgewählte Spiel wurde nicht gefunden.",
+                )
+                return
+
+            stadiums = repository.get_all_stadiums()
+            referees = repository.get_all_referees()
+
+            dialog = MatchDialog(
+                match_data={
+                    "match_id": match.match_id,
+                    "home_team": match.home_team_name,
+                    "away_team": match.away_team_name,
+                    "home_goals": match.home_goals,
+                    "away_goals": match.away_goals,
+                    "date": match.match_date,
+                    "time": match.kickoff_time,
+                    "stadium_id": match.stadium_id,
+                    "referee_id": match.referee_id,
+                    "attendance": match.attendance,
+                    "status": match.status,
+                    "notes": match.notes,
+                },
+                stadiums=stadiums,
+                referees=referees,
+                parent=self,
+            )
+
+            if not dialog.exec():
+                return
+
+            data = dialog.get_data()
+
+            service.update_match(
+                match_id=match_id,
+                home_goals=data["home_goals"],
+                away_goals=data["away_goals"],
+                match_date=data["date"],
+                kickoff_time=data["time"],
+                attendance=data["attendance"],
+                stadium_id=data["stadium_id"],
+                referee_id=data["referee_id"],
+                status=data["status"],
+                notes=data["notes"],
+            )
+
+        except (sqlite3.Error, ValueError) as error:
+            QMessageBox.critical(
+                self,
+                "Fehler",
+                (
+                    "Das Spiel konnte nicht "
+                    f"gespeichert werden:\n{error}"
+                ),
+            )
+            return
+
+        finally:
+            connection.close()
+
+        self.load_data()
 
     def generate_schedule(self):
         if self.competition_id is None:
@@ -278,34 +380,43 @@ class CompetitionScheduleTab(QWidget):
                 ),
             )
 
-            self.load_data()
-
         except (sqlite3.Error, ValueError) as error:
             QMessageBox.critical(
                 self,
                 "Spielplan konnte nicht erzeugt werden",
                 str(error),
             )
+            return
 
         finally:
             connection.close()
 
-    def format_team_name(
-        self,
-        name: str,
-        short_name: str | None,
-    ) -> str:
-        if short_name:
-            return f"{name} {short_name}"
+        self.load_data()
 
-        return name
+    def format_status(
+        self,
+        status: str | None,
+    ) -> str:
+        status_map = {
+            "scheduled": "🟡 Geplant",
+            "live": "🔵 Live",
+            "finished": "🟢 Beendet",
+            "postponed": "🟠 Verlegt",
+            "cancelled": "🔴 Abgesagt",
+            "abandoned": "🔴 Abgebrochen",
+        }
+
+        return status_map.get(
+            status or "",
+            status or "Unbekannt",
+        )
 
     def refresh(self):
         self.load_data()
 
     def clear_data(self):
         self.matches.clear()
-        self.schedule_list.clear()
+        self.schedule_tree.clear()
 
         self.info_label.setText(
             "Kein Wettbewerb ausgewählt"

@@ -1,11 +1,23 @@
+import sqlite3
+from pathlib import Path
+
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QHeaderView,
     QLabel,
+    QMessageBox,
     QPushButton,
     QTableWidget,
     QTableWidgetItem,
     QVBoxLayout,
     QWidget,
 )
+
+from src.services.statistics_service import StatisticsService
+
+
+DATABASE_PATH = Path("data/database/kreisligamanager.db")
 
 
 class CompetitionTableTab(QWidget):
@@ -21,7 +33,7 @@ class CompetitionTableTab(QWidget):
     def setup_ui(self):
         layout = QVBoxLayout()
 
-        title = QLabel("Tabelle")
+        title = QLabel("📊 Tabelle")
         title.setObjectName("PageTitle")
 
         self.info_label = QLabel(
@@ -45,6 +57,39 @@ class CompetitionTableTab(QWidget):
                 "Pkt",
             ]
         )
+
+        self.table.setEditTriggers(
+            QAbstractItemView.NoEditTriggers
+        )
+
+        self.table.setSelectionBehavior(
+            QAbstractItemView.SelectRows
+        )
+
+        self.table.setSelectionMode(
+            QAbstractItemView.SingleSelection
+        )
+
+        self.table.setAlternatingRowColors(True)
+        self.table.verticalHeader().setVisible(False)
+
+        header = self.table.horizontalHeader()
+
+        header.setSectionResizeMode(
+            0,
+            QHeaderView.ResizeToContents,
+        )
+
+        header.setSectionResizeMode(
+            1,
+            QHeaderView.Stretch,
+        )
+
+        for column in range(2, 9):
+            header.setSectionResizeMode(
+                column,
+                QHeaderView.ResizeToContents,
+            )
 
         self.refresh_button = QPushButton(
             "🔄 Tabelle aktualisieren"
@@ -82,11 +127,110 @@ class CompetitionTableTab(QWidget):
             self.clear_data()
             return
 
-        self.info_label.setText(
-            "Tabellenberechnung folgt im nächsten Sprint"
+        connection = sqlite3.connect(DATABASE_PATH)
+
+        try:
+            service = StatisticsService(connection)
+
+            competition_name = service.get_competition_name(
+                self.competition_id
+            )
+
+            if competition_name is None:
+                self.clear_data()
+                return
+
+            standings = service.get_table(
+                self.competition_id
+            )
+
+            finished_matches = (
+                service.get_finished_match_count(
+                    self.competition_id
+                )
+            )
+
+            self.show_standings(standings)
+
+            self.info_label.setText(
+                f"{competition_name} | "
+                f"{len(standings)} Mannschaften | "
+                f"{finished_matches} beendete Spiele"
+            )
+
+            self.refresh_button.setEnabled(True)
+
+        except (sqlite3.Error, ValueError) as error:
+            QMessageBox.critical(
+                self,
+                "Datenbankfehler",
+                (
+                    "Die Tabelle konnte nicht "
+                    f"geladen werden:\n{error}"
+                ),
+            )
+
+            self.clear_data()
+
+        finally:
+            connection.close()
+
+    def show_standings(
+        self,
+        standings: list[dict],
+    ):
+        self.table.setRowCount(
+            len(standings)
         )
 
-        self.refresh_button.setEnabled(True)
+        for row_index, team in enumerate(
+            standings
+        ):
+            position = row_index + 1
+
+            goal_text = (
+                f"{team['goals_for']}:"
+                f"{team['goals_against']}"
+            )
+
+            goal_difference = (
+                f"+{team['goal_difference']}"
+                if team["goal_difference"] > 0
+                else str(team["goal_difference"])
+            )
+
+            values = [
+                position,
+                team["team_name"],
+                team["played"],
+                team["wins"],
+                team["draws"],
+                team["losses"],
+                goal_text,
+                goal_difference,
+                team["points"],
+            ]
+
+            for column_index, value in enumerate(
+                values
+            ):
+                item = QTableWidgetItem(str(value))
+
+                if column_index != 1:
+                    item.setTextAlignment(
+                        Qt.AlignCenter
+                    )
+
+                item.setData(
+                    Qt.UserRole,
+                    team["team_id"],
+                )
+
+                self.table.setItem(
+                    row_index,
+                    column_index,
+                    item,
+                )
 
     def refresh(self):
         self.load_data()
