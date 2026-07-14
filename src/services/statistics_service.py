@@ -2,6 +2,12 @@ import sqlite3
 
 
 class StatisticsService:
+    FAIRPLAY_WEIGHTS = {
+        "YELLOW_CARD": 1,
+        "YELLOW_RED_CARD": 3,
+        "RED_CARD": 5,
+    }
+
     def __init__(self, connection: sqlite3.Connection):
         self.connection = connection
         self.cursor = connection.cursor()
@@ -194,6 +200,88 @@ class StatisticsService:
 
         return scorers
 
+    def get_fairplay_table(
+        self,
+        competition_id: int,
+    ) -> list[dict]:
+        teams = self._load_competition_teams(
+            competition_id
+        )
+
+        fairplay = {}
+
+        for team_id, team_name, short_name in teams:
+            fairplay[team_id] = {
+                "team_id": team_id,
+                "team_name": short_name or team_name,
+                "yellow_cards": 0,
+                "yellow_red_cards": 0,
+                "red_cards": 0,
+                "fairplay_points": 0,
+            }
+
+        self.cursor.execute(
+            """
+            SELECT
+                events.team_id,
+                event_types.code,
+                COUNT(events.event_id)
+            FROM events
+            INNER JOIN event_types
+                ON event_types.event_type_id =
+                   events.event_type_id
+            INNER JOIN matches
+                ON matches.match_id =
+                   events.match_id
+            WHERE
+                matches.competition_id = ?
+                AND event_types.code IN (
+                    'YELLOW_CARD',
+                    'YELLOW_RED_CARD',
+                    'RED_CARD'
+                )
+                AND events.team_id IS NOT NULL
+            GROUP BY
+                events.team_id,
+                event_types.code
+            """,
+            (competition_id,),
+        )
+
+        for team_id, event_code, card_count in self.cursor.fetchall():
+            if team_id not in fairplay:
+                continue
+
+            team = fairplay[team_id]
+
+            if event_code == "YELLOW_CARD":
+                team["yellow_cards"] = card_count
+
+            elif event_code == "YELLOW_RED_CARD":
+                team["yellow_red_cards"] = card_count
+
+            elif event_code == "RED_CARD":
+                team["red_cards"] = card_count
+
+            team["fairplay_points"] += (
+                card_count
+                * self.FAIRPLAY_WEIGHTS[event_code]
+            )
+
+        result = list(fairplay.values())
+
+        result.sort(
+            key=lambda row: (
+                row["fairplay_points"],
+                row["red_cards"],
+                row["yellow_red_cards"],
+                row["yellow_cards"],
+                row["team_name"].lower(),
+            )
+        )
+
+        return result
+
     def get_finished_match_count(
         self,
         competition_id: int,
@@ -262,6 +350,50 @@ class StatisticsService:
                 )
             """,
             (competition_id,),
+        )
+
+        return self.cursor.fetchone()[0]
+
+    def get_card_count(
+        self,
+        competition_id: int,
+        event_code: str | None = None,
+    ) -> int:
+        query = """
+            SELECT COUNT(events.event_id)
+            FROM events
+            INNER JOIN event_types
+                ON event_types.event_type_id =
+                   events.event_type_id
+            INNER JOIN matches
+                ON matches.match_id =
+                   events.match_id
+            WHERE
+                matches.competition_id = ?
+                AND event_types.code IN (
+                    'YELLOW_CARD',
+                    'YELLOW_RED_CARD',
+                    'RED_CARD'
+                )
+        """
+
+        parameters: list = [competition_id]
+
+        if event_code is not None:
+            if event_code not in self.FAIRPLAY_WEIGHTS:
+                raise ValueError(
+                    f"Ungültiger Kartentyp: {event_code}"
+                )
+
+            query += """
+                AND event_types.code = ?
+            """
+
+            parameters.append(event_code)
+
+        self.cursor.execute(
+            query,
+            parameters,
         )
 
         return self.cursor.fetchone()[0]

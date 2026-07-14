@@ -17,10 +17,12 @@ from PySide6.QtWidgets import (
 from src.services.statistics_service import StatisticsService
 
 
-DATABASE_PATH = Path("data/database/kreisligamanager.db")
+DATABASE_PATH = Path(
+    "data/database/kreisligamanager.db"
+)
 
 
-class CompetitionStatisticsTab(QWidget):
+class CompetitionFairplayTab(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -33,7 +35,7 @@ class CompetitionStatisticsTab(QWidget):
     def setup_ui(self):
         layout = QVBoxLayout()
 
-        title = QLabel("🏆 Torjäger")
+        title = QLabel("🟨 Fairplay")
         title.setObjectName("PageTitle")
 
         self.info_label = QLabel(
@@ -41,35 +43,36 @@ class CompetitionStatisticsTab(QWidget):
         )
         self.info_label.setObjectName("InfoLabel")
 
-        self.scorer_table = QTableWidget()
-        self.scorer_table.setColumnCount(5)
+        self.fairplay_table = QTableWidget()
+        self.fairplay_table.setColumnCount(6)
 
-        self.scorer_table.setHorizontalHeaderLabels(
+        self.fairplay_table.setHorizontalHeaderLabels(
             [
                 "Pos",
-                "Spieler",
                 "Mannschaft",
-                "Position",
-                "Tore",
+                "Gelb",
+                "Gelb-Rot",
+                "Rot",
+                "Strafpunkte",
             ]
         )
 
-        self.scorer_table.setEditTriggers(
+        self.fairplay_table.setEditTriggers(
             QAbstractItemView.NoEditTriggers
         )
 
-        self.scorer_table.setSelectionBehavior(
+        self.fairplay_table.setSelectionBehavior(
             QAbstractItemView.SelectRows
         )
 
-        self.scorer_table.setSelectionMode(
+        self.fairplay_table.setSelectionMode(
             QAbstractItemView.SingleSelection
         )
 
-        self.scorer_table.setAlternatingRowColors(True)
-        self.scorer_table.verticalHeader().setVisible(False)
+        self.fairplay_table.setAlternatingRowColors(True)
+        self.fairplay_table.verticalHeader().setVisible(False)
 
-        header = self.scorer_table.horizontalHeader()
+        header = self.fairplay_table.horizontalHeader()
 
         header.setSectionResizeMode(
             0,
@@ -81,29 +84,20 @@ class CompetitionStatisticsTab(QWidget):
             QHeaderView.Stretch,
         )
 
-        header.setSectionResizeMode(
-            2,
-            QHeaderView.Stretch,
-        )
-
-        header.setSectionResizeMode(
-            3,
-            QHeaderView.ResizeToContents,
-        )
-
-        header.setSectionResizeMode(
-            4,
-            QHeaderView.ResizeToContents,
-        )
+        for column in range(2, 6):
+            header.setSectionResizeMode(
+                column,
+                QHeaderView.ResizeToContents,
+            )
 
         self.refresh_button = QPushButton(
-            "🔄 Torjäger aktualisieren"
+            "🔄 Fairplay aktualisieren"
         )
         self.refresh_button.setEnabled(False)
 
         layout.addWidget(title)
         layout.addWidget(self.info_label)
-        layout.addWidget(self.scorer_table)
+        layout.addWidget(self.fairplay_table)
         layout.addWidget(self.refresh_button)
 
         self.setLayout(layout)
@@ -126,43 +120,63 @@ class CompetitionStatisticsTab(QWidget):
         self.load_data()
 
     def load_data(self):
-        self.scorer_table.setRowCount(0)
+        self.fairplay_table.setRowCount(0)
 
         if self.competition_id is None:
             self.clear_data()
             return
 
-        connection = sqlite3.connect(DATABASE_PATH)
+        connection = sqlite3.connect(
+            DATABASE_PATH
+        )
 
         try:
-            service = StatisticsService(connection)
+            service = StatisticsService(
+                connection
+            )
 
-            competition_name = service.get_competition_name(
-                self.competition_id
+            competition_name = (
+                service.get_competition_name(
+                    self.competition_id
+                )
             )
 
             if competition_name is None:
                 self.clear_data()
                 return
 
-            scorers = service.get_top_scorers(
-                self.competition_id
+            fairplay_rows = (
+                service.get_fairplay_table(
+                    self.competition_id
+                )
             )
 
-            scorer_count = service.get_scorer_count(
-                self.competition_id
+            yellow_cards = service.get_card_count(
+                self.competition_id,
+                "YELLOW_CARD",
             )
 
-            total_goals = service.get_goal_count(
-                self.competition_id
+            yellow_red_cards = (
+                service.get_card_count(
+                    self.competition_id,
+                    "YELLOW_RED_CARD",
+                )
             )
 
-            self.show_scorers(scorers)
+            red_cards = service.get_card_count(
+                self.competition_id,
+                "RED_CARD",
+            )
+
+            self.show_fairplay_table(
+                fairplay_rows
+            )
 
             self.info_label.setText(
                 f"{competition_name} | "
-                f"{scorer_count} Torschützen | "
-                f"{total_goals} Tore"
+                f"{yellow_cards} Gelbe | "
+                f"{yellow_red_cards} Gelb-Rote | "
+                f"{red_cards} Rote Karten"
             )
 
             self.refresh_button.setEnabled(True)
@@ -172,8 +186,8 @@ class CompetitionStatisticsTab(QWidget):
                 self,
                 "Datenbankfehler",
                 (
-                    "Die Torjägerliste konnte nicht "
-                    f"geladen werden:\n{error}"
+                    "Die Fairplay-Tabelle konnte "
+                    f"nicht geladen werden:\n{error}"
                 ),
             )
 
@@ -182,52 +196,56 @@ class CompetitionStatisticsTab(QWidget):
         finally:
             connection.close()
 
-    def show_scorers(
+    def show_fairplay_table(
         self,
-        scorers: list[dict],
+        fairplay_rows: list[dict],
     ):
-        self.scorer_table.setRowCount(
-            len(scorers)
+        self.fairplay_table.setRowCount(
+            len(fairplay_rows)
         )
 
         current_position = 0
-        previous_goals = None
+        previous_points = None
 
-        for row_index, scorer in enumerate(
-            scorers
+        for row_index, team in enumerate(
+            fairplay_rows
         ):
-            if scorer["goals"] != previous_goals:
+            if (
+                team["fairplay_points"]
+                != previous_points
+            ):
                 current_position = row_index + 1
-                previous_goals = scorer["goals"]
+                previous_points = (
+                    team["fairplay_points"]
+                )
 
             values = [
                 current_position,
-                scorer["player_name"],
-                scorer["team_name"],
-                scorer["position"],
-                scorer["goals"],
+                team["team_name"],
+                team["yellow_cards"],
+                team["yellow_red_cards"],
+                team["red_cards"],
+                team["fairplay_points"],
             ]
 
             for column_index, value in enumerate(
                 values
             ):
-                item = QTableWidgetItem(str(value))
+                item = QTableWidgetItem(
+                    str(value)
+                )
 
-                if column_index in {
-                    0,
-                    3,
-                    4,
-                }:
+                if column_index != 1:
                     item.setTextAlignment(
                         Qt.AlignCenter
                     )
 
                 item.setData(
                     Qt.UserRole,
-                    scorer["player_id"],
+                    team["team_id"],
                 )
 
-                self.scorer_table.setItem(
+                self.fairplay_table.setItem(
                     row_index,
                     column_index,
                     item,
@@ -237,7 +255,7 @@ class CompetitionStatisticsTab(QWidget):
         self.load_data()
 
     def clear_data(self):
-        self.scorer_table.setRowCount(0)
+        self.fairplay_table.setRowCount(0)
 
         self.info_label.setText(
             "Kein Wettbewerb ausgewählt"

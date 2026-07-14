@@ -1,8 +1,10 @@
 import random
 import sqlite3
 
+from src.demo.event_generator import DemoEventGenerator
 
-class DemoGoalGenerator:
+
+class DemoGoalGenerator(DemoEventGenerator):
     GOAL_EVENT_CODE = "GOAL"
 
     def __init__(
@@ -10,19 +12,19 @@ class DemoGoalGenerator:
         connection: sqlite3.Connection,
         seed: int = 2029,
     ):
-        self.connection = connection
-        self.cursor = connection.cursor()
+        super().__init__(connection)
+
         self.random = random.Random(seed)
 
     def generate_for_competition(
         self,
         competition_id: int,
     ) -> dict:
-        event_type_id = self._get_event_type_id(
+        event_type_id = self.get_event_type_id(
             self.GOAL_EVENT_CODE
         )
 
-        matches = self._load_finished_matches(
+        matches = self.load_finished_matches(
             competition_id
         )
 
@@ -32,14 +34,11 @@ class DemoGoalGenerator:
                 "beendeten Spiele gefunden."
             )
 
-        match_ids = [
-            match[0]
-            for match in matches
-        ]
-
-        self._delete_existing_goals(
-            match_ids,
-            event_type_id,
+        self.delete_events(
+            competition_id=competition_id,
+            event_type_codes=[
+                self.GOAL_EVENT_CODE,
+            ],
         )
 
         generated_goal_count = 0
@@ -65,7 +64,7 @@ class DemoGoalGenerator:
                 event_type_id=event_type_id,
             )
 
-        self.connection.commit()
+        self.commit()
 
         return {
             "match_count": len(matches),
@@ -82,7 +81,9 @@ class DemoGoalGenerator:
         if goal_count is None or goal_count <= 0:
             return 0
 
-        players = self._load_goal_candidates(team_id)
+        players = self.load_active_players(
+            team_id
+        )
 
         if not players:
             raise ValueError(
@@ -90,88 +91,29 @@ class DemoGoalGenerator:
                 "keine Spieler gefunden."
             )
 
-        used_minutes = set()
+        used_minutes: set[int] = set()
 
         for _ in range(goal_count):
-            player_id = self._choose_scorer(players)
+            player_id = self._choose_scorer(
+                players
+            )
+
             minute = self._generate_unique_minute(
                 used_minutes
             )
 
-            self.cursor.execute(
-                """
-                INSERT INTO events (
-                    match_id,
-                    event_type_id,
-                    minute,
-                    second,
-                    team_id,
-                    player_id,
-                    related_player_id,
-                    value,
-                    notes
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    match_id,
-                    event_type_id,
-                    minute,
-                    0,
-                    team_id,
-                    player_id,
-                    None,
-                    None,
-                    "Automatisch erzeugtes Demo-Tor",
-                ),
+            self.insert_event(
+                match_id=match_id,
+                event_type_id=event_type_id,
+                minute=minute,
+                team_id=team_id,
+                player_id=player_id,
+                related_player_id=None,
+                value=None,
+                notes="Automatisch erzeugtes Demo-Tor",
             )
 
         return goal_count
-
-    def _load_finished_matches(
-        self,
-        competition_id: int,
-    ) -> list[tuple]:
-        self.cursor.execute(
-            """
-            SELECT
-                match_id,
-                home_team_id,
-                away_team_id,
-                home_goals,
-                away_goals
-            FROM matches
-            WHERE
-                competition_id = ?
-                AND status = 'finished'
-                AND home_goals IS NOT NULL
-                AND away_goals IS NOT NULL
-            ORDER BY match_id
-            """,
-            (competition_id,),
-        )
-
-        return self.cursor.fetchall()
-
-    def _load_goal_candidates(
-        self,
-        team_id: int,
-    ) -> list[tuple]:
-        self.cursor.execute(
-            """
-            SELECT
-                player_id,
-                position
-            FROM players
-            WHERE
-                team_id = ?
-                AND is_active = 1
-            ORDER BY player_id
-            """,
-            (team_id,),
-        )
-
-        return self.cursor.fetchall()
 
     def _choose_scorer(
         self,
@@ -180,10 +122,13 @@ class DemoGoalGenerator:
         player_ids = []
         weights = []
 
-        for player_id, position in players:
+        for player_id, position, shirt_number in players:
             player_ids.append(player_id)
+
             weights.append(
-                self._position_weight(position)
+                self._position_weight(
+                    position
+                )
             )
 
         return self.random.choices(
@@ -207,63 +152,21 @@ class DemoGoalGenerator:
             "Stürmer": 16,
         }
 
-        return weights.get(position or "", 6)
+        return weights.get(
+            position or "",
+            6,
+        )
 
     def _generate_unique_minute(
         self,
         used_minutes: set[int],
     ) -> int:
         while True:
-            minute = self.random.randint(1, 90)
+            minute = self.random.randint(
+                1,
+                90,
+            )
 
             if minute not in used_minutes:
                 used_minutes.add(minute)
                 return minute
-
-    def _get_event_type_id(
-        self,
-        code: str,
-    ) -> int:
-        self.cursor.execute(
-            """
-            SELECT event_type_id
-            FROM event_types
-            WHERE code = ?
-            """,
-            (code,),
-        )
-
-        result = self.cursor.fetchone()
-
-        if result is None:
-            raise ValueError(
-                f"Eventtyp '{code}' wurde nicht gefunden."
-            )
-
-        return result[0]
-
-    def _delete_existing_goals(
-        self,
-        match_ids: list[int],
-        event_type_id: int,
-    ):
-        if not match_ids:
-            return
-
-        placeholders = ",".join(
-            "?"
-            for _ in match_ids
-        )
-
-        self.cursor.execute(
-            f"""
-            DELETE FROM events
-            WHERE
-                event_type_id = ?
-                AND match_id IN ({placeholders})
-            """,
-            (
-                event_type_id,
-                *match_ids,
-            ),
-        )
