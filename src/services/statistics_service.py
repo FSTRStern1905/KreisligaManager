@@ -1,5 +1,7 @@
 import sqlite3
 
+from src.services.statistics.table_service import TableService
+
 
 class StatisticsService:
     FAIRPLAY_WEIGHTS = {
@@ -8,9 +10,13 @@ class StatisticsService:
         "RED_CARD": 5,
     }
 
-    def __init__(self, connection: sqlite3.Connection):
+    def __init__(
+        self,
+        connection: sqlite3.Connection,
+    ):
         self.connection = connection
         self.cursor = connection.cursor()
+        self.table_service = TableService(connection)
 
     def get_competition_name(
         self,
@@ -35,90 +41,12 @@ class StatisticsService:
     def get_table(
         self,
         competition_id: int,
+        mode: str = "all",
     ) -> list[dict]:
-        teams = self._load_competition_teams(
-            competition_id
+        return self.table_service.get_table(
+            competition_id=competition_id,
+            mode=mode,
         )
-
-        standings = {}
-
-        for team_id, team_name, short_name in teams:
-            standings[team_id] = {
-                "team_id": team_id,
-                "team_name": short_name or team_name,
-                "played": 0,
-                "wins": 0,
-                "draws": 0,
-                "losses": 0,
-                "goals_for": 0,
-                "goals_against": 0,
-                "goal_difference": 0,
-                "points": 0,
-            }
-
-        matches = self._load_finished_matches(
-            competition_id
-        )
-
-        for match in matches:
-            home_team_id = match[0]
-            away_team_id = match[1]
-            home_goals = match[2]
-            away_goals = match[3]
-
-            if home_team_id not in standings:
-                continue
-
-            if away_team_id not in standings:
-                continue
-
-            home = standings[home_team_id]
-            away = standings[away_team_id]
-
-            home["played"] += 1
-            away["played"] += 1
-
-            home["goals_for"] += home_goals
-            home["goals_against"] += away_goals
-
-            away["goals_for"] += away_goals
-            away["goals_against"] += home_goals
-
-            if home_goals > away_goals:
-                home["wins"] += 1
-                home["points"] += 3
-                away["losses"] += 1
-
-            elif home_goals < away_goals:
-                away["wins"] += 1
-                away["points"] += 3
-                home["losses"] += 1
-
-            else:
-                home["draws"] += 1
-                away["draws"] += 1
-
-                home["points"] += 1
-                away["points"] += 1
-
-        for row in standings.values():
-            row["goal_difference"] = (
-                row["goals_for"]
-                - row["goals_against"]
-            )
-
-        result = list(standings.values())
-
-        result.sort(
-            key=lambda row: (
-                -row["points"],
-                -row["goal_difference"],
-                -row["goals_for"],
-                row["team_name"].lower(),
-            )
-        )
-
-        return result
 
     def get_top_scorers(
         self,
@@ -248,7 +176,11 @@ class StatisticsService:
             (competition_id,),
         )
 
-        for team_id, event_code, card_count in self.cursor.fetchall():
+        for (
+            team_id,
+            event_code,
+            card_count,
+        ) in self.cursor.fetchall():
             if team_id not in fairplay:
                 continue
 
@@ -412,34 +344,10 @@ class StatisticsService:
             INNER JOIN teams
                 ON teams.team_id =
                    competition_teams.team_id
-            WHERE competition_teams.competition_id = ?
-            ORDER BY teams.name
-            """,
-            (competition_id,),
-        )
-
-        return self.cursor.fetchall()
-
-    def _load_finished_matches(
-        self,
-        competition_id: int,
-    ) -> list[tuple]:
-        self.cursor.execute(
-            """
-            SELECT
-                home_team_id,
-                away_team_id,
-                home_goals,
-                away_goals
-            FROM matches
             WHERE
-                competition_id = ?
-                AND status = 'finished'
-                AND home_goals IS NOT NULL
-                AND away_goals IS NOT NULL
+                competition_teams.competition_id = ?
             ORDER BY
-                matchday,
-                match_id
+                teams.name
             """,
             (competition_id,),
         )

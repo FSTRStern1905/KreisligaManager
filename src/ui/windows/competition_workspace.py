@@ -23,8 +23,14 @@ from src.database.repositories.league_repository import (
 )
 from src.services.competition_service import CompetitionService
 from src.ui.dialogs.competition_dialog import CompetitionDialog
+from src.ui.windows.competition_tabs.away_table_tab import (
+    CompetitionAwayTableTab,
+)
 from src.ui.windows.competition_tabs.fairplay_tab import (
     CompetitionFairplayTab,
+)
+from src.ui.windows.competition_tabs.home_table_tab import (
+    CompetitionHomeTableTab,
 )
 from src.ui.windows.competition_tabs.matches_tab import (
     CompetitionMatchesTab,
@@ -44,6 +50,9 @@ from src.ui.windows.competition_tabs.table_tab import (
 from src.ui.windows.competition_tabs.teams_tab import (
     CompetitionTeamsTab,
 )
+from src.ui.windows.competition_tabs.form_tab import (
+    CompetitionFormTab,
+)
 
 
 DATABASE_PATH = Path(
@@ -57,6 +66,7 @@ class CompetitionWorkspace(QWidget):
 
         self.competitions = []
         self.selected_competition_id = None
+        self.competition_tabs = []
 
         self.setup_ui()
         self.connect_signals()
@@ -71,88 +81,18 @@ class CompetitionWorkspace(QWidget):
         self.info_label = QLabel("")
         self.info_label.setObjectName("InfoLabel")
 
-        self.search = QLineEdit()
-        self.search.setPlaceholderText(
-            "Wettbewerb suchen..."
-        )
-
-        self.competition_list = QListWidget()
-
-        self.new_button = QPushButton(
-            "➕ Neuer Wettbewerb"
-        )
-
-        sidebar_layout = QVBoxLayout()
-        sidebar_layout.addWidget(
-            QLabel("Wettbewerbe")
-        )
-        sidebar_layout.addWidget(self.search)
-        sidebar_layout.addWidget(
-            self.competition_list
-        )
-        sidebar_layout.addWidget(self.new_button)
-
-        sidebar_widget = QWidget()
-        sidebar_widget.setLayout(sidebar_layout)
-        sidebar_widget.setMinimumWidth(320)
-        sidebar_widget.setMaximumWidth(450)
-
-        self.tabs = QTabWidget()
-
-        self.overview_tab = CompetitionOverviewTab()
-        self.teams_tab = CompetitionTeamsTab()
-        self.schedule_tab = CompetitionScheduleTab()
-        self.matches_tab = CompetitionMatchesTab()
-        self.table_tab = CompetitionTableTab()
-        self.statistics_tab = (
-            CompetitionStatisticsTab()
-        )
-        self.fairplay_tab = CompetitionFairplayTab()
-
-        self.tabs.addTab(
-            self.overview_tab,
-            "📋 Übersicht",
-        )
-
-        self.tabs.addTab(
-            self.teams_tab,
-            "👥 Teilnehmer",
-        )
-
-        self.tabs.addTab(
-            self.schedule_tab,
-            "⚽ Spielplan",
-        )
-
-        self.tabs.addTab(
-            self.matches_tab,
-            "🥅 Spiele",
-        )
-
-        self.tabs.addTab(
-            self.table_tab,
-            "📊 Tabelle",
-        )
-
-        self.tabs.addTab(
-            self.statistics_tab,
-            "🏆 Torjäger",
-        )
-
-        self.tabs.addTab(
-            self.fairplay_tab,
-            "🟨 Fairplay",
-        )
-
         content_splitter = QSplitter(
             Qt.Horizontal
         )
+
+        sidebar_widget = self.create_sidebar()
+        tabs_widget = self.create_tabs()
 
         content_splitter.addWidget(
             sidebar_widget
         )
         content_splitter.addWidget(
-            self.tabs
+            tabs_widget
         )
 
         content_splitter.setStretchFactor(
@@ -177,6 +117,121 @@ class CompetitionWorkspace(QWidget):
         )
 
         self.setLayout(main_layout)
+
+    def create_sidebar(self) -> QWidget:
+        self.search = QLineEdit()
+        self.search.setPlaceholderText(
+            "Wettbewerb suchen..."
+        )
+
+        self.competition_list = QListWidget()
+
+        self.new_button = QPushButton(
+            "➕ Neuer Wettbewerb"
+        )
+
+        sidebar_layout = QVBoxLayout()
+        sidebar_layout.addWidget(
+            QLabel("Wettbewerbe")
+        )
+        sidebar_layout.addWidget(
+            self.search
+        )
+        sidebar_layout.addWidget(
+            self.competition_list
+        )
+        sidebar_layout.addWidget(
+            self.new_button
+        )
+
+        sidebar_widget = QWidget()
+        sidebar_widget.setLayout(
+            sidebar_layout
+        )
+        sidebar_widget.setMinimumWidth(320)
+        sidebar_widget.setMaximumWidth(450)
+
+        return sidebar_widget
+
+    def create_tabs(self) -> QTabWidget:
+        self.tabs = QTabWidget()
+
+        self.overview_tab = CompetitionOverviewTab()
+        self.teams_tab = CompetitionTeamsTab()
+        self.schedule_tab = CompetitionScheduleTab()
+        self.matches_tab = CompetitionMatchesTab()
+        self.table_tab = CompetitionTableTab()
+        self.home_table_tab = CompetitionHomeTableTab()
+        self.away_table_tab = CompetitionAwayTableTab()
+        self.form_tab = CompetitionFormTab()
+        self.statistics_tab = CompetitionStatisticsTab()
+        self.fairplay_tab = CompetitionFairplayTab()
+
+        self.register_tab(
+            self.overview_tab,
+            "📋 Übersicht",
+        )
+
+        self.register_tab(
+            self.teams_tab,
+            "👥 Teilnehmer",
+        )
+
+        self.register_tab(
+            self.schedule_tab,
+            "⚽ Spielplan",
+        )
+
+        self.register_tab(
+            self.matches_tab,
+            "🥅 Spiele",
+        )
+
+        self.register_tab(
+            self.table_tab,
+            "📊 Tabelle",
+        )
+
+        self.register_tab(
+            self.home_table_tab,
+            "🏠 Heim",
+        )
+
+        self.register_tab(
+            self.away_table_tab,
+            "✈️ Auswärts",
+        )
+
+        self.register_tab(
+            self.form_tab,
+            "📈 Form",
+        )
+
+        self.register_tab(
+            self.statistics_tab,
+            "🏆 Torjäger",
+        )
+
+        self.register_tab(
+            self.fairplay_tab,
+            "🟨 Fairplay",
+        )
+
+        return self.tabs
+
+    def register_tab(
+        self,
+        tab: QWidget,
+        title: str,
+    ):
+        self.tabs.addTab(
+            tab,
+            title,
+        )
+
+        self.competition_tabs.append(
+            tab
+        )
 
     def connect_signals(self):
         self.search.textChanged.connect(
@@ -211,6 +266,7 @@ class CompetitionWorkspace(QWidget):
             repository = CompetitionRepository(
                 connection
             )
+
             service = CompetitionService(
                 repository
             )
@@ -271,14 +327,18 @@ class CompetitionWorkspace(QWidget):
             competition,
         )
 
-        item = QListWidgetItem(display_text)
+        item = QListWidgetItem(
+            display_text
+        )
 
         item.setData(
             Qt.UserRole,
             competition.competition_id,
         )
 
-        self.competition_list.addItem(item)
+        self.competition_list.addItem(
+            item
+        )
 
     def filter_competitions(self):
         search_text = (
@@ -300,22 +360,21 @@ class CompetitionWorkspace(QWidget):
                     competition,
                 )
 
-                if (
-                    search_text
-                    in display_text.lower()
-                ):
-                    item = QListWidgetItem(
-                        display_text
-                    )
+                if search_text not in display_text.lower():
+                    continue
 
-                    item.setData(
-                        Qt.UserRole,
-                        competition.competition_id,
-                    )
+                item = QListWidgetItem(
+                    display_text
+                )
 
-                    self.competition_list.addItem(
-                        item
-                    )
+                item.setData(
+                    Qt.UserRole,
+                    competition.competition_id,
+                )
+
+                self.competition_list.addItem(
+                    item
+                )
 
         finally:
             connection.close()
@@ -368,33 +427,14 @@ class CompetitionWorkspace(QWidget):
         self,
         competition_id: int | None,
     ):
-        self.overview_tab.set_competition(
-            competition_id
-        )
-
-        self.teams_tab.set_competition(
-            competition_id
-        )
-
-        self.schedule_tab.set_competition(
-            competition_id
-        )
-
-        self.matches_tab.set_competition(
-            competition_id
-        )
-
-        self.table_tab.set_competition(
-            competition_id
-        )
-
-        self.statistics_tab.set_competition(
-            competition_id
-        )
-
-        self.fairplay_tab.set_competition(
-            competition_id
-        )
+        for tab in self.competition_tabs:
+            if hasattr(
+                tab,
+                "set_competition",
+            ):
+                tab.set_competition(
+                    competition_id
+                )
 
     def tab_changed(
         self,
@@ -419,6 +459,7 @@ class CompetitionWorkspace(QWidget):
             league_repository = (
                 LeagueRepository(connection)
             )
+
             leagues = (
                 league_repository.get_all()
             )
@@ -475,6 +516,7 @@ class CompetitionWorkspace(QWidget):
             repository = CompetitionRepository(
                 connection
             )
+
             service = CompetitionService(
                 repository
             )

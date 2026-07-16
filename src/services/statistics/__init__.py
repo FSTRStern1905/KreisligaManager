@@ -1,0 +1,3 @@
+"""
+Statistik-Services des KreisligaManagers.
+"""
