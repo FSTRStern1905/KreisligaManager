@@ -65,6 +65,9 @@ from src.ui.windows.competition_tabs.goal_difference_tab import (
 from src.ui.windows.competition_tabs.points_progress_tab import (
     CompetitionPointsProgressTab,
 )
+from src.ui.windows.competition_tabs.table_progress_tab import (
+    CompetitionTableProgressTab,
+)
 
 DATABASE_PATH = Path(
     "data/database/kreisligamanager.db"
@@ -181,7 +184,8 @@ class CompetitionWorkspace(QWidget):
         self.goal_timeline_tab = CompetitionGoalTimelineTab()
         self.goal_difference_tab = CompetitionGoalDifferenceTab()
         self.points_progress_tab = CompetitionPointsProgressTab()
-
+        self.table_progress_tab = CompetitionTableProgressTab()
+        
         self.register_tab(
             self.overview_tab,
             "📋 Übersicht",
@@ -250,6 +254,11 @@ class CompetitionWorkspace(QWidget):
         self.register_tab(
             self.points_progress_tab,
             "📈 Punkteverlauf",
+        )
+
+        self.register_tab(
+            self.table_progress_tab,
+            "📉 Tabellenentwicklung",
         )
 
         return self.tabs

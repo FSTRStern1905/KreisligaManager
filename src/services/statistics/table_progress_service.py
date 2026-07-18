@@ -164,7 +164,7 @@ class TableProgressService:
         competition_id: int,
         matchday: int,
     ) -> list[dict]:
-        table = self.table_service._create_empty_table(
+        standings = self.table_service._create_empty_table(
             competition_id
         )
 
@@ -193,37 +193,17 @@ class TableProgressService:
             ),
         )
 
-        for (
-            home_team_id,
-            away_team_id,
-            home_goals,
-            away_goals,
-        ) in self.cursor.fetchall():
-            self.table_service._apply_result(
-                table=table,
-                home_team_id=home_team_id,
-                away_team_id=away_team_id,
-                home_goals=home_goals,
-                away_goals=away_goals,
+        for match in self.cursor.fetchall():
+            self.table_service._apply_match_result(
+                standings=standings,
+                match=match,
+                mode="all",
             )
 
-        result = list(
-            table.values()
+        self.table_service._calculate_goal_differences(
+            standings
         )
 
-        for team in result:
-            team["goal_difference"] = (
-                team["goals_for"]
-                - team["goals_against"]
-            )
-
-        result.sort(
-            key=lambda team: (
-                -team["points"],
-                -team["goal_difference"],
-                -team["goals_for"],
-                team["team_name"].lower(),
-            )
+        return self.table_service._sort_table(
+            standings
         )
-
-        return result
