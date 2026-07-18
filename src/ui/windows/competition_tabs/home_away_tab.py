@@ -1,56 +1,43 @@
 import sqlite3
-from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QHeaderView,
-    QLabel,
-    QMessageBox,
-    QPushButton,
     QTableWidget,
     QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
 )
 
 from src.services.statistics.home_away_service import (
     HomeAwayService,
 )
-from src.services.statistics_service import (
-    StatisticsService,
+from src.ui.windows.competition_tabs.base_statistics_tab import (
+    BaseStatisticsTab,
 )
 
 
-DATABASE_PATH = Path(
-    "data/database/kreisligamanager.db"
-)
-
-
-class CompetitionHomeAwayTab(QWidget):
+class CompetitionHomeAwayTab(
+    BaseStatisticsTab
+):
     def __init__(self):
-        super().__init__()
-
-        self.competition_id = None
-
-        self.setup_ui()
-        self.connect_signals()
-        self.clear_data()
-
-    def setup_ui(self):
-        layout = QVBoxLayout()
-
-        title = QLabel(
-            "📊 Heim-/Auswärtsvergleich"
+        super().__init__(
+            title="📊 Heim-/Auswärtsvergleich",
+            refresh_button_text=(
+                "🔄 Vergleich aktualisieren"
+            ),
         )
-        title.setObjectName("PageTitle")
-
-        self.info_label = QLabel(
-            "Kein Wettbewerb ausgewählt"
-        )
-        self.info_label.setObjectName("InfoLabel")
 
         self.table = QTableWidget()
+        self.setup_table()
+
+        self.add_content_widget(
+            self.table,
+            stretch=1,
+        )
+
+        self.clear_data()
+
+    def setup_table(self) -> None:
         self.table.setColumnCount(9)
 
         self.table.setHorizontalHeaderLabels(
@@ -68,154 +55,121 @@ class CompetitionHomeAwayTab(QWidget):
         )
 
         self.table.setEditTriggers(
-            QAbstractItemView.NoEditTriggers
+            QAbstractItemView.EditTrigger.NoEditTriggers
         )
 
         self.table.setSelectionBehavior(
-            QAbstractItemView.SelectRows
+            QAbstractItemView.SelectionBehavior.SelectRows
         )
 
         self.table.setSelectionMode(
-            QAbstractItemView.SingleSelection
+            QAbstractItemView.SelectionMode.SingleSelection
         )
 
-        self.table.setAlternatingRowColors(True)
-        self.table.verticalHeader().setVisible(False)
+        self.table.setAlternatingRowColors(
+            True
+        )
+
+        self.table.verticalHeader().setVisible(
+            False
+        )
 
         header = self.table.horizontalHeader()
 
         header.setSectionResizeMode(
             0,
-            QHeaderView.ResizeToContents,
+            QHeaderView.ResizeMode.ResizeToContents,
         )
 
         header.setSectionResizeMode(
             1,
-            QHeaderView.Stretch,
+            QHeaderView.ResizeMode.Stretch,
         )
 
         for column in range(2, 9):
             header.setSectionResizeMode(
                 column,
-                QHeaderView.ResizeToContents,
+                QHeaderView.ResizeMode.ResizeToContents,
             )
 
-        self.refresh_button = QPushButton(
-            "🔄 Vergleich aktualisieren"
-        )
-        self.refresh_button.setEnabled(False)
-
-        layout.addWidget(title)
-        layout.addWidget(self.info_label)
-        layout.addWidget(self.table)
-        layout.addWidget(self.refresh_button)
-
-        self.setLayout(layout)
-
-    def connect_signals(self):
-        self.refresh_button.clicked.connect(
-            self.load_data
-        )
-
-    def set_competition(
-        self,
-        competition_id: int | None,
-    ):
-        self.competition_id = competition_id
-
-        if competition_id is None:
-            self.clear_data()
-            return
-
-        self.load_data()
-
-    def load_data(self):
-        self.table.setRowCount(0)
-
+    def load_data(self) -> None:
         if self.competition_id is None:
             self.clear_data()
             return
 
-        connection = sqlite3.connect(
-            DATABASE_PATH
-        )
+        self.table.setRowCount(0)
 
         try:
-            statistics_service = StatisticsService(
-                connection
-            )
-
-            comparison_service = HomeAwayService(
-                connection
-            )
-
-            competition_name = (
-                statistics_service.get_competition_name(
-                    self.competition_id
+            with self.database_connection() as connection:
+                competition_name = (
+                    self.get_competition_name(
+                        connection
+                    )
                 )
-            )
 
-            if competition_name is None:
-                self.clear_data()
-                return
+                if competition_name is None:
+                    self.clear_data()
+                    return
 
-            comparison = (
-                comparison_service.get_comparison(
-                    self.competition_id
+                service = HomeAwayService(
+                    connection
                 )
-            )
 
-            self.show_comparison(
-                comparison
-            )
+                comparison = (
+                    service.get_comparison(
+                        self.competition_id
+                    )
+                )
 
-            home_stronger_count = sum(
-                1
-                for team in comparison
-                if team["point_difference"] > 0
-            )
+                self.populate_table(
+                    comparison
+                )
 
-            away_stronger_count = sum(
-                1
-                for team in comparison
-                if team["point_difference"] < 0
-            )
+                home_stronger_count = sum(
+                    1
+                    for team in comparison
+                    if team["point_difference"] > 0
+                )
 
-            balanced_count = sum(
-                1
-                for team in comparison
-                if team["point_difference"] == 0
-            )
+                away_stronger_count = sum(
+                    1
+                    for team in comparison
+                    if team["point_difference"] < 0
+                )
 
-            self.info_label.setText(
-                f"{competition_name} | "
-                f"{home_stronger_count} heimstärker | "
-                f"{away_stronger_count} auswärtsstärker | "
-                f"{balanced_count} ausgeglichen"
-            )
+                balanced_count = sum(
+                    1
+                    for team in comparison
+                    if team["point_difference"] == 0
+                )
 
-            self.refresh_button.setEnabled(True)
+                self.set_info_text(
+                    f"{competition_name} | "
+                    f"{home_stronger_count} heimstärker | "
+                    f"{away_stronger_count} auswärtsstärker | "
+                    f"{balanced_count} ausgeglichen"
+                )
 
-        except (sqlite3.Error, ValueError) as error:
-            QMessageBox.critical(
-                self,
-                "Datenbankfehler",
-                (
+                self.set_refresh_enabled(
+                    True
+                )
+
+        except (
+            sqlite3.Error,
+            ValueError,
+        ) as error:
+            self.handle_load_error(
+                message=(
                     "Der Heim-/Auswärtsvergleich "
-                    "konnte nicht geladen werden:\n"
-                    f"{error}"
+                    "konnte nicht geladen werden."
                 ),
+                error=error,
             )
 
-            self.clear_data()
-
-        finally:
-            connection.close()
-
-    def show_comparison(
+    def populate_table(
         self,
         comparison: list[dict],
-    ):
+    ) -> None:
         self.table.setRowCount(
             len(comparison)
         )
@@ -254,11 +208,11 @@ class CompetitionHomeAwayTab(QWidget):
 
                 if column_index != 1:
                     item.setTextAlignment(
-                        Qt.AlignCenter
+                        Qt.AlignmentFlag.AlignCenter
                     )
 
                 item.setData(
-                    Qt.UserRole,
+                    Qt.ItemDataRole.UserRole,
                     team["team_id"],
                 )
 
@@ -268,8 +222,8 @@ class CompetitionHomeAwayTab(QWidget):
                     item,
                 )
 
+    @staticmethod
     def format_signed_value(
-        self,
         value: int,
     ) -> str:
         if value > 0:
@@ -277,14 +231,11 @@ class CompetitionHomeAwayTab(QWidget):
 
         return str(value)
 
-    def refresh(self):
-        self.load_data()
+    def clear_content(self) -> None:
+        if not hasattr(
+            self,
+            "table",
+        ):
+            return
 
-    def clear_data(self):
         self.table.setRowCount(0)
-
-        self.info_label.setText(
-            "Kein Wettbewerb ausgewählt"
-        )
-
-        self.refresh_button.setEnabled(False)
