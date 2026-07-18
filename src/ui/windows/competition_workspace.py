@@ -53,6 +53,15 @@ from src.ui.windows.competition_tabs.teams_tab import (
 from src.ui.windows.competition_tabs.form_tab import (
     CompetitionFormTab,
 )
+from src.ui.windows.competition_tabs.home_away_tab import (
+    CompetitionHomeAwayTab,
+)
+from src.ui.windows.competition_tabs.goal_timeline_tab import (
+    CompetitionGoalTimelineTab,
+)
+from src.ui.windows.competition_tabs.goal_difference_tab import (
+    CompetitionGoalDifferenceTab,
+)
 
 
 DATABASE_PATH = Path(
@@ -166,6 +175,9 @@ class CompetitionWorkspace(QWidget):
         self.form_tab = CompetitionFormTab()
         self.statistics_tab = CompetitionStatisticsTab()
         self.fairplay_tab = CompetitionFairplayTab()
+        self.home_away_tab = CompetitionHomeAwayTab()
+        self.goal_timeline_tab = CompetitionGoalTimelineTab()
+        self.goal_difference_tab = CompetitionGoalDifferenceTab()
 
         self.register_tab(
             self.overview_tab,
@@ -208,6 +220,11 @@ class CompetitionWorkspace(QWidget):
         )
 
         self.register_tab(
+            self.home_away_tab,
+            "📊 Vergleich",
+        )
+
+        self.register_tab(
             self.statistics_tab,
             "🏆 Torjäger",
         )
@@ -215,6 +232,16 @@ class CompetitionWorkspace(QWidget):
         self.register_tab(
             self.fairplay_tab,
             "🟨 Fairplay",
+        )
+
+        self.register_tab(
+            self.goal_timeline_tab,
+            "🔥 Torphasen",
+        )
+
+        self.register_tab(
+            self.goal_difference_tab,
+            "⚖️ Torverhältnis",
         )
 
         return self.tabs
