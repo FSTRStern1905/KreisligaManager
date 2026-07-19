@@ -1,0 +1,3 @@
+"""
+Migrationen für die Datenbank.
+"""

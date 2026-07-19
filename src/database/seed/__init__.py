@@ -1,0 +1,3 @@
+"""
+Seedmodule des KreisligaManagers.
+"""

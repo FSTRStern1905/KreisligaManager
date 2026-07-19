@@ -1,0 +1,3 @@
+"""
+Indexmodule des KreisligaManagers.
+"""

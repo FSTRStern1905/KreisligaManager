@@ -3,11 +3,14 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QFrame,
     QHBoxLayout,
     QLabel,
     QMessageBox,
     QPushButton,
+    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
@@ -43,7 +46,13 @@ class BaseStatisticsTab(QWidget):
             refresh_button_text
         )
 
+        self.header_frame = QFrame()
+        self.header_frame.setObjectName(
+            "StatisticsHeaderFrame"
+        )
+
         self.main_layout = QVBoxLayout()
+        self.header_frame_layout = QVBoxLayout()
         self.header_layout = QHBoxLayout()
         self.content_layout = QVBoxLayout()
 
@@ -52,23 +61,91 @@ class BaseStatisticsTab(QWidget):
         self.clear_data()
 
     def setup_ui(self) -> None:
-        self.main_layout.setContentsMargins(
-            20,
-            20,
-            20,
-            20,
+        self.setObjectName(
+            "StatisticsTab"
         )
 
-        self.main_layout.setSpacing(15)
-        self.header_layout.setSpacing(10)
-        self.content_layout.setSpacing(10)
+        self.main_layout.setContentsMargins(
+            28,
+            24,
+            28,
+            28,
+        )
+
+        self.main_layout.setSpacing(
+            18
+        )
+
+        self.header_frame_layout.setContentsMargins(
+            18,
+            16,
+            18,
+            16,
+        )
+
+        self.header_frame_layout.setSpacing(
+            8
+        )
+
+        self.header_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        self.header_layout.setSpacing(
+            12
+        )
+
+        self.content_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        self.content_layout.setSpacing(
+            14
+        )
 
         self.title_label.setObjectName(
             "PageTitle"
         )
 
+        self.title_label.setAlignment(
+            Qt.AlignmentFlag.AlignVCenter
+            | Qt.AlignmentFlag.AlignLeft
+        )
+
         self.info_label.setObjectName(
             "InfoLabel"
+        )
+
+        self.info_label.setWordWrap(
+            True
+        )
+
+        self.info_label.setAlignment(
+            Qt.AlignmentFlag.AlignVCenter
+            | Qt.AlignmentFlag.AlignLeft
+        )
+
+        self.refresh_button.setObjectName(
+            "StatisticsRefreshButton"
+        )
+
+        self.refresh_button.setMinimumHeight(
+            36
+        )
+
+        self.refresh_button.setMaximumHeight(
+            36
+        )
+
+        self.refresh_button.setSizePolicy(
+            QSizePolicy.Policy.Fixed,
+            QSizePolicy.Policy.Fixed,
         )
 
         self.header_layout.addWidget(
@@ -81,12 +158,20 @@ class BaseStatisticsTab(QWidget):
             self.refresh_button
         )
 
-        self.main_layout.addLayout(
+        self.header_frame_layout.addLayout(
             self.header_layout
         )
 
-        self.main_layout.addWidget(
+        self.header_frame_layout.addWidget(
             self.info_label
+        )
+
+        self.header_frame.setLayout(
+            self.header_frame_layout
+        )
+
+        self.main_layout.addWidget(
+            self.header_frame
         )
 
         self.main_layout.addLayout(
@@ -168,7 +253,9 @@ class BaseStatisticsTab(QWidget):
         self,
         text: str,
     ) -> None:
-        self.info_label.setText(text)
+        self.info_label.setText(
+            text
+        )
 
     def set_refresh_enabled(
         self,
@@ -182,14 +269,18 @@ class BaseStatisticsTab(QWidget):
         self,
         text: str,
     ) -> None:
-        self.refresh_button.setText(text)
+        self.refresh_button.setText(
+            text
+        )
 
     def set_page_title(
         self,
         title: str,
     ) -> None:
         self.page_title = title
-        self.title_label.setText(title)
+        self.title_label.setText(
+            title
+        )
 
     @contextmanager
     def database_connection(
