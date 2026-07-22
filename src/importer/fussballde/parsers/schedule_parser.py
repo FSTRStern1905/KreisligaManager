@@ -1,19 +1,24 @@
+from __future__ import annotations
+
 import json
 import re
 import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
-from playwright.sync_api import Locator
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 from src.importer.fussballde.browser import FussballDeBrowser
+from src.importer.fussballde.font_decoder import FontDecoder
 from src.importer.fussballde.parsers.base_parser import BaseParser
 
 
 @dataclass
 class ScheduleMatch:
+    match_id: str
+    matchday: int | None
     date: str
     time: str
     competition: str
@@ -22,115 +27,195 @@ class ScheduleMatch:
     away_team: str
     home_score: int | None
     away_score: int | None
+    status: str
     match_url: str
 
 
 class ScheduleParser(BaseParser):
     """
-    Liest den sichtbaren Spielplan einer fussball.de-Mannschaftsseite aus.
+    Liest alle Spiele aus dem Staffelspielplan von fussball.de.
+
+    Playwright lädt die vollständige JavaScript-Seite.
+    BeautifulSoup verarbeitet anschließend die Spielzeilen.
+    Dynamische fussball.de-Schriftarten werden automatisch entschlüsselt.
     """
+
+    TABLE_SELECTOR = "#fixtures-matchplan-table-matches-table"
 
     DATE_PATTERN = re.compile(
         r"\b(\d{1,2}\.\d{1,2}\.(?:\d{2}|\d{4}))\b"
     )
 
     TIME_PATTERN = re.compile(
-        r"\b([01]?\d|2[0-3]):[0-5]\d\b"
+        r"\b(?:[01]?\d|2[0-3]):[0-5]\d\b"
     )
 
     SCORE_PATTERN = re.compile(
-        r"\b(\d{1,2})\s*:\s*(\d{1,2})\b"
+        r"(?<!\d)(\d{1,2})\s*:\s*(\d{1,2})(?!\d)"
     )
 
+    MATCHDAY_PATTERN = re.compile(
+        r"\b(\d{1,2})\.\s*Spieltag\b",
+        re.IGNORECASE,
+    )
+
+    MATCH_ID_PATTERN = re.compile(
+        r"/spiel/[^?#]*/([A-Z0-9]{20,})/?(?:[?#]|$)",
+        re.IGNORECASE,
+    )
+
+    FONT_CLASS_PATTERN = re.compile(
+        r"(?:^|\s)results-c-([a-zA-Z0-9]+)(?:\s|$)"
+    )
+
+    def __init__(self, page: Any) -> None:
+        super().__init__(page)
+
+        self.font_decoder = FontDecoder(
+            request_context=page.request
+        )
+
     def parse(self) -> list[ScheduleMatch]:
+        html = self.page.content()
+        soup = BeautifulSoup(html, "lxml")
+
+        table = soup.select_one(self.TABLE_SELECTOR)
+
+        if not isinstance(table, Tag):
+            raise RuntimeError(
+                "Die Spielplan-Tabelle wurde nicht gefunden."
+            )
+
+        competition = self._extract_competition(soup)
+        category = self._extract_category(soup)
+
         matches: list[ScheduleMatch] = []
+        current_matchday: int | None = None
         current_date = ""
 
-        tables = self.page.locator("table")
+        rows = table.select("tbody > tr")
 
-        for table_index in range(tables.count()):
-            table = tables.nth(table_index)
+        print(f"Gefundene Tabellenzeilen: {len(rows)}")
 
-            try:
-                if not table.is_visible():
-                    continue
-            except Exception:
+        for row in rows:
+            if not isinstance(row, Tag):
                 continue
 
-            rows = table.locator("tr")
+            if self._is_headline_row(row):
+                headline_text = self._get_text(row)
 
-            for row_index in range(rows.count()):
-                row = rows.nth(row_index)
-                cells = self._read_cells(row)
-
-                if not cells:
-                    continue
-
-                row_text = self.clean_text(" | ".join(cells))
-
-                date_from_row = self._extract_date(row_text)
-
-                if self._is_date_header(cells, row_text):
-                    if date_from_row:
-                        current_date = date_from_row
-
-                    continue
-
-                parsed_match = self._parse_match_row(
-                    row=row,
-                    cells=cells,
-                    fallback_date=current_date,
+                extracted_matchday = self._extract_matchday(
+                    headline_text
                 )
 
-                if parsed_match is not None:
-                    matches.append(parsed_match)
+                extracted_date = self._extract_date(
+                    headline_text
+                )
 
-        return self._remove_duplicates(matches)
+                if extracted_matchday is not None:
+                    current_matchday = extracted_matchday
+
+                if extracted_date:
+                    current_date = extracted_date
+
+                continue
+
+            match = self._parse_match_row(
+                row=row,
+                competition=competition,
+                category=category,
+                fallback_matchday=current_matchday,
+                fallback_date=current_date,
+            )
+
+            if match is not None:
+                matches.append(match)
+
+        unique_matches = self._remove_duplicates(matches)
+
+        print(f"Gefundene Spiele: {len(unique_matches)}")
+
+        loaded_font_ids = (
+            self.font_decoder.get_loaded_font_ids()
+        )
+
+        if loaded_font_ids:
+            print(
+                "Verwendete Schriftarten: "
+                + ", ".join(loaded_font_ids)
+            )
+
+        return unique_matches
 
     def _parse_match_row(
         self,
-        row: Locator,
-        cells: list[str],
+        row: Tag,
+        competition: str,
+        category: str,
+        fallback_matchday: int | None,
         fallback_date: str,
     ) -> ScheduleMatch | None:
-        row_text = self.clean_text(" | ".join(cells))
+        team_cells = row.select("td.column-club")
 
-        time_value = self._extract_time(row_text)
-
-        if not time_value:
+        if len(team_cells) < 2:
             return None
 
-        date_value = self._extract_date(row_text) or fallback_date
-
-        if not date_value:
-            return None
-
-        time_cell_index = self._find_time_cell_index(cells)
-
-        if time_cell_index is None:
-            return None
-
-        competition = self._value_at(cells, time_cell_index + 1)
-        category = self._value_at(cells, time_cell_index + 2)
-        home_team = self._value_at(cells, time_cell_index + 3)
-
-        separator_index = self._find_team_separator_index(
-            cells=cells,
-            start_index=time_cell_index + 4,
+        home_team = self._extract_team_name(
+            team_cells[0]
         )
 
-        if separator_index is None:
-            return None
-
-        away_team = self._value_at(cells, separator_index + 1)
+        away_team = self._extract_team_name(
+            team_cells[1]
+        )
 
         if not home_team or not away_team:
             return None
 
-        home_score, away_score = self._extract_score(row, cells)
         match_url = self._extract_match_url(row)
 
+        if not match_url:
+            return None
+
+        match_id = self._extract_match_id(match_url)
+
+        if not match_id:
+            return None
+
+        row_text = self._get_text(row)
+
+        date_cell = row.select_one("td.column-date")
+        date_text = self._get_text(date_cell)
+
+        date_value = (
+            self._extract_date(date_text)
+            or self._extract_date(row_text)
+            or fallback_date
+        )
+
+        time_value = (
+            self._extract_time(date_text)
+            or self._extract_time(row_text)
+        )
+
+        matchday = (
+            self._extract_matchday(row_text)
+            or fallback_matchday
+        )
+
+        home_score, away_score = self._extract_score(
+            row=row,
+            time_value=time_value,
+        )
+
+        status = self._extract_status(
+            row_text=row_text,
+            home_score=home_score,
+            away_score=away_score,
+        )
+
         return ScheduleMatch(
+            match_id=match_id,
+            matchday=matchday,
             date=date_value,
             time=time_value,
             competition=competition,
@@ -139,44 +224,97 @@ class ScheduleParser(BaseParser):
             away_team=away_team,
             home_score=home_score,
             away_score=away_score,
+            status=status,
             match_url=match_url,
         )
 
-    def _read_cells(self, row: Locator) -> list[str]:
-        values: list[str] = []
-        cells = row.locator("th, td")
+    @staticmethod
+    def _is_headline_row(row: Tag) -> bool:
+        classes = row.get("class", [])
 
-        for cell_index in range(cells.count()):
-            cell = cells.nth(cell_index)
+        return "row-headline" in classes
 
-            try:
-                value = self.clean_text(cell.inner_text(timeout=1_000))
-            except Exception:
-                value = ""
+    def _extract_team_name(self, cell: Tag) -> str:
+        club_name = cell.select_one(".club-name")
 
-            values.append(value)
+        if isinstance(club_name, Tag):
+            team_name = self._get_text(club_name)
 
-        return values
+            if team_name:
+                return team_name
+
+        logo = cell.select_one("img[alt]")
+
+        if isinstance(logo, Tag):
+            alt_text = self.clean_text(
+                str(logo.get("alt", ""))
+            )
+
+            if alt_text:
+                return alt_text
+
+        club_link = cell.select_one("a.club-wrapper")
+
+        if isinstance(club_link, Tag):
+            return self._get_text(club_link)
+
+        return ""
+
+    def _extract_match_url(self, row: Tag) -> str:
+        selectors = (
+            "td.column-detail a[href*='/spiel/']",
+            "td.column-score a[href*='/spiel/']",
+            "a[href*='/spiel/']",
+        )
+
+        for selector in selectors:
+            link = row.select_one(selector)
+
+            if not isinstance(link, Tag):
+                continue
+
+            href = self.clean_text(
+                str(link.get("href", ""))
+            )
+
+            if href:
+                return self._normalize_url(href)
+
+        return ""
 
     def _extract_score(
         self,
-        row: Locator,
-        cells: list[str],
+        row: Tag,
+        time_value: str,
     ) -> tuple[int | None, int | None]:
-        possible_values: list[str] = list(cells)
+        score_cell = row.select_one("td.column-score")
 
-        score_elements = row.locator(
+        if not isinstance(score_cell, Tag):
+            return None, None
+
+        possible_values: list[str] = []
+
+        for attribute_name in (
+            "data-result",
+            "data-score",
+            "aria-label",
+            "title",
+        ):
+            value = score_cell.get(attribute_name)
+
+            if value:
+                possible_values.append(
+                    self.clean_text(str(value))
+                )
+
+        for element in score_cell.select(
             "[data-result], "
             "[data-score], "
             "[aria-label], "
-            "[title], "
-            ".score, "
-            ".result, "
-            ".比分"
-        )
-
-        for element_index in range(score_elements.count()):
-            element = score_elements.nth(element_index)
+            "[title]"
+        ):
+            if not isinstance(element, Tag):
+                continue
 
             for attribute_name in (
                 "data-result",
@@ -184,73 +322,214 @@ class ScheduleParser(BaseParser):
                 "aria-label",
                 "title",
             ):
-                try:
-                    attribute_value = element.get_attribute(
-                        attribute_name,
-                        timeout=500,
+                value = element.get(attribute_name)
+
+                if value:
+                    possible_values.append(
+                        self.clean_text(str(value))
                     )
-                except Exception:
-                    attribute_value = None
 
-                if attribute_value:
-                    possible_values.append(attribute_value)
+        possible_values.append(
+            self._get_text(score_cell)
+        )
 
-            try:
-                element_text = self.clean_text(
-                    element.inner_text(timeout=500)
-                )
-            except Exception:
-                element_text = ""
+        score_parts = self._extract_score_parts(
+            score_cell
+        )
 
-            if element_text:
-                possible_values.append(element_text)
+        if score_parts is not None:
+            return score_parts
 
         for value in possible_values:
-            score_match = self.SCORE_PATTERN.search(value)
+            for score_match in self.SCORE_PATTERN.finditer(
+                value
+            ):
+                score_text = score_match.group(0)
 
-            if not score_match:
-                continue
+                if (
+                    time_value
+                    and score_text == time_value
+                ):
+                    continue
 
-            return (
-                int(score_match.group(1)),
-                int(score_match.group(2)),
-            )
+                return (
+                    int(score_match.group(1)),
+                    int(score_match.group(2)),
+                )
 
         return None, None
 
-    def _extract_match_url(self, row: Locator) -> str:
-        links = row.locator("a[href]")
+    def _extract_score_parts(
+        self,
+        score_cell: Tag,
+    ) -> tuple[int, int] | None:
+        score_left = score_cell.select_one(
+            ".score-left"
+        )
 
-        fallback_url = ""
+        score_right = score_cell.select_one(
+            ".score-right"
+        )
 
-        for link_index in range(links.count()):
-            link = links.nth(link_index)
+        if not isinstance(score_left, Tag):
+            return None
 
-            try:
-                href = link.get_attribute("href", timeout=1_000) or ""
-                text = self.clean_text(link.inner_text(timeout=1_000))
-            except Exception:
+        if not isinstance(score_right, Tag):
+            return None
+
+        home_text = self._get_text(score_left)
+        away_text = self._get_text(score_right)
+
+        if not home_text.isdigit():
+            return None
+
+        if not away_text.isdigit():
+            return None
+
+        return int(home_text), int(away_text)
+
+    def _extract_status(
+        self,
+        row_text: str,
+        home_score: int | None,
+        away_score: int | None,
+    ) -> str:
+        normalized = row_text.casefold()
+
+        status_keywords = {
+            "abgesetzt": "cancelled",
+            "abgebrochen": "abandoned",
+            "annulliert": "cancelled",
+            "ausgefallen": "cancelled",
+            "nichtantritt": "walkover",
+            "nicht angetreten": "walkover",
+            "verlegt": "postponed",
+            "verschoben": "postponed",
+            "wertung": "awarded",
+            "beendet": "finished",
+            "endstand": "finished",
+            "live": "live",
+        }
+
+        for keyword, status in status_keywords.items():
+            if keyword in normalized:
+                return status
+
+        if (
+            home_score is not None
+            and away_score is not None
+        ):
+            return "finished"
+
+        return "scheduled"
+
+    def _extract_competition(
+        self,
+        soup: BeautifulSoup,
+    ) -> str:
+        selectors = (
+            "#stage h2",
+            ".stage-content h2",
+            "[data-competition]",
+        )
+
+        for selector in selectors:
+            element = soup.select_one(selector)
+
+            if not isinstance(element, Tag):
                 continue
 
-            if not href:
+            data_value = element.get(
+                "data-competition"
+            )
+
+            if data_value:
+                return self.clean_text(
+                    str(data_value)
+                )
+
+            text = self._get_text(element)
+
+            if text:
+                return text
+
+        return ""
+
+    def _extract_category(
+        self,
+        soup: BeautifulSoup,
+    ) -> str:
+        selectors = (
+            "[data-category]",
+            ".category",
+            ".age-group",
+            ".game-type",
+        )
+
+        for selector in selectors:
+            element = soup.select_one(selector)
+
+            if not isinstance(element, Tag):
                 continue
 
-            absolute_url = urljoin(self.page.url, href)
+            data_value = element.get(
+                "data-category"
+            )
 
-            if not fallback_url:
-                fallback_url = absolute_url
+            if data_value:
+                return self.clean_text(
+                    str(data_value)
+                )
 
-            normalized_text = text.lower()
-            normalized_href = href.lower()
+            text = self._get_text(element)
 
-            if (
-                "zum spiel" in normalized_text
-                or "/spiel/" in normalized_href
-                or "spielbericht" in normalized_href
+            if text:
+                return text
+
+        return ""
+
+    def _normalize_url(self, href: str) -> str:
+        absolute_url = urljoin(
+            self.page.url,
+            href,
+        )
+
+        parsed_url = urlparse(absolute_url)
+
+        return parsed_url._replace(
+            fragment=""
+        ).geturl()
+
+    def _extract_match_id(
+        self,
+        match_url: str,
+    ) -> str:
+        match = self.MATCH_ID_PATTERN.search(
+            match_url
+        )
+
+        if match:
+            return match.group(1).upper()
+
+        path_parts = [
+            part
+            for part in urlparse(
+                match_url
+            ).path.split("/")
+            if part
+        ]
+
+        for part in reversed(path_parts):
+            if len(part) < 20:
+                continue
+
+            if re.fullmatch(
+                r"[A-Za-z0-9]+",
+                part,
             ):
-                return absolute_url
+                return part.upper()
 
-        return fallback_url
+        return ""
 
     def _extract_date(self, value: str) -> str:
         match = self.DATE_PATTERN.search(value)
@@ -260,10 +539,18 @@ class ScheduleParser(BaseParser):
 
         raw_date = match.group(1)
 
-        for date_format in ("%d.%m.%Y", "%d.%m.%y"):
+        for date_format in (
+            "%d.%m.%Y",
+            "%d.%m.%y",
+        ):
             try:
-                parsed_date = datetime.strptime(raw_date, date_format)
+                parsed_date = datetime.strptime(
+                    raw_date,
+                    date_format,
+                )
+
                 return parsed_date.date().isoformat()
+
             except ValueError:
                 continue
 
@@ -277,57 +564,107 @@ class ScheduleParser(BaseParser):
 
         return match.group(0)
 
-    def _find_time_cell_index(
+    def _extract_matchday(
         self,
-        cells: list[str],
+        value: str,
     ) -> int | None:
-        for index, value in enumerate(cells):
-            if self.TIME_PATTERN.search(value):
-                return index
+        match = self.MATCHDAY_PATTERN.search(value)
 
-        return None
+        if not match:
+            return None
 
-    @staticmethod
-    def _find_team_separator_index(
-        cells: list[str],
-        start_index: int,
-    ) -> int | None:
-        for index in range(start_index, len(cells)):
-            value = BaseParser.clean_text(cells[index])
+        return int(match.group(1))
 
-            if value in {":", "-", "–", "—"}:
-                return index
-
-        return None
-
-    def _is_date_header(
+    def _get_text(
         self,
-        cells: list[str],
-        row_text: str,
-    ) -> bool:
-        if not self._extract_date(row_text):
-            return False
-
-        if self._extract_time(row_text):
-            return False
-
-        non_empty_cells = [
-            value
-            for value in cells
-            if self.clean_text(value)
-        ]
-
-        return len(non_empty_cells) <= 2
-
-    @staticmethod
-    def _value_at(
-        values: list[str],
-        index: int,
+        element: Tag | None,
     ) -> str:
-        if index < 0 or index >= len(values):
+        if not isinstance(element, Tag):
             return ""
 
-        return BaseParser.clean_text(values[index])
+        text_parts: list[str] = []
+
+        for descendant in element.descendants:
+            if not isinstance(
+                descendant,
+                NavigableString,
+            ):
+                continue
+
+            raw_text = str(descendant)
+
+            if not raw_text:
+                continue
+
+            decoded_text = self._decode_text_node(
+                text_node=descendant,
+                root_element=element,
+            )
+
+            text_parts.append(decoded_text)
+
+        return self.clean_text(
+            " ".join(text_parts)
+        )
+
+    def _decode_text_node(
+        self,
+        text_node: NavigableString,
+        root_element: Tag,
+    ) -> str:
+        text = str(text_node)
+
+        current_parent = text_node.parent
+
+        while isinstance(current_parent, Tag):
+            class_name = self._get_class_name(
+                current_parent
+            )
+
+            font_id = (
+                self.font_decoder.extract_font_id(
+                    class_name
+                )
+            )
+
+            if font_id:
+                try:
+                    return self.font_decoder.decode(
+                        text=text,
+                        font_id=font_id,
+                    )
+                except Exception as error:
+                    print(
+                        "Warnung: Text konnte nicht "
+                        "entschlüsselt werden: "
+                        f"{error}"
+                    )
+
+                    return text
+
+            if current_parent is root_element:
+                break
+
+            current_parent = current_parent.parent
+
+        return text
+
+    @staticmethod
+    def _get_class_name(
+        element: Tag,
+    ) -> str:
+        classes = element.get("class", [])
+
+        if isinstance(classes, str):
+            return classes
+
+        if isinstance(classes, list):
+            return " ".join(
+                str(class_name)
+                for class_name in classes
+            )
+
+        return ""
 
     @staticmethod
     def _remove_duplicates(
@@ -338,11 +675,8 @@ class ScheduleParser(BaseParser):
 
         for match in matches:
             key = (
-                match.date,
-                match.time,
-                match.home_team.lower(),
-                match.away_team.lower(),
-                match.match_url,
+                match.match_id.casefold(),
+                match.match_url.casefold(),
             )
 
             if key in seen:
@@ -358,33 +692,47 @@ def main() -> None:
     if len(sys.argv) < 2:
         print(
             "Aufruf:\n"
-            "python -m src.importer.fussballde.parsers.schedule_parser "
-            "\"https://www.fussball.de/...\""
+            "python -m "
+            "src.importer.fussballde.parsers."
+            "schedule_parser "
+            "\"https://www.fussball.de/"
+            "spielplan/.../section/matchplan\""
         )
+
         sys.exit(1)
 
     url = sys.argv[1]
     browser = FussballDeBrowser()
 
     try:
+        print("Browser wird gestartet ...")
         browser.start()
+
+        print("Matchplan wird geladen ...")
         browser.open(url)
 
         if browser.page is None:
-            raise RuntimeError("Die fussball.de-Seite wurde nicht geladen.")
+            raise RuntimeError(
+                "Die fussball.de-Seite wurde "
+                "nicht geladen."
+            )
+
+        print("HTML wird verarbeitet ...")
 
         parser = ScheduleParser(browser.page)
         matches = parser.parse()
 
-        print(f"\nGefundene Spiele: {len(matches)}\n")
-
         print(
             json.dumps(
-                [asdict(match) for match in matches],
+                [
+                    asdict(match)
+                    for match in matches
+                ],
                 ensure_ascii=False,
                 indent=2,
             )
         )
+
     finally:
         browser.close()
 
