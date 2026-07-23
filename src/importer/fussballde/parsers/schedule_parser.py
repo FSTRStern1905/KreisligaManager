@@ -18,6 +18,7 @@ from src.importer.fussballde.parsers.base_parser import BaseParser
 @dataclass
 class ScheduleMatch:
     match_id: str
+    fixture_number: int | None
     matchday: int | None
     date: str
     time: str
@@ -33,11 +34,10 @@ class ScheduleMatch:
 
 class ScheduleParser(BaseParser):
     """
-    Liest alle Spiele aus dem Staffelspielplan von fussball.de.
+    Liest alle Spiele aus einem Staffelspielplan von fussball.de.
 
-    Playwright lädt die vollständige JavaScript-Seite.
-    BeautifulSoup verarbeitet anschließend die Spielzeilen.
-    Dynamische fussball.de-Schriftarten werden automatisch entschlüsselt.
+    Dynamisch verschlüsselte Texte werden über den FontDecoder
+    entschlüsselt.
     """
 
     TABLE_SELECTOR = "#fixtures-matchplan-table-matches-table"
@@ -59,13 +59,13 @@ class ScheduleParser(BaseParser):
         re.IGNORECASE,
     )
 
+    FIXTURE_NUMBER_PATTERN = re.compile(
+        r"\b(\d{1,4})\b"
+    )
+
     MATCH_ID_PATTERN = re.compile(
         r"/spiel/[^?#]*/([A-Z0-9]{20,})/?(?:[?#]|$)",
         re.IGNORECASE,
-    )
-
-    FONT_CLASS_PATTERN = re.compile(
-        r"(?:^|\s)results-c-([a-zA-Z0-9]+)(?:\s|$)"
     )
 
     def __init__(self, page: Any) -> None:
@@ -88,6 +88,15 @@ class ScheduleParser(BaseParser):
 
         competition = self._extract_competition(soup)
         category = self._extract_category(soup)
+
+        team_count = self._extract_team_count(table)
+        matches_per_matchday = team_count // 2
+
+        print(f"Gefundene Mannschaften: {team_count}")
+        print(
+            "Spiele pro Spieltag: "
+            f"{matches_per_matchday}"
+        )
 
         matches: list[ScheduleMatch] = []
         current_matchday: int | None = None
@@ -133,6 +142,15 @@ class ScheduleParser(BaseParser):
 
         unique_matches = self._remove_duplicates(matches)
 
+        self._assign_matchdays(
+            matches=unique_matches,
+            matches_per_matchday=matches_per_matchday,
+        )
+
+        unique_matches.sort(
+            key=self._match_sort_key
+        )
+
         print(f"Gefundene Spiele: {len(unique_matches)}")
 
         loaded_font_ids = (
@@ -171,6 +189,9 @@ class ScheduleParser(BaseParser):
         if not home_team or not away_team:
             return None
 
+        if away_team.casefold() == "spielfrei":
+            return None
+
         match_url = self._extract_match_url(row)
 
         if not match_url:
@@ -180,6 +201,10 @@ class ScheduleParser(BaseParser):
 
         if not match_id:
             return None
+
+        fixture_number = self._extract_fixture_number(
+            row
+        )
 
         row_text = self._get_text(row)
 
@@ -215,6 +240,7 @@ class ScheduleParser(BaseParser):
 
         return ScheduleMatch(
             match_id=match_id,
+            fixture_number=fixture_number,
             matchday=matchday,
             date=date_value,
             time=time_value,
@@ -226,6 +252,86 @@ class ScheduleParser(BaseParser):
             away_score=away_score,
             status=status,
             match_url=match_url,
+        )
+
+    def _extract_team_count(
+        self,
+        table: Tag,
+    ) -> int:
+        team_names: set[str] = set()
+
+        for cell in table.select("td.column-club"):
+            if not isinstance(cell, Tag):
+                continue
+
+            team_name = self._extract_team_name(cell)
+
+            if not team_name:
+                continue
+
+            if team_name.casefold() == "spielfrei":
+                continue
+
+            team_names.add(team_name.casefold())
+
+        return len(team_names)
+
+    def _extract_fixture_number(
+        self,
+        row: Tag,
+    ) -> int | None:
+        number_cell = row.select_one(
+            "td.hidden-small"
+        )
+
+        if not isinstance(number_cell, Tag):
+            return None
+
+        number_text = self._get_text(number_cell)
+
+        match = self.FIXTURE_NUMBER_PATTERN.search(
+            number_text
+        )
+
+        if not match:
+            return None
+
+        return int(match.group(1))
+
+    @staticmethod
+    def _assign_matchdays(
+        matches: list[ScheduleMatch],
+        matches_per_matchday: int,
+    ) -> None:
+        if matches_per_matchday <= 0:
+            return
+
+        for match in matches:
+            if match.matchday is not None:
+                continue
+
+            if match.fixture_number is None:
+                continue
+
+            match.matchday = (
+                (match.fixture_number - 1)
+                // matches_per_matchday
+            ) + 1
+
+    @staticmethod
+    def _match_sort_key(
+        match: ScheduleMatch,
+    ) -> tuple[Any, ...]:
+        return (
+            match.matchday
+            if match.matchday is not None
+            else 9999,
+            match.fixture_number
+            if match.fixture_number is not None
+            else 999999,
+            match.date,
+            match.time,
+            match.home_team.casefold(),
         )
 
     @staticmethod
@@ -242,6 +348,14 @@ class ScheduleParser(BaseParser):
 
             if team_name:
                 return team_name
+
+        info_text = cell.select_one(".info-text")
+
+        if isinstance(info_text, Tag):
+            text = self._get_text(info_text)
+
+            if text:
+                return text
 
         logo = cell.select_one("img[alt]")
 
@@ -292,6 +406,13 @@ class ScheduleParser(BaseParser):
         if not isinstance(score_cell, Tag):
             return None, None
 
+        score_parts = self._extract_score_parts(
+            score_cell
+        )
+
+        if score_parts is not None:
+            return score_parts
+
         possible_values: list[str] = []
 
         for attribute_name in (
@@ -332,13 +453,6 @@ class ScheduleParser(BaseParser):
         possible_values.append(
             self._get_text(score_cell)
         )
-
-        score_parts = self._extract_score_parts(
-            score_cell
-        )
-
-        if score_parts is not None:
-            return score_parts
 
         for value in possible_values:
             for score_match in self.SCORE_PATTERN.finditer(
@@ -461,7 +575,6 @@ class ScheduleParser(BaseParser):
     ) -> str:
         selectors = (
             "[data-category]",
-            ".category",
             ".age-group",
             ".game-type",
         )
@@ -613,7 +726,6 @@ class ScheduleParser(BaseParser):
         root_element: Tag,
     ) -> str:
         text = str(text_node)
-
         current_parent = text_node.parent
 
         while isinstance(current_parent, Tag):
@@ -633,6 +745,7 @@ class ScheduleParser(BaseParser):
                         text=text,
                         font_id=font_id,
                     )
+
                 except Exception as error:
                     print(
                         "Warnung: Text konnte nicht "
@@ -671,18 +784,15 @@ class ScheduleParser(BaseParser):
         matches: list[ScheduleMatch],
     ) -> list[ScheduleMatch]:
         unique_matches: list[ScheduleMatch] = []
-        seen: set[tuple[Any, ...]] = set()
+        seen_match_ids: set[str] = set()
 
         for match in matches:
-            key = (
-                match.match_id.casefold(),
-                match.match_url.casefold(),
-            )
+            match_id = match.match_id.casefold()
 
-            if key in seen:
+            if match_id in seen_match_ids:
                 continue
 
-            seen.add(key)
+            seen_match_ids.add(match_id)
             unique_matches.append(match)
 
         return unique_matches
@@ -695,8 +805,7 @@ def main() -> None:
             "python -m "
             "src.importer.fussballde.parsers."
             "schedule_parser "
-            "\"https://www.fussball.de/"
-            "spielplan/.../section/matchplan\""
+            "\"SPIELPLAN-URL\""
         )
 
         sys.exit(1)
