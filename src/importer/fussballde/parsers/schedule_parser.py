@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from datetime import datetime
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -13,23 +13,10 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from src.importer.fussballde.browser import FussballDeBrowser
 from src.importer.fussballde.font_decoder import FontDecoder
 from src.importer.fussballde.parsers.base_parser import BaseParser
-
-
-@dataclass
-class ScheduleMatch:
-    match_id: str
-    fixture_number: int | None
-    matchday: int | None
-    date: str
-    time: str
-    competition: str
-    category: str
-    home_team: str
-    away_team: str
-    home_score: int | None
-    away_score: int | None
-    status: str
-    match_url: str
+from src.importer.fussballde.parsers.schedule_data import (
+    ScheduleData,
+    ScheduleMatch,
+)
 
 
 class ScheduleParser(BaseParser):
@@ -75,7 +62,7 @@ class ScheduleParser(BaseParser):
             request_context=page.request
         )
 
-    def parse(self) -> list[ScheduleMatch]:
+    def parse(self) -> ScheduleData:
         html = self.page.content()
         soup = BeautifulSoup(html, "lxml")
 
@@ -163,7 +150,12 @@ class ScheduleParser(BaseParser):
                 + ", ".join(loaded_font_ids)
             )
 
-        return unique_matches
+        return ScheduleData(
+            league_name=competition,
+            competition_name=competition,
+            category=category,
+            matches=unique_matches,
+        )
 
     def _parse_match_row(
         self,
