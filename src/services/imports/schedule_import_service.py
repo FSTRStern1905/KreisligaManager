@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 
+from src.database.models.match import Match
 from src.database.repositories.club_repository import ClubRepository
 from src.database.repositories.competition_repository import (
     CompetitionRepository,
@@ -247,7 +248,7 @@ class ScheduleImportService:
             )
 
             team_ids[
-                team_name.casefold()
+                self._normalize_team_key(team_name)
             ] = team_id
 
         return team_ids
@@ -261,7 +262,75 @@ class ScheduleImportService:
         season_id: int,
         result: ImportResult,
     ) -> None:
-        pass
+        for schedule_match in matches:
+            home_team_key = self._normalize_team_key(
+                schedule_match.home_team
+            )
+
+            away_team_key = self._normalize_team_key(
+                schedule_match.away_team
+            )
+
+            home_team_id = team_ids.get(
+                home_team_key
+            )
+
+            away_team_id = team_ids.get(
+                away_team_key
+            )
+
+            if home_team_id is None:
+                raise ValueError(
+                    "Heimmannschaft wurde nicht gefunden: "
+                    f"{schedule_match.home_team}"
+                )
+
+            if away_team_id is None:
+                raise ValueError(
+                    "Auswärtsmannschaft wurde nicht gefunden: "
+                    f"{schedule_match.away_team}"
+                )
+
+            database_match = Match(
+                competition_id=competition_id,
+                season_id=season_id,
+                league_id=league_id,
+                matchday=schedule_match.matchday,
+                match_date=(
+                    schedule_match.date or None
+                ),
+                kickoff_time=(
+                    schedule_match.time or None
+                ),
+                home_team_id=home_team_id,
+                away_team_id=away_team_id,
+                home_goals=schedule_match.home_score,
+                away_goals=schedule_match.away_score,
+                status=(
+                    schedule_match.status.strip()
+                    or "scheduled"
+                ),
+                notes=(
+                    f"fussball.de: "
+                    f"{schedule_match.match_url}"
+                ),
+                external_id=schedule_match.match_id,
+                home_team_name=(
+                    schedule_match.home_team
+                ),
+                away_team_name=(
+                    schedule_match.away_team
+                ),
+            )
+
+            _, created = self.match_repository.upsert(
+                database_match
+            )
+
+            if created:
+                result.matches_created += 1
+            else:
+                result.matches_updated += 1
 
     @staticmethod
     def _get_competition_name(
@@ -335,6 +404,14 @@ class ScheduleImportService:
             )
 
         return team_names
+
+    @staticmethod
+    def _normalize_team_key(
+        team_name: str,
+    ) -> str:
+        return " ".join(
+            team_name.split()
+        ).casefold()
 
     @classmethod
     def _extract_club_name(
