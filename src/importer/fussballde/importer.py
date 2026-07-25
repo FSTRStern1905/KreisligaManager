@@ -1,17 +1,9 @@
 from __future__ import annotations
 
-from src.importer.fussballde.browser import (
-    FussballDeBrowser,
-)
-from src.importer.fussballde.parsers.schedule_parser import (
-    ScheduleParser,
-)
-from src.services.imports.import_result import (
-    ImportResult,
-)
-from src.services.imports.schedule_import_service import (
-    ScheduleImportService,
-)
+from src.importer.fussballde.browser import FussballDeBrowser
+from src.importer.fussballde.parsers.schedule_parser import ScheduleParser
+from src.services.imports.import_result import ImportResult
+from src.services.imports.schedule_import_service import ScheduleImportService
 
 
 class FussballDeImporter:
@@ -25,18 +17,23 @@ class FussballDeImporter:
     def import_schedule(
         self,
         url: str,
-        league_id: int,
-        season_id: int,
-        headless: bool = True,
+        headless: bool = False,
     ) -> ImportResult:
+        normalized_url = url.strip()
+
+        if not normalized_url:
+            raise ValueError(
+                "Die Spielplan-URL darf nicht leer sein."
+            )
+
         browser = FussballDeBrowser()
 
         try:
             browser.start(
-                headless=headless,
+                headless=False,
             )
 
-            browser.open(url)
+            browser.open(normalized_url)
 
             if browser.page is None:
                 raise RuntimeError(
@@ -49,8 +46,6 @@ class FussballDeImporter:
 
             return self.import_service.import_schedule(
                 parser=parser,
-                league_id=league_id,
-                season_id=season_id,
             )
 
         finally:

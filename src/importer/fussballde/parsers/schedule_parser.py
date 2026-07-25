@@ -27,7 +27,12 @@ class ScheduleParser(BaseParser):
     entschlüsselt.
     """
 
-    TABLE_SELECTOR = "#fixtures-matchplan-table-matches-table"
+    TABLE_SELECTORS = (
+        "#fixtures-matchplan-table-matches-table",
+        "table[id*='fixtures-matchplan']",
+        ".fixtures-matchplan-table",
+        "table:has(td.column-club)",
+    )
 
     DATE_PATTERN = re.compile(
         r"\b(\d{1,2}\.\d{1,2}\.(?:\d{2}|\d{4}))\b"
@@ -66,7 +71,14 @@ class ScheduleParser(BaseParser):
         html = self.page.content()
         soup = BeautifulSoup(html, "lxml")
 
-        table = soup.select_one(self.TABLE_SELECTOR)
+        table: Tag | None = None
+
+        for selector in self.TABLE_SELECTORS:
+            candidate = soup.select_one(selector)
+
+            if isinstance(candidate, Tag):
+                table = candidate
+                break
 
         if not isinstance(table, Tag):
             raise RuntimeError(

@@ -1,25 +1,35 @@
 from __future__ import annotations
 
 import re
+from datetime import date, datetime
 
+from src.database.models.association import Association
+from src.database.models.league import League
 from src.database.models.match import Match
+from src.database.models.season import Season
+from src.database.repositories.association_repository import (
+    AssociationRepository,
+)
 from src.database.repositories.club_repository import ClubRepository
 from src.database.repositories.competition_repository import (
     CompetitionRepository,
 )
+from src.database.repositories.league_repository import LeagueRepository
 from src.database.repositories.match_repository import MatchRepository
+from src.database.repositories.season_repository import SeasonRepository
 from src.database.repositories.team_repository import TeamRepository
-from src.importer.fussballde.parsers.schedule_parser import (
+from src.importer.fussballde.parsers.schedule_data import (
+    ScheduleData,
     ScheduleMatch,
-    ScheduleParser,
 )
+from src.importer.fussballde.parsers.schedule_parser import ScheduleParser
 from src.services.imports.import_result import ImportResult
 
 
 class ScheduleImportService:
 
     TEAM_SUFFIX_PATTERN = re.compile(
-        r"\s+(I{1,4}|V|VI|[2-9]\.?|[2-9])$",
+        r"\s+(I{1,4}|V|VI|[2-9]\.?)$",
         re.IGNORECASE,
     )
 
@@ -32,13 +42,23 @@ class ScheduleImportService:
         "VI": 6,
     }
 
+    SEASON_PATTERN = re.compile(
+        r"\b(20\d{2})\s*[/\-]\s*(20\d{2}|\d{2})\b"
+    )
+
     def __init__(
         self,
+        association_repository: AssociationRepository,
+        league_repository: LeagueRepository,
+        season_repository: SeasonRepository,
         club_repository: ClubRepository,
         team_repository: TeamRepository,
         competition_repository: CompetitionRepository,
         match_repository: MatchRepository,
     ) -> None:
+        self.association_repository = association_repository
+        self.league_repository = league_repository
+        self.season_repository = season_repository
         self.club_repository = club_repository
         self.team_repository = team_repository
         self.competition_repository = competition_repository
@@ -47,48 +67,52 @@ class ScheduleImportService:
     def import_schedule(
         self,
         parser: ScheduleParser,
-        league_id: int,
-        season_id: int,
     ) -> ImportResult:
-        if league_id <= 0:
-            raise ValueError(
-                "Ungültige Liga-ID."
-            )
+        schedule_data = parser.parse()
 
-        if season_id <= 0:
-            raise ValueError(
-                "Ungültige Saison-ID."
-            )
-
-        matches = parser.parse()
-
-        if not matches:
+        if not schedule_data.matches:
             raise ValueError(
                 "Der Spielplan enthält keine Spiele."
             )
 
+        self._complete_schedule_data(schedule_data)
+
         result = ImportResult()
 
+        association_id = self._import_association(
+            schedule_data
+        )
+
+        league_id = self._import_league(
+            schedule_data=schedule_data,
+            association_id=association_id,
+        )
+
+        season_id = self._import_season(
+            schedule_data
+        )
+
         competition_id = self._import_competition(
-            matches=matches,
+            schedule_data=schedule_data,
             league_id=league_id,
             season_id=season_id,
             result=result,
         )
 
         self._import_clubs(
-            matches=matches,
+            matches=schedule_data.matches,
+            association_id=association_id,
             result=result,
         )
 
         team_ids = self._import_teams(
-            matches=matches,
+            matches=schedule_data.matches,
             competition_id=competition_id,
             result=result,
         )
 
         self._import_matches(
-            matches=matches,
+            matches=schedule_data.matches,
             team_ids=team_ids,
             competition_id=competition_id,
             league_id=league_id,
@@ -98,22 +122,114 @@ class ScheduleImportService:
 
         return result
 
+    def _complete_schedule_data(
+        self,
+        schedule_data: ScheduleData,
+    ) -> None:
+        schedule_data.league_name = (
+            schedule_data.league_name.strip()
+            or schedule_data.competition_name.strip()
+            or self._get_competition_name(
+                schedule_data.matches
+            )
+        )
+
+        schedule_data.competition_name = (
+            schedule_data.competition_name.strip()
+            or self._get_competition_name(
+                schedule_data.matches
+            )
+        )
+
+        schedule_data.category = (
+            schedule_data.category.strip()
+            or self._get_category(
+                schedule_data.matches
+            )
+        )
+
+        schedule_data.season_name = (
+            schedule_data.season_name.strip()
+            or self._derive_season_name(
+                schedule_data
+            )
+        )
+
+        schedule_data.association_name = (
+            schedule_data.association_name.strip()
+            or "Unbekannter Verband"
+        )
+
+        if not schedule_data.league_name:
+            raise ValueError(
+                "Der Liganame konnte nicht ermittelt werden."
+            )
+
+        if not schedule_data.competition_name:
+            raise ValueError(
+                "Der Wettbewerbsname konnte nicht ermittelt werden."
+            )
+
+        if not schedule_data.season_name:
+            raise ValueError(
+                "Die Saison konnte nicht ermittelt werden."
+            )
+
+    def _import_association(
+        self,
+        schedule_data: ScheduleData,
+    ) -> int:
+        return self.association_repository.get_or_create(
+            Association(
+                name=schedule_data.association_name,
+            )
+        )
+
+    def _import_league(
+        self,
+        schedule_data: ScheduleData,
+        association_id: int,
+    ) -> int:
+        return self.league_repository.get_or_create(
+            League(
+                association_id=association_id,
+                name=schedule_data.league_name,
+                level=1,
+                season_type="Liga",
+                active=True,
+            )
+        )
+
+    def _import_season(
+        self,
+        schedule_data: ScheduleData,
+    ) -> int:
+        start_date, end_date = self._season_dates(
+            schedule_data.season_name
+        )
+
+        return self.season_repository.get_or_create(
+            Season(
+                name=schedule_data.season_name,
+                start_date=start_date,
+                end_date=end_date,
+                external_id="",
+                active=True,
+            )
+        )
+
     def _import_competition(
         self,
-        matches: list[ScheduleMatch],
+        schedule_data: ScheduleData,
         league_id: int,
         season_id: int,
         result: ImportResult,
     ) -> int:
-        competition_name = self._get_competition_name(
-            matches
-        )
-
         existing_competition = (
             self.competition_repository.get_by_name(
                 league_id=league_id,
                 season_id=season_id,
-                name=competition_name,
+                name=schedule_data.competition_name,
             )
         )
 
@@ -123,13 +239,13 @@ class ScheduleImportService:
                     "Der vorhandene Wettbewerb besitzt keine ID."
                 )
 
-            return existing_competition.competition_id
+            return int(existing_competition.competition_id)
 
         competition_id = (
             self.competition_repository.get_or_create(
                 league_id=league_id,
                 season_id=season_id,
-                name=competition_name,
+                name=schedule_data.competition_name,
                 active=True,
             )
         )
@@ -141,32 +257,26 @@ class ScheduleImportService:
     def _import_clubs(
         self,
         matches: list[ScheduleMatch],
+        association_id: int,
         result: ImportResult,
     ) -> None:
-        team_names = self._get_team_names(
-            matches
-        )
-
         club_names = {
             self._extract_club_name(team_name)
-            for team_name in team_names
+            for team_name in self._get_team_names(matches)
         }
 
         for club_name in sorted(
             club_names,
             key=str.casefold,
         ):
-            existing_club = (
-                self.club_repository.get_by_name(
-                    club_name
-                )
-            )
-
-            if existing_club is not None:
+            if self.club_repository.get_by_name(
+                club_name
+            ) is not None:
                 continue
 
             self.club_repository.get_or_create(
                 name=club_name,
+                association_id=association_id,
             )
 
             result.clubs_created += 1
@@ -182,14 +292,8 @@ class ScheduleImportService:
                 "Ungültige Wettbewerbs-ID."
             )
 
-        team_names = self._get_team_names(
-            matches
-        )
-
-        age_group = self._get_category(
-            matches
-        )
-
+        team_names = self._get_team_names(matches)
+        age_group = self._get_category(matches)
         team_ids: dict[str, int] = {}
 
         for team_name in sorted(
@@ -210,34 +314,23 @@ class ScheduleImportService:
                     f"{club_name}"
                 )
 
-            club_id = int(
-                club["club_id"]
-            )
+            club_id = int(club["club_id"])
 
-            existing_team = (
-                self.team_repository.get_by_name(
-                    club_id=club_id,
-                    name=team_name,
-                )
+            existing_team = self.team_repository.get_by_name(
+                club_id=club_id,
+                name=team_name,
             )
 
             if existing_team is not None:
-                team_id = int(
-                    existing_team["team_id"]
-                )
-
+                team_id = int(existing_team["team_id"])
             else:
-                team_id = (
-                    self.team_repository.get_or_create(
-                        club_id=club_id,
-                        name=team_name,
-                        team_number=(
-                            self._extract_team_number(
-                                team_name
-                            )
-                        ),
-                        age_group=age_group,
-                    )
+                team_id = self.team_repository.get_or_create(
+                    club_id=club_id,
+                    name=team_name,
+                    team_number=self._extract_team_number(
+                        team_name
+                    ),
+                    age_group=age_group,
                 )
 
                 result.teams_created += 1
@@ -263,20 +356,16 @@ class ScheduleImportService:
         result: ImportResult,
     ) -> None:
         for schedule_match in matches:
-            home_team_key = self._normalize_team_key(
-                schedule_match.home_team
-            )
-
-            away_team_key = self._normalize_team_key(
-                schedule_match.away_team
-            )
-
             home_team_id = team_ids.get(
-                home_team_key
+                self._normalize_team_key(
+                    schedule_match.home_team
+                )
             )
 
             away_team_id = team_ids.get(
-                away_team_key
+                self._normalize_team_key(
+                    schedule_match.away_team
+                )
             )
 
             if home_team_id is None:
@@ -296,12 +385,8 @@ class ScheduleImportService:
                 season_id=season_id,
                 league_id=league_id,
                 matchday=schedule_match.matchday,
-                match_date=(
-                    schedule_match.date or None
-                ),
-                kickoff_time=(
-                    schedule_match.time or None
-                ),
+                match_date=schedule_match.date or None,
+                kickoff_time=schedule_match.time or None,
                 home_team_id=home_team_id,
                 away_team_id=away_team_id,
                 home_goals=schedule_match.home_score,
@@ -311,16 +396,12 @@ class ScheduleImportService:
                     or "scheduled"
                 ),
                 notes=(
-                    f"fussball.de: "
+                    "fussball.de: "
                     f"{schedule_match.match_url}"
                 ),
                 external_id=schedule_match.match_id,
-                home_team_name=(
-                    schedule_match.home_team
-                ),
-                away_team_name=(
-                    schedule_match.away_team
-                ),
+                home_team_name=schedule_match.home_team,
+                away_team_name=schedule_match.away_team,
             )
 
             _, created = self.match_repository.upsert(
@@ -331,6 +412,90 @@ class ScheduleImportService:
                 result.matches_created += 1
             else:
                 result.matches_updated += 1
+
+    def _derive_season_name(
+        self,
+        schedule_data: ScheduleData,
+    ) -> str:
+        for value in (
+            schedule_data.competition_name,
+            schedule_data.league_name,
+        ):
+            match = self.SEASON_PATTERN.search(value)
+
+            if match:
+                start_year = int(match.group(1))
+                end_year_text = match.group(2)
+                end_year = (
+                    int(end_year_text)
+                    if len(end_year_text) == 4
+                    else (start_year // 100) * 100
+                    + int(end_year_text)
+                )
+
+                return f"{start_year}/{str(end_year)[-2:]}"
+
+        match_dates = [
+            parsed_date
+            for parsed_date in (
+                self._parse_iso_date(match.date)
+                for match in schedule_data.matches
+            )
+            if parsed_date is not None
+        ]
+
+        if not match_dates:
+            return ""
+
+        earliest = min(match_dates)
+
+        if earliest.month >= 7:
+            start_year = earliest.year
+        else:
+            start_year = earliest.year - 1
+
+        return f"{start_year}/{str(start_year + 1)[-2:]}"
+
+    @classmethod
+    def _season_dates(
+        cls,
+        season_name: str,
+    ) -> tuple[str | None, str | None]:
+        match = cls.SEASON_PATTERN.search(
+            season_name
+        )
+
+        if not match:
+            return None, None
+
+        start_year = int(match.group(1))
+        end_year_text = match.group(2)
+        end_year = (
+            int(end_year_text)
+            if len(end_year_text) == 4
+            else (start_year // 100) * 100
+            + int(end_year_text)
+        )
+
+        return (
+            date(start_year, 7, 1).isoformat(),
+            date(end_year, 6, 30).isoformat(),
+        )
+
+    @staticmethod
+    def _parse_iso_date(
+        value: str,
+    ) -> date | None:
+        if not value:
+            return None
+
+        try:
+            return datetime.strptime(
+                value,
+                "%Y-%m-%d",
+            ).date()
+        except ValueError:
+            return None
 
     @staticmethod
     def _get_competition_name(
@@ -343,9 +508,7 @@ class ScheduleImportService:
         }
 
         if not competition_names:
-            raise ValueError(
-                "Der Wettbewerbsname konnte nicht ermittelt werden."
-            )
+            return ""
 
         if len(competition_names) > 1:
             names = ", ".join(
@@ -387,7 +550,6 @@ class ScheduleImportService:
             home_team = " ".join(
                 match.home_team.split()
             )
-
             away_team = " ".join(
                 match.away_team.split()
             )
@@ -458,9 +620,7 @@ class ScheduleImportService:
         )
 
         if suffix in cls.ROMAN_TEAM_NUMBERS:
-            return cls.ROMAN_TEAM_NUMBERS[
-                suffix
-            ]
+            return cls.ROMAN_TEAM_NUMBERS[suffix]
 
         if suffix.isdigit():
             return int(suffix)

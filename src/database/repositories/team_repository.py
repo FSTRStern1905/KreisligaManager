@@ -156,7 +156,7 @@ class TeamRepository(BaseRepository):
                 "team_number": team_number,
                 "coach": coach.strip(),
                 "age_group": age_group.strip(),
-                "external_id": external_id.strip(),
+                "external_id": external_id.strip() or None,
             },
         )
 
@@ -262,7 +262,7 @@ class TeamRepository(BaseRepository):
                 "team_number": team_number,
                 "coach": coach.strip(),
                 "age_group": age_group.strip(),
-                "external_id": external_id.strip(),
+                "external_id": external_id.strip() or None,
             },
         )
 
