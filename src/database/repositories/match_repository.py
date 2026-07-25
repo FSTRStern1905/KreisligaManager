@@ -4,40 +4,95 @@ from src.database.models.match import Match
 
 
 class MatchRepository:
-    def __init__(self, connection: sqlite3.Connection):
+
+    SELECT_FIELDS = """
+        m.match_id,
+        m.competition_id,
+        m.season_id,
+        m.league_id,
+        m.matchday,
+        m.match_date,
+        m.kickoff_time,
+        m.home_team_id,
+        m.away_team_id,
+        m.stadium_id,
+        m.referee_id,
+        m.attendance,
+        m.home_goals,
+        m.away_goals,
+        m.status,
+        m.notes,
+        m.external_id,
+        home_team.name,
+        away_team.name
+    """
+
+    def __init__(
+        self,
+        connection: sqlite3.Connection,
+    ):
         self.connection = connection
         self.cursor = connection.cursor()
 
-    def get_by_id(self, match_id: int) -> Match | None:
+    def get(
+        self,
+        match_id: int,
+    ) -> Match | None:
+        if match_id <= 0:
+            raise ValueError(
+                "Ungültige Spiel-ID."
+            )
+
         self.cursor.execute(
-            """
+            f"""
             SELECT
-                m.match_id,
-                m.competition_id,
-                m.season_id,
-                m.league_id,
-                m.matchday,
-                m.match_date,
-                m.kickoff_time,
-                m.home_team_id,
-                m.away_team_id,
-                m.stadium_id,
-                m.referee_id,
-                m.attendance,
-                m.home_goals,
-                m.away_goals,
-                m.status,
-                m.notes,
-                home_team.name,
-                away_team.name
+                {self.SELECT_FIELDS}
             FROM matches AS m
             INNER JOIN teams AS home_team
                 ON home_team.team_id = m.home_team_id
             INNER JOIN teams AS away_team
                 ON away_team.team_id = m.away_team_id
             WHERE m.match_id = ?
+            LIMIT 1
             """,
             (match_id,),
+        )
+
+        row = self.cursor.fetchone()
+
+        if row is None:
+            return None
+
+        return self._row_to_match(row)
+
+    def get_by_id(
+        self,
+        match_id: int,
+    ) -> Match | None:
+        return self.get(match_id)
+
+    def get_by_external_id(
+        self,
+        external_id: str,
+    ) -> Match | None:
+        normalized_external_id = external_id.strip()
+
+        if not normalized_external_id:
+            return None
+
+        self.cursor.execute(
+            f"""
+            SELECT
+                {self.SELECT_FIELDS}
+            FROM matches AS m
+            INNER JOIN teams AS home_team
+                ON home_team.team_id = m.home_team_id
+            INNER JOIN teams AS away_team
+                ON away_team.team_id = m.away_team_id
+            WHERE m.external_id = ?
+            LIMIT 1
+            """,
+            (normalized_external_id,),
         )
 
         row = self.cursor.fetchone()
@@ -51,27 +106,15 @@ class MatchRepository:
         self,
         competition_id: int,
     ) -> list[Match]:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerbs-ID."
+            )
+
         self.cursor.execute(
-            """
+            f"""
             SELECT
-                m.match_id,
-                m.competition_id,
-                m.season_id,
-                m.league_id,
-                m.matchday,
-                m.match_date,
-                m.kickoff_time,
-                m.home_team_id,
-                m.away_team_id,
-                m.stadium_id,
-                m.referee_id,
-                m.attendance,
-                m.home_goals,
-                m.away_goals,
-                m.status,
-                m.notes,
-                home_team.name,
-                away_team.name
+                {self.SELECT_FIELDS}
             FROM matches AS m
             INNER JOIN teams AS home_team
                 ON home_team.team_id = m.home_team_id
@@ -79,10 +122,10 @@ class MatchRepository:
                 ON away_team.team_id = m.away_team_id
             WHERE m.competition_id = ?
             ORDER BY
-                m.matchday,
-                m.match_date,
-                m.kickoff_time,
-                m.match_id
+                m.matchday ASC,
+                m.match_date ASC,
+                m.kickoff_time ASC,
+                m.match_id ASC
             """,
             (competition_id,),
         )
@@ -92,9 +135,88 @@ class MatchRepository:
             for row in self.cursor.fetchall()
         ]
 
-    def update(self, match: Match):
+    def add(
+        self,
+        match: Match,
+    ) -> int:
+        self._validate_match(match)
+
+        normalized_external_id = (
+            match.external_id.strip()
+            if match.external_id
+            else None
+        )
+
+        self.cursor.execute(
+            """
+            INSERT INTO matches (
+                competition_id,
+                season_id,
+                league_id,
+                matchday,
+                match_date,
+                kickoff_time,
+                home_team_id,
+                away_team_id,
+                stadium_id,
+                referee_id,
+                attendance,
+                home_goals,
+                away_goals,
+                status,
+                notes,
+                external_id
+            )
+            VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?, ?, ?
+            )
+            """,
+            (
+                match.competition_id,
+                match.season_id,
+                match.league_id,
+                match.matchday,
+                match.match_date,
+                match.kickoff_time,
+                match.home_team_id,
+                match.away_team_id,
+                match.stadium_id,
+                match.referee_id,
+                match.attendance,
+                match.home_goals,
+                match.away_goals,
+                match.status.strip(),
+                match.notes.strip(),
+                normalized_external_id,
+            ),
+        )
+
+        self.connection.commit()
+
+        return int(self.cursor.lastrowid)
+
+    def update(
+        self,
+        match: Match,
+    ) -> int:
         if match.match_id is None:
-            raise ValueError("Das Spiel besitzt keine match_id.")
+            raise ValueError(
+                "Das Spiel besitzt keine match_id."
+            )
+
+        if match.match_id <= 0:
+            raise ValueError(
+                "Ungültige Spiel-ID."
+            )
+
+        self._validate_match(match)
+
+        normalized_external_id = (
+            match.external_id.strip()
+            if match.external_id
+            else None
+        )
 
         self.cursor.execute(
             """
@@ -114,7 +236,8 @@ class MatchRepository:
                 home_goals = ?,
                 away_goals = ?,
                 status = ?,
-                notes = ?
+                notes = ?,
+                external_id = ?
             WHERE match_id = ?
             """,
             (
@@ -131,13 +254,75 @@ class MatchRepository:
                 match.attendance,
                 match.home_goals,
                 match.away_goals,
-                match.status,
-                match.notes,
+                match.status.strip(),
+                match.notes.strip(),
+                normalized_external_id,
                 match.match_id,
             ),
         )
 
         self.connection.commit()
+
+        return self.cursor.rowcount
+
+    def upsert(
+        self,
+        match: Match,
+    ) -> tuple[int, bool]:
+        normalized_external_id = (
+            match.external_id.strip()
+            if match.external_id
+            else ""
+        )
+
+        if not normalized_external_id:
+            match_id = self.add(match)
+
+            return match_id, True
+
+        existing_match = self.get_by_external_id(
+            normalized_external_id
+        )
+
+        if existing_match is None:
+            match.external_id = normalized_external_id
+
+            match_id = self.add(match)
+
+            return match_id, True
+
+        if existing_match.match_id is None:
+            raise ValueError(
+                "Das vorhandene Spiel besitzt keine match_id."
+            )
+
+        match.match_id = existing_match.match_id
+        match.external_id = normalized_external_id
+
+        self.update(match)
+
+        return existing_match.match_id, False
+
+    def delete(
+        self,
+        match_id: int,
+    ) -> int:
+        if match_id <= 0:
+            raise ValueError(
+                "Ungültige Spiel-ID."
+            )
+
+        self.cursor.execute(
+            """
+            DELETE FROM matches
+            WHERE match_id = ?
+            """,
+            (match_id,),
+        )
+
+        self.connection.commit()
+
+        return self.cursor.rowcount
 
     def get_all_stadiums(self) -> list[tuple]:
         self.cursor.execute(
@@ -146,7 +331,7 @@ class MatchRepository:
                 stadium_id,
                 name
             FROM stadiums
-            ORDER BY name
+            ORDER BY name ASC
             """
         )
 
@@ -160,12 +345,12 @@ class MatchRepository:
                 TRIM(
                     COALESCE(first_name, '')
                     || ' '
-                    || last_name
+                    || COALESCE(last_name, '')
                 ) AS full_name
             FROM referees
             ORDER BY
-                last_name,
-                first_name
+                last_name ASC,
+                first_name ASC
             """
         )
 
@@ -175,6 +360,11 @@ class MatchRepository:
         self,
         competition_id: int,
     ) -> int:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerbs-ID."
+            )
+
         self.cursor.execute(
             """
             SELECT COUNT(*)
@@ -184,12 +374,19 @@ class MatchRepository:
             (competition_id,),
         )
 
-        return self.cursor.fetchone()[0]
+        row = self.cursor.fetchone()
+
+        return int(row[0])
 
     def get_finished_match_count(
         self,
         competition_id: int,
     ) -> int:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerbs-ID."
+            )
+
         self.cursor.execute(
             """
             SELECT COUNT(*)
@@ -201,12 +398,19 @@ class MatchRepository:
             (competition_id,),
         )
 
-        return self.cursor.fetchone()[0]
+        row = self.cursor.fetchone()
+
+        return int(row[0])
 
     def get_open_match_count(
         self,
         competition_id: int,
     ) -> int:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerbs-ID."
+            )
+
         self.cursor.execute(
             """
             SELECT COUNT(*)
@@ -218,20 +422,97 @@ class MatchRepository:
             (competition_id,),
         )
 
-        return self.cursor.fetchone()[0]
+        row = self.cursor.fetchone()
 
-    def delete(self, match_id: int):
-        self.cursor.execute(
-            """
-            DELETE FROM matches
-            WHERE match_id = ?
-            """,
-            (match_id,),
-        )
+        return int(row[0])
 
-        self.connection.commit()
+    @staticmethod
+    def _validate_match(
+        match: Match,
+    ) -> None:
+        if match.season_id is None or match.season_id <= 0:
+            raise ValueError(
+                "Ungültige Saison-ID."
+            )
 
-    def _row_to_match(self, row: tuple) -> Match:
+        if (
+            match.competition_id is not None
+            and match.competition_id <= 0
+        ):
+            raise ValueError(
+                "Ungültige Wettbewerbs-ID."
+            )
+
+        if (
+            match.league_id is not None
+            and match.league_id <= 0
+        ):
+            raise ValueError(
+                "Ungültige Liga-ID."
+            )
+
+        if (
+            match.home_team_id is None
+            or match.home_team_id <= 0
+        ):
+            raise ValueError(
+                "Ungültige Heim-Mannschafts-ID."
+            )
+
+        if (
+            match.away_team_id is None
+            or match.away_team_id <= 0
+        ):
+            raise ValueError(
+                "Ungültige Auswärts-Mannschafts-ID."
+            )
+
+        if match.home_team_id == match.away_team_id:
+            raise ValueError(
+                "Heim- und Auswärtsmannschaft dürfen nicht identisch sein."
+            )
+
+        if (
+            match.matchday is not None
+            and match.matchday <= 0
+        ):
+            raise ValueError(
+                "Der Spieltag muss größer als 0 sein."
+            )
+
+        if (
+            match.attendance is not None
+            and match.attendance < 0
+        ):
+            raise ValueError(
+                "Die Zuschauerzahl darf nicht negativ sein."
+            )
+
+        if (
+            match.home_goals is not None
+            and match.home_goals < 0
+        ):
+            raise ValueError(
+                "Die Heimtore dürfen nicht negativ sein."
+            )
+
+        if (
+            match.away_goals is not None
+            and match.away_goals < 0
+        ):
+            raise ValueError(
+                "Die Auswärtstore dürfen nicht negativ sein."
+            )
+
+        if not match.status.strip():
+            raise ValueError(
+                "Der Spielstatus darf nicht leer sein."
+            )
+
+    @staticmethod
+    def _row_to_match(
+        row: sqlite3.Row | tuple,
+    ) -> Match:
         return Match(
             match_id=row[0],
             competition_id=row[1],
@@ -249,6 +530,7 @@ class MatchRepository:
             away_goals=row[13],
             status=row[14],
             notes=row[15] or "",
-            home_team_name=row[16],
-            away_team_name=row[17],
+            external_id=row[16] or "",
+            home_team_name=row[17],
+            away_team_name=row[18],
         )

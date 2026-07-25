@@ -26,16 +26,23 @@ class Match:
 
     status: str = "scheduled"
     notes: str = ""
+    external_id: str = ""
 
     home_team_name: str = ""
     away_team_name: str = ""
 
     @property
     def result_text(self) -> str:
-        if self.home_goals is None or self.away_goals is None:
+        if (
+            self.home_goals is None
+            or self.away_goals is None
+        ):
             return "- : -"
 
-        return f"{self.home_goals} : {self.away_goals}"
+        return (
+            f"{self.home_goals} : "
+            f"{self.away_goals}"
+        )
 
     @property
     def display_name(self) -> str:
