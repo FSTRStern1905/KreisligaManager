@@ -25,6 +25,7 @@ from src.database.tables.players import PlayersTable
 from src.database.tables.referees import RefereesTable
 from src.database.tables.seasons import SeasonsTable
 from src.database.tables.staff import StaffTable
+from src.database.tables.standings import StandingsTable
 from src.database.tables.stadiums import StadiumsTable
 from src.database.tables.teams import TeamsTable
 from src.database.tables.weather import WeatherTable
@@ -50,6 +51,7 @@ class DatabaseSchema:
             ClubsTable,
             TeamsTable,
             CompetitionTeamsTable,
+            StandingsTable,
             PlayersTable,
             StadiumsTable,
             RefereesTable,
