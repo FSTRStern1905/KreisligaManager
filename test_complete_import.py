@@ -21,7 +21,7 @@ from src.services.imports.schedule_import_service import (
 
 
 COMPETITION_URL = (
-    "https://www.fussball.de/spieltagsuebersicht/kreisliga-a7-kreis-trier-saarburg-kreisliga-a-herren-saison2526-rheinland/-/staffel/02TN13LMJO000008VS5489BUVSSD35NB-G#!/"
+    "https://www.fussball.de/spielplan/kreisliga-a7-kreis-trier-saarburg-kreisliga-a-herren-saison2526-rheinland/-/staffel/02TN13LMJO000008VS5489BUVSSD35NB-G#!/section/matchplan"
 )
 
 
