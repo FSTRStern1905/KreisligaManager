@@ -7,10 +7,16 @@ class MatchEvent:
     additional_time: int = 0
 
     event_type: str = ""
-
     team: str = ""
+
     player: str = ""
+    player_id: str = ""
+
     player_out: str = ""
+    player_out_id: str = ""
+
+    home_goals: int | None = None
+    away_goals: int | None = None
 
     value: str = ""
     description: str = ""
@@ -33,6 +39,4 @@ class MatchDetailData:
     referee: str = ""
     attendance: int | None = None
 
-    events: list[MatchEvent] = field(
-        default_factory=list
-    )
+    events: list[MatchEvent] = field(default_factory=list)

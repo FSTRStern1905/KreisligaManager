@@ -12,11 +12,27 @@ from playwright.sync_api import (
 
 class FussballDeBrowser:
 
+    PAGE_TYPE_AUTO = "auto"
+    PAGE_TYPE_SCHEDULE = "schedule"
+    PAGE_TYPE_MATCH_DETAIL = "match_detail"
+    PAGE_TYPE_GENERIC = "generic"
+
     TABLE_SELECTORS = (
         "#fixtures-matchplan-table-matches-table",
         "table[id*='fixtures-matchplan']",
         ".fixtures-matchplan-table",
         "table:has(td.column-club)",
+    )
+
+    MATCH_DETAIL_SELECTORS = (
+        "main",
+        "#stage",
+        ".stage",
+        "[class*='match-detail']",
+        "[class*='matchcenter']",
+        "[class*='match-center']",
+        "[class*='game-detail']",
+        "[class*='fixture-detail']",
     )
 
     COOKIE_SELECTORS = (
@@ -60,11 +76,17 @@ class FussballDeBrowser:
     def open(
         self,
         url: str,
+        page_type: str = PAGE_TYPE_AUTO,
     ) -> None:
         if self.page is None:
             raise RuntimeError(
                 "Browser wurde noch nicht gestartet."
             )
+
+        resolved_page_type = self._resolve_page_type(
+            url=url,
+            page_type=page_type,
+        )
 
         self.page.goto(
             url,
@@ -84,13 +106,86 @@ class FussballDeBrowser:
 
         self.page.wait_for_timeout(2_000)
 
+        self._scroll_page()
+
+        if resolved_page_type == self.PAGE_TYPE_SCHEDULE:
+            self._wait_for_schedule_table()
+
+        elif resolved_page_type == self.PAGE_TYPE_MATCH_DETAIL:
+            self._wait_for_match_detail()
+
+        else:
+            self._wait_for_generic_content()
+
+    def _resolve_page_type(
+        self,
+        url: str,
+        page_type: str,
+    ) -> str:
+        allowed_page_types = {
+            self.PAGE_TYPE_AUTO,
+            self.PAGE_TYPE_SCHEDULE,
+            self.PAGE_TYPE_MATCH_DETAIL,
+            self.PAGE_TYPE_GENERIC,
+        }
+
+        if page_type not in allowed_page_types:
+            raise ValueError(
+                f"Unbekannter Seitentyp: {page_type}"
+            )
+
+        if page_type != self.PAGE_TYPE_AUTO:
+            return page_type
+
+        normalized_url = url.casefold()
+
+        if "/spieltag/" in normalized_url:
+            return self.PAGE_TYPE_SCHEDULE
+
+        if "/spiel/" in normalized_url:
+            return self.PAGE_TYPE_MATCH_DETAIL
+
+        return self.PAGE_TYPE_GENERIC
+
+    def _scroll_page(self) -> None:
+        if self.page is None:
+            return
+
         self.page.evaluate(
-            "window.scrollTo(0, document.body.scrollHeight)"
+            """
+            async () => {
+                const delay = (milliseconds) => {
+                    return new Promise(
+                        resolve => setTimeout(
+                            resolve,
+                            milliseconds
+                        )
+                    );
+                };
+
+                const maximumHeight =
+                    document.body.scrollHeight;
+
+                const step = 700;
+
+                for (
+                    let position = 0;
+                    position < maximumHeight;
+                    position += step
+                ) {
+                    window.scrollTo(0, position);
+                    await delay(150);
+                }
+
+                window.scrollTo(
+                    0,
+                    document.body.scrollHeight
+                );
+            }
+            """
         )
 
         self.page.wait_for_timeout(2_000)
-
-        self._wait_for_schedule_table()
 
     def _accept_cookies(self) -> None:
         if self.page is None:
@@ -137,6 +232,7 @@ class FussballDeBrowser:
 
             except PlaywrightTimeoutError:
                 continue
+
             except Exception:
                 continue
 
@@ -146,23 +242,66 @@ class FussballDeBrowser:
         if self.page is None:
             return
 
-        for selector in self.TABLE_SELECTORS:
-            try:
-                self.page.wait_for_selector(
-                    selector,
-                    state="attached",
-                    timeout=10_000,
-                )
-
-                return
-
-            except PlaywrightTimeoutError:
-                continue
+        if self._wait_for_any_selector(
+            selectors=self.TABLE_SELECTORS,
+            timeout_per_selector=10_000,
+        ):
+            return
 
         raise RuntimeError(
             "Die Spielplan-Tabelle wurde auf der "
             "fussball.de-Seite nicht geladen."
         )
+
+    def _wait_for_match_detail(self) -> None:
+        if self.page is None:
+            return
+
+        if self._wait_for_any_selector(
+            selectors=self.MATCH_DETAIL_SELECTORS,
+            timeout_per_selector=5_000,
+        ):
+            return
+
+        self._wait_for_generic_content()
+
+    def _wait_for_generic_content(self) -> None:
+        if self.page is None:
+            return
+
+        try:
+            self.page.wait_for_selector(
+                "body",
+                state="attached",
+                timeout=10_000,
+            )
+        except PlaywrightTimeoutError as error:
+            raise RuntimeError(
+                "Die fussball.de-Seite wurde nicht geladen."
+            ) from error
+
+    def _wait_for_any_selector(
+        self,
+        selectors: tuple[str, ...],
+        timeout_per_selector: int,
+    ) -> bool:
+        if self.page is None:
+            return False
+
+        for selector in selectors:
+            try:
+                self.page.wait_for_selector(
+                    selector,
+                    state="attached",
+                    timeout=timeout_per_selector,
+                )
+
+                return True
+
+            except PlaywrightTimeoutError:
+                continue
+
+        return False
 
     def html(self) -> str:
         if self.page is None:
