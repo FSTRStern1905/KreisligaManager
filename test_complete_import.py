@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from src.database.database import Database
+from src.database.schema import DatabaseSchema
 from src.database.repositories.association_repository import (
     AssociationRepository,
 )
@@ -8,10 +11,18 @@ from src.database.repositories.club_repository import ClubRepository
 from src.database.repositories.competition_repository import (
     CompetitionRepository,
 )
-from src.database.repositories.league_repository import LeagueRepository
-from src.database.repositories.match_repository import MatchRepository
-from src.database.repositories.season_repository import SeasonRepository
-from src.database.repositories.team_repository import TeamRepository
+from src.database.repositories.league_repository import (
+    LeagueRepository,
+)
+from src.database.repositories.match_repository import (
+    MatchRepository,
+)
+from src.database.repositories.season_repository import (
+    SeasonRepository,
+)
+from src.database.repositories.team_repository import (
+    TeamRepository,
+)
 from src.importer.fussballde.complete_season_importer import (
     CompleteSeasonImporter,
 )
@@ -26,8 +37,22 @@ COMPETITION_URL = (
 
 
 def main() -> None:
-    database = Database()
+
+    test_db = Path(
+        "data/database/kreisligamanager_test.db"
+    )
+
+    if test_db.exists():
+        test_db.unlink()
+
+    database = Database(
+        database_name="kreisligamanager_test.db",
+    )
+
     connection = database.connect()
+
+    schema = DatabaseSchema(connection)
+    schema.create_all_tables()
 
     try:
         schedule_import_service = ScheduleImportService(
@@ -67,7 +92,7 @@ def main() -> None:
             continue_on_detail_error=True,
             max_detail_matches=5,
         )
-        
+
         print()
         print("=" * 60)
         print("KOMPLETTIMPORT ABGESCHLOSSEN")
