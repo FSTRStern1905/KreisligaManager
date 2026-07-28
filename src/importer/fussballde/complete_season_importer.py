@@ -84,12 +84,22 @@ class CompleteSeasonImporter:
         url: str,
         headless: bool = True,
         continue_on_detail_error: bool = True,
+        max_detail_matches: int | None = None,
     ) -> CompleteSeasonImportResult:
         normalized_url = url.strip()
 
         if not normalized_url:
             raise ValueError(
                 "Die Wettbewerbs-URL darf nicht leer sein."
+            )
+
+        if (
+            max_detail_matches is not None
+            and max_detail_matches < 1
+        ):
+            raise ValueError(
+                "max_detail_matches muss mindestens 1 sein "
+                "oder None."
             )
 
         browser = FussballDeBrowser()
@@ -149,8 +159,21 @@ class CompleteSeasonImporter:
                 )
             )
 
+            detail_matches = schedule_matches
+
+            if max_detail_matches is not None:
+                detail_matches = schedule_matches[
+                    :max_detail_matches
+                ]
+
+            print(
+                "Detailspiele für diesen Lauf: "
+                f"{len(detail_matches)} von "
+                f"{len(schedule_matches)}"
+            )
+
             for index, schedule_match in enumerate(
-                schedule_matches,
+                detail_matches,
                 start=1,
             ):
                 match_url = self._get_value(
@@ -175,7 +198,7 @@ class CompleteSeasonImporter:
                     continue
 
                 print(
-                    f"[{index}/{len(schedule_matches)}] "
+                    f"[{index}/{len(detail_matches)}] "
                     f"Importiere Spiel: {match_url}"
                 )
 

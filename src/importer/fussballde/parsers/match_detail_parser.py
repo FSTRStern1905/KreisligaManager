@@ -2,6 +2,9 @@ import re
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup, Tag
+from src.importer.fussballde.parsers.match_html_document import (
+    MatchHtmlDocument,
+)
 
 from src.importer.fussballde.parsers.base_parser import BaseParser
 from src.importer.fussballde.parsers.match_detail_data import (
@@ -28,7 +31,8 @@ class MatchDetailParser(BaseParser):
         html: str,
         source_url: str = "",
     ) -> MatchDetailData:
-        soup = BeautifulSoup(html, "html.parser")
+        document = MatchHtmlDocument(html)
+        soup = document.soup
 
         data = MatchDetailData()
 
