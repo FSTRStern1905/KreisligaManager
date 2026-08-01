@@ -21,6 +21,9 @@ from src.database.tables.match_formations import (
     MatchFormationsTable,
 )
 from src.database.tables.matches import MatchesTable
+from src.database.tables.player_match_stats import (
+    PlayerMatchStatsTable,
+)
 from src.database.tables.players import PlayersTable
 from src.database.tables.referees import RefereesTable
 from src.database.tables.seasons import SeasonsTable
@@ -58,6 +61,7 @@ class DatabaseSchema:
             EventTypesTable,
             MatchesTable,
             LineupsTable,
+            PlayerMatchStatsTable,
             EventsTable,
             FormationsTable,
             MatchFormationsTable,

@@ -30,6 +30,9 @@ from src.importer.fussballde.lineup_importer import (
     LineupImporter,
 )
 
+from src.services.player_match_stats.player_match_stats_builder import (
+    PlayerMatchStatsBuilder,
+)
 
 class MatchDetailImporter:
     EVENT_TYPE_MAPPING = {
@@ -69,6 +72,10 @@ class MatchDetailImporter:
         self.lineup_importer = LineupImporter(
             connection
         )
+        self.player_match_stats_builder = (PlayerMatchStatsBuilder(
+            connection
+        )
+)        
 
     def import_from_page(
         self,
@@ -246,6 +253,12 @@ class MatchDetailImporter:
                 )
             )
 
+            player_match_stats_result = (
+                self.player_match_stats_builder.build(
+                    match_id
+                )
+            )
+
             self.connection.commit()
 
         except Exception:
@@ -264,7 +277,12 @@ class MatchDetailImporter:
             "players_imported": len(player_ids),
             "events_imported":
                 imported_event_count,
-        }
+            "player_match_stats_created": (
+                player_match_stats_result[
+                    "stats_created"
+                ]
+            ),
+        }    
 
     def _update_match(
         self,

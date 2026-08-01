@@ -14,9 +14,11 @@ class LineupsTable:
             """
             CREATE TABLE IF NOT EXISTS lineups (
                 lineup_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
                 match_id INTEGER NOT NULL,
                 team_id INTEGER NOT NULL,
                 player_id INTEGER NOT NULL,
+
                 is_starting INTEGER NOT NULL DEFAULT 0,
                 shirt_number INTEGER,
                 position TEXT,
