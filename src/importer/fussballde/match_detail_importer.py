@@ -3,9 +3,21 @@ from __future__ import annotations
 import sqlite3
 from typing import Any
 
-from src.database.repositories.event_repository import EventRepository
-from src.database.repositories.match_repository import MatchRepository
-from src.database.repositories.player_repository import PlayerRepository
+from src.database.repositories.event_repository import (
+    EventRepository,
+)
+from src.database.repositories.match_repository import (
+    MatchRepository,
+)
+from src.database.repositories.player_repository import (
+    PlayerRepository,
+)
+from src.database.repositories.referee_repository import (
+    RefereeRepository,
+)
+from src.database.repositories.stadium_repository import (
+    StadiumRepository,
+)
 from src.importer.fussballde.parsers.match_detail_data import (
     MatchDetailData,
     MatchEvent,
@@ -19,10 +31,12 @@ class MatchDetailImporter:
     EVENT_TYPE_MAPPING = {
         MatchDetailParser.EVENT_GOAL: "GOAL",
         MatchDetailParser.EVENT_OWN_GOAL: "OWN_GOAL",
-        MatchDetailParser.EVENT_YELLOW_CARD: "YELLOW_CARD",
+        MatchDetailParser.EVENT_YELLOW_CARD:
+            "YELLOW_CARD",
         MatchDetailParser.EVENT_SECOND_YELLOW_CARD:
             "YELLOW_RED_CARD",
-        MatchDetailParser.EVENT_RED_CARD: "RED_CARD",
+        MatchDetailParser.EVENT_RED_CARD:
+            "RED_CARD",
         MatchDetailParser.EVENT_PENALTY_MISSED:
             "PENALTY_MISSED",
     }
@@ -40,6 +54,12 @@ class MatchDetailImporter:
             connection
         )
         self.event_repository = EventRepository(
+            connection
+        )
+        self.referee_repository = RefereeRepository(
+            connection
+        )
+        self.stadium_repository = StadiumRepository(
             connection
         )
 
@@ -152,6 +172,18 @@ class MatchDetailImporter:
                 "interne Spiel-ID."
             )
 
+        if database_match.home_team_id is None:
+            raise ValueError(
+                "Das Spiel besitzt keine "
+                "Heimmannschaft."
+            )
+
+        if database_match.away_team_id is None:
+            raise ValueError(
+                "Das Spiel besitzt keine "
+                "Auswärtsmannschaft."
+            )
+
         match_id = int(
             database_match.match_id
         )
@@ -162,26 +194,33 @@ class MatchDetailImporter:
         )
 
         try:
+            stadium_id = self._import_stadium(
+                detail_data.stadium
+            )
+
+            referee_id = self._import_referee(
+                detail_data.referee
+            )
+
+            database_match.stadium_id = stadium_id
+            database_match.referee_id = referee_id
+
             self._update_match(
                 database_match=database_match,
                 detail_data=detail_data,
                 source_url=source_url,
             )
 
-            prepared_events = self._prepare_events(
-                detail_data=detail_data,
-                home_team_id=int(
-                    database_match.home_team_id
-                ),
-                away_team_id=int(
-                    database_match.away_team_id
-                ),
-            )
-
-            imported_event_count = (
-                self.event_repository.replace_match_events(
+            imported_event_count, player_ids = (
+                self._import_events(
                     match_id=match_id,
-                    events=prepared_events,
+                    detail_data=detail_data,
+                    home_team_id=int(
+                        database_match.home_team_id
+                    ),
+                    away_team_id=int(
+                        database_match.away_team_id
+                    ),
                 )
             )
 
@@ -191,20 +230,6 @@ class MatchDetailImporter:
             self.connection.rollback()
             raise
 
-        player_ids = {
-            event.get("player_id")
-            for event in prepared_events
-            if event.get("player_id") is not None
-        }
-
-        player_ids.update(
-            event.get("related_player_id")
-            for event in prepared_events
-            if event.get(
-                "related_player_id"
-            ) is not None
-        )
-
         return {
             "match_id": match_id,
             "external_id": external_id,
@@ -212,6 +237,8 @@ class MatchDetailImporter:
             "away_team": detail_data.away_team,
             "home_goals": detail_data.home_goals,
             "away_goals": detail_data.away_goals,
+            "stadium_id": stadium_id,
+            "referee_id": referee_id,
             "players_imported": len(player_ids),
             "events_imported":
                 imported_event_count,
@@ -244,16 +271,95 @@ class MatchDetailImporter:
         ):
             database_match.status = "finished"
 
-        notes = self._build_match_notes(
-            existing_notes=database_match.notes,
-            detail_data=detail_data,
-            source_url=source_url,
+        database_match.notes = (
+            self._build_match_notes(
+                existing_notes=database_match.notes,
+                detail_data=detail_data,
+                source_url=source_url,
+            )
         )
-
-        database_match.notes = notes
 
         self.match_repository.update(
             database_match
+        )
+
+    def _import_stadium(
+        self,
+        stadium_name: str,
+    ) -> int | None:
+        normalized_name = self._clean_import_text(
+            stadium_name
+        )
+
+        if not normalized_name:
+            return None
+
+        return self.stadium_repository.get_or_create(
+            name=normalized_name,
+            commit=False,
+        )
+
+    def _import_referee(
+        self,
+        referee_name: str,
+    ) -> int | None:
+        normalized_name = self._clean_import_text(
+            referee_name
+        )
+
+        normalized_name = self._remove_referee_suffixes(
+            normalized_name
+        )
+
+        if not normalized_name:
+            return None
+
+        return (
+            self.referee_repository
+            .get_or_create_by_full_name(
+                full_name=normalized_name,
+                commit=False,
+            )
+        )
+
+    def _import_events(
+        self,
+        match_id: int,
+        detail_data: MatchDetailData,
+        home_team_id: int,
+        away_team_id: int,
+    ) -> tuple[int, set[int]]:
+        prepared_events = self._prepare_events(
+            detail_data=detail_data,
+            home_team_id=home_team_id,
+            away_team_id=away_team_id,
+        )
+
+        imported_event_count = (
+            self.event_repository
+            .replace_match_events(
+                match_id=match_id,
+                events=prepared_events,
+            )
+        )
+
+        player_ids: set[int] = {
+            int(event["player_id"])
+            for event in prepared_events
+            if event.get("player_id") is not None
+        }
+
+        player_ids.update(
+            int(event["related_player_id"])
+            for event in prepared_events
+            if event.get(
+                "related_player_id"
+            ) is not None
+        )
+
+        return (
+            imported_event_count,
+            player_ids,
         )
 
     def _prepare_events(
@@ -276,15 +382,11 @@ class MatchDetailImporter:
                 event.event_type
                 == MatchDetailParser.EVENT_SUBSTITUTION
             ):
-                substitution_events = (
+                prepared_events.extend(
                     self._prepare_substitution(
                         event=event,
                         team_id=team_id,
                     )
-                )
-
-                prepared_events.extend(
-                    substitution_events
                 )
 
                 continue
@@ -338,7 +440,10 @@ class MatchDetailImporter:
             "value": self._build_event_value(
                 event
             ),
-            "notes": event.description,
+            "notes": self._clean_import_text(
+                event.description,
+                allow_private_unicode=False,
+            ),
         }
 
     def _prepare_substitution(
@@ -358,6 +463,11 @@ class MatchDetailImporter:
             team_id=team_id,
         )
 
+        description = self._clean_import_text(
+            event.description,
+            allow_private_unicode=False,
+        )
+
         events: list[dict] = []
 
         if player_out_id is not None:
@@ -371,8 +481,11 @@ class MatchDetailImporter:
                     "player_id": player_out_id,
                     "related_player_id":
                         player_in_id,
-                    "value": "substitution_out",
-                    "notes": event.description,
+                    "value": self._build_substitution_value(
+                        direction="out",
+                        event=event,
+                    ),
+                    "notes": description,
                 }
             )
 
@@ -387,8 +500,11 @@ class MatchDetailImporter:
                     "player_id": player_in_id,
                     "related_player_id":
                         player_out_id,
-                    "value": "substitution_in",
-                    "notes": event.description,
+                    "value": self._build_substitution_value(
+                        direction="in",
+                        event=event,
+                    ),
+                    "notes": description,
                 }
             )
 
@@ -400,8 +516,8 @@ class MatchDetailImporter:
         external_id: str,
         team_id: int | None,
     ) -> int | None:
-        normalized_name = " ".join(
-            player_name.split()
+        normalized_name = self._clean_import_text(
+            player_name
         )
 
         normalized_external_id = (
@@ -423,7 +539,7 @@ class MatchDetailImporter:
         if not last_name:
             if normalized_external_id:
                 last_name = (
-                    f"Unbekannt "
+                    "Unbekannt "
                     f"{normalized_external_id}"
                 )
             else:
@@ -563,78 +679,169 @@ class MatchDetailImporter:
 
         if event.additional_time > 0:
             values.append(
-                f"Nachspielzeit:"
+                "Nachspielzeit:"
                 f"{event.additional_time}"
             )
 
         return " | ".join(values)
 
     @staticmethod
+    def _build_substitution_value(
+        direction: str,
+        event: MatchEvent,
+    ) -> str:
+        values = [
+            f"substitution_{direction}"
+        ]
+
+        if event.additional_time > 0:
+            values.append(
+                "Nachspielzeit:"
+                f"{event.additional_time}"
+            )
+
+        return " | ".join(values)
+
+    @classmethod
     def _build_match_notes(
+        cls,
         existing_notes: str,
         detail_data: MatchDetailData,
         source_url: str,
     ) -> str:
         notes: list[str] = []
 
-        normalized_existing_notes = (
-            existing_notes.strip()
+        existing_lines = (
+            existing_notes.splitlines()
+            if existing_notes
+            else []
         )
 
-        if normalized_existing_notes:
+        managed_prefixes = (
+            "Halbzeit:",
+            "Spielstätte:",
+            "Schiedsrichter:",
+            "fussball.de:",
+        )
+
+        for line in existing_lines:
+            normalized_line = line.strip()
+
+            if not normalized_line:
+                continue
+
+            if normalized_line.startswith(
+                managed_prefixes
+            ):
+                continue
+
+            if cls._contains_private_unicode(
+                normalized_line
+            ):
+                continue
+
             notes.append(
-                normalized_existing_notes
+                normalized_line
             )
 
         if (
             detail_data.halftime_home is not None
-            and detail_data.halftime_away
-            is not None
+            and detail_data.halftime_away is not None
         ):
-            halftime_note = (
+            notes.append(
                 "Halbzeit: "
                 f"{detail_data.halftime_home}:"
                 f"{detail_data.halftime_away}"
             )
 
-            if halftime_note not in notes:
-                notes.append(
-                    halftime_note
-                )
+        stadium = cls._clean_import_text(
+            detail_data.stadium
+        )
 
-        if detail_data.stadium:
-            stadium_note = (
-                f"Spielstätte: "
-                f"{detail_data.stadium}"
+        if stadium:
+            notes.append(
+                f"Spielstätte: {stadium}"
             )
 
-            if stadium_note not in notes:
-                notes.append(
-                    stadium_note
-                )
+        referee = cls._clean_import_text(
+            detail_data.referee
+        )
 
-        if detail_data.referee:
-            referee_note = (
-                f"Schiedsrichter: "
-                f"{detail_data.referee}"
+        referee = cls._remove_referee_suffixes(
+            referee
+        )
+
+        if referee:
+            notes.append(
+                f"Schiedsrichter: {referee}"
             )
-
-            if referee_note not in notes:
-                notes.append(
-                    referee_note
-                )
 
         normalized_url = source_url.strip()
 
         if normalized_url:
-            url_note = (
-                f"fussball.de: "
-                f"{normalized_url}"
+            notes.append(
+                f"fussball.de: {normalized_url}"
             )
 
-            if url_note not in notes:
-                notes.append(
-                    url_note
-                )
+        return "\n".join(
+            dict.fromkeys(notes)
+        )
 
-        return "\n".join(notes)
+    @classmethod
+    def _clean_import_text(
+        cls,
+        value: str,
+        allow_private_unicode: bool = False,
+    ) -> str:
+        normalized = " ".join(
+            (value or "").split()
+        )
+
+        if not normalized:
+            return ""
+
+        if (
+            not allow_private_unicode
+            and cls._contains_private_unicode(
+                normalized
+            )
+        ):
+            return ""
+
+        return normalized.strip(
+            " -|,;"
+        )
+
+    @staticmethod
+    def _contains_private_unicode(
+        value: str,
+    ) -> bool:
+        return any(
+            0xE000 <= ord(character) <= 0xF8FF
+            for character in value
+        )
+
+    @staticmethod
+    def _remove_referee_suffixes(
+        referee_name: str,
+    ) -> str:
+        normalized_name = referee_name.strip()
+
+        suffixes = (
+            " Assistenten:",
+            " Assistent:",
+            " Schiedsrichterassistenten:",
+            " Schiedsrichter-Assistenten:",
+        )
+
+        for suffix in suffixes:
+            position = normalized_name.casefold().find(
+                suffix.casefold()
+            )
+
+            if position >= 0:
+                normalized_name = (
+                    normalized_name[:position]
+                ).strip()
+
+        return normalized_name

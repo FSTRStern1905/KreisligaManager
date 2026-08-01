@@ -6,6 +6,7 @@ from src.importer.fussballde.parsers.match_html_document import (
     MatchHtmlDocument,
 )
 
+from src.importer.fussballde.font_decoder import FontDecoder
 from src.importer.fussballde.parsers.base_parser import BaseParser
 from src.importer.fussballde.parsers.match_detail_data import (
     MatchDetailData,
@@ -180,6 +181,21 @@ class MatchDetailParser(BaseParser):
         self,
         soup: BeautifulSoup,
     ) -> tuple[int | None, int | None]:
+        half_result = soup.select_one(
+        ".stage-body .result .half-result"
+        )
+
+        if half_result is not None:
+            score = self._extract_score_from_text(
+                half_result.get_text(
+                    " ",
+                    strip=True,
+                )
+            )
+
+            if score != (None, None):
+                return score
+
         selectors = [
             ".halftime-result",
             ".half-time-result",
@@ -221,39 +237,95 @@ class MatchDetailParser(BaseParser):
             "attendance": None,
         }
 
-        information_texts = self._collect_match_information_texts(soup)
+        stadium_element = soup.select_one(
+            ".match-stage .stage-header > a.location"
+        )
+
+        if stadium_element is not None:
+            result["stadium"] = self.clean_text(
+                stadium_element.get_text(
+                    " ",
+                    strip=True,
+                )
+            )
+
+        referee_element = soup.select_one(
+            ".stage-meta-left "
+            "a[href*='/schiedsrichterprofil/'] "
+            "[data-obfuscation]"
+        )
+
+        if referee_element is not None:
+            referee_text = self.clean_text(
+                referee_element.get_text(
+                    " ",
+                    strip=True,
+                )
+            )
+
+            font_id = str(
+                referee_element.get(
+                    "data-obfuscation",
+                    "",
+                )
+                or ""
+            ).strip()
+
+            if (
+                referee_text
+                and font_id
+                and self.page is not None
+            ):
+                try:
+                    decoder = FontDecoder(
+                        self.page.request
+                    )
+
+                    referee_text = self.clean_text(
+                        decoder.decode(
+                            text=referee_text,
+                            font_id=font_id,
+                        )
+                    )
+                except Exception:
+                    pass
+
+            if not self._contains_private_unicode(
+                referee_text
+            ):
+                result["referee"] = referee_text
+
+        information_texts = (
+            self._collect_match_information_texts(
+                soup
+            )
+        )
 
         for text in information_texts:
             normalized = self.clean_text(text)
 
-            stadium = self._extract_labeled_value(
-                normalized,
-                labels=[
-                    "Spielstätte",
-                    "Spielort",
-                    "Stadion",
-                    "Sportplatz",
-                ],
+            if not result["stadium"]:
+                stadium = self._extract_labeled_value(
+                    normalized,
+                    labels=[
+                        "Spielstätte",
+                        "Spielort",
+                        "Stadion",
+                        "Sportplatz",
+                    ],
+                )
+
+                if stadium:
+                    result["stadium"] = stadium
+
+            attendance = self._extract_attendance(
+                normalized
             )
 
-            if stadium and not result["stadium"]:
-                result["stadium"] = stadium
-
-            referee = self._extract_labeled_value(
-                normalized,
-                labels=[
-                    "Schiedsrichter",
-                    "Schiri",
-                    "Referee",
-                ],
-            )
-
-            if referee and not result["referee"]:
-                result["referee"] = referee
-
-            attendance = self._extract_attendance(normalized)
-
-            if attendance is not None and result["attendance"] is None:
+            if (
+                attendance is not None
+                and result["attendance"] is None
+            ):
                 result["attendance"] = attendance
 
         return result
