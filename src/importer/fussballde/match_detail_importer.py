@@ -26,6 +26,10 @@ from src.importer.fussballde.parsers.match_detail_parser import (
     MatchDetailParser,
 )
 
+from src.importer.fussballde.lineup_importer import (
+    LineupImporter,
+)
+
 
 class MatchDetailImporter:
     EVENT_TYPE_MAPPING = {
@@ -60,6 +64,9 @@ class MatchDetailImporter:
             connection
         )
         self.stadium_repository = StadiumRepository(
+            connection
+        )
+        self.lineup_importer = LineupImporter(
             connection
         )
 
@@ -105,10 +112,25 @@ class MatchDetailImporter:
             source_url=normalized_url,
         )
 
-        return self.import_data(
+        lineup_result = self.lineup_importer.import_from_page(
+            page=page,
+            match_external_id=detail_data.match_id,
+        )
+
+        result = self.import_data(
             detail_data=detail_data,
             source_url=normalized_url,
         )
+
+        result["lineups_imported"] = (
+            lineup_result["lineups_imported"]
+        )
+
+        result["lineup_players_imported"] = (
+            lineup_result["players_imported"]
+        )
+
+        return result
 
     def import_from_html(
         self,

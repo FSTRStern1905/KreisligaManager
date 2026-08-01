@@ -41,6 +41,55 @@ class LineupImporter:
             connection
         )
 
+    def import_from_page(
+        self,
+        page: Any,
+        match_external_id: str,
+    ) -> dict:
+        if page is None:
+            raise ValueError(
+                "Es wurde keine Browserseite übergeben."
+            )
+
+        normalized_external_id = match_external_id.strip()
+
+        if not normalized_external_id:
+            raise ValueError(
+                "Die externe Spiel-ID darf nicht leer sein."
+            )
+
+        lineup_url = (
+            "https://www.fussball.de/"
+            "ajax.match.lineup/"
+            "-/mode/PAGE/spiel/"
+            f"{normalized_external_id}/"
+            "ticker-id/selectedTickerId"
+        )
+
+        response = page.request.get(
+            lineup_url,
+            timeout=60_000,
+        )
+
+        if not response.ok:
+            raise RuntimeError(
+                "Die Aufstellung konnte nicht geladen werden: "
+                f"HTTP {response.status}"
+            )
+
+        html = response.text()
+
+        if not html.strip():
+            raise ValueError(
+                "Die geladene Aufstellung ist leer."
+            )
+
+        return self.import_from_html(
+            html=html,
+            match_external_id=normalized_external_id,
+            request_context=page.request,
+        )   
+
     def import_from_html(
         self,
         html: str,
