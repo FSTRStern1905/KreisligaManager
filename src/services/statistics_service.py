@@ -1,5 +1,8 @@
 import sqlite3
 
+from src.services.statistics.player_statistics_service import (
+    PlayerStatisticsService,
+)
 from src.services.statistics.table_service import TableService
 
 
@@ -17,6 +20,11 @@ class StatisticsService:
         self.connection = connection
         self.cursor = connection.cursor()
         self.table_service = TableService(connection)
+        self.player_statistics_service = (
+            PlayerStatisticsService(
+                connection
+            )
+        )
 
     def get_competition_name(
         self,
@@ -127,6 +135,49 @@ class StatisticsService:
             )
 
         return scorers
+
+    def get_player_statistics(
+        self,
+        competition_id: int,
+        player_id: int,
+    ) -> dict | None:
+        return (
+            self.player_statistics_service
+            .get_player_statistics(
+                competition_id=competition_id,
+                player_id=player_id,
+            )
+        )
+
+    def get_player_match_history(
+        self,
+        competition_id: int,
+        player_id: int,
+    ) -> list[dict]:
+        return (
+            self.player_statistics_service
+            .get_player_match_history(
+                competition_id=competition_id,
+                player_id=player_id,
+            )
+        )
+
+    def get_player_rankings(
+        self,
+        competition_id: int,
+        team_id: int | None = None,
+        minimum_minutes: int = 0,
+        limit: int | None = None,
+    ) -> list[dict]:
+        return (
+            self.player_statistics_service
+            .get_competition_statistics(
+                competition_id=competition_id,
+                team_id=team_id,
+                minimum_minutes=minimum_minutes,
+                limit=limit,
+            )
+        )
 
     def get_fairplay_table(
         self,

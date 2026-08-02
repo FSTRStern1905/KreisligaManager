@@ -39,14 +39,14 @@ COMPETITION_URL = (
 def main() -> None:
 
     test_db = Path(
-        "data/database/kreisligamanager_test.db"
+        "data/database/kreisligamanager.db"
     )
 
     if test_db.exists():
         test_db.unlink()
 
     database = Database(
-        database_name="kreisligamanager_test.db",
+        database_name="kreisligamanager.db",
     )
 
     connection = database.connect()

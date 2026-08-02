@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
 
 from src.database.repository import Repository
 from src.ui.pages.import_page import ImportPage
+from src.ui.pages.players_page import PlayersPage
 from src.ui.windows.clubs_page import ClubsPage
 from src.ui.windows.competition_workspace import CompetitionWorkspace
 from src.ui.windows.dashboard import Dashboard
@@ -20,7 +21,6 @@ from src.ui.windows.teams_page import TeamsPage
 
 
 class MainWindow(QMainWindow):
-
     def __init__(
         self,
         repository: Repository,
@@ -41,6 +41,7 @@ class MainWindow(QMainWindow):
 
     def setup_ui(self) -> None:
         central_widget = QWidget()
+
         main_layout = QHBoxLayout(
             central_widget
         )
@@ -78,8 +79,25 @@ class MainWindow(QMainWindow):
             CompetitionWorkspace()
         )
         self.teams_page = TeamsPage()
+        self.players_page = PlayersPage(
+            self.repository
+        )
         self.matches_page = MatchesPage()
         self.import_page = ImportPage()
+
+        self.statistics_placeholder = QLabel(
+            "Statistiken kommen später"
+        )
+        self.statistics_placeholder.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        self.settings_placeholder = QLabel(
+            "Einstellungen kommen später"
+        )
+        self.settings_placeholder.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
 
         self.pages.addWidget(
             self.dashboard
@@ -99,50 +117,24 @@ class MainWindow(QMainWindow):
         self.pages.addWidget(
             self.teams_page
         )
-
-        player_placeholder = QLabel(
-            "Spielerverwaltung kommt "
-            "in einem späteren Sprint"
-        )
-        player_placeholder.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
         self.pages.addWidget(
-            player_placeholder
+            self.players_page
         )
-
         self.pages.addWidget(
             self.matches_page
         )
         self.pages.addWidget(
             self.import_page
         )
-
-        statistics_placeholder = QLabel(
-            "Statistiken kommen später"
-        )
-        statistics_placeholder.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
+        self.pages.addWidget(
+            self.statistics_placeholder
         )
         self.pages.addWidget(
-            statistics_placeholder
-        )
-
-        settings_placeholder = QLabel(
-            "Einstellungen kommen später"
-        )
-        settings_placeholder.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
-        self.pages.addWidget(
-            settings_placeholder
+            self.settings_placeholder
         )
 
         self.sidebar.currentRowChanged.connect(
             self.change_page
-        )
-        self.sidebar.setCurrentRow(
-            0
         )
 
         main_layout.addWidget(
@@ -160,10 +152,20 @@ class MainWindow(QMainWindow):
             "Bereit"
         )
 
+        self.sidebar.setCurrentRow(
+            0
+        )
+
     def change_page(
         self,
         index: int,
     ) -> None:
+        if (
+            index < 0
+            or index >= self.pages.count()
+        ):
+            return
+
         self.pages.setCurrentIndex(
             index
         )
@@ -213,6 +215,7 @@ class MainWindow(QMainWindow):
             )
 
         elif current_text == "Spieler":
+            self.players_page.refresh()
             self.statusBar().showMessage(
                 "👤 Spielerverwaltung"
             )
@@ -225,6 +228,7 @@ class MainWindow(QMainWindow):
             )
 
         elif current_text == "Import":
+            self.import_page.refresh_data()
             self.statusBar().showMessage(
                 "📥 Spielplanimport"
             )
@@ -238,9 +242,3 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage(
                 "⚙ Einstellungen"
             )
-
-        elif current_text == "Import":
-            self.import_page.refresh_data()
-            self.statusBar().showMessage(
-                "📥 Spielplanimport"
-            )    
