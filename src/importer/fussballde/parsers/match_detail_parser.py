@@ -380,6 +380,20 @@ class MatchDetailParser(BaseParser):
                 additional_time=additional_time,
             )
 
+        if event_element.select_one(
+            ".yellow-red-card, "
+            ".second-yellow-card, "
+            ".yellow-card-red-card"
+        ):
+            return self._parse_card(
+                event_element=event_element,
+            team_name=team_name,
+            minute=minute,
+            additional_time=additional_time,
+            event_type=self.EVENT_SECOND_YELLOW_CARD,
+            value="yellow_red",
+        )
+
         if event_element.select_one(".yellow-card"):
             return self._parse_card(
                 event_element=event_element,
@@ -388,21 +402,7 @@ class MatchDetailParser(BaseParser):
                 additional_time=additional_time,
                 event_type=self.EVENT_YELLOW_CARD,
                 value="yellow",
-            )
-
-        if event_element.select_one(
-            ".yellow-red-card, "
-            ".second-yellow-card, "
-            ".yellow-card-red-card"
-        ):
-            return self._parse_card(
-                event_element=event_element,
-                team_name=team_name,
-                minute=minute,
-                additional_time=additional_time,
-                event_type=self.EVENT_SECOND_YELLOW_CARD,
-                value="yellow_red",
-            )
+        )
 
         if event_element.select_one(".red-card"):
             return self._parse_card(
@@ -914,27 +914,37 @@ class MatchDetailParser(BaseParser):
 
     @staticmethod
     def _fill_missing_final_result(
-        data: MatchDetailData,
-    ) -> None:
-        if (
-            data.home_goals is not None
-            and data.away_goals is not None
-        ):
-            return
+            data: MatchDetailData,
+        ) -> None:
+            home_goals = 0
+            away_goals = 0
+            goal_events_found = False
 
-        goal_events = [
-            event
-            for event in data.events
+            for event in data.events:
+                if event.event_type not in (
+                    MatchDetailParser.EVENT_GOAL,
+                    MatchDetailParser.EVENT_OWN_GOAL,
+                ):
+                    continue
+
+                goal_events_found = True
+
+                if event.team == data.home_team:
+                    home_goals += 1
+
+                elif event.team == data.away_team:
+                    away_goals += 1
+
+            if goal_events_found:
+                data.home_goals = home_goals
+                data.away_goals = away_goals
+                return
+
             if (
-                event.home_goals is not None
-                and event.away_goals is not None
-            )
-        ]
+                data.home_goals is not None
+                and data.away_goals is not None
+            ):
+                return
 
-        if not goal_events:
-            return
-
-        final_event = goal_events[-1]
-
-        data.home_goals = final_event.home_goals
-        data.away_goals = final_event.away_goals
+            data.home_goals = 0
+            data.away_goals = 0

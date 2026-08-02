@@ -90,7 +90,7 @@ def main() -> None:
             url=COMPETITION_URL,
             headless=False,
             continue_on_detail_error=True,
-            max_detail_matches=5,
+            max_detail_matches= 5,
         )
 
         print()
