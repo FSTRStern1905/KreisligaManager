@@ -213,7 +213,7 @@ class ScheduleImportService:
                 name=schedule_data.season_name,
                 start_date=start_date,
                 end_date=end_date,
-                external_id="",
+                external_id=None,
                 active=True,
             )
         )

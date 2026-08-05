@@ -21,6 +21,7 @@ class MatchRepository:
         m.home_goals,
         m.away_goals,
         m.status,
+        m.detail_imported,
         m.notes,
         m.external_id,
         home_team.name,
@@ -164,12 +165,13 @@ class MatchRepository:
                 home_goals,
                 away_goals,
                 status,
+                detail_imported,
                 notes,
                 external_id
             )
             VALUES (
                 ?, ?, ?, ?, ?, ?, ?, ?,
-                ?, ?, ?, ?, ?, ?, ?, ?
+                ?, ?, ?, ?, ?, ?, ?, ?, ?
             )
             """,
             (
@@ -187,6 +189,7 @@ class MatchRepository:
                 match.home_goals,
                 match.away_goals,
                 match.status.strip(),
+            int(match.detail_imported),
                 match.notes.strip(),
                 normalized_external_id,
             ),
@@ -236,6 +239,7 @@ class MatchRepository:
                 home_goals = ?,
                 away_goals = ?,
                 status = ?,
+                detail_imported = ?,
                 notes = ?,
                 external_id = ?
             WHERE match_id = ?
@@ -255,6 +259,7 @@ class MatchRepository:
                 match.home_goals,
                 match.away_goals,
                 match.status.strip(),
+            int(match.detail_imported),
                 match.notes.strip(),
                 normalized_external_id,
                 match.match_id,
@@ -529,8 +534,9 @@ class MatchRepository:
             home_goals=row[12],
             away_goals=row[13],
             status=row[14],
-            notes=row[15] or "",
-            external_id=row[16] or "",
-            home_team_name=row[17],
-            away_team_name=row[18],
+            detail_imported=bool(row[15]),
+            notes=row[16] or "",
+            external_id=row[17] or "",
+            home_team_name=row[18],
+            away_team_name=row[19],
         )

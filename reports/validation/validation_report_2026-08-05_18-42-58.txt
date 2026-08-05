@@ -1,0 +1,38 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✔ Tore und Endergebnisse
+    Keine Auffälligkeiten.
+
+✔ Aufstellungen und Wechsel
+    Keine Auffälligkeiten.
+
+✔ Einsatzminuten
+    Keine Auffälligkeiten.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=4, player_match_stats=0.
+    ⚠ RED_CARD: Events=1, player_match_stats=0.
+    ⚠ 1 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 4 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     4
+WARNUNG:                  1
+FEHLER:                   0
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        80.0 %
+Gewichtete Datenqualität:  90.0 %
+Einzelwarnungen:           4
+Einzelfehler:              0
+
+ERGEBNIS: MIT WARNUNGEN ABGESCHLOSSEN
+
+============================================================

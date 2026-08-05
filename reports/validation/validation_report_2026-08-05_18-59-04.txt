@@ -1,0 +1,42 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+⚠ Tore und Endergebnisse
+    ⚠ Spiel 1157: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 1158: Events enthalten 6 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 1159: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 1160: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 1161: Events enthalten 3 Tore, player_match_stats enthalten 0.
+
+✔ Aufstellungen und Wechsel
+    Keine Auffälligkeiten.
+
+✔ Einsatzminuten
+    Keine Auffälligkeiten.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=25, player_match_stats=0.
+    ⚠ RED_CARD: Events=1, player_match_stats=0.
+    ⚠ 1 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 25 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     3
+WARNUNG:                  2
+FEHLER:                   0
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        60.0 %
+Gewichtete Datenqualität:  80.0 %
+Einzelwarnungen:           9
+Einzelfehler:              0
+
+ERGEBNIS: MIT WARNUNGEN ABGESCHLOSSEN
+
+============================================================

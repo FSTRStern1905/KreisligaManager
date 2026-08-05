@@ -265,6 +265,7 @@ class LineupImporter:
     ) -> tuple[list[dict], set[int]]:
         rows: list[dict] = []
         player_ids: set[int] = set()
+        seen_players: set[int] = set()
 
         for player in team_lineup.players:
             player_id = self._resolve_player(
@@ -276,22 +277,31 @@ class LineupImporter:
                 player
             )
 
+            if player_id in seen_players:
+                print(
+                    "Doppelter Aufstellungsspieler "
+                    "übersprungen: "
+                    f"{player.first_name} "
+                    f"{player.last_name} "
+                    f"(Spiel {match_id}, "
+                    f"Mannschaft {team_id})"
+                )
+                continue
+
+            seen_players.add(player_id)
+
             rows.append(
                 {
                     "match_id": match_id,
                     "team_id": team_id,
                     "player_id": player_id,
-                    "is_starting":
-                        player.is_starting,
-                    "shirt_number":
-                        player.shirt_number,
+                    "is_starting": player.is_starting,
+                    "shirt_number": player.shirt_number,
                     "position": position,
                 }
             )
 
-            player_ids.add(
-                player_id
-            )
+            player_ids.add(player_id)
 
         return rows, player_ids
 

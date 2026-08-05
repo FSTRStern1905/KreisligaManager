@@ -28,6 +28,7 @@ class MatchesTable:
                 home_goals INTEGER,
                 away_goals INTEGER,
                 status TEXT NOT NULL DEFAULT 'scheduled',
+                detail_imported INTEGER NOT NULL DEFAULT 0,
                 notes TEXT,
                 external_id TEXT,
 
@@ -52,5 +53,32 @@ class MatchesTable:
                 FOREIGN KEY (referee_id)
                     REFERENCES referees(referee_id)
             );
+            """
+        )
+
+        self._ensure_detail_imported_column()
+
+    def _ensure_detail_imported_column(
+        self,
+    ) -> None:
+        self.cursor.execute(
+            """
+            PRAGMA table_info(matches);
+            """
+        )
+
+        existing_columns = {
+            str(row[1])
+            for row in self.cursor.fetchall()
+        }
+
+        if "detail_imported" in existing_columns:
+            return
+
+        self.cursor.execute(
+            """
+            ALTER TABLE matches
+            ADD COLUMN detail_imported
+                INTEGER NOT NULL DEFAULT 0;
             """
         )

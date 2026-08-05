@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import sqlite3
 import time
+from datetime import datetime
 from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
     QFormLayout,
     QFrame,
     QHBoxLayout,
@@ -22,18 +24,36 @@ from PySide6.QtWidgets import (
 from src.database.repositories.association_repository import (
     AssociationRepository,
 )
-from src.database.repositories.club_repository import ClubRepository
+from src.database.repositories.club_repository import (
+    ClubRepository,
+)
 from src.database.repositories.competition_repository import (
     CompetitionRepository,
 )
-from src.database.repositories.league_repository import LeagueRepository
-from src.database.repositories.match_repository import MatchRepository
-from src.database.repositories.season_repository import SeasonRepository
-from src.database.repositories.team_repository import TeamRepository
-from src.importer.fussballde.importer import FussballDeImporter
-from src.services.imports.import_result import ImportResult
+from src.database.repositories.league_repository import (
+    LeagueRepository,
+)
+from src.database.repositories.match_repository import (
+    MatchRepository,
+)
+from src.database.repositories.season_repository import (
+    SeasonRepository,
+)
+from src.database.repositories.team_repository import (
+    TeamRepository,
+)
+from src.importer.fussballde.complete_season_importer import (
+    CompleteSeasonImporter,
+    CompleteSeasonImportResult,
+)
 from src.services.imports.schedule_import_service import (
     ScheduleImportService,
+)
+from src.services.validation.import_validation_service import (
+    ImportValidationService,
+)
+from src.services.validation.validation_report import (
+    ValidationReport,
 )
 
 
@@ -41,9 +61,12 @@ DATABASE_PATH = Path(
     "data/database/kreisligamanager.db"
 )
 
+REPORTS_PATH = Path(
+    "reports/validation"
+)
+
 
 class ImportPage(QWidget):
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -51,26 +74,31 @@ class ImportPage(QWidget):
         self.connect_signals()
 
     def setup_ui(self) -> None:
-        main_layout = QVBoxLayout(self)
+        main_layout = QVBoxLayout(
+            self
+        )
         main_layout.setContentsMargins(
             30,
             30,
             30,
             30,
         )
-        main_layout.setSpacing(20)
+        main_layout.setSpacing(
+            20
+        )
 
         title_label = QLabel(
-            "Spielplan importieren"
+            "Komplette Saison importieren"
         )
         title_label.setObjectName(
             "PageTitle"
         )
 
         description_label = QLabel(
-            "Spielplan von fussball.de importieren. "
-            "Liga, Saison, Wettbewerb, Vereine und "
-            "Mannschaften werden automatisch erkannt."
+            "Importiert Spielplan, Wettbewerb, Vereine, "
+            "Mannschaften, Spieler, Stadien, Schiedsrichter, "
+            "Ereignisse, Aufstellungen und Spielerstatistiken "
+            "direkt von fussball.de."
         )
         description_label.setWordWrap(
             True
@@ -120,19 +148,48 @@ class ImportPage(QWidget):
             True
         )
 
+        self.detail_limit_combo = QComboBox()
+        self.detail_limit_combo.addItem(
+            "5 Spiele – schneller Test",
+            5,
+        )
+        self.detail_limit_combo.addItem(
+            "20 Spiele – erweiterter Test",
+            20,
+        )
+        self.detail_limit_combo.addItem(
+            "Alle Spiele – kompletter Import",
+            None,
+        )
+
         form_layout.addRow(
-            "Spielplan-URL:",
+            "Wettbewerbs-URL:",
             self.url_input,
+        )
+        form_layout.addRow(
+            "Detailspiele:",
+            self.detail_limit_combo,
         )
 
         import_layout.addLayout(
             form_layout
         )
 
+        hint_label = QLabel(
+            "Hinweis: Der vollständige Import kann je nach "
+            "Anzahl der Spiele mehrere Minuten dauern."
+        )
+        hint_label.setWordWrap(
+            True
+        )
+        import_layout.addWidget(
+            hint_label
+        )
+
         button_layout = QHBoxLayout()
 
         self.import_button = QPushButton(
-            "📥 Spielplan importieren"
+            "📥 Saison importieren"
         )
         self.import_button.setMinimumHeight(
             42
@@ -186,7 +243,7 @@ class ImportPage(QWidget):
             "Noch kein Import durchgeführt."
         )
         self.result_output.setMinimumHeight(
-            180
+            260
         )
 
         result_layout.addWidget(
@@ -197,9 +254,9 @@ class ImportPage(QWidget):
         )
 
         main_layout.addWidget(
-            result_frame
+            result_frame,
+            1,
         )
-        main_layout.addStretch()
 
     def connect_signals(self) -> None:
         self.import_button.clicked.connect(
@@ -214,8 +271,11 @@ class ImportPage(QWidget):
 
     def start_import(self) -> None:
         url = self.url_input.text().strip()
-        validation_error = self._validate_import_data(
-            url
+
+        validation_error = (
+            self._validate_import_data(
+                url
+            )
         )
 
         if validation_error:
@@ -226,12 +286,24 @@ class ImportPage(QWidget):
             )
             return
 
+        max_detail_matches = (
+            self.detail_limit_combo.currentData()
+        )
+
+        if max_detail_matches is not None:
+            max_detail_matches = int(
+                max_detail_matches
+            )
+
         self.set_import_running(
             True
         )
+
         self.show_result(
             "Import wird vorbereitet ...\n\n"
-            "Die fussball.de-Seite wird geladen."
+            "Die fussball.de-Seite wird geladen.\n"
+            "Während des Imports kann das Fenster "
+            "vorübergehend nicht reagieren."
         )
 
         QApplication.processEvents()
@@ -248,51 +320,124 @@ class ImportPage(QWidget):
                 "PRAGMA foreign_keys = ON;"
             )
 
-            import_service = ScheduleImportService(
-                association_repository=AssociationRepository(
-                    connection
-                ),
-                league_repository=LeagueRepository(
-                    connection
-                ),
-                season_repository=SeasonRepository(
-                    connection
-                ),
-                club_repository=ClubRepository(
-                    connection
-                ),
-                team_repository=TeamRepository(
-                    connection
-                ),
-                competition_repository=CompetitionRepository(
-                    connection
-                ),
-                match_repository=MatchRepository(
-                    connection
+            schedule_import_service = (
+                ScheduleImportService(
+                    association_repository=(
+                        AssociationRepository(
+                            connection
+                        )
+                    ),
+                    league_repository=(
+                        LeagueRepository(
+                            connection
+                        )
+                    ),
+                    season_repository=(
+                        SeasonRepository(
+                            connection
+                        )
+                    ),
+                    club_repository=(
+                        ClubRepository(
+                            connection
+                        )
+                    ),
+                    team_repository=(
+                        TeamRepository(
+                            connection
+                        )
+                    ),
+                    competition_repository=(
+                        CompetitionRepository(
+                            connection
+                        )
+                    ),
+                    match_repository=(
+                        MatchRepository(
+                            connection
+                        )
+                    ),
+                )
+            )
+
+            importer = CompleteSeasonImporter(
+                connection=connection,
+                schedule_import_service=(
+                    schedule_import_service
                 ),
             )
 
-            importer = FussballDeImporter(
-                import_service=import_service
-            )
-
-            result = importer.import_schedule(
+            result = importer.import_competition(
                 url=url,
                 headless=True,
+                continue_on_detail_error=True,
+                max_detail_matches=(
+                    max_detail_matches
+                ),
             )
 
-            duration = time.perf_counter() - start_time
+            connection.commit()
+
+            validation_service = (
+                ImportValidationService(
+                    connection
+                )
+            )
+            validation_result = (
+                validation_service.validate()
+            )
+
+            validation_report = (
+                ValidationReport()
+            )
+            validation_text = (
+                validation_report.build_text(
+                    validation_result
+                )
+            )
+
+            report_path = (
+                self._save_validation_report(
+                    validation_text
+                )
+            )
+
+            duration = (
+                time.perf_counter()
+                - start_time
+            )
 
             self.show_import_result(
                 result=result,
                 duration=duration,
+                detail_limit=(
+                    max_detail_matches
+                ),
+                validation_text=(
+                    validation_text
+                ),
+                report_path=(
+                    report_path
+                ),
             )
 
-            QMessageBox.information(
-                self,
-                "Import abgeschlossen",
-                "Der Spielplan wurde erfolgreich importiert.",
-            )
+            if result.match_details_failed == 0:
+                QMessageBox.information(
+                    self,
+                    "Import abgeschlossen",
+                    "Die Saison wurde erfolgreich "
+                    "importiert.",
+                )
+            else:
+                QMessageBox.warning(
+                    self,
+                    "Import mit Hinweisen abgeschlossen",
+                    (
+                        "Der Import wurde abgeschlossen.\n\n"
+                        f"Fehlgeschlagene Detailspiele: "
+                        f"{result.match_details_failed}"
+                    ),
+                )
 
         except Exception as error:
             if connection is not None:
@@ -305,9 +450,11 @@ class ImportPage(QWidget):
             QMessageBox.critical(
                 self,
                 "Import fehlgeschlagen",
-                "Der Spielplan konnte nicht "
-                "importiert werden.\n\n"
-                f"{error}",
+                (
+                    "Die Saison konnte nicht "
+                    "importiert werden.\n\n"
+                    f"{error}"
+                ),
             )
 
         finally:
@@ -323,9 +470,17 @@ class ImportPage(QWidget):
         url: str,
     ) -> str | None:
         if not url:
-            return "Bitte eine Spielplan-URL eingeben."
+            return (
+                "Bitte eine Wettbewerbs-URL "
+                "eingeben."
+            )
 
-        if not url.startswith(("https://", "http://")):
+        if not url.startswith(
+            (
+                "https://",
+                "http://",
+            )
+        ):
             return (
                 "Die URL muss mit http:// "
                 "oder https:// beginnen."
@@ -346,6 +501,9 @@ class ImportPage(QWidget):
         self.url_input.setDisabled(
             running
         )
+        self.detail_limit_combo.setDisabled(
+            running
+        )
         self.import_button.setDisabled(
             running
         )
@@ -356,28 +514,120 @@ class ImportPage(QWidget):
             )
         else:
             self.import_button.setText(
-                "📥 Spielplan importieren"
+                "📥 Saison importieren"
             )
 
     def show_import_result(
         self,
-        result: ImportResult,
+        result: CompleteSeasonImportResult,
         duration: float,
+        detail_limit: int | None,
+        validation_text: str,
+        report_path: Path,
     ) -> None:
+        schedule_result = (
+            result.schedule_result
+        )
+
+        competitions_created = getattr(
+            schedule_result,
+            "competitions_created",
+            0,
+        )
+        clubs_created = getattr(
+            schedule_result,
+            "clubs_created",
+            0,
+        )
+        teams_created = getattr(
+            schedule_result,
+            "teams_created",
+            0,
+        )
+        matches_created = getattr(
+            schedule_result,
+            "matches_created",
+            0,
+        )
+        matches_updated = getattr(
+            schedule_result,
+            "matches_updated",
+            0,
+        )
+
+        detail_mode = (
+            "Alle Spiele"
+            if detail_limit is None
+            else f"Maximal {detail_limit} Spiele"
+        )
+
         result_text = (
-            "✔ Import erfolgreich\n\n"
-            f"Wettbewerbe erstellt:  {result.competitions_created}\n"
-            f"Vereine erstellt:       {result.clubs_created}\n"
-            f"Mannschaften erstellt:  {result.teams_created}\n"
-            f"Spiele erstellt:        {result.matches_created}\n"
-            f"Spiele aktualisiert:    {result.matches_updated}\n\n"
-            f"Änderungen insgesamt:   {result.total_changes}\n"
-            f"Importdauer:             {duration:.2f} Sekunden"
+            "✔ Import abgeschlossen\n\n"
+            f"Detailmodus:             {detail_mode}\n"
+            f"Spiele gefunden:         {result.matches_found}\n"
+            f"Detailimporte erfolgreich: "
+            f"{result.match_details_imported}\n"
+            f"Detailimporte fehlgeschlagen: "
+            f"{result.match_details_failed}\n\n"
+            f"Wettbewerbe erstellt:    {competitions_created}\n"
+            f"Vereine erstellt:        {clubs_created}\n"
+            f"Mannschaften erstellt:   {teams_created}\n"
+            f"Spiele erstellt:         {matches_created}\n"
+            f"Spiele aktualisiert:     {matches_updated}\n\n"
+            f"Spielerzuordnungen:       "
+            f"{result.players_imported}\n"
+            f"Ereignisse importiert:   "
+            f"{result.events_imported}\n"
+            f"Importdauer:              "
+            f"{duration:.2f} Sekunden"
+        )
+
+        if result.errors:
+            error_lines = "\n".join(
+                f"- {error}"
+                for error in result.errors
+            )
+
+            result_text += (
+                "\n\nFehler / Hinweise:\n"
+                f"{error_lines}"
+            )
+
+        result_text += (
+            "\n\n"
+            + validation_text
+            + "\n\n"
+            + "Validierungsbericht gespeichert unter:\n"
+            + str(report_path)
         )
 
         self.show_result(
             result_text
         )
+
+    @staticmethod
+    def _save_validation_report(
+        report_text: str,
+    ) -> Path:
+        REPORTS_PATH.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        timestamp = datetime.now().strftime(
+            "%Y-%m-%d_%H-%M-%S"
+        )
+
+        report_path = REPORTS_PATH / (
+            f"validation_report_{timestamp}.txt"
+        )
+
+        report_path.write_text(
+            report_text,
+            encoding="utf-8",
+        )
+
+        return report_path
 
     def show_result(
         self,

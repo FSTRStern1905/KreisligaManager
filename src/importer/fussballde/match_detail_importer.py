@@ -318,7 +318,8 @@ class MatchDetailImporter:
                 source_url=source_url,
             )
         )
-
+        database_match.detail_imported = 1
+        
         self.match_repository.update(
             database_match
         )

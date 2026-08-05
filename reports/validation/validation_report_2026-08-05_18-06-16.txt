@@ -1,0 +1,622 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 489: Events enthalten 8 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 490: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 491: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 492: Events enthalten 4 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 493: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ✖ Spiel 494: F.C. Hansa Rostock - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 495: Eintracht Braunschweig - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 496: VfL Osnabrück - Karlsruher SC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 497: SV Wehen Wiesbaden - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 498: FC Schalke 04 - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 499: Hertha BSC - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 501: SC Paderborn 07 - VfL Osnabrück; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 502: Karlsruher SC - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 503: Holstein Kiel - SpVgg Greuther Fürth; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 504: 1. FC Magdeburg - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 505: 1.FC Nürnberg - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 506: SV 07 Elversberg - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 507: Hamburger SV - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 508: Fortuna Düsseldorf - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 509: Holstein Kiel - 1. FC Magdeburg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 510: 1. FC Kaiserslautern - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 512: F.C. Hansa Rostock - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 513: Eintracht Braunschweig - FC Schalke 04; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 514: VfL Osnabrück - 1.FC Nürnberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 515: SV Wehen Wiesbaden - Karlsruher SC; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 516: FC Schalke 04 - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 517: Hertha BSC - SpVgg Greuther Fürth; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 519: SC Paderborn 07 - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 520: Karlsruher SC - Eintracht Braunschweig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 521: Hannover 96 - Hamburger SV; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 522: F.C. Hansa Rostock - VfL Osnabrück; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 523: 1.FC Nürnberg - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 524: SV 07 Elversberg - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 525: Hamburger SV - F.C. Hansa Rostock; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 526: Fortuna Düsseldorf - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 527: Holstein Kiel - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 528: 1. FC Kaiserslautern - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 529: 1. FC Magdeburg - Hertha BSC; Ergebnis enthält 10 Tore, Events enthalten 0.
+    ✖ Spiel 530: SpVgg Greuther Fürth - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 531: Eintracht Braunschweig - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 532: VfL Osnabrück - SV 07 Elversberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 533: SV Wehen Wiesbaden - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 534: FC Schalke 04 - 1. FC Magdeburg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 535: Hertha BSC - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 536: FC St. Pauli - Holstein Kiel; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 537: SC Paderborn 07 - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 538: Karlsruher SC - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 539: Hannover 96 - VfL Osnabrück; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 540: F.C. Hansa Rostock - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 541: 1.FC Nürnberg - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 542: SV 07 Elversberg - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 543: Fortuna Düsseldorf - Hannover 96; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 544: FC St. Pauli - FC Schalke 04; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 545: Holstein Kiel - Hertha BSC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 546: 1. FC Kaiserslautern - F.C. Hansa Rostock; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 547: 1. FC Magdeburg - SC Paderborn 07; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 548: SpVgg Greuther Fürth - Karlsruher SC; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 549: Eintracht Braunschweig - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 550: VfL Osnabrück - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 551: SV Wehen Wiesbaden - SV 07 Elversberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 552: Hertha BSC - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 553: Hamburger SV - Fortuna Düsseldorf; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 554: SC Paderborn 07 - FC Schalke 04; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 555: Karlsruher SC - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 556: Hannover 96 - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 557: F.C. Hansa Rostock - Eintracht Braunschweig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 558: 1.FC Nürnberg - 1. FC Magdeburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 559: SV 07 Elversberg - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 560: VfL Osnabrück - 1. FC Kaiserslautern; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 561: FC Schalke 04 - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 562: Fortuna Düsseldorf - VfL Osnabrück; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 563: FC St. Pauli - 1.FC Nürnberg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 564: Holstein Kiel - SV 07 Elversberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 565: 1. FC Kaiserslautern - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 566: 1. FC Magdeburg - Karlsruher SC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 567: SpVgg Greuther Fürth - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 568: Eintracht Braunschweig - SC Paderborn 07; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 569: SV Wehen Wiesbaden - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 570: Hamburger SV - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 571: Fortuna Düsseldorf - 1. FC Kaiserslautern; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 572: SC Paderborn 07 - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 573: Karlsruher SC - FC Schalke 04; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 574: Hannover 96 - 1. FC Magdeburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 575: F.C. Hansa Rostock - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 576: 1.FC Nürnberg - Hertha BSC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 577: SV 07 Elversberg - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 578: VfL Osnabrück - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 579: FC Schalke 04 - Hannover 96; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 580: Hertha BSC - SC Paderborn 07; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 581: FC St. Pauli - Karlsruher SC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 582: Holstein Kiel - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 583: 1. FC Kaiserslautern - Hamburger SV; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 584: 1. FC Magdeburg - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 585: SpVgg Greuther Fürth - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 586: Eintracht Braunschweig - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 587: SV Wehen Wiesbaden - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 588: Hamburger SV - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 589: Fortuna Düsseldorf - SV Wehen Wiesbaden; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 590: Karlsruher SC - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 591: 1. FC Kaiserslautern - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 592: Hannover 96 - Eintracht Braunschweig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 594: 1.FC Nürnberg - FC Schalke 04; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 595: SV 07 Elversberg - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 596: VfL Osnabrück - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 597: FC Schalke 04 - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 598: Hertha BSC - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 600: SC Paderborn 07 - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 601: Holstein Kiel - Hamburger SV; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 602: 1. FC Magdeburg - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 603: SpVgg Greuther Fürth - Fortuna Düsseldorf; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 604: Eintracht Braunschweig - VfL Osnabrück; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 605: SV Wehen Wiesbaden - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 606: Hamburger SV - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 607: Fortuna Düsseldorf - FC Schalke 04; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 608: Karlsruher SC - 1.FC Nürnberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 609: 1. FC Kaiserslautern - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 610: Hannover 96 - Hertha BSC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 611: SpVgg Greuther Fürth - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 612: F.C. Hansa Rostock - FC St. Pauli; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 613: SV 07 Elversberg - SC Paderborn 07; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 614: VfL Osnabrück - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 615: FC Schalke 04 - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 616: Hertha BSC - SV 07 Elversberg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 617: FC St. Pauli - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 618: SC Paderborn 07 - Hannover 96; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 619: Karlsruher SC - F.C. Hansa Rostock; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 620: Holstein Kiel - SV Wehen Wiesbaden; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 621: 1. FC Magdeburg - 1. FC Kaiserslautern; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 622: 1.FC Nürnberg - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 623: Eintracht Braunschweig - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 624: Hamburger SV - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 625: Fortuna Düsseldorf - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 626: 1. FC Kaiserslautern - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 627: Hannover 96 - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 628: SpVgg Greuther Fürth - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 629: F.C. Hansa Rostock - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 630: SV 07 Elversberg - 1.FC Nürnberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 631: VfL Osnabrück - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 632: SV Wehen Wiesbaden - Eintracht Braunschweig; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 633: FC Schalke 04 - SpVgg Greuther Fürth; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 635: FC St. Pauli - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 636: SC Paderborn 07 - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 637: Karlsruher SC - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 638: Holstein Kiel - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 639: 1. FC Magdeburg - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 640: 1.FC Nürnberg - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 641: Eintracht Braunschweig - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 642: FC Schalke 04 - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 643: Hertha BSC - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 644: FC St. Pauli - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 645: SC Paderborn 07 - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 646: Karlsruher SC - VfL Osnabrück; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 647: Holstein Kiel - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 648: 1. FC Magdeburg - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 649: 1.FC Nürnberg - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 650: SV 07 Elversberg - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 651: Hamburger SV - Karlsruher SC; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 652: Fortuna Düsseldorf - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 653: 1. FC Kaiserslautern - FC Schalke 04; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 654: Hannover 96 - 1.FC Nürnberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 655: SpVgg Greuther Fürth - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 656: F.C. Hansa Rostock - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 657: Eintracht Braunschweig - 1. FC Magdeburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 659: SV Wehen Wiesbaden - Hertha BSC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 660: FC Schalke 04 - Eintracht Braunschweig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 661: Hertha BSC - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 662: FC St. Pauli - SpVgg Greuther Fürth; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 663: SC Paderborn 07 - Fortuna Düsseldorf; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 664: Karlsruher SC - SV Wehen Wiesbaden; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 665: Hannover 96 - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 666: 1. FC Magdeburg - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 667: 1.FC Nürnberg - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 668: SV 07 Elversberg - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 669: Hamburger SV - Hannover 96; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 670: Fortuna Düsseldorf - SV 07 Elversberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 671: Holstein Kiel - FC Schalke 04; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 672: 1. FC Kaiserslautern - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 673: 1. FC Magdeburg - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 674: SpVgg Greuther Fürth - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 675: Eintracht Braunschweig - Karlsruher SC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 677: SV Wehen Wiesbaden - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 678: FC Schalke 04 - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 679: Hertha BSC - 1. FC Magdeburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 680: FC St. Pauli - Eintracht Braunschweig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 681: SC Paderborn 07 - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 682: Karlsruher SC - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 683: Hannover 96 - SpVgg Greuther Fürth; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 684: F.C. Hansa Rostock - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 685: 1.FC Nürnberg - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 686: SV 07 Elversberg - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 687: Hamburger SV - SV 07 Elversberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 688: Fortuna Düsseldorf - F.C. Hansa Rostock; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 689: Holstein Kiel - FC St. Pauli; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 690: 1. FC Kaiserslautern - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 691: 1. FC Magdeburg - FC Schalke 04; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 692: SpVgg Greuther Fürth - 1.FC Nürnberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 693: Eintracht Braunschweig - Hertha BSC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 694: VfL Osnabrück - Hannover 96; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 695: SV Wehen Wiesbaden - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 696: FC Schalke 04 - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 697: Hertha BSC - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 698: Hamburger SV - VfL Osnabrück; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 700: Karlsruher SC - SpVgg Greuther Fürth; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 701: Hannover 96 - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 702: F.C. Hansa Rostock - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 703: 1.FC Nürnberg - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 704: SV 07 Elversberg - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 705: FC Schalke 04 - SC Paderborn 07; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 706: Fortuna Düsseldorf - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 707: FC St. Pauli - Hertha BSC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 708: Holstein Kiel - Karlsruher SC; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 709: 1. FC Kaiserslautern - VfL Osnabrück; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 710: 1. FC Magdeburg - 1.FC Nürnberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 711: SpVgg Greuther Fürth - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 712: Eintracht Braunschweig - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 713: SV Wehen Wiesbaden - Hannover 96; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 714: Hertha BSC - FC Schalke 04; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 715: Hamburger SV - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 716: SC Paderborn 07 - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 717: Karlsruher SC - 1. FC Magdeburg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 718: Hannover 96 - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 719: F.C. Hansa Rostock - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 720: 1.FC Nürnberg - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 721: SV 07 Elversberg - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 722: VfL Osnabrück - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 724: Hertha BSC - 1.FC Nürnberg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 725: FC St. Pauli - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 726: Holstein Kiel - F.C. Hansa Rostock; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 727: 1. FC Kaiserslautern - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 728: 1. FC Magdeburg - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 729: SpVgg Greuther Fürth - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 730: Eintracht Braunschweig - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 731: SV Wehen Wiesbaden - VfL Osnabrück; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 732: Hamburger SV - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 733: Fortuna Düsseldorf - Eintracht Braunschweig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 734: SC Paderborn 07 - Hertha BSC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 735: Karlsruher SC - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 736: Hannover 96 - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 737: F.C. Hansa Rostock - SV Wehen Wiesbaden; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 738: 1.FC Nürnberg - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 740: VfL Osnabrück - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 741: FC Schalke 04 - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 742: Hertha BSC - F.C. Hansa Rostock; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 743: FC St. Pauli - SV 07 Elversberg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 744: SC Paderborn 07 - Karlsruher SC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 745: Holstein Kiel - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 746: 1. FC Magdeburg - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 747: SpVgg Greuther Fürth - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 749: SV Wehen Wiesbaden - Fortuna Düsseldorf; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 750: Hamburger SV - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 751: Fortuna Düsseldorf - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 752: Karlsruher SC - Hertha BSC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 753: 1. FC Kaiserslautern - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 754: Hannover 96 - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 755: F.C. Hansa Rostock - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 756: 1.FC Nürnberg - SC Paderborn 07; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 757: SV 07 Elversberg - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 758: VfL Osnabrück - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 759: FC Schalke 04 - Fortuna Düsseldorf; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 760: Hertha BSC - Hannover 96; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 761: FC St. Pauli - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 762: SC Paderborn 07 - SV 07 Elversberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 763: Holstein Kiel - 1. FC Kaiserslautern; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 764: 1. FC Magdeburg - VfL Osnabrück; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 765: 1.FC Nürnberg - Karlsruher SC; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 766: Eintracht Braunschweig - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 767: SV Wehen Wiesbaden - SpVgg Greuther Fürth; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 768: Hamburger SV - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 769: Fortuna Düsseldorf - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 770: 1. FC Kaiserslautern - 1. FC Magdeburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 771: Hannover 96 - SC Paderborn 07; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 772: SpVgg Greuther Fürth - Eintracht Braunschweig; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 773: F.C. Hansa Rostock - Karlsruher SC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 774: SV 07 Elversberg - Hertha BSC; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 775: VfL Osnabrück - FC Schalke 04; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 776: SV Wehen Wiesbaden - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 777: FC Schalke 04 - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 778: Hertha BSC - 1. FC Kaiserslautern; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 779: FC St. Pauli - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 780: SC Paderborn 07 - Hamburger SV; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 781: Karlsruher SC - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 782: Holstein Kiel - Fortuna Düsseldorf; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 784: 1.FC Nürnberg - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 785: Eintracht Braunschweig - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 786: Hamburger SV - 1.FC Nürnberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 787: Fortuna Düsseldorf - 1. FC Magdeburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 788: 1. FC Kaiserslautern - Eintracht Braunschweig; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 789: Hannover 96 - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 790: SpVgg Greuther Fürth - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 791: F.C. Hansa Rostock - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 792: SV 07 Elversberg - Karlsruher SC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 793: VfL Osnabrück - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 794: SV Wehen Wiesbaden - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 800: FC Augsburg - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 801: VfL Wolfsburg - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 802: 1. FSV Mainz 05 - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 803: FC St. Pauli - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 804: Bayer 04 Leverkusen - RB Leipzig; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 805: VfB Stuttgart - 1. FSV Mainz 05; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 806: FC Bayern München - Sport-Club Freiburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 807: Eintracht Frankfurt - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 808: 1. FC Heidenheim 1846 - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 810: 1. FC Union Berlin - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 811: VfL Bochum 1848 - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 812: Holstein Kiel - VfL Wolfsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 814: Borussia Dortmund - 1. FC Heidenheim 1846; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 815: TSG Hoffenheim - Bayer 04 Leverkusen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 816: Sport-Club Freiburg - VfL Bochum 1848; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 817: FC Augsburg - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 818: VfL Wolfsburg - Eintracht Frankfurt; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 819: 1. FSV Mainz 05 - SV Werder Bremen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 820: Borussia Mönchengladbach - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 821: Holstein Kiel - FC Bayern München; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 822: Bayer 04 Leverkusen - VfL Wolfsburg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 823: VfB Stuttgart - Borussia Dortmund; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 824: Eintracht Frankfurt - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 825: 1. FC Heidenheim 1846 - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 826: SV Werder Bremen - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 827: FC Augsburg - 1. FSV Mainz 05; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 828: 1. FC Union Berlin - TSG Hoffenheim; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 829: VfL Bochum 1848 - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 831: FC Bayern München - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 832: RB Leipzig - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 833: Borussia Dortmund - VfL Bochum 1848; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 834: TSG Hoffenheim - SV Werder Bremen; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 835: Sport-Club Freiburg - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 836: VfL Wolfsburg - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 837: 1. FSV Mainz 05 - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 838: Borussia Mönchengladbach - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 839: Holstein Kiel - Eintracht Frankfurt; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 840: Bayer 04 Leverkusen - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 841: VfB Stuttgart - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 842: Eintracht Frankfurt - FC Bayern München; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 843: 1. FC Heidenheim 1846 - RB Leipzig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 844: SV Werder Bremen - Sport-Club Freiburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 845: FC Augsburg - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 846: 1. FC Union Berlin - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 847: VfL Bochum 1848 - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 848: FC St. Pauli - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 849: Bayer 04 Leverkusen - Eintracht Frankfurt; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 850: FC Bayern München - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 851: Borussia Dortmund - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 852: TSG Hoffenheim - VfL Bochum 1848; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 853: Sport-Club Freiburg - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 854: VfL Wolfsburg - SV Werder Bremen; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 855: 1. FSV Mainz 05 - RB Leipzig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 856: Borussia Mönchengladbach - 1. FC Heidenheim 1846; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 857: Holstein Kiel - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 858: VfB Stuttgart - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 859: RB Leipzig - Sport-Club Freiburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 861: SV Werder Bremen - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 862: FC Augsburg - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 863: 1. FSV Mainz 05 - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 864: 1. FC Union Berlin - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 865: VfL Bochum 1848 - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 868: FC Bayern München - 1. FC Union Berlin; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 869: Borussia Dortmund - RB Leipzig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 870: Eintracht Frankfurt - VfL Bochum 1848; Ergebnis enthält 9 Tore, Events enthalten 0.
+    ✖ Spiel 871: TSG Hoffenheim - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 873: VfL Wolfsburg - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 874: Borussia Mönchengladbach - SV Werder Bremen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 875: Holstein Kiel - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 876: VfB Stuttgart - Eintracht Frankfurt; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 878: 1. FC Heidenheim 1846 - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 879: SV Werder Bremen - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 881: 1. FSV Mainz 05 - Borussia Dortmund; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 883: VfL Bochum 1848 - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 884: FC St. Pauli - FC Bayern München; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 885: Bayer 04 Leverkusen - 1. FC Heidenheim 1846; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 886: VfB Stuttgart - VfL Bochum 1848; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 887: FC Bayern München - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 888: Borussia Dortmund - Sport-Club Freiburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 889: Eintracht Frankfurt - SV Werder Bremen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 890: TSG Hoffenheim - RB Leipzig; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 891: VfL Wolfsburg - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 892: Borussia Mönchengladbach - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 893: Holstein Kiel - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 894: RB Leipzig - VfL Wolfsburg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 895: Borussia Dortmund - FC Bayern München; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 896: 1. FC Heidenheim 1846 - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 897: SV Werder Bremen - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 898: Sport-Club Freiburg - Borussia Mönchengladbach; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 899: FC Augsburg - VfL Bochum 1848; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 900: 1. FSV Mainz 05 - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 901: 1. FC Union Berlin - Bayer 04 Leverkusen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 902: FC St. Pauli - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 903: Bayer 04 Leverkusen - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 904: VfB Stuttgart - 1. FC Union Berlin; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 905: FC Bayern München - 1. FC Heidenheim 1846; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 906: Eintracht Frankfurt - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 907: TSG Hoffenheim - Sport-Club Freiburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 908: VfL Wolfsburg - 1. FSV Mainz 05; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 909: Borussia Mönchengladbach - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 910: VfL Bochum 1848 - SV Werder Bremen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 911: Holstein Kiel - RB Leipzig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 912: RB Leipzig - Eintracht Frankfurt; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 913: Borussia Dortmund - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 914: 1. FC Heidenheim 1846 - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 915: Sport-Club Freiburg - VfL Wolfsburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 916: FC Augsburg - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 917: 1. FSV Mainz 05 - FC Bayern München; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 918: Borussia Mönchengladbach - Holstein Kiel; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 919: 1. FC Union Berlin - VfL Bochum 1848; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 920: FC St. Pauli - SV Werder Bremen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 921: Bayer 04 Leverkusen - Sport-Club Freiburg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 922: VfB Stuttgart - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 923: FC Bayern München - RB Leipzig; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 924: Eintracht Frankfurt - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 925: TSG Hoffenheim - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 926: SV Werder Bremen - 1. FC Union Berlin; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 927: VfL Wolfsburg - Borussia Dortmund; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 928: VfL Bochum 1848 - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 929: Holstein Kiel - FC Augsburg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 930: RB Leipzig - SV Werder Bremen; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 931: Borussia Dortmund - Bayer 04 Leverkusen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 932: TSG Hoffenheim - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 933: 1. FC Heidenheim 1846 - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 934: Sport-Club Freiburg - Holstein Kiel; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 935: FC Augsburg - VfB Stuttgart; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 936: 1. FSV Mainz 05 - VfL Bochum 1848; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 937: Borussia Mönchengladbach - FC Bayern München; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 938: FC St. Pauli - Eintracht Frankfurt; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 939: Bayer 04 Leverkusen - 1. FSV Mainz 05; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 940: VfB Stuttgart - RB Leipzig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 941: FC Bayern München - TSG Hoffenheim; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 942: Eintracht Frankfurt - Sport-Club Freiburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 943: SV Werder Bremen - 1. FC Heidenheim 1846; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 944: VfL Wolfsburg - Borussia Mönchengladbach; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 945: 1. FC Union Berlin - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 946: VfL Bochum 1848 - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 947: Holstein Kiel - Borussia Dortmund; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 948: Bayer 04 Leverkusen - Borussia Mönchengladbach; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 949: VfB Stuttgart - Sport-Club Freiburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 950: FC Bayern München - VfL Wolfsburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 951: Eintracht Frankfurt - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 952: 1. FC Heidenheim 1846 - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 953: SV Werder Bremen - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 954: 1. FC Union Berlin - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 955: VfL Bochum 1848 - RB Leipzig; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 956: Holstein Kiel - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 957: RB Leipzig - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 958: Borussia Dortmund - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 959: TSG Hoffenheim - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 960: Sport-Club Freiburg - FC Bayern München; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 961: FC Augsburg - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 962: VfL Wolfsburg - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 963: 1. FSV Mainz 05 - VfB Stuttgart; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 964: Borussia Mönchengladbach - VfL Bochum 1848; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 965: FC St. Pauli - 1. FC Union Berlin; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 966: Bayer 04 Leverkusen - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 967: VfB Stuttgart - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 968: FC Bayern München - Holstein Kiel; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 969: Eintracht Frankfurt - VfL Wolfsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 970: 1. FC Heidenheim 1846 - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 971: SV Werder Bremen - 1. FSV Mainz 05; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 973: VfL Bochum 1848 - Sport-Club Freiburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 974: FC St. Pauli - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 975: FC Bayern München - SV Werder Bremen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 976: RB Leipzig - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 977: Borussia Dortmund - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 978: TSG Hoffenheim - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 979: Sport-Club Freiburg - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 982: Borussia Mönchengladbach - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 983: Holstein Kiel - VfL Bochum 1848; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 985: VfB Stuttgart - VfL Wolfsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 986: Eintracht Frankfurt - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 987: 1. FC Heidenheim 1846 - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 988: SV Werder Bremen - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 990: 1. FC Union Berlin - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 991: VfL Bochum 1848 - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 992: FC St. Pauli - Sport-Club Freiburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 993: FC Bayern München - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 994: RB Leipzig - 1. FC Heidenheim 1846; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 995: Borussia Dortmund - 1. FC Union Berlin; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 996: TSG Hoffenheim - VfB Stuttgart; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 997: Sport-Club Freiburg - SV Werder Bremen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 998: VfL Wolfsburg - VfL Bochum 1848; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 999: 1. FSV Mainz 05 - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1000: Borussia Mönchengladbach - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1001: Holstein Kiel - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1002: VfB Stuttgart - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1003: RB Leipzig - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1004: Eintracht Frankfurt - Bayer 04 Leverkusen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1005: 1. FC Heidenheim 1846 - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1006: SV Werder Bremen - VfL Wolfsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1008: 1. FC Union Berlin - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1009: VfL Bochum 1848 - TSG Hoffenheim; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1010: FC St. Pauli - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1011: Bayer 04 Leverkusen - SV Werder Bremen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1012: FC Bayern München - VfL Bochum 1848; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1013: Borussia Dortmund - FC Augsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1014: Eintracht Frankfurt - 1. FC Union Berlin; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1015: TSG Hoffenheim - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1017: VfL Wolfsburg - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1018: Borussia Mönchengladbach - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1019: Holstein Kiel - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1020: VfB Stuttgart - Bayer 04 Leverkusen; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 1021: RB Leipzig - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1022: 1. FC Heidenheim 1846 - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1023: SV Werder Bremen - Borussia Mönchengladbach; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 1024: FC Augsburg - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1025: 1. FSV Mainz 05 - Sport-Club Freiburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1026: 1. FC Union Berlin - FC Bayern München; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1027: VfL Bochum 1848 - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1028: FC St. Pauli - TSG Hoffenheim; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1029: Bayer 04 Leverkusen - VfL Bochum 1848; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1030: FC Bayern München - FC St. Pauli; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1031: Borussia Dortmund - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1032: Eintracht Frankfurt - VfB Stuttgart; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1033: TSG Hoffenheim - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1034: Sport-Club Freiburg - 1. FC Union Berlin; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1035: VfL Wolfsburg - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1036: Borussia Mönchengladbach - RB Leipzig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1037: Holstein Kiel - SV Werder Bremen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1038: RB Leipzig - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1039: 1. FC Heidenheim 1846 - Bayer 04 Leverkusen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1040: SV Werder Bremen - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1041: Sport-Club Freiburg - Borussia Dortmund; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1042: FC Augsburg - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1043: 1. FSV Mainz 05 - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1044: 1. FC Union Berlin - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1045: VfL Bochum 1848 - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1046: FC St. Pauli - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1048: VfB Stuttgart - SV Werder Bremen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1049: FC Bayern München - Borussia Dortmund; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1050: Eintracht Frankfurt - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1051: TSG Hoffenheim - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1052: VfL Wolfsburg - RB Leipzig; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1053: Borussia Mönchengladbach - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1054: VfL Bochum 1848 - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1055: Holstein Kiel - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1056: RB Leipzig - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1057: Borussia Dortmund - Borussia Mönchengladbach; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1058: 1. FC Heidenheim 1846 - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1059: SV Werder Bremen - VfL Bochum 1848; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1060: Sport-Club Freiburg - TSG Hoffenheim; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1062: 1. FSV Mainz 05 - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1063: 1. FC Union Berlin - VfB Stuttgart; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 1064: FC St. Pauli - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1065: Bayer 04 Leverkusen - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1066: VfB Stuttgart - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1067: FC Bayern München - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1068: Eintracht Frankfurt - RB Leipzig; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1069: TSG Hoffenheim - Borussia Dortmund; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1071: VfL Wolfsburg - Sport-Club Freiburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1072: VfL Bochum 1848 - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1073: Holstein Kiel - Borussia Mönchengladbach; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 1074: RB Leipzig - FC Bayern München; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 1075: Borussia Dortmund - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1077: Sport-Club Freiburg - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1078: FC Augsburg - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1079: 1. FSV Mainz 05 - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1080: Borussia Mönchengladbach - TSG Hoffenheim; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 1081: 1. FC Union Berlin - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1082: FC St. Pauli - VfB Stuttgart; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1083: Bayer 04 Leverkusen - Borussia Dortmund; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 1084: VfB Stuttgart - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1085: FC Bayern München - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 1086: Eintracht Frankfurt - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1088: VfL Wolfsburg - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1089: 1. FC Union Berlin - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1090: VfL Bochum 1848 - 1. FSV Mainz 05; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1091: Holstein Kiel - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1092: RB Leipzig - VfB Stuttgart; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1093: Borussia Dortmund - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1094: TSG Hoffenheim - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1095: 1. FC Heidenheim 1846 - SV Werder Bremen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 1096: Sport-Club Freiburg - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1097: FC Augsburg - 1. FC Union Berlin; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 1098: 1. FSV Mainz 05 - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 1099: Borussia Mönchengladbach - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 1100: FC St. Pauli - VfL Bochum 1848; Ergebnis enthält 2 Tore, Events enthalten 0.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 13, SG Serrig: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 30, SG Kenn: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 131, VfL Trier: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 168, TuS Schillingen: 3 Einwechslungen, 0 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 13, SG Serrig: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 1085 Mannschaftsminuten statt 990.
+    ⚠ Spiel 131, VfL Trier: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 1440 Mannschaftsminuten statt 990.
+    ⚠ Spiel 168, TuS Schillingen: 1260 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=2016, player_match_stats=0.
+    ⚠ RED_CARD: Events=46, player_match_stats=0.
+    ⚠ 46 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 2016 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+WARNUNG:                  3
+FEHLER:                   1
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  50.0 %
+Einzelwarnungen:           24
+Einzelfehler:              567
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================

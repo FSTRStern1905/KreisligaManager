@@ -25,6 +25,7 @@ class Match:
     away_goals: int | None = None
 
     status: str = "scheduled"
+    detail_imported: bool = False
     notes: str = ""
     external_id: str = ""
 

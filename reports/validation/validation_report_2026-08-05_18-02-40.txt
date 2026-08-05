@@ -1,0 +1,343 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 489: Events enthalten 8 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 490: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 491: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 492: Events enthalten 4 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 493: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ✖ Spiel 494: F.C. Hansa Rostock - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 495: Eintracht Braunschweig - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 496: VfL Osnabrück - Karlsruher SC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 497: SV Wehen Wiesbaden - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 498: FC Schalke 04 - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 499: Hertha BSC - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 501: SC Paderborn 07 - VfL Osnabrück; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 502: Karlsruher SC - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 503: Holstein Kiel - SpVgg Greuther Fürth; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 504: 1. FC Magdeburg - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 505: 1.FC Nürnberg - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 506: SV 07 Elversberg - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 507: Hamburger SV - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 508: Fortuna Düsseldorf - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 509: Holstein Kiel - 1. FC Magdeburg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 510: 1. FC Kaiserslautern - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 512: F.C. Hansa Rostock - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 513: Eintracht Braunschweig - FC Schalke 04; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 514: VfL Osnabrück - 1.FC Nürnberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 515: SV Wehen Wiesbaden - Karlsruher SC; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 516: FC Schalke 04 - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 517: Hertha BSC - SpVgg Greuther Fürth; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 519: SC Paderborn 07 - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 520: Karlsruher SC - Eintracht Braunschweig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 521: Hannover 96 - Hamburger SV; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 522: F.C. Hansa Rostock - VfL Osnabrück; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 523: 1.FC Nürnberg - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 524: SV 07 Elversberg - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 525: Hamburger SV - F.C. Hansa Rostock; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 526: Fortuna Düsseldorf - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 527: Holstein Kiel - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 528: 1. FC Kaiserslautern - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 529: 1. FC Magdeburg - Hertha BSC; Ergebnis enthält 10 Tore, Events enthalten 0.
+    ✖ Spiel 530: SpVgg Greuther Fürth - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 531: Eintracht Braunschweig - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 532: VfL Osnabrück - SV 07 Elversberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 533: SV Wehen Wiesbaden - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 534: FC Schalke 04 - 1. FC Magdeburg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 535: Hertha BSC - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 536: FC St. Pauli - Holstein Kiel; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 537: SC Paderborn 07 - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 538: Karlsruher SC - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 539: Hannover 96 - VfL Osnabrück; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 540: F.C. Hansa Rostock - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 541: 1.FC Nürnberg - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 542: SV 07 Elversberg - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 543: Fortuna Düsseldorf - Hannover 96; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 544: FC St. Pauli - FC Schalke 04; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 545: Holstein Kiel - Hertha BSC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 546: 1. FC Kaiserslautern - F.C. Hansa Rostock; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 547: 1. FC Magdeburg - SC Paderborn 07; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 548: SpVgg Greuther Fürth - Karlsruher SC; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 549: Eintracht Braunschweig - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 550: VfL Osnabrück - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 551: SV Wehen Wiesbaden - SV 07 Elversberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 552: Hertha BSC - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 553: Hamburger SV - Fortuna Düsseldorf; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 554: SC Paderborn 07 - FC Schalke 04; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 555: Karlsruher SC - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 556: Hannover 96 - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 557: F.C. Hansa Rostock - Eintracht Braunschweig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 558: 1.FC Nürnberg - 1. FC Magdeburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 559: SV 07 Elversberg - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 560: VfL Osnabrück - 1. FC Kaiserslautern; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 561: FC Schalke 04 - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 562: Fortuna Düsseldorf - VfL Osnabrück; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 563: FC St. Pauli - 1.FC Nürnberg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 564: Holstein Kiel - SV 07 Elversberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 565: 1. FC Kaiserslautern - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 566: 1. FC Magdeburg - Karlsruher SC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 567: SpVgg Greuther Fürth - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 568: Eintracht Braunschweig - SC Paderborn 07; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 569: SV Wehen Wiesbaden - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 570: Hamburger SV - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 571: Fortuna Düsseldorf - 1. FC Kaiserslautern; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 572: SC Paderborn 07 - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 573: Karlsruher SC - FC Schalke 04; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 574: Hannover 96 - 1. FC Magdeburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 575: F.C. Hansa Rostock - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 576: 1.FC Nürnberg - Hertha BSC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 577: SV 07 Elversberg - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 578: VfL Osnabrück - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 579: FC Schalke 04 - Hannover 96; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 580: Hertha BSC - SC Paderborn 07; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 581: FC St. Pauli - Karlsruher SC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 582: Holstein Kiel - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 583: 1. FC Kaiserslautern - Hamburger SV; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 584: 1. FC Magdeburg - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 585: SpVgg Greuther Fürth - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 586: Eintracht Braunschweig - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 587: SV Wehen Wiesbaden - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 588: Hamburger SV - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 589: Fortuna Düsseldorf - SV Wehen Wiesbaden; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 590: Karlsruher SC - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 591: 1. FC Kaiserslautern - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 592: Hannover 96 - Eintracht Braunschweig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 594: 1.FC Nürnberg - FC Schalke 04; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 595: SV 07 Elversberg - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 596: VfL Osnabrück - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 597: FC Schalke 04 - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 598: Hertha BSC - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 600: SC Paderborn 07 - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 601: Holstein Kiel - Hamburger SV; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 602: 1. FC Magdeburg - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 603: SpVgg Greuther Fürth - Fortuna Düsseldorf; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 604: Eintracht Braunschweig - VfL Osnabrück; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 605: SV Wehen Wiesbaden - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 606: Hamburger SV - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 607: Fortuna Düsseldorf - FC Schalke 04; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 608: Karlsruher SC - 1.FC Nürnberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 609: 1. FC Kaiserslautern - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 610: Hannover 96 - Hertha BSC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 611: SpVgg Greuther Fürth - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 612: F.C. Hansa Rostock - FC St. Pauli; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 613: SV 07 Elversberg - SC Paderborn 07; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 614: VfL Osnabrück - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 615: FC Schalke 04 - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 616: Hertha BSC - SV 07 Elversberg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 617: FC St. Pauli - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 618: SC Paderborn 07 - Hannover 96; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 619: Karlsruher SC - F.C. Hansa Rostock; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 620: Holstein Kiel - SV Wehen Wiesbaden; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 621: 1. FC Magdeburg - 1. FC Kaiserslautern; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 622: 1.FC Nürnberg - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 623: Eintracht Braunschweig - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 624: Hamburger SV - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 625: Fortuna Düsseldorf - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 626: 1. FC Kaiserslautern - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 627: Hannover 96 - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 628: SpVgg Greuther Fürth - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 629: F.C. Hansa Rostock - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 630: SV 07 Elversberg - 1.FC Nürnberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 631: VfL Osnabrück - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 632: SV Wehen Wiesbaden - Eintracht Braunschweig; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 633: FC Schalke 04 - SpVgg Greuther Fürth; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 635: FC St. Pauli - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 636: SC Paderborn 07 - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 637: Karlsruher SC - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 638: Holstein Kiel - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 639: 1. FC Magdeburg - Fortuna Düsseldorf; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 640: 1.FC Nürnberg - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 641: Eintracht Braunschweig - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 642: FC Schalke 04 - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 643: Hertha BSC - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 644: FC St. Pauli - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 645: SC Paderborn 07 - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 646: Karlsruher SC - VfL Osnabrück; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 647: Holstein Kiel - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 648: 1. FC Magdeburg - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 649: 1.FC Nürnberg - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 650: SV 07 Elversberg - Hannover 96; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 651: Hamburger SV - Karlsruher SC; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 652: Fortuna Düsseldorf - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 653: 1. FC Kaiserslautern - FC Schalke 04; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 654: Hannover 96 - 1.FC Nürnberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 655: SpVgg Greuther Fürth - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 656: F.C. Hansa Rostock - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 657: Eintracht Braunschweig - 1. FC Magdeburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 659: SV Wehen Wiesbaden - Hertha BSC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 660: FC Schalke 04 - Eintracht Braunschweig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 661: Hertha BSC - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 662: FC St. Pauli - SpVgg Greuther Fürth; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 663: SC Paderborn 07 - Fortuna Düsseldorf; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 664: Karlsruher SC - SV Wehen Wiesbaden; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 665: Hannover 96 - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 666: 1. FC Magdeburg - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 667: 1.FC Nürnberg - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 668: SV 07 Elversberg - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 669: Hamburger SV - Hannover 96; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 670: Fortuna Düsseldorf - SV 07 Elversberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 671: Holstein Kiel - FC Schalke 04; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 672: 1. FC Kaiserslautern - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 673: 1. FC Magdeburg - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 674: SpVgg Greuther Fürth - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 675: Eintracht Braunschweig - Karlsruher SC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 677: SV Wehen Wiesbaden - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 678: FC Schalke 04 - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 679: Hertha BSC - 1. FC Magdeburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 680: FC St. Pauli - Eintracht Braunschweig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 681: SC Paderborn 07 - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 682: Karlsruher SC - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 683: Hannover 96 - SpVgg Greuther Fürth; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 684: F.C. Hansa Rostock - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 685: 1.FC Nürnberg - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 686: SV 07 Elversberg - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 687: Hamburger SV - SV 07 Elversberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 688: Fortuna Düsseldorf - F.C. Hansa Rostock; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 689: Holstein Kiel - FC St. Pauli; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 690: 1. FC Kaiserslautern - Karlsruher SC; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 691: 1. FC Magdeburg - FC Schalke 04; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 692: SpVgg Greuther Fürth - 1.FC Nürnberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 693: Eintracht Braunschweig - Hertha BSC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 694: VfL Osnabrück - Hannover 96; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 695: SV Wehen Wiesbaden - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 696: FC Schalke 04 - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 697: Hertha BSC - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 698: Hamburger SV - VfL Osnabrück; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 700: Karlsruher SC - SpVgg Greuther Fürth; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 701: Hannover 96 - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 702: F.C. Hansa Rostock - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 703: 1.FC Nürnberg - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 704: SV 07 Elversberg - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 705: FC Schalke 04 - SC Paderborn 07; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 706: Fortuna Düsseldorf - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 707: FC St. Pauli - Hertha BSC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 708: Holstein Kiel - Karlsruher SC; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 709: 1. FC Kaiserslautern - VfL Osnabrück; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 710: 1. FC Magdeburg - 1.FC Nürnberg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 711: SpVgg Greuther Fürth - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 712: Eintracht Braunschweig - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 713: SV Wehen Wiesbaden - Hannover 96; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 714: Hertha BSC - FC Schalke 04; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 715: Hamburger SV - SV Wehen Wiesbaden; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 716: SC Paderborn 07 - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 717: Karlsruher SC - 1. FC Magdeburg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 718: Hannover 96 - 1. FC Kaiserslautern; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 719: F.C. Hansa Rostock - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 720: 1.FC Nürnberg - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 721: SV 07 Elversberg - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 722: VfL Osnabrück - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 724: Hertha BSC - 1.FC Nürnberg; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 725: FC St. Pauli - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 726: Holstein Kiel - F.C. Hansa Rostock; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 727: 1. FC Kaiserslautern - Fortuna Düsseldorf; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 728: 1. FC Magdeburg - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 729: SpVgg Greuther Fürth - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 730: Eintracht Braunschweig - SV 07 Elversberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 731: SV Wehen Wiesbaden - VfL Osnabrück; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 732: Hamburger SV - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 733: Fortuna Düsseldorf - Eintracht Braunschweig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 734: SC Paderborn 07 - Hertha BSC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 735: Karlsruher SC - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 736: Hannover 96 - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 737: F.C. Hansa Rostock - SV Wehen Wiesbaden; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 738: 1.FC Nürnberg - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 740: VfL Osnabrück - SpVgg Greuther Fürth; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 741: FC Schalke 04 - 1.FC Nürnberg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 742: Hertha BSC - F.C. Hansa Rostock; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 743: FC St. Pauli - SV 07 Elversberg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 744: SC Paderborn 07 - Karlsruher SC; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 745: Holstein Kiel - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 746: 1. FC Magdeburg - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 747: SpVgg Greuther Fürth - 1. FC Kaiserslautern; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 749: SV Wehen Wiesbaden - Fortuna Düsseldorf; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 750: Hamburger SV - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 751: Fortuna Düsseldorf - SpVgg Greuther Fürth; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 752: Karlsruher SC - Hertha BSC; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 753: 1. FC Kaiserslautern - SV Wehen Wiesbaden; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 754: Hannover 96 - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 755: F.C. Hansa Rostock - 1. FC Magdeburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 756: 1.FC Nürnberg - SC Paderborn 07; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 757: SV 07 Elversberg - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 758: VfL Osnabrück - Eintracht Braunschweig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 759: FC Schalke 04 - Fortuna Düsseldorf; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 760: Hertha BSC - Hannover 96; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 761: FC St. Pauli - F.C. Hansa Rostock; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 762: SC Paderborn 07 - SV 07 Elversberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 763: Holstein Kiel - 1. FC Kaiserslautern; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 764: 1. FC Magdeburg - VfL Osnabrück; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 765: 1.FC Nürnberg - Karlsruher SC; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 766: Eintracht Braunschweig - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 767: SV Wehen Wiesbaden - SpVgg Greuther Fürth; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 768: Hamburger SV - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 769: Fortuna Düsseldorf - 1.FC Nürnberg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 770: 1. FC Kaiserslautern - 1. FC Magdeburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 771: Hannover 96 - SC Paderborn 07; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 772: SpVgg Greuther Fürth - Eintracht Braunschweig; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 773: F.C. Hansa Rostock - Karlsruher SC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 774: SV 07 Elversberg - Hertha BSC; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 775: VfL Osnabrück - FC Schalke 04; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 776: SV Wehen Wiesbaden - Holstein Kiel; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 777: FC Schalke 04 - F.C. Hansa Rostock; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 778: Hertha BSC - 1. FC Kaiserslautern; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 779: FC St. Pauli - VfL Osnabrück; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 780: SC Paderborn 07 - Hamburger SV; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 781: Karlsruher SC - Hannover 96; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 782: Holstein Kiel - Fortuna Düsseldorf; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 784: 1.FC Nürnberg - SV 07 Elversberg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 785: Eintracht Braunschweig - SV Wehen Wiesbaden; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 786: Hamburger SV - 1.FC Nürnberg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 787: Fortuna Düsseldorf - 1. FC Magdeburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 788: 1. FC Kaiserslautern - Eintracht Braunschweig; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 789: Hannover 96 - Holstein Kiel; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 790: SpVgg Greuther Fürth - FC Schalke 04; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 791: F.C. Hansa Rostock - SC Paderborn 07; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 792: SV 07 Elversberg - Karlsruher SC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 793: VfL Osnabrück - Hertha BSC; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 794: SV Wehen Wiesbaden - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 13, SG Serrig: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 30, SG Kenn: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 131, VfL Trier: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 168, TuS Schillingen: 3 Einwechslungen, 0 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 13, SG Serrig: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 1085 Mannschaftsminuten statt 990.
+    ⚠ Spiel 131, VfL Trier: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 1440 Mannschaftsminuten statt 990.
+    ⚠ Spiel 168, TuS Schillingen: 1260 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=2002, player_match_stats=0.
+    ⚠ RED_CARD: Events=45, player_match_stats=0.
+    ⚠ 45 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 2002 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+WARNUNG:                  3
+FEHLER:                   1
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  50.0 %
+Einzelwarnungen:           24
+Einzelfehler:              288
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================
