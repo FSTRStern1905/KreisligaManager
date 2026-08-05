@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sqlite3
+from pathlib import Path
 from typing import Any
 
 from src.database.repositories.event_repository import (
@@ -35,6 +36,10 @@ from src.services.player_match_stats.player_match_stats_builder import (
 )
 
 class MatchDetailImporter:
+    DEBUG_HTML_PATH = Path(
+        "debug/html/matches"
+    )
+
     EVENT_TYPE_MAPPING = {
         MatchDetailParser.EVENT_GOAL: "GOAL",
         MatchDetailParser.EVENT_OWN_GOAL: "OWN_GOAL",
@@ -112,6 +117,11 @@ class MatchDetailImporter:
 
         html = page.content()
 
+        self._save_debug_html(
+            html=html,
+            source_url=normalized_url,
+        )
+
         parser = MatchDetailParser(page)
 
         detail_data = parser.parse(
@@ -138,6 +148,70 @@ class MatchDetailImporter:
         )
 
         return result
+
+    def _save_debug_html(
+        self,
+        html: str,
+        source_url: str,
+    ) -> Path:
+        match_id = self._extract_match_id_from_url(
+            source_url
+        )
+
+        if not match_id:
+            match_id = "unknown_match"
+
+        self.DEBUG_HTML_PATH.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        file_path = self.DEBUG_HTML_PATH / (
+            f"{match_id}.html"
+        )
+
+        file_path.write_text(
+            html,
+            encoding="utf-8",
+        )
+
+        return file_path
+
+    @staticmethod
+    def _extract_match_id_from_url(
+        source_url: str,
+    ) -> str:
+        normalized_url = source_url.strip()
+
+        if not normalized_url:
+            return ""
+
+        marker = "/spiel/"
+
+        if marker not in normalized_url:
+            return ""
+
+        match_id = normalized_url.rsplit(
+            marker,
+            1,
+        )[-1]
+
+        match_id = match_id.split(
+            "/",
+            1,
+        )[0]
+
+        match_id = match_id.split(
+            "?",
+            1,
+        )[0]
+
+        match_id = match_id.split(
+            "#",
+            1,
+        )[0]
+
+        return match_id.strip()
 
     def import_from_html(
         self,

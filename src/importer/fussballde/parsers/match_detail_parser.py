@@ -499,8 +499,8 @@ class MatchDetailParser(BaseParser):
         minute: int | None,
         additional_time: int,
     ) -> MatchEvent:
-        player_links = event_element.select(
-            ".column-player a[href*='/spielerprofil/']"
+        player_elements = self._extract_player_elements(
+            event_element
         )
 
         player_in = ""
@@ -508,13 +508,21 @@ class MatchDetailParser(BaseParser):
         player_out = ""
         player_out_id = ""
 
-        if len(player_links) >= 1:
-            player_in = self._extract_player_name(player_links[0])
-            player_in_id = self._extract_player_id(player_links[0])
+        if len(player_elements) >= 1:
+            player_in = self._extract_player_name(
+                player_elements[0]
+            )
+            player_in_id = self._extract_player_id(
+                player_elements[0]
+            )
 
-        if len(player_links) >= 2:
-            player_out = self._extract_player_name(player_links[1])
-            player_out_id = self._extract_player_id(player_links[1])
+        if len(player_elements) >= 2:
+            player_out = self._extract_player_name(
+                player_elements[1]
+            )
+            player_out_id = self._extract_player_id(
+                player_elements[1]
+            )
 
         description = self.clean_text(
             event_element.get_text(" ", strip=True)
@@ -563,44 +571,184 @@ class MatchDetailParser(BaseParser):
         self,
         event_element: Tag,
     ) -> tuple[str, str]:
-        player_link = event_element.select_one(
-            ".column-player a[href*='/spielerprofil/']"
+        player_elements = self._extract_player_elements(
+            event_element
         )
 
-        if player_link is None:
-            return "", ""
+        for player_element in player_elements:
+            player_name = self._extract_player_name(
+                player_element
+            )
+            player_id = self._extract_player_id(
+                player_element
+            )
 
-        return (
-            self._extract_player_name(player_link),
-            self._extract_player_id(player_link),
+            if player_name or player_id:
+                return player_name, player_id
+
+        return "", ""
+
+    @staticmethod
+    def _extract_player_elements(
+        event_element: Tag,
+    ) -> list[Tag]:
+        selectors = (
+            ".column-player a[href*='/spielerprofil/']",
+            ".column-player a[href*='/spieler/']",
+            ".column-player a[href*='/player/']",
+            ".column-player [data-player-id]",
+            ".column-player [data-user-id]",
+            ".column-player [data-userid]",
+            ".column-player .player-name",
+            ".column-player a",
         )
 
-    def _extract_player_name(self, player_element: Tag) -> str:
-        player_name_element = player_element.select_one(".player-name")
+        elements: list[Tag] = []
+        seen_elements: set[int] = set()
 
-        if player_name_element is None:
-            player_name_element = player_element
+        for selector in selectors:
+            for element in event_element.select(
+                selector
+            ):
+                element_identity = id(element)
+
+                if element_identity in seen_elements:
+                    continue
+
+                seen_elements.add(
+                    element_identity
+                )
+                elements.append(
+                    element
+                )
+
+        return elements
+
+    def _extract_player_name(
+        self,
+        player_element: Tag,
+    ) -> str:
+        selectors = (
+            ".player-name",
+            "[data-player-name]",
+            "[data-name]",
+            ".name",
+        )
+
+        player_name_element: Tag = player_element
+
+        for selector in selectors:
+            candidate = player_element.select_one(
+                selector
+            )
+
+            if candidate is not None:
+                player_name_element = candidate
+                break
+
+        attribute_values = (
+            player_name_element.get(
+                "data-player-name",
+                "",
+            ),
+            player_name_element.get(
+                "data-name",
+                "",
+            ),
+            player_name_element.get(
+                "title",
+                "",
+            ),
+            player_name_element.get(
+                "aria-label",
+                "",
+            ),
+        )
+
+        for attribute_value in attribute_values:
+            player_name = self.clean_text(
+                str(attribute_value or "")
+            )
+
+            if (
+                player_name
+                and not self._contains_private_unicode(
+                    player_name
+                )
+            ):
+                return player_name
 
         player_name = self.clean_text(
-            player_name_element.get_text(" ", strip=True)
+            player_name_element.get_text(
+                " ",
+                strip=True,
+            )
         )
 
-        if self._contains_private_unicode(player_name):
+        if self._contains_private_unicode(
+            player_name
+        ):
+            return ""
+
+        ignored_values = {
+            "Auswechslung",
+            "Gelbe Karte",
+            "Gelb-Rote Karte",
+            "Rote Karte",
+        }
+
+        if player_name in ignored_values:
             return ""
 
         return player_name
 
     @staticmethod
-    def _extract_player_id(player_element: Tag) -> str:
-        href = player_element.get("href", "")
+    def _extract_player_id(
+        player_element: Tag,
+    ) -> str:
+        attribute_names = (
+            "data-player-id",
+            "data-user-id",
+            "data-userid",
+            "data-id",
+        )
 
-        patterns = [
+        for attribute_name in attribute_names:
+            value = str(
+                player_element.get(
+                    attribute_name,
+                    "",
+                )
+                or ""
+            ).strip()
+
+            if value:
+                return value
+
+        href = str(
+            player_element.get(
+                "href",
+                "",
+            )
+            or ""
+        )
+
+        patterns = (
             r"/player-id/([^/?#!]+)",
             r"/userid/([^/?#!]+)",
-        ]
+            r"/user-id/([^/?#!]+)",
+            r"/spieler/([^/?#!]+)",
+            r"/spielerprofil/[^/]+/-/player-id/([^/?#!]+)",
+            r"[?&]playerId=([^&#!]+)",
+            r"[?&]player_id=([^&#!]+)",
+        )
 
         for pattern in patterns:
-            match = re.search(pattern, href)
+            match = re.search(
+                pattern,
+                href,
+                re.IGNORECASE,
+            )
 
             if match:
                 return match.group(1)
