@@ -8,6 +8,7 @@ from src.services.validation.validation_result import (
 
 class ValidationReport:
     STATUS_PASS = "PASS"
+    STATUS_INFO = "INFO"
     STATUS_WARNING = "WARNING"
     STATUS_ERROR = "ERROR"
 
@@ -53,6 +54,10 @@ class ValidationReport:
                     f"{result.passed_checks}"
                 ),
                 (
+                    "INFO:                     "
+                    f"{result.info_checks}"
+                ),
+                (
                     "WARNUNG:                  "
                     f"{result.warning_checks}"
                 ),
@@ -71,6 +76,10 @@ class ValidationReport:
                 (
                     "Gewichtete Datenqualität:  "
                     f"{result.quality_rate:.1f} %"
+                ),
+                (
+                    "Einzelinfos:               "
+                    f"{result.info_count}"
                 ),
                 (
                     "Einzelwarnungen:           "
@@ -106,6 +115,7 @@ class ValidationReport:
         return (
             "Validierung: "
             f"{result.passed_checks} PASS"
+            f" | {result.info_checks} INFO"
             f" | {result.warning_checks} WARNUNG"
             f" | {result.failed_checks} FEHLER"
             f" | Qualität "
@@ -119,6 +129,9 @@ class ValidationReport:
         return {
             "passed_checks": (
                 result.passed_checks
+            ),
+            "info_checks": (
+                result.info_checks
             ),
             "warning_checks": (
                 result.warning_checks
@@ -136,6 +149,9 @@ class ValidationReport:
             "quality_rate": round(
                 result.quality_rate,
                 1,
+            ),
+            "info_count": (
+                result.info_count
             ),
             "warning_count": (
                 result.warning_count
@@ -166,6 +182,11 @@ class ValidationReport:
             f"{symbol} {check.name}",
         ]
 
+        for info in check.infos:
+            lines.append(
+                f"    ℹ {info}"
+            )
+
         for warning in check.warnings:
             lines.append(
                 f"    ⚠ {warning}"
@@ -177,7 +198,8 @@ class ValidationReport:
             )
 
         if (
-            not check.warnings
+            not check.infos
+            and not check.warnings
             and not check.errors
         ):
             lines.append(
@@ -205,6 +227,12 @@ class ValidationReport:
                 "ABGESCHLOSSEN"
             )
 
+        if result.has_infos:
+            return (
+                "ERGEBNIS: MIT HINWEISEN "
+                "ABGESCHLOSSEN"
+            )
+
         return (
             "ERGEBNIS: ALLE PRÜFUNGEN "
             "ERFOLGREICH"
@@ -216,6 +244,9 @@ class ValidationReport:
     ) -> str:
         if status == ValidationReport.STATUS_PASS:
             return "✔"
+
+        if status == ValidationReport.STATUS_INFO:
+            return "ℹ"
 
         if status == ValidationReport.STATUS_WARNING:
             return "⚠"
@@ -230,6 +261,9 @@ class ValidationReport:
             "name": check.name,
             "passed": check.passed,
             "status": check.status,
+            "infos": list(
+                check.infos
+            ),
             "warnings": list(
                 check.warnings
             ),

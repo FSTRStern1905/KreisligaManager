@@ -170,6 +170,7 @@ class ImportValidationService:
         competition_id: int | None,
     ) -> ValidationCheck:
         errors: list[str] = []
+        infos: list[str] = []
         warnings: list[str] = []
 
         rows = self._fetch_all(
@@ -198,6 +199,25 @@ class ImportValidationService:
                     ),
                     0
                 ) AS event_goals,
+
+                COALESCE(
+                    (
+                        SELECT COUNT(*)
+                        FROM events
+                        INNER JOIN event_types
+                            ON event_types.event_type_id =
+                                events.event_type_id
+                        WHERE
+                            events.match_id = matches.match_id
+                            AND event_types.code IN (
+                                'GOAL',
+                                'PENALTY_GOAL',
+                                'OWN_GOAL'
+                            )
+                            AND events.player_id IS NULL
+                    ),
+                    0
+                ) AS goals_without_player,
 
                 COALESCE(
                     (
@@ -244,11 +264,25 @@ class ImportValidationService:
             home_goals,
             away_goals,
             event_goals,
+            goals_without_player,
             stat_goals,
         ) in rows:
-            match_goals = int(home_goals) + int(away_goals)
+            match_goals = (
+                int(home_goals)
+                + int(away_goals)
+            )
 
-            if int(event_goals) != match_goals:
+            event_goals = int(
+                event_goals or 0
+            )
+            goals_without_player = int(
+                goals_without_player or 0
+            )
+            stat_goals = int(
+                stat_goals or 0
+            )
+
+            if event_goals != match_goals:
                 errors.append(
                     f"Spiel {match_id}: {home_name} - "
                     f"{away_name}; Ergebnis enthält "
@@ -256,12 +290,26 @@ class ImportValidationService:
                     f"{event_goals}."
                 )
 
-            if int(stat_goals) != int(event_goals):
+            expected_stat_goals = (
+                event_goals
+                - goals_without_player
+            )
+
+            if goals_without_player > 0:
+                infos.append(
+                    f"Spiel {match_id}: "
+                    f"{goals_without_player} Tore besitzen "
+                    "in der Quelle keine "
+                    "Spielerzuordnung."
+                )
+
+            if stat_goals != expected_stat_goals:
                 warnings.append(
-                    f"Spiel {match_id}: Events enthalten "
-                    f"{event_goals} Tore, "
-                    f"player_match_stats enthalten "
-                    f"{stat_goals}."
+                    f"Spiel {match_id}: "
+                    f"{expected_stat_goals} Tor-Events "
+                    "besitzen eine Spielerzuordnung, "
+                    "player_match_stats enthalten "
+                    f"{stat_goals} Tore."
                 )
 
         if not rows:
@@ -273,6 +321,7 @@ class ImportValidationService:
         return ValidationCheck(
             name="Tore und Endergebnisse",
             passed=not errors,
+            infos=infos,
             warnings=warnings,
             errors=errors,
         )
@@ -282,7 +331,85 @@ class ImportValidationService:
         competition_id: int | None,
     ) -> ValidationCheck:
         errors: list[str] = []
+        infos: list[str] = []
         warnings: list[str] = []
+
+        detailed_matches = self._fetch_value(
+            """
+            SELECT COUNT(*)
+            FROM matches
+            WHERE
+                (? IS NULL OR competition_id = ?)
+                AND detail_imported = 1;
+            """,
+            (
+                competition_id,
+                competition_id,
+            ),
+        )
+
+        matches_with_lineups = self._fetch_value(
+            """
+            SELECT COUNT(DISTINCT lineups.match_id)
+            FROM lineups
+            INNER JOIN matches
+                ON matches.match_id =
+                    lineups.match_id
+            WHERE
+                (? IS NULL OR matches.competition_id = ?)
+                AND matches.detail_imported = 1;
+            """,
+            (
+                competition_id,
+                competition_id,
+            ),
+        )
+
+        matches_with_stats = self._fetch_value(
+            """
+            SELECT COUNT(
+                DISTINCT player_match_stats.match_id
+            )
+            FROM player_match_stats
+            INNER JOIN matches
+                ON matches.match_id =
+                    player_match_stats.match_id
+            WHERE
+                (? IS NULL OR matches.competition_id = ?)
+                AND matches.detail_imported = 1;
+            """,
+            (
+                competition_id,
+                competition_id,
+            ),
+        )
+
+        if (
+            detailed_matches > 0
+            and matches_with_lineups == 0
+        ):
+            infos.append(
+                f"Für {detailed_matches} vollständig "
+                "importierte Spiele liefert die Quelle "
+                "keine Aufstellungen."
+            )
+
+            return ValidationCheck(
+                name="Aufstellungen und Wechsel",
+                passed=True,
+                infos=infos,
+                warnings=warnings,
+                errors=errors,
+            )
+
+        if (
+            matches_with_lineups > 0
+            and matches_with_stats == 0
+        ):
+            warnings.append(
+                "Aufstellungen sind vorhanden, aber "
+                "player_match_stats wurden nicht erzeugt."
+            )
 
         rows = self._fetch_all(
             """
@@ -340,14 +467,18 @@ class ImportValidationService:
         ) in rows:
             del team_id
 
-            starters = int(starters or 0)
+            starters = int(
+                starters or 0
+            )
             substitutions_in = int(
                 substitutions_in or 0
             )
             substitutions_out = int(
                 substitutions_out or 0
             )
-            squad_size = int(squad_size or 0)
+            squad_size = int(
+                squad_size or 0
+            )
 
             if starters != 11:
                 errors.append(
@@ -355,7 +486,10 @@ class ImportValidationService:
                     f"{starters} Startspieler statt 11."
                 )
 
-            if substitutions_in != substitutions_out:
+            if (
+                substitutions_in
+                != substitutions_out
+            ):
                 warnings.append(
                     f"Spiel {match_id}, {team_name}: "
                     f"{substitutions_in} Einwechslungen, "
@@ -371,19 +505,23 @@ class ImportValidationService:
             if squad_size > 30:
                 warnings.append(
                     f"Spiel {match_id}, {team_name}: "
-                    f"ungewöhnlich großer Kader "
+                    "ungewöhnlich großer Kader "
                     f"mit {squad_size} Spielern."
                 )
 
-        if not rows:
+        if (
+            detailed_matches == 0
+            and not rows
+        ):
             warnings.append(
-                "Keine Aufstellungs- oder "
-                "Spielerstatistikdaten gefunden."
+                "Keine vollständig importierten Spiele "
+                "für diese Prüfung gefunden."
             )
 
         return ValidationCheck(
             name="Aufstellungen und Wechsel",
             passed=not errors,
+            infos=infos,
             warnings=warnings,
             errors=errors,
         )
@@ -540,6 +678,7 @@ class ImportValidationService:
         competition_id: int | None,
     ) -> ValidationCheck:
         errors: list[str] = []
+        infos: list[str] = []
         warnings: list[str] = []
 
         event_counts = self._load_card_event_counts(
@@ -548,29 +687,6 @@ class ImportValidationService:
         stat_counts = self._load_card_stat_counts(
             competition_id
         )
-
-        stat_key_by_code = {
-            "YELLOW_CARD": "yellow_cards",
-            "YELLOW_RED_CARD": "yellow_red_cards",
-            "RED_CARD": "red_cards",
-        }
-
-        for code in self.CARD_EVENT_CODES:
-            event_count = event_counts.get(
-                code,
-                0,
-            )
-
-            stat_count = stat_counts.get(
-                stat_key_by_code[code],
-                0,
-            )
-
-            if event_count != stat_count:
-                warnings.append(
-                    f"{code}: Events={event_count}, "
-                    f"player_match_stats={stat_count}."
-                )
 
         card_events_without_player = self._fetch_all(
             """
@@ -608,15 +724,66 @@ class ImportValidationService:
             ),
         )
 
-        for code, count in card_events_without_player:
-            warnings.append(
-                f"{count} {code}-Events besitzen "
-                "keine Spielerzuordnung."
+        missing_player_counts = {
+            str(code): int(count)
+            for code, count in card_events_without_player
+        }
+
+        stat_key_by_code = {
+            "YELLOW_CARD": "yellow_cards",
+            "YELLOW_RED_CARD": "yellow_red_cards",
+            "RED_CARD": "red_cards",
+        }
+
+        readable_names = {
+            "YELLOW_CARD": "Gelbe Karten",
+            "YELLOW_RED_CARD": "Gelb-Rote Karten",
+            "RED_CARD": "Rote Karten",
+        }
+
+        for code in self.CARD_EVENT_CODES:
+            event_count = event_counts.get(
+                code,
+                0,
             )
+
+            stat_count = stat_counts.get(
+                stat_key_by_code[code],
+                0,
+            )
+
+            missing_player_count = (
+                missing_player_counts.get(
+                    code,
+                    0,
+                )
+            )
+
+            expected_stat_count = (
+                event_count
+                - missing_player_count
+            )
+
+            if missing_player_count > 0:
+                infos.append(
+                    f"{missing_player_count} "
+                    f"{readable_names[code]} besitzen "
+                    "in der Quelle keine "
+                    "Spielerzuordnung."
+                )
+
+            if stat_count != expected_stat_count:
+                warnings.append(
+                    f"{code}: {expected_stat_count} Events "
+                    "besitzen eine Spielerzuordnung, "
+                    "player_match_stats enthalten "
+                    f"{stat_count}."
+                )
 
         return ValidationCheck(
             name="Karten",
             passed=not errors,
+            infos=infos,
             warnings=warnings,
             errors=errors,
         )

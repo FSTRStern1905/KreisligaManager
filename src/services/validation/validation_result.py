@@ -7,6 +7,9 @@ from dataclasses import dataclass, field
 class ValidationCheck:
     name: str
     passed: bool
+    infos: list[str] = field(
+        default_factory=list
+    )
     warnings: list[str] = field(
         default_factory=list
     )
@@ -22,6 +25,9 @@ class ValidationCheck:
         if self.warnings:
             return "WARNING"
 
+        if self.infos:
+            return "INFO"
+
         if self.passed:
             return "PASS"
 
@@ -30,6 +36,10 @@ class ValidationCheck:
     @property
     def is_pass(self) -> bool:
         return self.status == "PASS"
+
+    @property
+    def is_info(self) -> bool:
+        return self.status == "INFO"
 
     @property
     def is_warning(self) -> bool:
@@ -62,6 +72,13 @@ class ValidationResult:
         )
 
     @property
+    def info_checks(self) -> int:
+        return sum(
+            check.is_info
+            for check in self.checks
+        )
+
+    @property
     def warning_checks(self) -> int:
         return sum(
             check.is_warning
@@ -79,6 +96,13 @@ class ValidationResult:
     def total_checks(self) -> int:
         return len(
             self.checks
+        )
+
+    @property
+    def info_count(self) -> int:
+        return sum(
+            len(check.infos)
+            for check in self.checks
         )
 
     @property
@@ -112,8 +136,9 @@ class ValidationResult:
             return 100.0
 
         weighted_score = (
-            self.passed_checks
-            + self.warning_checks * 0.5
+            self.passed_checks * 1.0
+            + self.info_checks * 0.9
+            + self.warning_checks * 0.6
         )
 
         return (
@@ -121,6 +146,10 @@ class ValidationResult:
             / self.total_checks
             * 100
         )
+
+    @property
+    def has_infos(self) -> bool:
+        return self.info_checks > 0
 
     @property
     def has_warnings(self) -> bool:

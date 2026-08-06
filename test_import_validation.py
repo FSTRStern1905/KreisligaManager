@@ -21,24 +21,8 @@ def main() -> None:
     )
 
     try:
-        competition_row = connection.execute(
-            """
-            SELECT competition_id
-            FROM competitions
-            ORDER BY competition_id
-            LIMIT 1;
-            """
-        ).fetchone()
-
-        if competition_row is None:
-            print(
-                "Kein Wettbewerb gefunden."
-            )
-            return
-
-        competition_id = int(
-            competition_row[0]
-        )
+        # Test-Wettbewerb
+        competition_id = 7
 
         validator = ImportValidationService(
             connection
