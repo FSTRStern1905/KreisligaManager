@@ -1,0 +1,87 @@
+from __future__ import annotations
+
+
+class Metrics:
+    """
+    Zentrale Größen, Abstände und Radien
+    für die KreisligaManager-Oberfläche.
+    """
+
+    # Grundabstände
+    SPACING_XXS = 4
+    SPACING_XS = 8
+    SPACING_SMALL = 12
+    SPACING_MEDIUM = 16
+    SPACING_LARGE = 24
+    SPACING_XL = 32
+    SPACING_XXL = 48
+
+    # Seitenlayout
+    PAGE_MARGIN = SPACING_LARGE
+    PAGE_SPACING = SPACING_MEDIUM
+    SECTION_SPACING = SPACING_LARGE
+
+    # Sidebar
+    SIDEBAR_WIDTH = 250
+    SIDEBAR_COLLAPSED_WIDTH = 72
+    SIDEBAR_ITEM_HEIGHT = 44
+    SIDEBAR_PADDING = SPACING_SMALL
+    SIDEBAR_SECTION_SPACING = SPACING_MEDIUM
+
+    # Kopfbereich
+    TOPBAR_HEIGHT = 60
+    TOPBAR_PADDING_HORIZONTAL = SPACING_LARGE
+
+    # Statusleiste
+    STATUSBAR_HEIGHT = 28
+
+    # Karten
+    CARD_PADDING = SPACING_MEDIUM
+    CARD_SPACING = SPACING_MEDIUM
+    CARD_MIN_HEIGHT = 96
+
+    # Buttons
+    BUTTON_HEIGHT = 40
+    BUTTON_MIN_WIDTH = 96
+    BUTTON_PADDING_HORIZONTAL = SPACING_MEDIUM
+
+    # Eingabefelder
+    INPUT_HEIGHT = 40
+    INPUT_PADDING_HORIZONTAL = SPACING_SMALL
+
+    # Tabellen
+    TABLE_ROW_HEIGHT = 38
+    TABLE_HEADER_HEIGHT = 40
+    TABLE_CELL_PADDING = SPACING_SMALL
+
+    # Icons
+    ICON_SIZE_SMALL = 16
+    ICON_SIZE_MEDIUM = 20
+    ICON_SIZE_LARGE = 24
+    ICON_SIZE_XL = 32
+
+    # Ecken
+    RADIUS_SMALL = 6
+    RADIUS_MEDIUM = 10
+    RADIUS_LARGE = 14
+    RADIUS_XL = 18
+
+    # Rahmen
+    BORDER_WIDTH = 1
+    ACTIVE_BORDER_WIDTH = 3
+
+    # Schatten
+    SHADOW_BLUR_RADIUS = 20
+    SHADOW_OFFSET_X = 0
+    SHADOW_OFFSET_Y = 6
+
+    # Animationen
+    ANIMATION_FAST_MS = 120
+    ANIMATION_NORMAL_MS = 180
+    ANIMATION_SLOW_MS = 260
+
+    # Fenster
+    WINDOW_MIN_WIDTH = 1100
+    WINDOW_MIN_HEIGHT = 700
+    WINDOW_DEFAULT_WIDTH = 1280
+    WINDOW_DEFAULT_HEIGHT = 800

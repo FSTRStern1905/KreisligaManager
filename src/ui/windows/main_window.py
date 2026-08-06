@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QHBoxLayout,
@@ -8,13 +10,23 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from src.core.module_registry import (
+    create_default_registry,
+)
 from src.database.repository import Repository
+from src.services.settings.module_settings_service import (
+    ModuleSettingsService,
+)
 from src.ui.pages.import_page import ImportPage
 from src.ui.pages.players_page import PlayersPage
+from src.ui.sidebar.sidebar_manager import (
+    SidebarManager,
+)
 from src.ui.windows.clubs_page import ClubsPage
-from src.ui.windows.competition_workspace import CompetitionWorkspace
+from src.ui.windows.competition_workspace import (
+    CompetitionWorkspace,
+)
 from src.ui.windows.dashboard import Dashboard
-from src.ui.windows.leagues_page import LeaguesPage
 from src.ui.windows.matches_page import MatchesPage
 from src.ui.windows.seasons_page import SeasonsPage
 from src.ui.windows.teams_page import TeamsPage
@@ -29,12 +41,38 @@ class MainWindow(QMainWindow):
 
         self.repository = repository
 
-        self.setWindowTitle(
-            "KreisligaManager v0.4.0-dev"
+        self.registry = create_default_registry()
+
+        self.module_settings_service = (
+            ModuleSettingsService(
+                self.registry
+            )
         )
+
+        self.module_settings = (
+            self.module_settings_service.load()
+        )
+
+        self.sidebar = QListWidget()
+        self.pages = QStackedWidget()
+
+        self.page_instances: dict[
+            str,
+            QWidget,
+        ] = {}
+
+        self.sidebar_manager: (
+            SidebarManager
+            | None
+        ) = None
+
+        self.setWindowTitle(
+            "KreisligaManager v0.5.0-dev"
+        )
+
         self.resize(
-            1200,
-            760,
+            1280,
+            800,
         )
 
         self.setup_ui()
@@ -46,102 +84,28 @@ class MainWindow(QMainWindow):
             central_widget
         )
 
-        self.sidebar = QListWidget()
-        self.sidebar.setFixedWidth(
-            220
+        main_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
         )
 
-        self.sidebar.addItems(
-            [
-                "Dashboard",
-                "Vereine",
-                "Ligen",
-                "Saisons",
-                "Wettbewerbe",
-                "Mannschaften",
-                "Spieler",
-                "Spiele",
-                "Import",
-                "Statistiken",
-                "Einstellungen",
-            ]
+        main_layout.setSpacing(
+            0
         )
 
-        self.pages = QStackedWidget()
-
-        self.dashboard = Dashboard(
-            self.repository
-        )
-        self.clubs_page = ClubsPage()
-        self.leagues_page = LeaguesPage()
-        self.seasons_page = SeasonsPage()
-        self.competition_workspace = (
-            CompetitionWorkspace()
-        )
-        self.teams_page = TeamsPage()
-        self.players_page = PlayersPage(
-            self.repository
-        )
-        self.matches_page = MatchesPage()
-        self.import_page = ImportPage()
-
-        self.statistics_placeholder = QLabel(
-            "Statistiken kommen später"
-        )
-        self.statistics_placeholder.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
-
-        self.settings_placeholder = QLabel(
-            "Einstellungen kommen später"
-        )
-        self.settings_placeholder.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
-
-        self.pages.addWidget(
-            self.dashboard
-        )
-        self.pages.addWidget(
-            self.clubs_page
-        )
-        self.pages.addWidget(
-            self.leagues_page
-        )
-        self.pages.addWidget(
-            self.seasons_page
-        )
-        self.pages.addWidget(
-            self.competition_workspace
-        )
-        self.pages.addWidget(
-            self.teams_page
-        )
-        self.pages.addWidget(
-            self.players_page
-        )
-        self.pages.addWidget(
-            self.matches_page
-        )
-        self.pages.addWidget(
-            self.import_page
-        )
-        self.pages.addWidget(
-            self.statistics_placeholder
-        )
-        self.pages.addWidget(
-            self.settings_placeholder
-        )
-
-        self.sidebar.currentRowChanged.connect(
-            self.change_page
-        )
+        self._setup_sidebar()
+        self._create_pages()
+        self._create_sidebar_manager()
 
         main_layout.addWidget(
             self.sidebar
         )
+
         main_layout.addWidget(
-            self.pages
+            self.pages,
+            1,
         )
 
         self.setCentralWidget(
@@ -152,93 +116,280 @@ class MainWindow(QMainWindow):
             "Bereit"
         )
 
-        self.sidebar.setCurrentRow(
-            0
+        if self.sidebar_manager is not None:
+            self.sidebar_manager.build()
+
+    def _setup_sidebar(self) -> None:
+        self.sidebar.setFixedWidth(
+            240
         )
 
-    def change_page(
+        self.sidebar.setObjectName(
+            "MainSidebar"
+        )
+
+        self.sidebar.setSpacing(
+            2
+        )
+
+        self.sidebar.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+
+    def _create_pages(self) -> None:
+        dashboard = Dashboard(
+            self.repository
+        )
+
+        clubs_page = ClubsPage()
+        seasons_page = SeasonsPage()
+        competition_workspace = (
+            CompetitionWorkspace()
+        )
+        teams_page = TeamsPage()
+        players_page = PlayersPage(
+            self.repository
+        )
+        matches_page = MatchesPage()
+        import_page = ImportPage()
+
+        calendar_placeholder = (
+            self._create_placeholder(
+                icon="📅",
+                title="Kalender",
+                text=(
+                    "Der Fußball-Kalender "
+                    "wird als nächstes gebaut."
+                ),
+            )
+        )
+
+        statistics_placeholder = (
+            self._create_placeholder(
+                icon="📊",
+                title="Statistiken",
+                text=(
+                    "Das Statistik-Modul "
+                    "wird vorbereitet."
+                ),
+            )
+        )
+
+        settings_placeholder = (
+            self._create_placeholder(
+                icon="⚙",
+                title="Einstellungen",
+                text=(
+                    "Hier entsteht die "
+                    "Modulverwaltung."
+                ),
+            )
+        )
+
+        self.page_instances = {
+            "dashboard": dashboard,
+            "calendar": calendar_placeholder,
+            "clubs": clubs_page,
+            "seasons": seasons_page,
+            "competitions":
+                competition_workspace,
+            "teams": teams_page,
+            "players": players_page,
+            "matches": matches_page,
+            "import": import_page,
+            "statistics":
+                statistics_placeholder,
+            "settings":
+                settings_placeholder,
+        }
+
+    def _create_sidebar_manager(
         self,
-        index: int,
     ) -> None:
-        if (
-            index < 0
-            or index >= self.pages.count()
+        refresh_callbacks = {
+            "clubs": self._refresh_clubs,
+            "seasons": self._refresh_seasons,
+            "competitions":
+                self._refresh_competitions,
+            "teams": self._refresh_teams,
+            "players": self._refresh_players,
+            "matches": self._refresh_matches,
+            "import": self._refresh_import,
+        }
+
+        self.sidebar_manager = SidebarManager(
+            registry=self.registry,
+            settings=self.module_settings,
+            sidebar=self.sidebar,
+            pages=self.pages,
+            page_instances=(
+                self.page_instances
+            ),
+            refresh_callbacks=(
+                refresh_callbacks
+            ),
+            parent=self,
+        )
+
+        self.sidebar_manager.module_changed.connect(
+            self._on_module_changed
+        )
+
+    @staticmethod
+    def _create_placeholder(
+        icon: str,
+        title: str,
+        text: str,
+    ) -> QLabel:
+        label = QLabel(
+            f"{icon}  {title}\n\n{text}"
+        )
+
+        label.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        label.setObjectName(
+            "ModulePlaceholder"
+        )
+
+        return label
+
+    @staticmethod
+    def _refresh_clubs(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            ClubsPage,
         ):
-            return
+            page.load_clubs()
 
-        self.pages.setCurrentIndex(
-            index
+    @staticmethod
+    def _refresh_seasons(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            SeasonsPage,
+        ):
+            page.load_seasons()
+
+    @staticmethod
+    def _refresh_competitions(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            CompetitionWorkspace,
+        ):
+            page.refresh()
+
+    @staticmethod
+    def _refresh_teams(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            TeamsPage,
+        ):
+            page.load_teams()
+
+    @staticmethod
+    def _refresh_players(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            PlayersPage,
+        ):
+            page.refresh()
+
+    @staticmethod
+    def _refresh_matches(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            MatchesPage,
+        ):
+            page.load_matches()
+
+    @staticmethod
+    def _refresh_import(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            ImportPage,
+        ):
+            page.refresh_data()
+
+    def _on_module_changed(
+        self,
+        module_id: str,
+    ) -> None:
+        messages = {
+            "dashboard":
+                "🏠 Dashboard geöffnet",
+            "calendar":
+                "📅 Fußball-Kalender",
+            "clubs":
+                "🏟 Vereinsverwaltung",
+            "seasons":
+                "🗓 Saisonverwaltung",
+            "competitions":
+                "🏆 Wettbewerbs-Arbeitsbereich",
+            "teams":
+                "👥 Mannschaftsverwaltung",
+            "players":
+                "👤 Spielerverwaltung",
+            "matches":
+                "⚽ Spiele",
+            "import":
+                "📥 Spielplanimport",
+            "statistics":
+                "📊 Statistiken",
+            "settings":
+                "⚙ Einstellungen",
+            "groundhopping":
+                "🗺 Groundhopping",
+            "photography":
+                "📸 Fotografenmodus",
+            "training":
+                "🏋 Training",
+            "simulation":
+                "🎲 Simulation",
+        }
+
+        self.statusBar().showMessage(
+            messages.get(
+                module_id,
+                "Modul geöffnet",
+            )
         )
 
-        current_item = self.sidebar.item(
-            index
+    def reload_module_settings(
+        self,
+    ) -> None:
+        self.module_settings = (
+            self.module_settings_service.load()
         )
 
-        if current_item is None:
+        if self.sidebar_manager is None:
             return
 
-        current_text = current_item.text()
+        self.sidebar_manager.rebuild(
+            self.module_settings
+        )
 
-        if current_text == "Dashboard":
-            self.statusBar().showMessage(
-                "🏠 Dashboard geöffnet"
-            )
+    def open_module(
+        self,
+        module_id: str,
+    ) -> bool:
+        if self.sidebar_manager is None:
+            return False
 
-        elif current_text == "Vereine":
-            self.clubs_page.load_clubs()
-            self.statusBar().showMessage(
-                "🏟 Vereinsverwaltung"
-            )
-
-        elif current_text == "Ligen":
-            self.leagues_page.load_leagues()
-            self.statusBar().showMessage(
-                "🏆 Ligaverwaltung"
-            )
-
-        elif current_text == "Saisons":
-            self.seasons_page.load_seasons()
-            self.statusBar().showMessage(
-                "📅 Saisonverwaltung"
-            )
-
-        elif current_text == "Wettbewerbe":
-            self.competition_workspace.refresh()
-            self.statusBar().showMessage(
-                "🏆 Wettbewerbs-Arbeitsbereich"
-            )
-
-        elif current_text == "Mannschaften":
-            self.teams_page.load_teams()
-            self.statusBar().showMessage(
-                "👕 Mannschaftsverwaltung"
-            )
-
-        elif current_text == "Spieler":
-            self.players_page.refresh()
-            self.statusBar().showMessage(
-                "👤 Spielerverwaltung"
-            )
-
-        elif current_text == "Spiele":
-            self.matches_page.load_matches()
-            self.statusBar().showMessage(
-                f"⚽ {len(self.matches_page.matches)} "
-                "Spiele geladen"
-            )
-
-        elif current_text == "Import":
-            self.import_page.refresh_data()
-            self.statusBar().showMessage(
-                "📥 Spielplanimport"
-            )
-
-        elif current_text == "Statistiken":
-            self.statusBar().showMessage(
-                "📊 Statistiken"
-            )
-
-        elif current_text == "Einstellungen":
-            self.statusBar().showMessage(
-                "⚙ Einstellungen"
-            )
+        return self.sidebar_manager.open_module(
+            module_id
+        )

@@ -1,41 +1,206 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QLabel
+from __future__ import annotations
+
+from PySide6.QtWidgets import (
+    QGridLayout,
+    QLabel,
+    QVBoxLayout,
+    QWidget,
+)
 
 from src.database.repository import Repository
-from src.ui.widgets.info_card import InfoCard
+from src.ui.theme.colors import Colors
+from src.ui.theme.metrics import Metrics
+from src.ui.theme.typography import Typography
+from src.ui.widgets.stat_card import StatCard
 
 
 class Dashboard(QWidget):
-    def __init__(self, repository: Repository):
+    def __init__(
+        self,
+        repository: Repository,
+    ) -> None:
         super().__init__()
 
         self.repository = repository
+
+        self.setObjectName(
+            "DashboardPage"
+        )
+
         self.setup_ui()
 
-    def setup_ui(self):
-        layout = QVBoxLayout()
+    def setup_ui(self) -> None:
+        layout = QVBoxLayout(
+            self
+        )
 
-        title = QLabel("⚽ KreisligaManager Dashboard")
-        title.setObjectName("PageTitle")
-        layout.addWidget(title)
+        layout.setContentsMargins(
+            Metrics.PAGE_MARGIN,
+            Metrics.PAGE_MARGIN,
+            Metrics.PAGE_MARGIN,
+            Metrics.PAGE_MARGIN,
+        )
+
+        layout.setSpacing(
+            Metrics.PAGE_SPACING
+        )
+
+        title = QLabel(
+            "Dashboard"
+        )
+
+        title.setObjectName(
+            "PageTitle"
+        )
+
+        title.setFont(
+            Typography.title()
+        )
+
+        subtitle = QLabel(
+            "Übersicht über die wichtigsten "
+            "Daten im KreisligaManager"
+        )
+
+        subtitle.setObjectName(
+            "PageSubtitle"
+        )
+
+        subtitle.setFont(
+            Typography.body()
+        )
+
+        layout.addWidget(
+            title
+        )
+
+        layout.addWidget(
+            subtitle
+        )
 
         grid = QGridLayout()
 
-        cards = [
-            ("Datenbank", "Verbunden"),
-            ("Vereine", str(self.repository.count("clubs"))),
-            ("Mannschaften", str(self.repository.count("teams"))),
-            ("Spieler", str(self.repository.count("players"))),
-            ("Spiele", str(self.repository.count("matches"))),
-            ("Ereignisse", str(self.repository.count("events"))),
-            ("Eventtypen", str(self.repository.count("event_types"))),
-        ]
+        grid.setContentsMargins(
+            0,
+            Metrics.SPACING_SMALL,
+            0,
+            0,
+        )
 
-        for index, (title, value) in enumerate(cards):
+        grid.setHorizontalSpacing(
+            Metrics.CARD_SPACING
+        )
+
+        grid.setVerticalSpacing(
+            Metrics.CARD_SPACING
+        )
+
+        cards = (
+            (
+                "Vereine",
+                self.repository.count(
+                    "clubs"
+                ),
+                "🏟",
+                Colors.PRIMARY,
+            ),
+            (
+                "Mannschaften",
+                self.repository.count(
+                    "teams"
+                ),
+                "👥",
+                Colors.INFO,
+            ),
+            (
+                "Spieler",
+                self.repository.count(
+                    "players"
+                ),
+                "👤",
+                Colors.SUCCESS,
+            ),
+            (
+                "Spiele",
+                self.repository.count(
+                    "matches"
+                ),
+                "⚽",
+                Colors.WARNING,
+            ),
+            (
+                "Ereignisse",
+                self.repository.count(
+                    "events"
+                ),
+                "📊",
+                Colors.ERROR,
+            ),
+            (
+                "Eventtypen",
+                self.repository.count(
+                    "event_types"
+                ),
+                "🏷",
+                Colors.PRIMARY,
+            ),
+        )
+
+        for index, (
+            card_title,
+            value,
+            icon,
+            accent_color,
+        ) in enumerate(cards):
             row = index // 3
             column = index % 3
-            grid.addWidget(InfoCard(title, value), row, column)
 
-        layout.addLayout(grid)
-        layout.addStretch()
+            card = StatCard(
+                title=card_title,
+                value=value,
+                icon=icon,
+                accent_color=accent_color,
+            )
 
-        self.setLayout(layout)
+            grid.addWidget(
+                card,
+                row,
+                column,
+            )
+
+        for column in range(3):
+            grid.setColumnStretch(
+                column,
+                1,
+            )
+
+        layout.addLayout(
+            grid
+        )
+
+        layout.addStretch(
+            1
+        )
+
+        self.setStyleSheet(
+            f"""
+            QWidget#DashboardPage {{
+                background-color:
+                    {Colors.BACKGROUND};
+            }}
+
+            QLabel#PageTitle {{
+                color:
+                    {Colors.TEXT_PRIMARY};
+                background:
+                    transparent;
+            }}
+
+            QLabel#PageSubtitle {{
+                color:
+                    {Colors.TEXT_SECONDARY};
+                background:
+                    transparent;
+            }}
+            """
+        )

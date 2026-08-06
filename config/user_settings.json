@@ -1,0 +1,33 @@
+{
+  "enabled_modules": [
+    "competitions",
+    "matches",
+    "statistics",
+    "import",
+    "settings",
+    "clubs",
+    "seasons",
+    "teams",
+    "players",
+    "dashboard",
+    "calendar"
+  ],
+  "module_order": [
+    "groundhopping",
+    "photography",
+    "training",
+    "simulation",
+    "competitions",
+    "matches",
+    "statistics",
+    "import",
+    "settings",
+    "clubs",
+    "seasons",
+    "teams",
+    "players",
+    "dashboard",
+    "calendar"
+  ],
+  "start_module": "dashboard"
+}
