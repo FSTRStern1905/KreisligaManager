@@ -1,0 +1,132 @@
+{
+  "Mannschaftsart": {
+    "_1": "Herren",
+    "_3": "A-Junioren",
+    "_6": "B-Junioren",
+    "_8": "C-Junioren",
+    "_10": "D-Junioren",
+    "_4": "Frauen",
+    "_5": "A-Juniorinnen",
+    "_7": "B-Juniorinnen"
+  },
+  "Spielklasse": {
+    "1": {
+      "_1": "Bundesliga",
+      "_2": "2.Bundesliga",
+      "_43": "3.Liga",
+      "_4": "Regionalliga",
+      "_6": "Oberliga"
+    },
+    "3": {
+      "_1": "Bundesliga",
+      "_4": "Regionalliga",
+      "_6": "Oberliga"
+    },
+    "4": {
+      "_1": "Bundesliga",
+      "_2": "2.Bundesliga",
+      "_4": "Regionalliga",
+      "_6": "Oberliga"
+    },
+    "5": {
+      "_4": "Regionalliga"
+    },
+    "6": {
+      "_1": "Bundesliga",
+      "_4": "Regionalliga",
+      "_6": "Oberliga"
+    },
+    "7": {
+      "_4": "Regionalliga",
+      "_6": "Oberliga"
+    },
+    "8": {
+      "_4": "Regionalliga",
+      "_6": "Oberliga"
+    },
+    "10": {
+      "_4": "Regionalliga"
+    }
+  },
+  "Gebiet": {
+    "1": {
+      "1": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "2": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "6": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "43": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "3": {
+      "1": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "6": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "4": {
+      "1": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "2": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "6": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "5": {
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "6": {
+      "1": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "6": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "7": {
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "6": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "8": {
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      },
+      "6": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    },
+    "10": {
+      "4": {
+        "_0123456789ABCDEF0123456700004010": "Deutschland"
+      }
+    }
+  }
+}

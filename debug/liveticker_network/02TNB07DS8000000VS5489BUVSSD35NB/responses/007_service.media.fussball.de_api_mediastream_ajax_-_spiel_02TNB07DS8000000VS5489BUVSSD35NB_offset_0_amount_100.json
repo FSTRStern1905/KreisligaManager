@@ -1,0 +1,13 @@
+{
+  "success": false,
+  "verification": {
+    "offset": "0",
+    "amount": "0"
+  },
+  "final": true,
+  "lastIndex": 0,
+  "meta": {
+    "overallamount": 0
+  },
+  "entries": []
+}

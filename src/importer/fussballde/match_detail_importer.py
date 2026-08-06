@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sqlite3
 from pathlib import Path
 from typing import Any
@@ -30,6 +31,13 @@ from src.importer.fussballde.parsers.match_detail_parser import (
 from src.importer.fussballde.lineup_importer import (
     LineupImporter,
 )
+from src.importer.fussballde.liveticker_data import (
+    LivetickerData,
+    LivetickerEvent,
+)
+from src.importer.fussballde.liveticker_json_parser import (
+    LivetickerJsonParser,
+)
 
 from src.services.player_match_stats.player_match_stats_builder import (
     PlayerMatchStatsBuilder,
@@ -38,6 +46,9 @@ from src.services.player_match_stats.player_match_stats_builder import (
 class MatchDetailImporter:
     DEBUG_HTML_PATH = Path(
         "debug/html/matches"
+    )
+    DEBUG_LIVETICKER_PATH = Path(
+        "debug/liveticker/json"
     )
 
     EVENT_TYPE_MAPPING = {
@@ -77,10 +88,12 @@ class MatchDetailImporter:
         self.lineup_importer = LineupImporter(
             connection
         )
-        self.player_match_stats_builder = (PlayerMatchStatsBuilder(
+        self.player_match_stats_builder = PlayerMatchStatsBuilder(
             connection
         )
-)        
+        self.liveticker_json_parser = (
+            LivetickerJsonParser()
+        )
 
     def import_from_page(
         self,
@@ -113,7 +126,9 @@ class MatchDetailImporter:
         except Exception:
             pass
 
-        page.wait_for_timeout(3_000)
+        page.wait_for_timeout(
+            3_000
+        )
 
         html = page.content()
 
@@ -122,32 +137,276 @@ class MatchDetailImporter:
             source_url=normalized_url,
         )
 
-        parser = MatchDetailParser(page)
+        parser = MatchDetailParser(
+            page
+        )
 
         detail_data = parser.parse(
             html=html,
             source_url=normalized_url,
         )
 
-        lineup_result = self.lineup_importer.import_from_page(
-            page=page,
-            match_external_id=detail_data.match_id,
+        lineup_result = (
+            self.lineup_importer
+            .import_from_page(
+                page=page,
+                match_external_id=(
+                    detail_data.match_id
+                ),
+            )
+        )
+
+        liveticker_data = (
+            self._load_liveticker_data(
+                page=page,
+                source_url=normalized_url,
+                match_external_id=(
+                    detail_data.match_id
+                ),
+            )
         )
 
         result = self.import_data(
             detail_data=detail_data,
             source_url=normalized_url,
+            liveticker_data=liveticker_data,
         )
 
         result["lineups_imported"] = (
-            lineup_result["lineups_imported"]
+            lineup_result[
+                "lineups_imported"
+            ]
         )
 
-        result["lineup_players_imported"] = (
-            lineup_result["players_imported"]
+        result[
+            "lineup_players_imported"
+        ] = lineup_result[
+            "players_imported"
+        ]
+
+        result["liveticker_available"] = (
+            liveticker_data is not None
+        )
+
+        result["event_source"] = (
+            "liveticker_json"
+            if liveticker_data is not None
+            else "match_html"
         )
 
         return result
+
+    def _load_liveticker_data(
+        self,
+        page: Any,
+        source_url: str,
+        match_external_id: str,
+    ) -> LivetickerData | None:
+        payloads: list[dict] = []
+
+        def handle_response(
+            response: Any,
+        ) -> None:
+            response_url = str(
+                response.url
+            )
+
+            if (
+                "ajax.liveticker"
+                not in response_url.casefold()
+            ):
+                return
+
+            if (
+                match_external_id
+                and match_external_id
+                not in response_url
+            ):
+                return
+
+            try:
+                payload = response.json()
+            except Exception:
+                return
+
+            if (
+                isinstance(payload, dict)
+                and isinstance(
+                    payload.get(
+                        "events"
+                    ),
+                    list,
+                )
+            ):
+                payloads.append(
+                    payload
+                )
+
+        page.on(
+            "response",
+            handle_response,
+        )
+
+        try:
+            liveticker_url = (
+                self._build_liveticker_url(
+                    source_url
+                )
+            )
+
+            page.goto(
+                liveticker_url,
+                wait_until="domcontentloaded",
+                timeout=60_000,
+            )
+
+            try:
+                page.wait_for_load_state(
+                    "networkidle",
+                    timeout=20_000,
+                )
+            except Exception:
+                pass
+
+            page.wait_for_timeout(
+                4_000
+            )
+
+        except Exception:
+            return None
+
+        finally:
+            try:
+                page.remove_listener(
+                    "response",
+                    handle_response,
+                )
+            except Exception:
+                pass
+
+        if not payloads:
+            return None
+
+        payload = max(
+            payloads,
+            key=lambda item: len(
+                item.get(
+                    "events",
+                    [],
+                )
+            ),
+        )
+
+        self._save_liveticker_json(
+            match_external_id=(
+                match_external_id
+            ),
+            payload=payload,
+        )
+
+        try:
+            data = (
+                self.liveticker_json_parser
+                .parse(
+                    payload=payload,
+                    source_url=(
+                        self._build_liveticker_url(
+                            source_url
+                        )
+                    ),
+                )
+            )
+        except Exception:
+            return None
+
+        if not self._has_importable_liveticker_events(
+            data
+        ):
+            return None
+
+        return data
+
+    @staticmethod
+    def _build_liveticker_url(
+        source_url: str,
+    ) -> str:
+        normalized_url = (
+            source_url
+            .split(
+                "#",
+                1,
+            )[0]
+            .split(
+                "?",
+                1,
+            )[0]
+            .rstrip(
+                "/"
+            )
+        )
+
+        if "/tab/" in normalized_url:
+            normalized_url = (
+                normalized_url
+                .split(
+                    "/tab/",
+                    1,
+                )[0]
+            )
+
+        return (
+            f"{normalized_url}"
+            "/tab/liveTicker/"
+        )
+
+    def _save_liveticker_json(
+        self,
+        match_external_id: str,
+        payload: dict,
+    ) -> Path:
+        self.DEBUG_LIVETICKER_PATH.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        safe_match_id = (
+            match_external_id.strip()
+            or "unknown_match"
+        )
+
+        file_path = (
+            self.DEBUG_LIVETICKER_PATH
+            / f"{safe_match_id}.json"
+        )
+
+        file_path.write_text(
+            json.dumps(
+                payload,
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+
+        return file_path
+
+    @staticmethod
+    def _has_importable_liveticker_events(
+        data: LivetickerData,
+    ) -> bool:
+        importable_types = {
+            "goal",
+            "yellow_card",
+            "yellow_red_card",
+            "red_card",
+            "substitution",
+        }
+
+        return any(
+            event.event_type
+            in importable_types
+            for event in data.events
+        )
 
     def _save_debug_html(
         self,
@@ -248,6 +507,7 @@ class MatchDetailImporter:
         self,
         detail_data: MatchDetailData,
         source_url: str = "",
+        liveticker_data: LivetickerData | None = None,
     ) -> dict:
         external_id = detail_data.match_id.strip()
 
@@ -314,8 +574,26 @@ class MatchDetailImporter:
                 source_url=source_url,
             )
 
-            imported_event_count, player_ids = (
-                self._import_events(
+            if liveticker_data is not None:
+                (
+                    imported_event_count,
+                    player_ids,
+                ) = self._import_liveticker_events(
+                    match_id=match_id,
+                    liveticker_data=liveticker_data,
+                    detail_data=detail_data,
+                    home_team_id=int(
+                        database_match.home_team_id
+                    ),
+                    away_team_id=int(
+                        database_match.away_team_id
+                    ),
+                )
+            else:
+                (
+                    imported_event_count,
+                    player_ids,
+                ) = self._import_events(
                     match_id=match_id,
                     detail_data=detail_data,
                     home_team_id=int(
@@ -325,7 +603,6 @@ class MatchDetailImporter:
                         database_match.away_team_id
                     ),
                 )
-            )
 
             player_match_stats_result = (
                 self.player_match_stats_builder.build(
@@ -351,6 +628,11 @@ class MatchDetailImporter:
             "players_imported": len(player_ids),
             "events_imported":
                 imported_event_count,
+            "event_source": (
+                "liveticker_json"
+                if liveticker_data is not None
+                else "match_html"
+            ),
             "player_match_stats_created": (
                 player_match_stats_result[
                     "stats_created"
@@ -435,6 +717,279 @@ class MatchDetailImporter:
                 full_name=normalized_name,
                 commit=False,
             )
+        )
+
+    def _import_liveticker_events(
+        self,
+        match_id: int,
+        liveticker_data: LivetickerData,
+        detail_data: MatchDetailData,
+        home_team_id: int,
+        away_team_id: int,
+    ) -> tuple[int, set[int]]:
+        prepared_events: list[dict] = []
+
+        for event in liveticker_data.events:
+            team_id = (
+                self._resolve_liveticker_team_id(
+                    event=event,
+                    detail_data=detail_data,
+                    home_team_id=home_team_id,
+                    away_team_id=away_team_id,
+                )
+            )
+
+            if event.event_type == "substitution":
+                prepared_events.extend(
+                    self._prepare_liveticker_substitution(
+                        event=event,
+                        team_id=team_id,
+                    )
+                )
+                continue
+
+            prepared_event = (
+                self._prepare_liveticker_event(
+                    event=event,
+                    team_id=team_id,
+                )
+            )
+
+            if prepared_event is not None:
+                prepared_events.append(
+                    prepared_event
+                )
+
+        imported_event_count = (
+            self.event_repository
+            .replace_match_events(
+                match_id=match_id,
+                events=prepared_events,
+            )
+        )
+
+        player_ids: set[int] = {
+            int(event["player_id"])
+            for event in prepared_events
+            if event.get(
+                "player_id"
+            ) is not None
+        }
+
+        player_ids.update(
+            int(
+                event[
+                    "related_player_id"
+                ]
+            )
+            for event in prepared_events
+            if event.get(
+                "related_player_id"
+            ) is not None
+        )
+
+        return (
+            imported_event_count,
+            player_ids,
+        )
+
+    def _prepare_liveticker_event(
+        self,
+        event: LivetickerEvent,
+        team_id: int | None,
+    ) -> dict | None:
+        event_type_mapping = {
+            "goal": "GOAL",
+            "yellow_card": "YELLOW_CARD",
+            "yellow_red_card": (
+                "YELLOW_RED_CARD"
+            ),
+            "red_card": "RED_CARD",
+        }
+
+        event_type_code = (
+            event_type_mapping.get(
+                event.event_type
+            )
+        )
+
+        if event_type_code is None:
+            return None
+
+        player_id = self._get_or_create_player(
+            player_name=event.player,
+            external_id=event.player_id,
+            team_id=team_id,
+        )
+
+        return {
+            "event_type_code": (
+                event_type_code
+            ),
+            "minute": event.minute,
+            "second": 0,
+            "team_id": team_id,
+            "player_id": player_id,
+            "related_player_id": None,
+            "value": (
+                self._build_liveticker_value(
+                    event
+                )
+            ),
+            "notes": self._clean_import_text(
+                event.description,
+                allow_private_unicode=False,
+            ),
+        }
+
+    def _prepare_liveticker_substitution(
+        self,
+        event: LivetickerEvent,
+        team_id: int | None,
+    ) -> list[dict]:
+        player_in_id = (
+            self._get_or_create_player(
+                player_name=event.player,
+                external_id=event.player_id,
+                team_id=team_id,
+            )
+        )
+
+        player_out_id = (
+            self._get_or_create_player(
+                player_name=event.player_out,
+                external_id=event.player_out_id,
+                team_id=team_id,
+            )
+        )
+
+        description = self._clean_import_text(
+            event.description,
+            allow_private_unicode=False,
+        )
+
+        events: list[dict] = []
+
+        if player_out_id is not None:
+            events.append(
+                {
+                    "event_type_code":
+                        "SUBSTITUTION_OUT",
+                    "minute": event.minute,
+                    "second": 0,
+                    "team_id": team_id,
+                    "player_id": player_out_id,
+                    "related_player_id":
+                        player_in_id,
+                    "value": (
+                        self._build_liveticker_substitution_value(
+                            direction="out",
+                            event=event,
+                        )
+                    ),
+                    "notes": description,
+                }
+            )
+
+        if player_in_id is not None:
+            events.append(
+                {
+                    "event_type_code":
+                        "SUBSTITUTION_IN",
+                    "minute": event.minute,
+                    "second": 0,
+                    "team_id": team_id,
+                    "player_id": player_in_id,
+                    "related_player_id":
+                        player_out_id,
+                    "value": (
+                        self._build_liveticker_substitution_value(
+                            direction="in",
+                            event=event,
+                        )
+                    ),
+                    "notes": description,
+                }
+            )
+
+        return events
+
+    def _resolve_liveticker_team_id(
+        self,
+        event: LivetickerEvent,
+        detail_data: MatchDetailData,
+        home_team_id: int,
+        away_team_id: int,
+    ) -> int | None:
+        event_team = self._normalize_name(
+            event.team
+        )
+
+        if not event_team:
+            return None
+
+        home_names = {
+            self._normalize_name(
+                detail_data.home_team
+            ),
+        }
+
+        away_names = {
+            self._normalize_name(
+                detail_data.away_team
+            ),
+        }
+
+        if event_team in home_names:
+            return home_team_id
+
+        if event_team in away_names:
+            return away_team_id
+
+        return None
+
+    @staticmethod
+    def _build_liveticker_value(
+        event: LivetickerEvent,
+    ) -> str:
+        values = [
+            "source:liveticker"
+        ]
+
+        if event.has_score:
+            values.append(
+                f"{event.score_home}:"
+                f"{event.score_away}"
+            )
+
+        if event.additional_time > 0:
+            values.append(
+                "Nachspielzeit:"
+                f"{event.additional_time}"
+            )
+
+        return " | ".join(
+            values
+        )
+
+    @staticmethod
+    def _build_liveticker_substitution_value(
+        direction: str,
+        event: LivetickerEvent,
+    ) -> str:
+        values = [
+            f"substitution_{direction}",
+            "source:liveticker",
+        ]
+
+        if event.additional_time > 0:
+            values.append(
+                "Nachspielzeit:"
+                f"{event.additional_time}"
+            )
+
+        return " | ".join(
+            values
         )
 
     def _import_events(

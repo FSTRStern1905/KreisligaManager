@@ -1,0 +1,288 @@
+{
+  "Mannschaftsart": {
+    "_1184": "Herren Ü40",
+    "_74": "Herren",
+    "_75": "A-Junioren",
+    "_76": "B-Junioren",
+    "_77": "C-Junioren",
+    "_78": "D-Junioren",
+    "_79": "E-Junioren",
+    "_82": "Frauen",
+    "_83": "B-Juniorinnen",
+    "_84": "C-Juniorinnen",
+    "_85": "D-Juniorinnen",
+    "_86": "E-Juniorinnen"
+  },
+  "Spielklasse": {
+    "77": {
+      "_207": "Rheinlandliga",
+      "_210": "Bezirksliga",
+      "_217": "Leistungsklasse",
+      "_218": "Kreisklasse"
+    },
+    "78": {
+      "_207": "Rheinlandliga",
+      "_210": "Bezirksliga",
+      "_217": "Leistungsklasse",
+      "_218": "Kreisklasse"
+    },
+    "79": {
+      "_217": "Leistungsklasse",
+      "_218": "Kreisklasse",
+      "_1139": "Kinderfußball"
+    },
+    "82": {
+      "_207": "Rheinlandliga",
+      "_210": "Bezirksliga",
+      "_218": "Kreisklasse"
+    },
+    "1184": {
+      "_218": "Kreisklasse"
+    },
+    "83": {
+      "_218": "Kreisklasse"
+    },
+    "84": {
+      "_218": "Kreisklasse"
+    },
+    "85": {
+      "_218": "Kreisklasse"
+    },
+    "74": {
+      "_207": "Rheinlandliga",
+      "_210": "Bezirksliga",
+      "_213": "Kreisliga A",
+      "_214": "Kreisliga B",
+      "_215": "Kreisliga C",
+      "_219": "Reserveklasse"
+    },
+    "86": {
+      "_218": "Kreisklasse"
+    },
+    "75": {
+      "_207": "Rheinlandliga",
+      "_210": "Bezirksliga",
+      "_218": "Kreisklasse"
+    },
+    "76": {
+      "_207": "Rheinlandliga",
+      "_210": "Bezirksliga",
+      "_217": "Leistungsklasse",
+      "_218": "Kreisklasse"
+    }
+  },
+  "Gebiet": {
+    "77": {
+      "210": {
+        "_00GQ4EGDOS000000VTVG0001VS1O0TGP": "Bezirk Rheinland"
+      },
+      "217": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr"
+      },
+      "218": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "207": {
+        "_0123456789ABCDEF0123456700004140": "Rheinland"
+      }
+    },
+    "78": {
+      "210": {
+        "_00GQ4EGDOS000000VTVG0001VS1O0TGP": "Bezirk Rheinland"
+      },
+      "217": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg"
+      },
+      "218": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "207": {
+        "_0123456789ABCDEF0123456700004140": "Rheinland"
+      }
+    },
+    "79": {
+      "1139": {
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "217": {
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg"
+      },
+      "218": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      }
+    },
+    "82": {
+      "210": {
+        "_00GQ4EGDOS000000VTVG0001VS1O0TGP": "Bezirk Rheinland"
+      },
+      "218": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg"
+      },
+      "207": {
+        "_0123456789ABCDEF0123456700004140": "Rheinland"
+      }
+    },
+    "1184": {
+      "218": {
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg"
+      }
+    },
+    "83": {
+      "218": {
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg"
+      }
+    },
+    "84": {
+      "218": {
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg"
+      }
+    },
+    "85": {
+      "218": {
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      }
+    },
+    "74": {
+      "210": {
+        "_00GQ4EGDOS000000VTVG0001VS1O0TGP": "Bezirk Rheinland"
+      },
+      "213": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "214": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "215": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "207": {
+        "_0123456789ABCDEF0123456700004140": "Rheinland"
+      },
+      "219": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg"
+      }
+    },
+    "86": {
+      "218": {
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      }
+    },
+    "75": {
+      "210": {
+        "_00GQ4EGDOS000000VTVG0001VS1O0TGP": "Bezirk Rheinland"
+      },
+      "218": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "207": {
+        "_0123456789ABCDEF0123456700004140": "Rheinland"
+      }
+    },
+    "76": {
+      "210": {
+        "_00GQ4EGDOS000000VTVG0001VS1O0TGP": "Bezirk Rheinland"
+      },
+      "217": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr"
+      },
+      "218": {
+        "_00ES8GN0HG000009VV0AG08LVUPGND5I": "Kreis Eifel",
+        "_00ES8GN0HG00000BVV0AG08LVUPGND5I": "Kreis Hunsrück/Mosel",
+        "_00ES8GN0HG00000DVV0AG08LVUPGND5I": "Kreis Koblenz",
+        "_00ES8GN0HG000008VV0AG08LVUPGND5I": "Kreis Mosel",
+        "_00ES8GN0HG00000CVV0AG08LVUPGND5I": "Kreis Rhein/Ahr",
+        "_00ES8GN0HG00000EVV0AG08LVUPGND5I": "Kreis Rhein/Lahn",
+        "_00ES8GN0HG00000AVV0AG08LVUPGND5I": "Kreis Trier/Saarburg",
+        "_00ES8GN0IO000000VV0AG08LVUPGND5I": "Kreis Westerwald/Sieg",
+        "_00ES8GN0HG00000FVV0AG08LVUPGND5I": "Kreis Westerwald/Wied"
+      },
+      "207": {
+        "_0123456789ABCDEF0123456700004140": "Rheinland"
+      }
+    }
+  }
+}

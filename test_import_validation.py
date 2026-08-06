@@ -22,7 +22,7 @@ def main() -> None:
 
     try:
         # Test-Wettbewerb
-        competition_id = 7
+        competition_id = 2
 
         validator = ImportValidationService(
             connection

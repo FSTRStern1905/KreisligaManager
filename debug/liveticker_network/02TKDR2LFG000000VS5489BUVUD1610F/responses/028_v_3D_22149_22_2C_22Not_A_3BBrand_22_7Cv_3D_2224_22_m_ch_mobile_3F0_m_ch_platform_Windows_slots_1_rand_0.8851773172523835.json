@@ -1,0 +1,27 @@
+{
+  "status": "ok",
+  "account_id": 25332,
+  "site_id": 583816,
+  "zone_id": 3719196,
+  "size_id": 9,
+  "alt_size_ids": [
+    8,
+    10
+  ],
+  "tracking": "",
+  "inventory": {
+    "placement": "fussball.de_D_Rest_OffContent-Right",
+    "page": "https://www.fussball.de/spiel/sport-club-freiburg-rb-leipzig/-/spiel/02TKDR2LFG000000VS5489BUVUD1610F/tab/liveTicker#!/",
+    "domain": "fussball.de",
+    "documentLang": "de",
+    "divId": "SPMADS_DFB-FB_SKYSCRAPER-2"
+  },
+  "ads": [
+    {
+      "status": "no-ads",
+      "reason": "no-compatible-ads",
+      "error_code": "10",
+      "impression_id": "c578c629-2bc6-40f8-a8d1-6e1fadb2f385"
+    }
+  ]
+}

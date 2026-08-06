@@ -1,0 +1,21 @@
+==========================================================================================
+FUSSBALL.DE LIVETICKER TYPE-ID REPORT
+==========================================================================================
+
+JSON-Dateien geprüft:       251
+Liveticker-Dateien:         2
+Events gefunden:            38
+Spiele gefunden:            2
+
+------------------------------------------------------------------------------------------
+TYPE-ID | ANZAHL | TEAM % | SPIELER % | SPIELER 2 % | BEISPIEL
+------------------------------------------------------------------------------------------
+      1 |      7 |  100.0 |     100.0 |         0.0 | Tor : Derry Lionel Scherhant
+      2 |      3 |  100.0 |     100.0 |         0.0 | Gelbe Karte : Christoph Baumgartner
+      4 |     15 |  100.0 |     100.0 |       100.0 | Wechsel : Maximilian Philipp => Igor Matanovic
+      5 |      3 |  100.0 |     100.0 |         0.0 | Ecke : Max Finkgräfe
+      6 |      2 |  100.0 |     100.0 |         0.0 | Abseits : Ridle Baku
+     28 |      4 |   50.0 |      50.0 |         0.0 | Anpfiff 2. Halbzeit : Brajan Gruda
+     29 |      4 |    0.0 |       0.0 |         0.0 | Abpfiff 2. Halbzeit
+
+==========================================================================================

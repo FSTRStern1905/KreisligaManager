@@ -1,0 +1,154 @@
+<div data-ng-class="{'lt-report-active':$root.reportOffenseStatus === true}" id="match_course_body" class="match-course-liveticker">
+	<div data-ng-class="{'lt-short':liveTickerData.expandedView === false && liveTickerData.events.length > 7}" class="lt-container" data-ng-cloak>
+		<div class="lt-option-bar">
+			<div data-ng-click="$root.$broadcast('LiveTickerEvent.FORCERELOAD')" class="lt-reload-button"></div>
+			<div data-ng-bind="liveTickerData.tickers[0].name" data-ng-if="liveTickerData.tickers.length === 1" class="lt-title"></div>
+			<div data-ng-if="liveTickerData.tickers.length > 1" data-ng-class="{'lt-active':liveTickerData.is_doubt_possible === false}" class="lt-select-box">
+				<div data-ng-class="{'on':$root.tickerSelection === true}" class="select-wrapper">
+					<div data-ng-click="$root.tickerSelection = $root.tickerSelection === true ? false : true" class="selection">
+						<div class="value">
+							<strong data-ng-bind="$root.tickerSelected.name" class="currentSelection"></strong>
+							<span class="icon-angle-down"></span>
+						</div>
+					</div>
+					<ul data-ng-model="$root.tickerSelected" class="select-list">
+						<li data-ng-repeat="ticker in liveTickerData.tickers"><span data-ng-bind="ticker.name" data-ng-click="$root.tickerSelected = ticker;  $root.tickerSelection = false"></span></li>
+					</ul>
+				</div>
+			</div>
+			<div data-ng-if="liveTickerData.is_doubt_possible === true" data-ng-click="$root.reportOffenseStatus = true; $root.reportOffensePage = 'info'" class="lt-report-button"><span>Ticker melden</span></div>
+		</div>
+		<div data-ng-if="$root.reportOffenseStatus === true" data-ng-class="{'lt-report-active':$root.reportOffenseStatus === true}" id="lt-report-dialog" class="lt-report" data-ng-cloak>
+			<div class="reportinginteraction">
+				<div class="reporting-form">
+					<h3>Melden von Rechtsverstößen</h3>
+					<div data-ng-show="$root.reportOffensePage === 'info'" id="reportingFormInfo">
+						<div>
+							<div class="notice">FUSSBALL.DE zensiert prinzipiell keine Liveticker. Manchmal ist der Ton im Fußball etwas rauer. Bitte melde Einträge mit jugendgefährdendem oder menschenverachtendem Inhalt, die gelöscht und strafrechtlich verfolgt werden müssen. Die subjektive Sicht auf die Dinge, eine Fehleinschätzung oder „mangelhafte“ Ticker-Einträge werden nicht weiter verfolgt oder korrigiert. Deshalb: Bitte melde nur Liveticker, die deutlich über dieser Grenze liegen und einen Rechtsverstoß darstellen.</div>
+						</div>
+						<div><span data-ng-click="$root.reportOffensePage = 'report'" class="button button-small button-primary">Weiter</span><span data-ng-click="$root.reportOffenseStatus = false" class="button button-small button-default last">Abbrechen</span></div>
+					</div>
+					<form method="POST" data-ng-show="$root.reportOffensePage === 'report'" action="https://www.fussball.de/liveticker.report" id="reportingForm">
+						<input name="fw_url" type="hidden" value="https://www.fussball.de/ajax.liveticker/-/spiel/02TKDR2LFG000000VS5489BUVUD1610F/ticker-id/030SCOLCPK000002VS5489C0VS7L8JQK" data-ajaxmodel="fw_url">
+						<input name="reason" type="hidden" value="2" data-ajaxmodel="reason">
+						<p data-ng-show="$root.reportOffenseFailure === true" id="reportingFormFailure" class="lt-form-error">Es ist beim Versenden ein Fehler auftgetreten.</p>
+						<p data-ng-bind="$root.reportOffenseErrorMessage" data-ng-show="$root.reportOffenseErrorMessage !== ''" id="reportingFormError" class="lt-form-error"></p>
+						<div class="lt-report-fields">
+							<input name="firstname" placeholder="Dein Vorname" id="reportingFormFirstname" type="text" value="" class="lt-report-firstname" data-ajaxmodel="firstname">
+							<input name="lastname" placeholder="Dein Nachname" id="reportingFormLastname" type="text" value="" class="lt-report-lastname" data-ajaxmodel="lastname">
+							<input name="email" placeholder="Deine E-Mail-Adresse" id="reportingFormEmail" type="email" value="" class="lt-report-email" data-ajaxmodel="email">
+							<textarea maxlength="1000" name="text" placeholder="Deine Nachricht*" id="reportingFormDescription" class="lt-report-message" data-ajaxmodel="text"></textarea>
+							<div id="captcha_1" class="captcha">
+								<div>
+									<img src="data:image/png;base64,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
+AABJRU5ErkJggg==" alt="renew captcha">
+								</div>
+								<a data-ajax-type="html" data-ajax-target=".lt-report #captcha_1" data-ajax-resource="//www.fussball.de/ajax.captcha/-/captcha-scope/.lt-report" href="//www.fussball.de/ajax.captcha/-/captcha-scope/.lt-report" data-ajax-method="post" data-tracking="{'href':'//www.fussball.de/ajax.captcha/-/captcha-scope/.lt-report'}" data-ajax><span class="icon-reload"></span></a>
+								<input data-ng-model="digest" data-ng-init="digest='bLYpZLUf9wGZ21B6MYDhYpNpff7KuM7DzhrroXg+lxgktOWDg5WoaHzXaszgRJR7UviPKzMT+Z8c
+hOHJZIB8ATBImNe8Y2PoESWjQj1uRhoC8EUsZFc9angLwJNZfjx6YvELqTevSvu1tmYn2W2ky9id
+gdG5oMWD16GFqCku++MOjEK1bqbJ1qqC8ieItd2aqx2857YGSam2o46mwwnQ/H92smFlcUf506Jl
+YWDP80YcYSx7MmdaXL/Q4a0OD9SB6AIcNj0DVRJMfagvmsJE0xS2JvVi70d/YjSE/6euXVWkEVdj
+7rKgCa56qVE/dZJLbM88giS1lvu8DVMT7NV+FQ=='" name="captcha-digest" type="hidden" value="bLYpZLUf9wGZ21B6MYDhYpNpff7KuM7DzhrroXg+lxgktOWDg5WoaHzXaszgRJR7UviPKzMT+Z8c
+hOHJZIB8ATBImNe8Y2PoESWjQj1uRhoC8EUsZFc9angLwJNZfjx6YvELqTevSvu1tmYn2W2ky9id
+gdG5oMWD16GFqCku++MOjEK1bqbJ1qqC8ieItd2aqx2857YGSam2o46mwwnQ/H92smFlcUf506Jl
+YWDP80YcYSx7MmdaXL/Q4a0OD9SB6AIcNj0DVRJMfagvmsJE0xS2JvVi70d/YjSE/6euXVWkEVdj
+7rKgCa56qVE/dZJLbM88giS1lvu8DVMT7NV+FQ==" data-ajaxmodel="captcha-digest">
+							</div>
+							<input name="captcha-code" placeholder="Sicherheitscode*" id="lt-captcha-1" type="text" value="" class="lt-captcha-field">
+						</div>
+						<div><span data-submit-report-offense="liveTicker" class="button button-small button-primary">Melden</span><span data-ng-click="$root.reportOffenseStatus = false; $root.reportOffensePage = 'info'" class="button button-small button-default last">Abbrechen</span></div>
+					</form>
+					<div data-ng-show="$root.reportOffensePage === 'confirm'" id="reportingFormConfirmation">
+						<div>
+							<div class="notice">Danke, dass du uns unterstützt, den Verhaltenskodex einzuhalten!</div>
+						</div>
+						<div><span data-ng-click="$root.reportOffenseStatus = false; $root.reportOffensePage = 'info'" class="button button-small button-primary">Schließen</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table data-ng-repeat="event in liveTickerData.events" class="lt-list">
+			<tr data-ng-if="(event.ad === 'dfb_promateur' && liveTickerData.config.presenter_visible === true) || event.ad === ''" class="lt-sponsor">
+				<td class="lt-sponsor-content">
+					<div data-ng-if="event.ad === 'dfb_promateur'" class="lt-sponsor-title"><span class="lt-sponsor-text">Tooor zum</span><span data-ng-bind="event.score"></span></div>
+					<div class="lt-sponsor-presents">Präsentiert von
+						<div class="lt-sponsor-name"><span data-ng-if="event.ad === 'dfb_promateur'">Promateur</span></div>
+					</div>
+				</td>
+				<td class="lt-sponsor-vendor">
+					<a data-ng-if="event.ad === 'dfb_promateur'" href="https://next.fussball.de/promateur?utm_source=FUSSBALLDE&utm_medium=Organisch&utm_content=TorPresenterWeb&utm_campaign=PROMATEUR" target="_blank">
+						<img src="https://www.fussball.de/static/layout/fbde2/por/8.89.0.1/images/promateur/DFB-FBDE-Promateur_Picturemark_RGB_1C_neg.png" alt="Promateur" class="lt-sponsor-icon">
+					</a>
+				</td>
+			</tr>
+			<tr class="lt-event-type-{{event.type_id}}">
+				<td class="lt-spacer">&nbsp;</td>
+				<td class="lt-list-minute"><span data-ng-bind="event.minute"></span><span data-ng-if="event.minute">&#039;</span><span data-ng-if="event.minute_additional_time"><span>(+ </span><span data-ng-bind="event.minute_additional_time"></span><span>&#039;)</span></span></td>
+				<td class="lt-list-icon lt-list-icon-{{event.type_id}}"></td>
+				<td data-ng-if="event.member_id && liveTickerData.allowedEventsForPlayerImages.indexOf(event.type_id) > -1" class="lt-list-image" data-live-ticker-player-id="{{event.member_id}}" data-live-ticker-player-image-directive></td>
+				<td data-ng-if="event.member_id && liveTickerData.allowedEventsForPlayerImages.indexOf(event.type_id) > -1" class="lt-list-text lt-item-has-image"><span data-ng-bind="event.description" class="lt-list-text-headline"></span><span data-ng-bind="event.team_name" class="lt-team-name"></span><span data-ng-bind="event.comment"><br><br></span></td>
+				<td colspan="2" data-ng-if="!event.member_id || (event.member_id && liveTickerData.allowedEventsForPlayerImages.indexOf(event.type_id) < 0)" class="lt-list-text"><span data-ng-bind="event.description" class="lt-list-text-headline"></span><span data-ng-bind="event.team_name" class="lt-team-name"></span><span data-ng-bind="event.comment"><br><br></span></td>
+				<td class="lt-spacer">&nbsp;</td>
+			</tr>
+		</table>
+		<div data-ng-bind="liveTickerData.copyright" data-ng-if="liveTickerData.copyright" class="lt-copyright"></div>
+		<div data-ng-if="liveTickerData.expandedView === false && liveTickerData.events.length > 7" data-ng-click="liveTickerData.expandedView = true" class="lt-expand">Mehr anzeigen</div>
+	</div>
+</div>
