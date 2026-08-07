@@ -154,6 +154,7 @@ class MatchEventImporter:
     ) -> dict | None:
         event_type_mapping = {
             "goal": "GOAL",
+            "penalty_goal": "PENALTY_GOAL",
             "yellow_card": "YELLOW_CARD",
             "yellow_red_card": "YELLOW_RED_CARD",
             "red_card": "RED_CARD",

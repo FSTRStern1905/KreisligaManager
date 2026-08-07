@@ -1,0 +1,51 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 3: 5 Tor-Events besitzen eine Spielerzuordnung, player_match_stats enthalten 3 Tore.
+    ⚠ Spiel 5: 1 Tor-Events besitzen eine Spielerzuordnung, player_match_stats enthalten 0 Tore.
+    ✖ Spiel 4: Sport-Club Freiburg - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 3.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 3, SV Werder Bremen: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 4, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 4, Sport-Club Freiburg: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 2, TSG Hoffenheim: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, SV Werder Bremen: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, FC Augsburg: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, Sport-Club Freiburg: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FC Köln: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ℹ 3 Gelbe Karten besitzen in der Quelle keine Spielerzuordnung.
+    ⚠ YELLOW_CARD: 24 Events besitzen eine Spielerzuordnung, player_match_stats enthalten 17.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  3
+FEHLER:                   1
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  56.0 %
+Einzelinfos:               1
+Einzelwarnungen:           16
+Einzelfehler:              1
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================

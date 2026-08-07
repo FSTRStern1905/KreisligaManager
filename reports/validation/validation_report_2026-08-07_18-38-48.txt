@@ -1,0 +1,99 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ℹ Spiel 326: 3 Tore besitzen in der Quelle keine Spielerzuordnung.
+    ⚠ Spiel 3: 5 Tor-Events besitzen eine Spielerzuordnung, player_match_stats enthalten 3 Tore.
+    ⚠ Spiel 5: 1 Tor-Events besitzen eine Spielerzuordnung, player_match_stats enthalten 0 Tore.
+    ✖ Spiel 404: TuS Mosella Schweich IV - DJK St. Matthias Trier III; Ergebnis enthält 11 Tore, Events enthalten 4.
+
+✖ Aufstellungen und Wechsel
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 3, SV Werder Bremen: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 4, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 4, Sport-Club Freiburg: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 307, TuS Mosella Schweich IV: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 316, FSG Ehrang-Pfalzel III: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 316, SSG Kernscheid II: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 393, SSG Kernscheid II: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 401, SG Zewen III: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 405, DJK St. Matthias Trier III: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 405, SSG Kernscheid II: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 409, SV Trier-Irsch III: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 409, TuS Mosella Schweich IV: 3 Einwechslungen, 1 Auswechslungen.
+    ✖ Spiel 307, SG Serrig III: 7 Startspieler statt 11.
+    ✖ Spiel 310, FSG Ehrang-Pfalzel III: 9 Startspieler statt 11.
+    ✖ Spiel 310, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 312, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 312, SG Zewen III: 9 Startspieler statt 11.
+    ✖ Spiel 319, FSV Trier-Kürenz II: 9 Startspieler statt 11.
+    ✖ Spiel 319, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 322, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 322, TuS Mosella Schweich IV: 9 Startspieler statt 11.
+    ✖ Spiel 327, DJK St. Matthias Trier III: 9 Startspieler statt 11.
+    ✖ Spiel 327, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 336, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 336, SV Trier-Irsch III: 9 Startspieler statt 11.
+    ✖ Spiel 345, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 345, SG Serrig III: 9 Startspieler statt 11.
+    ✖ Spiel 347, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 347, SG Weintal Oberemmel III: 9 Startspieler statt 11.
+    ✖ Spiel 353, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 353, SV Eintracht Ruwer: 9 Startspieler statt 11.
+    ✖ Spiel 357, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 357, SSG Kernscheid II: 9 Startspieler statt 11.
+    ✖ Spiel 367, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 367, SG Zewen III: 9 Startspieler statt 11.
+    ✖ Spiel 374, FSV Trier-Kürenz II: 9 Startspieler statt 11.
+    ✖ Spiel 374, SG Bescheid II (9er): 9 Startspieler statt 11.
+    ✖ Spiel 380, FSV Trier-Kürenz II: 10 Startspieler statt 11.
+    ✖ Spiel 382, DJK St. Matthias Trier III: 9 Startspieler statt 11.
+    ✖ Spiel 382, SG Bescheid II (9er): 9 Startspieler statt 11.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 2, TSG Hoffenheim: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, SV Werder Bremen: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, FC Augsburg: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, Sport-Club Freiburg: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FC Köln: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 307, TuS Mosella Schweich IV: 1138 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, FSG Ehrang-Pfalzel III: 1102 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, SSG Kernscheid II: 1128 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, SSG Kernscheid II: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 401, SG Zewen III: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 405, DJK St. Matthias Trier III: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 405, SSG Kernscheid II: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, SV Trier-Irsch III: 1170 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, TuS Mosella Schweich IV: 1170 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ℹ 213 Gelbe Karten besitzen in der Quelle keine Spielerzuordnung.
+    ℹ 4 Rote Karten besitzen in der Quelle keine Spielerzuordnung.
+    ⚠ YELLOW_CARD: 26 Events besitzen eine Spielerzuordnung, player_match_stats enthalten 18.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  2
+FEHLER:                   2
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  44.0 %
+Einzelinfos:               3
+Einzelwarnungen:           34
+Einzelfehler:              29
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================

@@ -26,6 +26,7 @@ class PlayerRepository:
         self.cursor = connection.cursor()
 
         self._ensure_external_id_column()
+        self._ensure_external_id_alias_table()
         self._ensure_indexes()
 
     def get(
@@ -67,6 +68,31 @@ class PlayerRepository:
             SELECT {self.COLUMNS}
             FROM players
             WHERE external_id = ?
+            LIMIT 1
+            """,
+            (normalized_external_id,),
+        )
+
+        player = self._row_to_dict(
+            self.cursor.fetchone()
+        )
+
+        if player is not None:
+            return player
+
+        self.cursor.execute(
+            f"""
+            SELECT
+                {", ".join(
+                    f"players.{column.strip()}"
+                    for column in self.COLUMNS.split(",")
+                )}
+            FROM player_external_ids
+            INNER JOIN players
+                ON players.player_id =
+                   player_external_ids.player_id
+            WHERE
+                player_external_ids.external_id = ?
             LIMIT 1
             """,
             (normalized_external_id,),
@@ -324,12 +350,26 @@ class PlayerRepository:
             ),
         )
 
+        player_id = int(
+            self.cursor.lastrowid
+        )
+
+        external_id_value = (
+            normalized_values["external_id"]
+        )
+
+        if external_id_value:
+            self._add_external_id_alias(
+                player_id=player_id,
+                external_id=external_id_value,
+                source="primary",
+                commit=False,
+            )
+
         if commit:
             self.connection.commit()
 
-        return int(
-            self.cursor.lastrowid
-        )
+        return player_id
 
     def update(
         self,
@@ -412,6 +452,18 @@ class PlayerRepository:
         if self.cursor.rowcount == 0:
             raise ValueError(
                 "Spieler wurde nicht gefunden."
+            )
+
+        external_id_value = (
+            normalized_values["external_id"]
+        )
+
+        if external_id_value:
+            self._add_external_id_alias(
+                player_id=player_id,
+                external_id=external_id_value,
+                source="primary",
+                commit=False,
             )
 
         if commit:
@@ -546,6 +598,12 @@ class PlayerRepository:
         external_id: str = "",
         commit: bool = True,
     ) -> int:
+        normalized_first_name = (
+            first_name.strip()
+        )
+        normalized_last_name = (
+            last_name.strip()
+        )
         normalized_external_id = (
             external_id.strip()
         )
@@ -563,8 +621,17 @@ class PlayerRepository:
             existing = (
                 self.get_by_name_and_team(
                     team_id=team_id,
-                    first_name=first_name,
-                    last_name=last_name,
+                    first_name=normalized_first_name,
+                    last_name=normalized_last_name,
+                )
+            )
+
+        if existing is None:
+            existing = (
+                self._find_compatible_player(
+                    team_id=team_id,
+                    first_name=normalized_first_name,
+                    last_name=normalized_last_name,
                 )
             )
 
@@ -573,32 +640,70 @@ class PlayerRepository:
                 existing["player_id"]
             )
 
-            should_update = (
+            if normalized_external_id:
+                self._add_external_id_alias(
+                    player_id=player_id,
+                    external_id=normalized_external_id,
+                    source="fussball.de",
+                    commit=False,
+                )
+
+            should_update_primary_id = (
                 normalized_external_id
                 and not existing["external_id"]
             )
 
-            if should_update:
+            should_update_first_name = (
+                normalized_first_name
+                and not (
+                    existing["first_name"]
+                    or ""
+                ).strip()
+            )
+
+            if (
+                should_update_primary_id
+                or should_update_first_name
+            ):
                 self.cursor.execute(
                     """
                     UPDATE players
-                    SET external_id = ?
+                    SET
+                        external_id = CASE
+                            WHEN
+                                (external_id IS NULL
+                                 OR external_id = '')
+                                AND ? != ''
+                            THEN ?
+                            ELSE external_id
+                        END,
+                        first_name = CASE
+                            WHEN
+                                (first_name IS NULL
+                                 OR first_name = '')
+                                AND ? != ''
+                            THEN ?
+                            ELSE first_name
+                        END
                     WHERE player_id = ?
                     """,
                     (
                         normalized_external_id,
+                        normalized_external_id,
+                        normalized_first_name,
+                        normalized_first_name,
                         player_id,
                     ),
                 )
 
-                if commit:
-                    self.connection.commit()
+            if commit:
+                self.connection.commit()
 
             return player_id
 
         return self.add(
-            first_name=first_name,
-            last_name=last_name,
+            first_name=normalized_first_name,
+            last_name=normalized_last_name,
             team_id=team_id,
             external_id=normalized_external_id,
             commit=commit,
@@ -657,6 +762,231 @@ class PlayerRepository:
 
         if commit:
             self.connection.commit()
+
+    def _find_compatible_player(
+        self,
+        team_id: int | None,
+        first_name: str,
+        last_name: str,
+    ) -> dict | None:
+        """
+        Vorsichtiges Fallback-Matching.
+
+        Ein Spieler wird nur zusammengeführt, wenn:
+        - Mannschaft und Nachname übereinstimmen,
+        - genau ein plausibler Kandidat existiert,
+        - und die Vornamen gleich sind oder auf einer
+          Seite fehlen.
+
+        Dadurch wird z. B. "Bahoya" aus der Aufstellung
+        mit "Jean-Mattéo Bahoya" aus dem Liveticker
+        zusammengeführt, ohne beliebige Namensähnlichkeit
+        automatisch zu akzeptieren.
+        """
+        normalized_last_name = (
+            self._normalize_name_for_match(
+                last_name
+            )
+        )
+        normalized_first_name = (
+            self._normalize_name_for_match(
+                first_name
+            )
+        )
+
+        if not normalized_last_name:
+            return None
+
+        if team_id is None:
+            self.cursor.execute(
+                f"""
+                SELECT {self.COLUMNS}
+                FROM players
+                WHERE team_id IS NULL
+                ORDER BY player_id
+                """
+            )
+        else:
+            if team_id <= 0:
+                raise ValueError(
+                    "Ungültige Mannschafts-ID."
+                )
+
+            self.cursor.execute(
+                f"""
+                SELECT {self.COLUMNS}
+                FROM players
+                WHERE team_id = ?
+                ORDER BY player_id
+                """,
+                (team_id,),
+            )
+
+        candidates: list[dict] = []
+
+        for row in self.cursor.fetchall():
+            candidate = self._row_to_dict(
+                row
+            )
+
+            if candidate is None:
+                continue
+
+            candidate_last_name = (
+                self._normalize_name_for_match(
+                    candidate["last_name"]
+                    or ""
+                )
+            )
+
+            if (
+                candidate_last_name
+                != normalized_last_name
+            ):
+                continue
+
+            candidate_first_name = (
+                self._normalize_name_for_match(
+                    candidate["first_name"]
+                    or ""
+                )
+            )
+
+            if (
+                not normalized_first_name
+                or not candidate_first_name
+                or candidate_first_name
+                    == normalized_first_name
+            ):
+                candidates.append(
+                    candidate
+                )
+
+        if len(candidates) != 1:
+            return None
+
+        return candidates[0]
+
+    def _add_external_id_alias(
+        self,
+        player_id: int,
+        external_id: str,
+        source: str = "fussball.de",
+        commit: bool = True,
+    ) -> None:
+        normalized_external_id = (
+            external_id.strip()
+        )
+
+        if (
+            player_id <= 0
+            or not normalized_external_id
+        ):
+            return
+
+        existing = self.cursor.execute(
+            """
+            SELECT player_id
+            FROM player_external_ids
+            WHERE external_id = ?
+            LIMIT 1
+            """,
+            (normalized_external_id,),
+        ).fetchone()
+
+        if existing is not None:
+            existing_player_id = int(
+                existing[0]
+            )
+
+            if existing_player_id != player_id:
+                raise ValueError(
+                    "Externe Spieler-ID ist bereits "
+                    "einem anderen Spieler zugeordnet: "
+                    f"{normalized_external_id}"
+                )
+
+            return
+
+        self.cursor.execute(
+            """
+            INSERT INTO player_external_ids (
+                player_id,
+                external_id,
+                source
+            )
+            VALUES (?, ?, ?)
+            """,
+            (
+                player_id,
+                normalized_external_id,
+                source.strip()
+                or "fussball.de",
+            ),
+        )
+
+        if commit:
+            self.connection.commit()
+
+    def _ensure_external_id_alias_table(
+        self,
+    ) -> None:
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS
+                player_external_ids (
+                    player_external_id_id
+                        INTEGER PRIMARY KEY AUTOINCREMENT,
+                    player_id
+                        INTEGER NOT NULL,
+                    external_id
+                        TEXT NOT NULL UNIQUE,
+                    source
+                        TEXT NOT NULL DEFAULT 'fussball.de',
+                    created_at
+                        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (player_id)
+                        REFERENCES players(player_id)
+                        ON DELETE CASCADE
+                )
+            """
+        )
+
+        self.cursor.execute(
+            """
+            CREATE INDEX IF NOT EXISTS
+                idx_player_external_ids_player
+            ON player_external_ids(player_id)
+            """
+        )
+
+        self.cursor.execute(
+            """
+            INSERT OR IGNORE INTO player_external_ids (
+                player_id,
+                external_id,
+                source
+            )
+            SELECT
+                player_id,
+                external_id,
+                'legacy'
+            FROM players
+            WHERE
+                external_id IS NOT NULL
+                AND external_id != ''
+            """
+        )
+
+        self.connection.commit()
+
+    @staticmethod
+    def _normalize_name_for_match(
+        value: str,
+    ) -> str:
+        return " ".join(
+            value.strip().casefold().split()
+        )
 
     def _ensure_external_id_column(
         self,

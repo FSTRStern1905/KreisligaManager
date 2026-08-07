@@ -35,8 +35,8 @@ from src.importer.fussballde.liveticker_loader import (
     LivetickerLoader,
 )
 
-from src.services.player_match_stats.player_match_stats_builder import (
-    PlayerMatchStatsBuilder,
+from src.services.statistics.statistics_updater import (
+    StatisticsUpdater,
 )
 
 class MatchDetailImporter:
@@ -72,8 +72,10 @@ class MatchDetailImporter:
         self.lineup_importer = LineupImporter(
             connection
         )
-        self.player_match_stats_builder = PlayerMatchStatsBuilder(
-            connection
+        self.statistics_updater = (
+            StatisticsUpdater(
+                connection
+            )
         )
 
     def import_from_page(
@@ -284,8 +286,9 @@ class MatchDetailImporter:
                 liveticker_data=liveticker_data,
             )
 
-            player_match_stats_result = (
-                self.player_match_stats_builder.build(
+            statistics_result = (
+                self.statistics_updater
+                .update_match(
                     match_id
                 )
             )
@@ -314,8 +317,8 @@ class MatchDetailImporter:
                 else "match_html"
             ),
             "player_match_stats_created": (
-                player_match_stats_result[
-                    "stats_created"
+                statistics_result[
+                    "player_match_stats_created"
                 ]
             ),
         }    

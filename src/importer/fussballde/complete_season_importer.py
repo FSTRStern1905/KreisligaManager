@@ -4,7 +4,9 @@ import sqlite3
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from src.importer.fussballde.browser import FussballDeBrowser
+from src.importer.fussballde.browser import (
+    FussballDeBrowser,
+)
 from src.importer.fussballde.match_detail_importer import (
     MatchDetailImporter,
 )
@@ -14,11 +16,15 @@ from src.importer.fussballde.parsers.schedule_parser import (
 from src.services.imports.schedule_import_service import (
     ScheduleImportService,
 )
+from src.services.statistics.statistics_updater import (
+    StatisticsUpdater,
+)
 
 
 @dataclass(slots=True)
 class CompleteSeasonImportResult:
     schedule_result: Any = None
+    statistics_result: dict | None = None
     matches_found: int = 0
     match_details_imported: int = 0
     match_details_failed: int = 0
@@ -33,10 +39,15 @@ class CompleteSeasonImportResult:
 
         if schedule_result is None:
             result["schedule_result"] = None
-        elif hasattr(schedule_result, "__dict__"):
+
+        elif hasattr(
+            schedule_result,
+            "__dict__",
+        ):
             result["schedule_result"] = dict(
                 schedule_result.__dict__
             )
+
         else:
             result["schedule_result"] = str(
                 schedule_result
@@ -69,6 +80,7 @@ class CompleteSeasonImporter:
         schedule_import_service: ScheduleImportService,
     ) -> None:
         self.connection = connection
+
         self.schedule_import_service = (
             schedule_import_service
         )
@@ -79,6 +91,12 @@ class CompleteSeasonImporter:
             )
         )
 
+        self.statistics_updater = (
+            StatisticsUpdater(
+                connection
+            )
+        )
+
     def import_competition(
         self,
         url: str,
@@ -86,23 +104,50 @@ class CompleteSeasonImporter:
         continue_on_detail_error: bool = True,
         max_detail_matches: int | None = None,
     ) -> CompleteSeasonImportResult:
-        normalized_url = self._validate_import_request(
-            url=url,
-            max_detail_matches=max_detail_matches,
-        )
+        normalized_url = url.strip()
+
+        if not normalized_url:
+            raise ValueError(
+                "Die Wettbewerbs-URL darf nicht leer sein."
+            )
+
+        if (
+            max_detail_matches is not None
+            and max_detail_matches < 1
+        ):
+            raise ValueError(
+                "max_detail_matches muss mindestens 1 sein "
+                "oder None."
+            )
 
         browser = FussballDeBrowser()
+        errors: list[str] = []
+
         result = CompleteSeasonImportResult()
 
         try:
-            self._open_browser(
-                browser=browser,
-                url=normalized_url,
+            browser.start(
                 headless=headless,
             )
 
-            parsed_schedule = self._parse_schedule(
-                browser
+            browser.open(
+                normalized_url
+            )
+
+            if browser.page is None:
+                raise RuntimeError(
+                    "Die fussball.de-Seite wurde "
+                    "nicht geladen."
+                )
+
+            schedule_parser = (
+                ScheduleParser(
+                    browser.page
+                )
+            )
+
+            parsed_schedule = (
+                schedule_parser.parse()
             )
 
             schedule_matches = (
@@ -121,22 +166,133 @@ class CompleteSeasonImporter:
                 schedule_matches
             )
 
-            result.schedule_result = (
-                self._import_schedule(
+            parser_adapter = (
+                ParsedScheduleAdapter(
                     parsed_schedule
                 )
             )
 
-            self._import_match_details(
-                browser=browser,
-                schedule_matches=schedule_matches,
-                result=result,
-                continue_on_detail_error=(
-                    continue_on_detail_error
-                ),
-                max_detail_matches=(
-                    max_detail_matches
-                ),
+            result.schedule_result = (
+                self.schedule_import_service
+                .import_schedule(
+                    parser=parser_adapter,
+                )
+            )
+
+            competition_id = (
+                self._resolve_competition_id(
+                    schedule_matches
+                )
+            )
+
+            detail_matches = schedule_matches
+
+            if max_detail_matches is not None:
+                detail_matches = (
+                    schedule_matches[
+                        :max_detail_matches
+                    ]
+                )
+
+            print(
+                "Detailspiele für diesen Lauf: "
+                f"{len(detail_matches)} von "
+                f"{len(schedule_matches)}"
+            )
+
+            for index, schedule_match in enumerate(
+                detail_matches,
+                start=1,
+            ):
+                match_url = self._get_value(
+                    schedule_match,
+                    "match_url",
+                    "",
+                )
+
+                external_id = self._get_value(
+                    schedule_match,
+                    "match_id",
+                    "",
+                )
+
+                if not match_url:
+                    errors.append(
+                        "Keine Spiel-URL vorhanden: "
+                        f"{external_id or index}"
+                    )
+
+                    result.match_details_failed += 1
+
+                    continue
+
+                print(
+                    f"[{index}/{len(detail_matches)}] "
+                    f"Importiere Spiel: {match_url}"
+                )
+
+                try:
+                    detail_result = (
+                        self.match_detail_importer
+                        .import_from_page(
+                            page=browser.page,
+                            source_url=match_url,
+                        )
+                    )
+
+                    result.match_details_imported += 1
+
+                    result.players_imported += int(
+                        detail_result.get(
+                            "players_imported",
+                            0,
+                        )
+                    )
+
+                    result.events_imported += int(
+                        detail_result.get(
+                            "events_imported",
+                            0,
+                        )
+                    )
+
+                except Exception as error:
+                    result.match_details_failed += 1
+
+                    error_message = (
+                        f"{external_id or match_url}: "
+                        f"{error}"
+                    )
+
+                    errors.append(
+                        error_message
+                    )
+
+                    print(
+                        "Detailimport fehlgeschlagen: "
+                        f"{error_message}"
+                    )
+
+                    if not continue_on_detail_error:
+                        raise
+
+            print(
+                "Aktualisiere Wettbewerbsstatistiken ..."
+            )
+
+            result.statistics_result = (
+                self.statistics_updater
+                .update_competition(
+                    competition_id
+                )
+            )
+
+            print(
+                "Wettbewerbsstatistiken aktualisiert."
+            )
+
+            result.errors = tuple(
+                errors
             )
 
             return result
@@ -148,199 +304,55 @@ class CompleteSeasonImporter:
         finally:
             browser.close()
 
-    @staticmethod
-    def _validate_import_request(
-        url: str,
-        max_detail_matches: int | None,
-    ) -> str:
-        normalized_url = url.strip()
-
-        if not normalized_url:
-            raise ValueError(
-                "Die Wettbewerbs-URL darf nicht leer sein."
-            )
-
-        if (
-            max_detail_matches is not None
-            and max_detail_matches < 1
-        ):
-            raise ValueError(
-                "max_detail_matches muss mindestens 1 sein "
-                "oder None."
-            )
-
-        return normalized_url
-
-    @staticmethod
-    def _open_browser(
-        browser: FussballDeBrowser,
-        url: str,
-        headless: bool,
-    ) -> None:
-        browser.start(
-            headless=headless,
-        )
-
-        browser.open(
-            url
-        )
-
-        if browser.page is None:
-            raise RuntimeError(
-                "Die fussball.de-Seite wurde "
-                "nicht geladen."
-            )
-
-    @staticmethod
-    def _parse_schedule(
-        browser: FussballDeBrowser,
-    ) -> Any:
-        if browser.page is None:
-            raise RuntimeError(
-                "Die Browserseite ist nicht verfügbar."
-            )
-
-        schedule_parser = ScheduleParser(
-            browser.page
-        )
-
-        return schedule_parser.parse()
-
-    def _import_schedule(
+    def _resolve_competition_id(
         self,
-        parsed_schedule: Any,
-    ) -> Any:
-        parser_adapter = ParsedScheduleAdapter(
-            parsed_schedule
-        )
-
-        return (
-            self.schedule_import_service
-            .import_schedule(
-                parser=parser_adapter,
-            )
-        )
-
-    def _import_match_details(
-        self,
-        browser: FussballDeBrowser,
         schedule_matches: list[Any],
-        result: CompleteSeasonImportResult,
-        continue_on_detail_error: bool,
-        max_detail_matches: int | None,
-    ) -> None:
-        detail_matches = self._limit_detail_matches(
-            schedule_matches=schedule_matches,
-            max_detail_matches=max_detail_matches,
-        )
+    ) -> int:
+        """
+        Ermittelt den Wettbewerb über eine externe Spiel-ID,
+        die gerade vom ScheduleImportService importiert wurde.
+        """
 
-        print(
-            "Detailspiele für diesen Lauf: "
-            f"{len(detail_matches)} von "
-            f"{len(schedule_matches)}"
-        )
+        cursor = self.connection.cursor()
 
-        errors: list[str] = []
-
-        for index, schedule_match in enumerate(
-            detail_matches,
-            start=1,
-        ):
-            match_url = self._get_value(
-                schedule_match,
-                "match_url",
-                "",
-            )
-
-            external_id = self._get_value(
-                schedule_match,
-                "match_id",
-                "",
-            )
-
-            if not match_url:
-                errors.append(
-                    "Keine Spiel-URL vorhanden: "
-                    f"{external_id or index}"
+        for schedule_match in schedule_matches:
+            external_id = str(
+                self._get_value(
+                    schedule_match,
+                    "match_id",
+                    "",
                 )
+                or ""
+            ).strip()
 
-                result.match_details_failed += 1
+            if not external_id:
                 continue
 
-            print(
-                f"[{index}/{len(detail_matches)}] "
-                f"Importiere Spiel: {match_url}"
+            cursor.execute(
+                """
+                SELECT competition_id
+                FROM matches
+                WHERE external_id = ?
+                LIMIT 1;
+                """,
+                (external_id,),
             )
 
-            try:
-                detail_result = (
-                    self.match_detail_importer
-                    .import_from_page(
-                        page=browser.page,
-                        source_url=match_url,
-                    )
-                )
+            row = cursor.fetchone()
 
-                self._apply_detail_result(
-                    result=result,
-                    detail_result=detail_result,
-                )
+            if row is None:
+                continue
 
-            except Exception as error:
-                result.match_details_failed += 1
-
-                error_message = (
-                    f"{external_id or match_url}: "
-                    f"{error}"
-                )
-
-                errors.append(
-                    error_message
-                )
-
-                print(
-                    "Detailimport fehlgeschlagen: "
-                    f"{error_message}"
-                )
-
-                if not continue_on_detail_error:
-                    raise
-
-        result.errors = tuple(
-            errors
-        )
-
-    @staticmethod
-    def _limit_detail_matches(
-        schedule_matches: list[Any],
-        max_detail_matches: int | None,
-    ) -> list[Any]:
-        if max_detail_matches is None:
-            return schedule_matches
-
-        return schedule_matches[
-            :max_detail_matches
-        ]
-
-    @staticmethod
-    def _apply_detail_result(
-        result: CompleteSeasonImportResult,
-        detail_result: dict,
-    ) -> None:
-        result.match_details_imported += 1
-
-        result.players_imported += int(
-            detail_result.get(
-                "players_imported",
-                0,
+            competition_id = int(
+                row[0]
             )
-        )
 
-        result.events_imported += int(
-            detail_result.get(
-                "events_imported",
-                0,
-            )
+            if competition_id > 0:
+                return competition_id
+
+        raise RuntimeError(
+            "Die Wettbewerb-ID konnte nach dem "
+            "Spielplanimport nicht ermittelt werden."
         )
 
     @staticmethod

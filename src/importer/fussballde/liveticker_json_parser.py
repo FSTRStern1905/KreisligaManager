@@ -14,6 +14,7 @@ from src.importer.fussballde.liveticker_data import (
 class LivetickerJsonParser:
     TYPE_GOAL = 1
     TYPE_YELLOW_CARD = 2
+    TYPE_PENALTY_GOAL = 100
     TYPE_SUBSTITUTION = 4
     TYPE_CORNER = 5
     TYPE_OFFSIDE = 6
@@ -22,6 +23,7 @@ class LivetickerJsonParser:
 
     EVENT_TYPE_BY_ID = {
         TYPE_GOAL: "goal",
+        TYPE_PENALTY_GOAL: "penalty_goal",
         TYPE_YELLOW_CARD: "yellow_card",
         TYPE_SUBSTITUTION: "substitution",
         TYPE_CORNER: "corner",

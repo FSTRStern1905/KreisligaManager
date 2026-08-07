@@ -1,0 +1,363 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 3: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 5: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 326: Events enthalten 6 Tore, player_match_stats enthalten 3.
+    ✖ Spiel 7: 1. FC Union Berlin - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 8: FC St. Pauli - Borussia Dortmund; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 9: 1. FC Heidenheim 1846 - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 10: Borussia Dortmund - 1. FC Union Berlin; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 11: RB Leipzig - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 12: SV Werder Bremen - Bayer 04 Leverkusen; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 13: VfB Stuttgart - Borussia Mönchengladbach; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 14: VfL Wolfsburg - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 15: FC Augsburg - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 16: TSG Hoffenheim - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 17: 1. FC Köln - Sport-Club Freiburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 18: Hamburger SV - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 19: FC Bayern München - Hamburger SV; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 20: Bayer 04 Leverkusen - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 21: Sport-Club Freiburg - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 22: 1. FSV Mainz 05 - RB Leipzig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 23: Borussia Mönchengladbach - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 24: VfL Wolfsburg - 1. FC Köln; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 25: 1. FC Union Berlin - TSG Hoffenheim; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 26: FC St. Pauli - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 27: 1. FC Heidenheim 1846 - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 28: Bayer 04 Leverkusen - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 29: Eintracht Frankfurt - 1. FC Union Berlin; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 30: Borussia Dortmund - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 31: RB Leipzig - 1. FC Köln; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 32: SV Werder Bremen - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 33: VfB Stuttgart - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 34: FC Augsburg - 1. FSV Mainz 05; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 35: TSG Hoffenheim - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 36: Hamburger SV - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 37: FC Bayern München - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 38: Sport-Club Freiburg - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 39: 1. FSV Mainz 05 - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 40: Borussia Mönchengladbach - Eintracht Frankfurt; Ergebnis enthält 10 Tore, Events enthalten 0.
+    ✖ Spiel 41: VfL Wolfsburg - RB Leipzig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 43: FC St. Pauli - Bayer 04 Leverkusen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 44: 1. FC Heidenheim 1846 - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 45: 1. FC Köln - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 46: Bayer 04 Leverkusen - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 47: Eintracht Frankfurt - FC Bayern München; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 48: Borussia Dortmund - RB Leipzig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 49: SV Werder Bremen - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 50: VfB Stuttgart - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 52: FC Augsburg - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 53: TSG Hoffenheim - 1. FC Köln; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 54: Hamburger SV - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 55: FC Bayern München - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 56: Sport-Club Freiburg - Eintracht Frankfurt; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 57: 1. FSV Mainz 05 - Bayer 04 Leverkusen; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 58: RB Leipzig - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 59: VfL Wolfsburg - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 60: 1. FC Union Berlin - Borussia Mönchengladbach; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 61: FC St. Pauli - TSG Hoffenheim; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 62: 1. FC Heidenheim 1846 - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 63: 1. FC Köln - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 64: Bayer 04 Leverkusen - Sport-Club Freiburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 65: Eintracht Frankfurt - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 66: Borussia Dortmund - 1. FC Köln; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 67: SV Werder Bremen - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 68: VfB Stuttgart - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 69: Borussia Mönchengladbach - FC Bayern München; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 70: FC Augsburg - RB Leipzig; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 71: TSG Hoffenheim - 1. FC Heidenheim 1846; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 72: Hamburger SV - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 73: FC Bayern München - Bayer 04 Leverkusen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 74: 1. FSV Mainz 05 - SV Werder Bremen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 75: RB Leipzig - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 76: VfL Wolfsburg - TSG Hoffenheim; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 77: FC Augsburg - Borussia Dortmund; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 79: FC St. Pauli - Borussia Mönchengladbach; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 80: 1. FC Heidenheim 1846 - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 81: 1. FC Köln - Hamburger SV; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 82: Bayer 04 Leverkusen - 1. FC Heidenheim 1846; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 83: Eintracht Frankfurt - 1. FSV Mainz 05; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 84: Sport-Club Freiburg - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 85: SV Werder Bremen - VfL Wolfsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 86: VfB Stuttgart - FC Augsburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 87: Borussia Mönchengladbach - 1. FC Köln; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 88: 1. FC Union Berlin - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 89: TSG Hoffenheim - RB Leipzig; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 90: Hamburger SV - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 91: FC Bayern München - Sport-Club Freiburg; Ergebnis enthält 8 Tore, Events enthalten 0.
+    ✖ Spiel 92: Borussia Dortmund - VfB Stuttgart; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 93: 1. FSV Mainz 05 - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 94: RB Leipzig - SV Werder Bremen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 95: VfL Wolfsburg - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 96: FC Augsburg - Hamburger SV; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 97: FC St. Pauli - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 98: 1. FC Heidenheim 1846 - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 99: 1. FC Köln - Eintracht Frankfurt; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 100: FC Bayern München - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 101: Bayer 04 Leverkusen - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 102: Eintracht Frankfurt - VfL Wolfsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 103: Sport-Club Freiburg - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 104: SV Werder Bremen - 1. FC Köln; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 106: 1. FC Union Berlin - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 107: TSG Hoffenheim - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 108: Hamburger SV - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 109: Borussia Dortmund - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 110: 1. FSV Mainz 05 - Borussia Mönchengladbach; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 111: RB Leipzig - Eintracht Frankfurt; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 112: VfB Stuttgart - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 113: VfL Wolfsburg - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 114: FC Augsburg - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 115: 1. FC Heidenheim 1846 - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 116: 1. FC Köln - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 117: Hamburger SV - SV Werder Bremen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 118: FC Bayern München - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 119: Bayer 04 Leverkusen - 1. FC Köln; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 120: Eintracht Frankfurt - FC Augsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 121: Sport-Club Freiburg - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 122: SV Werder Bremen - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 123: Borussia Mönchengladbach - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 124: 1. FC Union Berlin - RB Leipzig; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 125: FC St. Pauli - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 126: TSG Hoffenheim - Hamburger SV; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 127: Borussia Dortmund - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 129: RB Leipzig - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 131: VfL Wolfsburg - Sport-Club Freiburg; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 133: 1. FC Heidenheim 1846 - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 134: 1. FC Köln - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 135: Hamburger SV - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 136: FC Bayern München - VfL Wolfsburg; Ergebnis enthält 9 Tore, Events enthalten 0.
+    ✖ Spiel 137: Bayer 04 Leverkusen - VfB Stuttgart; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 138: Eintracht Frankfurt - Borussia Dortmund; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 139: Sport-Club Freiburg - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 140: SV Werder Bremen - TSG Hoffenheim; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 141: Borussia Mönchengladbach - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 142: 1. FC Union Berlin - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 143: FC St. Pauli - RB Leipzig; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 144: 1. FC Heidenheim 1846 - 1. FC Köln; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 145: Borussia Dortmund - SV Werder Bremen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 146: 1. FSV Mainz 05 - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 147: RB Leipzig - Sport-Club Freiburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 148: VfB Stuttgart - Eintracht Frankfurt; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 149: VfL Wolfsburg - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 150: FC Augsburg - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 151: TSG Hoffenheim - Borussia Mönchengladbach; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 152: 1. FC Köln - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 153: Hamburger SV - Bayer 04 Leverkusen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 154: Borussia Dortmund - FC St. Pauli; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 155: RB Leipzig - FC Bayern München; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 156: SV Werder Bremen - Eintracht Frankfurt; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 157: VfB Stuttgart - 1. FC Union Berlin; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 158: VfL Wolfsburg - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 159: FC Augsburg - Sport-Club Freiburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 160: TSG Hoffenheim - Bayer 04 Leverkusen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 161: 1. FC Köln - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 163: FC Bayern München - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 164: Bayer 04 Leverkusen - SV Werder Bremen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 165: Eintracht Frankfurt - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 166: Sport-Club Freiburg - 1. FC Köln; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 167: 1. FSV Mainz 05 - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 168: Borussia Mönchengladbach - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 169: 1. FC Union Berlin - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 171: 1. FC Heidenheim 1846 - RB Leipzig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 172: Eintracht Frankfurt - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 173: Borussia Dortmund - 1. FC Heidenheim 1846; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 174: RB Leipzig - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 175: SV Werder Bremen - Borussia Mönchengladbach; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 176: VfB Stuttgart - Sport-Club Freiburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 177: FC Augsburg - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 178: TSG Hoffenheim - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 179: 1. FC Köln - VfL Wolfsburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 180: Hamburger SV - FC Bayern München; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 181: FC Bayern München - TSG Hoffenheim; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 182: Sport-Club Freiburg - SV Werder Bremen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 183: 1. FSV Mainz 05 - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 184: Borussia Mönchengladbach - Bayer 04 Leverkusen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 185: VfL Wolfsburg - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 186: 1. FC Union Berlin - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 187: FC St. Pauli - VfB Stuttgart; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 188: 1. FC Heidenheim 1846 - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 189: 1. FC Köln - RB Leipzig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 190: Bayer 04 Leverkusen - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 191: Eintracht Frankfurt - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 192: Borussia Dortmund - 1. FSV Mainz 05; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 193: RB Leipzig - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 194: SV Werder Bremen - FC Bayern München; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 195: VfB Stuttgart - 1. FC Köln; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 196: FC Augsburg - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 197: TSG Hoffenheim - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 198: Hamburger SV - 1. FC Union Berlin; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 199: FC Bayern München - Eintracht Frankfurt; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 200: Sport-Club Freiburg - Borussia Mönchengladbach; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 201: 1. FSV Mainz 05 - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 202: RB Leipzig - Borussia Dortmund; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 203: VfL Wolfsburg - FC Augsburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 204: 1. FC Union Berlin - Bayer 04 Leverkusen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 205: FC St. Pauli - SV Werder Bremen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 206: 1. FC Heidenheim 1846 - VfB Stuttgart; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 207: 1. FC Köln - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 208: Bayer 04 Leverkusen - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 209: Eintracht Frankfurt - Sport-Club Freiburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 210: Borussia Dortmund - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 211: SV Werder Bremen - 1. FC Heidenheim 1846; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 212: VfB Stuttgart - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 213: Borussia Mönchengladbach - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 214: FC Augsburg - 1. FC Köln; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 215: TSG Hoffenheim - FC St. Pauli; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 216: Hamburger SV - RB Leipzig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 217: FC Bayern München - Borussia Mönchengladbach; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 218: Sport-Club Freiburg - Bayer 04 Leverkusen; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 219: 1. FSV Mainz 05 - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 220: RB Leipzig - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 221: VfL Wolfsburg - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 222: 1. FC Union Berlin - SV Werder Bremen; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 224: 1. FC Heidenheim 1846 - TSG Hoffenheim; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 225: 1. FC Köln - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 226: Bayer 04 Leverkusen - FC Bayern München; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 227: Eintracht Frankfurt - 1. FC Heidenheim 1846; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 228: Borussia Dortmund - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 229: Sport-Club Freiburg - 1. FC Union Berlin; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 230: SV Werder Bremen - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 231: VfB Stuttgart - RB Leipzig; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 232: Borussia Mönchengladbach - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 233: TSG Hoffenheim - VfL Wolfsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 234: Hamburger SV - 1. FC Köln; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 235: FC Bayern München - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 236: Borussia Dortmund - Hamburger SV; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 237: 1. FSV Mainz 05 - Eintracht Frankfurt; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 238: RB Leipzig - TSG Hoffenheim; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 239: VfL Wolfsburg - SV Werder Bremen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 240: FC Augsburg - VfB Stuttgart; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 241: FC St. Pauli - Sport-Club Freiburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 242: 1. FC Heidenheim 1846 - Bayer 04 Leverkusen; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 243: 1. FC Köln - Borussia Mönchengladbach; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 244: Bayer 04 Leverkusen - VfL Wolfsburg; Ergebnis enthält 9 Tore, Events enthalten 0.
+    ✖ Spiel 245: Eintracht Frankfurt - 1. FC Köln; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 246: Sport-Club Freiburg - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 247: SV Werder Bremen - RB Leipzig; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 248: VfB Stuttgart - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 249: Borussia Mönchengladbach - 1. FC Heidenheim 1846; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 250: 1. FC Union Berlin - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 251: TSG Hoffenheim - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 252: Hamburger SV - FC Augsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 253: Borussia Dortmund - Bayer 04 Leverkusen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 254: 1. FSV Mainz 05 - Sport-Club Freiburg; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 255: RB Leipzig - Borussia Mönchengladbach; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 256: VfB Stuttgart - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 257: VfL Wolfsburg - Eintracht Frankfurt; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 258: FC Augsburg - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 259: FC St. Pauli - FC Bayern München; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 260: 1. FC Heidenheim 1846 - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 261: 1. FC Köln - SV Werder Bremen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 262: FC Bayern München - VfB Stuttgart; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 263: Bayer 04 Leverkusen - FC Augsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 264: Eintracht Frankfurt - RB Leipzig; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 265: Sport-Club Freiburg - 1. FC Heidenheim 1846; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 266: SV Werder Bremen - Hamburger SV; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 267: Borussia Mönchengladbach - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 268: 1. FC Union Berlin - VfL Wolfsburg; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 269: FC St. Pauli - 1. FC Köln; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 270: TSG Hoffenheim - Borussia Dortmund; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 271: Borussia Dortmund - Sport-Club Freiburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 272: 1. FSV Mainz 05 - FC Bayern München; Ergebnis enthält 7 Tore, Events enthalten 0.
+    ✖ Spiel 273: RB Leipzig - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 274: VfB Stuttgart - SV Werder Bremen; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 276: FC Augsburg - Eintracht Frankfurt; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 277: 1. FC Heidenheim 1846 - FC St. Pauli; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 278: 1. FC Köln - Bayer 04 Leverkusen; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 279: Hamburger SV - TSG Hoffenheim; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 280: FC Bayern München - 1. FC Heidenheim 1846; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 281: Bayer 04 Leverkusen - RB Leipzig; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 282: Eintracht Frankfurt - Hamburger SV; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 283: Sport-Club Freiburg - VfL Wolfsburg; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 284: SV Werder Bremen - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 285: Borussia Mönchengladbach - Borussia Dortmund; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 286: 1. FC Union Berlin - 1. FC Köln; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 287: FC St. Pauli - 1. FSV Mainz 05; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 288: TSG Hoffenheim - VfB Stuttgart; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 289: Borussia Dortmund - Eintracht Frankfurt; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 290: 1. FSV Mainz 05 - 1. FC Union Berlin; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 291: RB Leipzig - FC St. Pauli; Ergebnis enthält 3 Tore, Events enthalten 0.
+    ✖ Spiel 292: VfB Stuttgart - Bayer 04 Leverkusen; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 293: VfL Wolfsburg - FC Bayern München; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 294: FC Augsburg - Borussia Mönchengladbach; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 295: TSG Hoffenheim - SV Werder Bremen; Ergebnis enthält 1 Tore, Events enthalten 0.
+    ✖ Spiel 296: 1. FC Köln - 1. FC Heidenheim 1846; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 297: Hamburger SV - Sport-Club Freiburg; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 298: FC Bayern München - 1. FC Köln; Ergebnis enthält 6 Tore, Events enthalten 0.
+    ✖ Spiel 299: Bayer 04 Leverkusen - Hamburger SV; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 300: Eintracht Frankfurt - VfB Stuttgart; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 301: Sport-Club Freiburg - RB Leipzig; Ergebnis enthält 5 Tore, Events enthalten 0.
+    ✖ Spiel 302: SV Werder Bremen - Borussia Dortmund; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 303: Borussia Mönchengladbach - TSG Hoffenheim; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 304: 1. FC Union Berlin - FC Augsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 305: FC St. Pauli - VfL Wolfsburg; Ergebnis enthält 4 Tore, Events enthalten 0.
+    ✖ Spiel 306: 1. FC Heidenheim 1846 - 1. FSV Mainz 05; Ergebnis enthält 2 Tore, Events enthalten 0.
+    ✖ Spiel 404: TuS Mosella Schweich IV - DJK St. Matthias Trier III; Ergebnis enthält 11 Tore, Events enthalten 4.
+
+✖ Aufstellungen und Wechsel
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 3, SV Werder Bremen: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 4, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 4, Sport-Club Freiburg: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 307, TuS Mosella Schweich IV: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 316, FSG Ehrang-Pfalzel III: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 316, SSG Kernscheid II: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 393, SSG Kernscheid II: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 401, SG Zewen III: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 405, DJK St. Matthias Trier III: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 405, SSG Kernscheid II: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 409, SV Trier-Irsch III: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 409, TuS Mosella Schweich IV: 3 Einwechslungen, 1 Auswechslungen.
+    ✖ Spiel 307, SG Serrig III: 7 Startspieler statt 11.
+    ✖ Spiel 380, FSV Trier-Kürenz II: 10 Startspieler statt 11.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 2, TSG Hoffenheim: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, SV Werder Bremen: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, FC Augsburg: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, Sport-Club Freiburg: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FC Köln: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 307, TuS Mosella Schweich IV: 1138 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, FSG Ehrang-Pfalzel III: 1102 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, SSG Kernscheid II: 1128 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, SSG Kernscheid II: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 401, SG Zewen III: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 405, DJK St. Matthias Trier III: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 405, SSG Kernscheid II: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, SV Trier-Irsch III: 1170 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, TuS Mosella Schweich IV: 1170 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=239, player_match_stats=18.
+    ⚠ RED_CARD: Events=4, player_match_stats=0.
+    ⚠ 4 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 213 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  2
+FEHLER:                   2
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  44.0 %
+Einzelinfos:               0
+Einzelwarnungen:           38
+Einzelfehler:              292
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================

@@ -1,0 +1,106 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+⚠ Tore und Endergebnisse
+    ⚠ Spiel 3: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 5: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 341: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 362: Events enthalten 4 Tore, player_match_stats enthalten 2.
+
+✖ Aufstellungen und Wechsel
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 3, SV Werder Bremen: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 4, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 4, Sport-Club Freiburg: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 320, TSG Trier-Biewer: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 328, SV Hetzerath II: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 346, TSG Trier-Biewer: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 346, TuS Issel: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 351, SV Trier-Olewig II: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 358, SV Sirzenich II: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 358, VfL Trier III: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 367, SSG Kernscheid: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 367, SV Sirzenich II: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 369, SG Ruwertal Gutweiler III: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 369, VfL Trier III: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 374, TSG Trier-Biewer: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 374, VfL Trier III: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 392, SV Bekond II: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 392, VfL Trier II: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 393, FSG Ehrang-Pfalzel II: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 393, TuS Trier Euren II: 1 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 409, FSG Ehrang-Pfalzel II: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 409, SSG Kernscheid: 1 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 425, SG Ruwertal Gutweiler III: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 425, TuS Trier Euren II: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 432, VfL Trier II: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 444, SV Föhren II: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 444, VfL Trier III: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 458, TuS Issel: 5 Einwechslungen, 4 Auswechslungen.
+    ✖ Spiel 398, TSG Trier-Biewer: 10 Startspieler statt 11.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 2, TSG Hoffenheim: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, SV Werder Bremen: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, FC Augsburg: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, Sport-Club Freiburg: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FC Köln: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 320, TSG Trier-Biewer: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 328, SV Hetzerath II: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 346, TSG Trier-Biewer: 1350 Mannschaftsminuten statt 990.
+    ⚠ Spiel 346, TuS Issel: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 349, SG Ruwertal Gutweiler III: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 351, SV Trier-Olewig II: 938 Mannschaftsminuten statt 990.
+    ⚠ Spiel 358, SV Sirzenich II: 1440 Mannschaftsminuten statt 990.
+    ⚠ Spiel 358, VfL Trier III: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 367, SSG Kernscheid: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 367, SV Sirzenich II: 1072 Mannschaftsminuten statt 990.
+    ⚠ Spiel 369, SG Ruwertal Gutweiler III: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 369, VfL Trier III: 1205 Mannschaftsminuten statt 990.
+    ⚠ Spiel 374, TSG Trier-Biewer: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 374, VfL Trier III: 1440 Mannschaftsminuten statt 990.
+    ⚠ Spiel 392, SV Bekond II: 1096 Mannschaftsminuten statt 990.
+    ⚠ Spiel 392, VfL Trier II: 1232 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, FSG Ehrang-Pfalzel II: 1350 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, TuS Trier Euren II: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, FSG Ehrang-Pfalzel II: 1440 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, SSG Kernscheid: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 425, SG Ruwertal Gutweiler III: 1108 Mannschaftsminuten statt 990.
+    ⚠ Spiel 425, TuS Trier Euren II: 1060 Mannschaftsminuten statt 990.
+    ⚠ Spiel 432, VfL Trier II: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 444, SV Föhren II: 1101 Mannschaftsminuten statt 990.
+    ⚠ Spiel 444, VfL Trier III: 1127 Mannschaftsminuten statt 990.
+    ⚠ Spiel 458, TuS Issel: 1005 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=384, player_match_stats=17.
+    ⚠ RED_CARD: Events=9, player_match_stats=0.
+    ⚠ 9 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 360 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  3
+FEHLER:                   1
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  56.0 %
+Einzelinfos:               0
+Einzelwarnungen:           72
+Einzelfehler:              1
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================
