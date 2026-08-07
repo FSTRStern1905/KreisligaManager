@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import sqlite3
 import time
 from datetime import datetime
 from pathlib import Path
@@ -45,6 +44,10 @@ from src.database.repositories.team_repository import (
 from src.importer.fussballde.complete_season_importer import (
     CompleteSeasonImporter,
     CompleteSeasonImportResult,
+)
+from src.services.imports.import_connection import (
+    ImportConnection,
+    create_import_connection,
 )
 from src.services.imports.schedule_import_service import (
     ScheduleImportService,
@@ -309,15 +312,11 @@ class ImportPage(QWidget):
         QApplication.processEvents()
 
         start_time = time.perf_counter()
-        connection: sqlite3.Connection | None = None
+        connection: ImportConnection | None = None
 
         try:
-            connection = sqlite3.connect(
-                DATABASE_PATH
-            )
-            connection.row_factory = sqlite3.Row
-            connection.execute(
-                "PRAGMA foreign_keys = ON;"
+            connection = create_import_connection(
+                str(DATABASE_PATH)
             )
 
             schedule_import_service = (
@@ -376,8 +375,6 @@ class ImportPage(QWidget):
                 ),
             )
 
-            connection.commit()
-
             validation_service = (
                 ImportValidationService(
                     connection
@@ -401,6 +398,16 @@ class ImportPage(QWidget):
                     validation_text
                 )
             )
+
+            if validation_result.has_errors:
+                raise RuntimeError(
+                    "Die Importvalidierung hat kritische "
+                    "Fehler gefunden. Der komplette Import "
+                    "wurde zurückgesetzt.\n\n"
+                    f"Validierungsbericht: {report_path}"
+                )
+
+            connection.final_commit()
 
             duration = (
                 time.perf_counter()

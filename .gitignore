@@ -19,4 +19,8 @@ __pycache__/
 
 # Windows
 Thumbs.db
-desktop.ini
+desktop.inidebug/
+data/temp/
+data/backups/
+02TKDR2LFG000000VS5489BUVUD1610F.zip
+02TNB07DS8000000VS5489BUVSSD35NB.zip
