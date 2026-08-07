@@ -19,7 +19,7 @@ class StatCard(Card):
         title: str,
         value: str | int | float,
         icon: str = "",
-        subtitle: str = "",
+        subtitle: str = "Datenbankeinträge",
         accent_color: str = Colors.PRIMARY,
         parent: QWidget | None = None,
         hover_enabled: bool = True,
@@ -38,7 +38,7 @@ class StatCard(Card):
         )
 
         self.setMinimumHeight(
-            Metrics.CARD_MIN_HEIGHT
+            150
         )
 
         self.setSizePolicy(
@@ -59,8 +59,11 @@ class StatCard(Card):
         )
 
         self.value_label.setAlignment(
-            Qt.AlignmentFlag.AlignLeft
-            | Qt.AlignmentFlag.AlignVCenter
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        self.content_layout().addStretch(
+            1
         )
 
         self.content_layout().addWidget(
@@ -68,7 +71,7 @@ class StatCard(Card):
         )
 
         self.subtitle_label = QLabel(
-            subtitle
+            subtitle.strip()
         )
 
         self.subtitle_label.setObjectName(
@@ -77,6 +80,10 @@ class StatCard(Card):
 
         self.subtitle_label.setFont(
             Typography.small()
+        )
+
+        self.subtitle_label.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
         )
 
         self.subtitle_label.setWordWrap(
@@ -91,6 +98,10 @@ class StatCard(Card):
             self.subtitle_label
         )
 
+        self.content_layout().addStretch(
+            1
+        )
+
         self._apply_stat_style()
 
     def _apply_stat_style(self) -> None:
@@ -98,13 +109,19 @@ class StatCard(Card):
             self.styleSheet()
             + f"""
             QLabel#StatCardValue {{
-                color: {self._accent_color};
+                color: {Colors.TEXT_PRIMARY};
                 background: transparent;
                 border: none;
             }}
 
             QLabel#StatCardSubtitle {{
                 color: {Colors.TEXT_SECONDARY};
+                background: transparent;
+                border: none;
+            }}
+
+            QLabel[cardIcon="true"] {{
+                color: {self._accent_color};
                 background: transparent;
                 border: none;
             }}

@@ -51,7 +51,7 @@ class Card(QFrame):
 
         self.setSizePolicy(
             QSizePolicy.Policy.Expanding,
-            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Expanding,
         )
 
         self.setMinimumHeight(
@@ -151,7 +151,8 @@ class Card(QFrame):
         )
 
         root_layout.addLayout(
-            self._content_layout
+            self._content_layout,
+            1,
         )
 
     def _apply_style(self) -> None:
@@ -217,8 +218,16 @@ class Card(QFrame):
         alignment: (
             Qt.AlignmentFlag
             | Qt.Alignment
-        ) = Qt.AlignmentFlag.AlignTop,
+            | None
+        ) = None,
     ) -> None:
+        if alignment is None:
+            self._content_layout.addWidget(
+                widget,
+                stretch,
+            )
+            return
+
         self._content_layout.addWidget(
             widget,
             stretch,

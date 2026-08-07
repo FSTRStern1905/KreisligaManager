@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from PySide6.QtWidgets import (
     QGridLayout,
-    QLabel,
     QVBoxLayout,
     QWidget,
 )
@@ -10,8 +9,11 @@ from PySide6.QtWidgets import (
 from src.database.repository import Repository
 from src.ui.theme.colors import Colors
 from src.ui.theme.metrics import Metrics
-from src.ui.theme.typography import Typography
+from src.ui.widgets.page_header import PageHeader
+from src.ui.widgets.primary_button import PrimaryButton
+from src.ui.widgets.secondary_button import SecondaryButton
 from src.ui.widgets.stat_card import StatCard
+from src.ui.widgets.toolbar import Toolbar
 
 
 class Dashboard(QWidget):
@@ -45,37 +47,42 @@ class Dashboard(QWidget):
             Metrics.PAGE_SPACING
         )
 
-        title = QLabel(
-            "Dashboard"
+        header = PageHeader(
+            title="Dashboard",
+            subtitle=(
+                "Übersicht über die wichtigsten "
+                "Daten im KreisligaManager"
+            ),
         )
 
-        title.setObjectName(
-            "PageTitle"
+        refresh_button = SecondaryButton(
+            "Aktualisieren"
         )
 
-        title.setFont(
-            Typography.title()
+        import_button = PrimaryButton(
+            "Import"
         )
 
-        subtitle = QLabel(
-            "Übersicht über die wichtigsten "
-            "Daten im KreisligaManager"
+        header.add_action(
+            refresh_button
         )
 
-        subtitle.setObjectName(
-            "PageSubtitle"
+        header.add_action(
+            import_button
         )
 
-        subtitle.setFont(
-            Typography.body()
+        toolbar = Toolbar(
+            search_placeholder=(
+                "Im Dashboard suchen ..."
+            )
         )
 
         layout.addWidget(
-            title
+            header
         )
 
         layout.addWidget(
-            subtitle
+            toolbar
         )
 
         grid = QGridLayout()
@@ -187,20 +194,6 @@ class Dashboard(QWidget):
             QWidget#DashboardPage {{
                 background-color:
                     {Colors.BACKGROUND};
-            }}
-
-            QLabel#PageTitle {{
-                color:
-                    {Colors.TEXT_PRIMARY};
-                background:
-                    transparent;
-            }}
-
-            QLabel#PageSubtitle {{
-                color:
-                    {Colors.TEXT_SECONDARY};
-                background:
-                    transparent;
             }}
             """
         )

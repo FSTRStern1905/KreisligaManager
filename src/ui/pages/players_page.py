@@ -6,16 +6,11 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QComboBox,
     QFormLayout,
-    QFrame,
+    QGridLayout,
     QHBoxLayout,
     QLabel,
-    QLineEdit,
-    QListWidget,
-    QListWidgetItem,
     QMessageBox,
-    QScrollArea,
-    QTableWidget,
-    QTableWidgetItem,
+    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
@@ -24,6 +19,14 @@ from src.database.repository import Repository
 from src.services.statistics.player_statistics_service import (
     PlayerStatisticsService,
 )
+from src.ui.theme.colors import Colors
+from src.ui.theme.metrics import Metrics
+from src.ui.theme.typography import Typography
+from src.ui.widgets.card import Card
+from src.ui.widgets.data_table import DataTable
+from src.ui.widgets.page_header import PageHeader
+from src.ui.widgets.secondary_button import SecondaryButton
+from src.ui.widgets.toolbar import Toolbar
 
 
 class PlayersPage(QWidget):
@@ -35,14 +38,22 @@ class PlayersPage(QWidget):
 
         self.repository = repository
         self.connection = self._resolve_connection()
-        self.statistics_service = PlayerStatisticsService(
-            self.connection
+
+        self.statistics_service = (
+            PlayerStatisticsService(
+                self.connection
+            )
         )
 
         self.players: list[dict] = []
         self.filtered_players: list[dict] = []
+
         self.current_player_id: int | None = None
         self.current_competition_id: int | None = None
+
+        self.setObjectName(
+            "PlayersPage"
+        )
 
         self.setup_ui()
         self.load_data()
@@ -52,366 +63,532 @@ class PlayersPage(QWidget):
             self
         )
 
-        title = QLabel(
-            "👤 Spieler"
-        )
-        title.setObjectName(
-            "PageTitle"
-        )
-
-        subtitle = QLabel(
-            "Spieler suchen, filtern und "
-            "Saisonstatistiken anzeigen"
-        )
-        subtitle.setObjectName(
-            "PageSubtitle"
+        main_layout.setContentsMargins(
+            Metrics.PAGE_MARGIN,
+            Metrics.PAGE_MARGIN,
+            Metrics.PAGE_MARGIN,
+            Metrics.PAGE_MARGIN,
         )
 
-        main_layout.addWidget(
-            title
-        )
-        main_layout.addWidget(
-            subtitle
+        main_layout.setSpacing(
+            Metrics.PAGE_SPACING
         )
 
-        content_layout = QHBoxLayout()
-        main_layout.addLayout(
-            content_layout,
-            1,
+        self.header = PageHeader(
+            title="Spieler",
+            subtitle=(
+                "Spieler suchen, filtern und "
+                "Saisonstatistiken anzeigen"
+            ),
         )
 
-        left_panel = self._create_left_panel()
-        right_panel = self._create_right_panel()
+        self.toolbar = Toolbar(
+            search_placeholder=(
+                "Spielername suchen ..."
+            )
+        )
 
-        content_layout.addWidget(
-            left_panel,
+        self.refresh_button = SecondaryButton(
+            "Aktualisieren"
+        )
+
+        self.toolbar.add_action(
+            self.refresh_button
+        )
+
+        self.filter_card = Card(
+            title="Filter",
+            icon="⚙",
+        )
+
+        filter_layout = QHBoxLayout()
+
+        filter_layout.setContentsMargins(
+            0,
+            0,
+            0,
             0,
         )
-        content_layout.addWidget(
-            right_panel,
-            1,
+
+        filter_layout.setSpacing(
+            Metrics.SPACING_MEDIUM
         )
 
-    def _create_left_panel(
-        self,
-    ) -> QWidget:
-        panel = QFrame()
-        panel.setObjectName(
-            "SidebarCard"
-        )
-        panel.setMinimumWidth(
-            320
-        )
-        panel.setMaximumWidth(
-            420
-        )
-
-        layout = QVBoxLayout(
-            panel
-        )
-
-        competition_label = QLabel(
+        competition_group = self._create_filter_group(
             "Wettbewerb"
         )
 
         self.competition_combo = QComboBox()
-        self.competition_combo.currentIndexChanged.connect(
-            self._competition_changed
+        self.competition_combo.setObjectName(
+            "PlayerFilterCombo"
         )
 
-        team_label = QLabel(
+        competition_group.layout().addWidget(
+            self.competition_combo
+        )
+
+        team_group = self._create_filter_group(
             "Mannschaft"
         )
 
         self.team_combo = QComboBox()
-        self.team_combo.currentIndexChanged.connect(
-            self.apply_filters
+        self.team_combo.setObjectName(
+            "PlayerFilterCombo"
         )
 
-        search_label = QLabel(
-            "Suche"
-        )
-
-        self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText(
-            "Spielername suchen..."
-        )
-        self.search_input.textChanged.connect(
-            self.apply_filters
+        team_group.layout().addWidget(
+            self.team_combo
         )
 
         self.player_count_label = QLabel(
             "0 Spieler"
         )
+
+        self.player_count_label.setObjectName(
+            "PlayerCountLabel"
+        )
+
+        self.player_count_label.setFont(
+            Typography.body()
+        )
+
         self.player_count_label.setAlignment(
             Qt.AlignmentFlag.AlignRight
+            | Qt.AlignmentFlag.AlignVCenter
         )
 
-        self.player_list = QListWidget()
-        self.player_list.currentItemChanged.connect(
-            self._player_changed
-        )
-
-        layout.addWidget(
-            competition_label
-        )
-        layout.addWidget(
-            self.competition_combo
-        )
-        layout.addSpacing(
-            8
-        )
-        layout.addWidget(
-            team_label
-        )
-        layout.addWidget(
-            self.team_combo
-        )
-        layout.addSpacing(
-            8
-        )
-        layout.addWidget(
-            search_label
-        )
-        layout.addWidget(
-            self.search_input
-        )
-        layout.addWidget(
-            self.player_count_label
-        )
-        layout.addWidget(
-            self.player_list,
+        filter_layout.addWidget(
+            competition_group,
             1,
         )
 
-        return panel
+        filter_layout.addWidget(
+            team_group,
+            1,
+        )
 
-    def _create_right_panel(
+        filter_layout.addStretch(
+            1
+        )
+
+        filter_layout.addWidget(
+            self.player_count_label
+        )
+
+        self.filter_card.add_layout(
+            filter_layout
+        )
+
+        content_layout = QHBoxLayout()
+
+        content_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        content_layout.setSpacing(
+            Metrics.CARD_SPACING
+        )
+
+        self.player_card = Card(
+            title="Spielerübersicht",
+            icon="👤",
+        )
+
+        self.player_card.setMinimumWidth(
+            430
+        )
+
+        self.player_card.setMaximumWidth(
+            560
+        )
+
+        self.player_table = DataTable()
+
+        self.player_table.set_columns(
+            (
+                ("player_name", "Spieler"),
+                ("position", "Position"),
+                ("team_name", "Mannschaft"),
+            )
+        )
+
+        self.player_table.set_column_widths(
+            {
+                "position": 110,
+                "team_name": 180,
+            }
+        )
+
+        self.player_table.stretch_column(
+            "player_name"
+        )
+
+        self.player_card.add_widget(
+            self.player_table,
+            stretch=1,
+        )
+
+        self.profile_card = Card(
+            title="Spielerprofil",
+            icon="📊",
+        )
+
+        self._create_profile_content()
+
+        content_layout.addWidget(
+            self.player_card,
+            0,
+        )
+
+        content_layout.addWidget(
+            self.profile_card,
+            1,
+        )
+
+        main_layout.addWidget(
+            self.header
+        )
+
+        main_layout.addWidget(
+            self.toolbar
+        )
+
+        main_layout.addWidget(
+            self.filter_card
+        )
+
+        main_layout.addLayout(
+            content_layout,
+            1,
+        )
+
+        self._connect_signals()
+        self._apply_style()
+
+    def _create_filter_group(
         self,
+        title: str,
     ) -> QWidget:
-        container = QWidget()
+        widget = QWidget()
+
         layout = QVBoxLayout(
-            container
+            widget
         )
 
-        self.empty_label = QLabel(
-            "Wähle links einen Spieler aus."
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
         )
+
+        layout.setSpacing(
+            Metrics.SPACING_XXS
+        )
+
+        label = QLabel(
+            title
+        )
+
+        label.setObjectName(
+            "FilterLabel"
+        )
+
+        label.setFont(
+            Typography.small()
+        )
+
+        layout.addWidget(
+            label
+        )
+
+        return widget
+
+    def _create_profile_content(
+        self,
+    ) -> None:
+        self.empty_label = QLabel(
+            "Wähle einen Spieler aus."
+        )
+
+        self.empty_label.setObjectName(
+            "PlayerEmptyState"
+        )
+
         self.empty_label.setAlignment(
             Qt.AlignmentFlag.AlignCenter
         )
 
         self.profile_widget = QWidget()
+
         profile_layout = QVBoxLayout(
             self.profile_widget
+        )
+
+        profile_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        profile_layout.setSpacing(
+            Metrics.SPACING_MEDIUM
         )
 
         self.player_name_label = QLabel(
             "-"
         )
+
         self.player_name_label.setObjectName(
-            "SectionTitle"
+            "PlayerName"
+        )
+
+        self.player_name_label.setFont(
+            Typography.heading()
         )
 
         self.player_meta_label = QLabel(
             "-"
         )
 
+        self.player_meta_label.setObjectName(
+            "PlayerMeta"
+        )
+
+        self.player_meta_label.setFont(
+            Typography.body()
+        )
+
         profile_layout.addWidget(
             self.player_name_label
         )
+
         profile_layout.addWidget(
             self.player_meta_label
         )
 
-        self.stats_frame = QFrame()
-        self.stats_frame.setObjectName(
-            "StatsCard"
+        self.stats_card = Card(
+            title="Saisonstatistik",
         )
 
-        stats_layout = QFormLayout(
-            self.stats_frame
+        stats_layout = QGridLayout()
+
+        stats_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
         )
 
-        self.appearances_value = QLabel(
-            "0"
-        )
-        self.starts_value = QLabel(
-            "0"
-        )
-        self.substituted_in_value = QLabel(
-            "0"
-        )
-        self.substituted_out_value = QLabel(
-            "0"
-        )
-        self.unused_bench_value = QLabel(
-            "0"
-        )
-        self.minutes_value = QLabel(
-            "0"
-        )
-        self.average_minutes_value = QLabel(
-            "0"
-        )
-        self.goals_value = QLabel(
-            "0"
-        )
-        self.own_goals_value = QLabel(
-            "0"
-        )
-        self.assists_value = QLabel(
-            "0"
-        )
-        self.goals_per_90_value = QLabel(
-            "0"
-        )
-        self.minutes_per_goal_value = QLabel(
-            "-"
-        )
-        self.yellow_cards_value = QLabel(
-            "0"
-        )
-        self.yellow_red_cards_value = QLabel(
-            "0"
-        )
-        self.red_cards_value = QLabel(
-            "0"
+        stats_layout.setHorizontalSpacing(
+            Metrics.SPACING_LARGE
         )
 
-        stats_layout.addRow(
-            "Einsätze:",
-            self.appearances_value,
+        stats_layout.setVerticalSpacing(
+            Metrics.SPACING_SMALL
         )
-        stats_layout.addRow(
-            "Startelf:",
-            self.starts_value,
+
+        self.appearances_value = self._stat_value()
+        self.starts_value = self._stat_value()
+        self.substituted_in_value = self._stat_value()
+        self.substituted_out_value = self._stat_value()
+        self.unused_bench_value = self._stat_value()
+        self.minutes_value = self._stat_value()
+        self.average_minutes_value = self._stat_value()
+        self.goals_value = self._stat_value()
+        self.own_goals_value = self._stat_value()
+        self.assists_value = self._stat_value()
+        self.goals_per_90_value = self._stat_value()
+        self.minutes_per_goal_value = self._stat_value("-")
+        self.yellow_cards_value = self._stat_value()
+        self.yellow_red_cards_value = self._stat_value()
+        self.red_cards_value = self._stat_value()
+
+        stats = (
+            ("Einsätze", self.appearances_value),
+            ("Startelf", self.starts_value),
+            ("Eingewechselt", self.substituted_in_value),
+            ("Ausgewechselt", self.substituted_out_value),
+            ("Ohne Einsatz", self.unused_bench_value),
+            ("Minuten", self.minutes_value),
+            ("Ø Minuten", self.average_minutes_value),
+            ("Tore", self.goals_value),
+            ("Eigentore", self.own_goals_value),
+            ("Vorlagen", self.assists_value),
+            ("Tore / 90", self.goals_per_90_value),
+            ("Minuten / Tor", self.minutes_per_goal_value),
+            ("Gelb", self.yellow_cards_value),
+            ("Gelb-Rot", self.yellow_red_cards_value),
+            ("Rot", self.red_cards_value),
         )
-        stats_layout.addRow(
-            "Eingewechselt:",
-            self.substituted_in_value,
-        )
-        stats_layout.addRow(
-            "Ausgewechselt:",
-            self.substituted_out_value,
-        )
-        stats_layout.addRow(
-            "Ohne Einsatz:",
-            self.unused_bench_value,
-        )
-        stats_layout.addRow(
-            "Minuten:",
-            self.minutes_value,
-        )
-        stats_layout.addRow(
-            "Ø Minuten:",
-            self.average_minutes_value,
-        )
-        stats_layout.addRow(
-            "Tore:",
-            self.goals_value,
-        )
-        stats_layout.addRow(
-            "Eigentore:",
-            self.own_goals_value,
-        )
-        stats_layout.addRow(
-            "Vorlagen:",
-            self.assists_value,
-        )
-        stats_layout.addRow(
-            "Tore / 90:",
-            self.goals_per_90_value,
-        )
-        stats_layout.addRow(
-            "Minuten / Tor:",
-            self.minutes_per_goal_value,
-        )
-        stats_layout.addRow(
-            "Gelb:",
-            self.yellow_cards_value,
-        )
-        stats_layout.addRow(
-            "Gelb-Rot:",
-            self.yellow_red_cards_value,
-        )
-        stats_layout.addRow(
-            "Rot:",
-            self.red_cards_value,
+
+        for index, (
+            label_text,
+            value_label,
+        ) in enumerate(stats):
+            row = index // 3
+            column = index % 3
+
+            cell = QWidget()
+
+            cell_layout = QVBoxLayout(
+                cell
+            )
+
+            cell_layout.setContentsMargins(
+                0,
+                0,
+                0,
+                0,
+            )
+
+            cell_layout.setSpacing(
+                Metrics.SPACING_XXS
+            )
+
+            label = QLabel(
+                label_text
+            )
+
+            label.setObjectName(
+                "StatLabel"
+            )
+
+            label.setFont(
+                Typography.small()
+            )
+
+            cell_layout.addWidget(
+                label
+            )
+
+            cell_layout.addWidget(
+                value_label
+            )
+
+            stats_layout.addWidget(
+                cell,
+                row,
+                column,
+            )
+
+        self.stats_card.add_layout(
+            stats_layout
         )
 
         profile_layout.addWidget(
-            self.stats_frame
+            self.stats_card
         )
 
-        history_title = QLabel(
-            "Spielhistorie"
-        )
-        history_title.setObjectName(
-            "SectionTitle"
+        self.history_card = Card(
+            title="Spielhistorie",
         )
 
-        self.history_table = QTableWidget()
-        self.history_table.setColumnCount(
-            9
-        )
-        self.history_table.setHorizontalHeaderLabels(
-            [
-                "Spieltag",
-                "Datum",
-                "Begegnung",
-                "Start",
-                "Ein",
-                "Aus",
-                "Min.",
-                "Tore",
-                "Karten",
-            ]
-        )
-        self.history_table.setEditTriggers(
-            QTableWidget.EditTrigger.NoEditTriggers
-        )
-        self.history_table.setSelectionBehavior(
-            QTableWidget.SelectionBehavior.SelectRows
-        )
-        self.history_table.setAlternatingRowColors(
-            True
+        self.history_table = DataTable()
+
+        self.history_table.set_columns(
+            (
+                ("matchday", "ST"),
+                ("match_date", "Datum"),
+                ("encounter", "Begegnung"),
+                ("start", "Start"),
+                ("minute_in", "Ein"),
+                ("minute_out", "Aus"),
+                ("minutes", "Min."),
+                ("goals", "Tore"),
+                ("cards", "Karten"),
+            )
         )
 
-        profile_layout.addWidget(
-            history_title
+        self.history_table.set_column_widths(
+            {
+                "matchday": 60,
+                "match_date": 100,
+                "start": 70,
+                "minute_in": 60,
+                "minute_out": 60,
+                "minutes": 70,
+                "goals": 70,
+                "cards": 100,
+            }
         )
-        profile_layout.addWidget(
+
+        self.history_table.stretch_column(
+            "encounter"
+        )
+
+        self.history_card.add_widget(
             self.history_table,
+            stretch=1,
+        )
+
+        profile_layout.addWidget(
+            self.history_card,
             1,
         )
 
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(
-            True
-        )
-        scroll.setWidget(
-            self.profile_widget
-        )
-
-        layout.addWidget(
+        self.profile_card.add_widget(
             self.empty_label,
-            1,
+            stretch=1,
         )
-        layout.addWidget(
-            scroll,
-            1,
+
+        self.profile_card.add_widget(
+            self.profile_widget,
+            stretch=1,
         )
 
         self.profile_widget.setVisible(
             False
         )
 
-        return container
-
-    def load_data(
+    def _stat_value(
         self,
-    ) -> None:
+        value: str = "0",
+    ) -> QLabel:
+        label = QLabel(
+            value
+        )
+
+        label.setObjectName(
+            "StatValue"
+        )
+
+        label.setFont(
+            Typography.subtitle()
+        )
+
+        return label
+
+    def _connect_signals(self) -> None:
+        self.refresh_button.clicked.connect(
+            self.refresh
+        )
+
+        self.toolbar.search_bar.text_changed.connect(
+            self.apply_filters
+        )
+
+        self.competition_combo.currentIndexChanged.connect(
+            self._competition_changed
+        )
+
+        self.team_combo.currentIndexChanged.connect(
+            self.apply_filters
+        )
+
+        self.player_table.itemSelectionChanged.connect(
+            self._player_selection_changed
+        )
+
+        self.player_table.row_activated.connect(
+            self._load_player_profile
+        )
+
+    def load_data(self) -> None:
         try:
             self._load_competitions()
             self._load_teams()
@@ -425,12 +602,11 @@ class PlayersPage(QWidget):
                 str(error),
             )
 
-    def refresh(
-        self,
-    ) -> None:
+    def refresh(self) -> None:
         selected_competition_id = (
             self.current_competition_id
         )
+
         selected_player_id = (
             self.current_player_id
         )
@@ -448,15 +624,15 @@ class PlayersPage(QWidget):
                 selected_player_id
             )
 
-    def _load_competitions(
-        self,
-    ) -> None:
+    def _load_competitions(self) -> None:
         self.competition_combo.blockSignals(
             True
         )
+
         self.competition_combo.clear()
 
         cursor = self.connection.cursor()
+
         cursor.execute(
             """
             SELECT
@@ -483,19 +659,20 @@ class PlayersPage(QWidget):
             self.competition_combo.setCurrentIndex(
                 0
             )
+
             self.current_competition_id = int(
                 self.competition_combo.currentData()
             )
         else:
             self.current_competition_id = None
 
-    def _load_teams(
-        self,
-    ) -> None:
+    def _load_teams(self) -> None:
         self.team_combo.blockSignals(
             True
         )
+
         self.team_combo.clear()
+
         self.team_combo.addItem(
             "Alle Mannschaften",
             None,
@@ -503,6 +680,7 @@ class PlayersPage(QWidget):
 
         if self.current_competition_id is not None:
             cursor = self.connection.cursor()
+
             cursor.execute(
                 """
                 SELECT
@@ -523,7 +701,11 @@ class PlayersPage(QWidget):
                 ),
             )
 
-            for team_id, name, short_name in cursor.fetchall():
+            for (
+                team_id,
+                name,
+                short_name,
+            ) in cursor.fetchall():
                 self.team_combo.addItem(
                     short_name or name,
                     int(team_id),
@@ -533,15 +715,14 @@ class PlayersPage(QWidget):
             False
         )
 
-    def _load_players(
-        self,
-    ) -> None:
+    def _load_players(self) -> None:
         self.players = []
 
         if self.current_competition_id is None:
             return
 
         cursor = self.connection.cursor()
+
         cursor.execute(
             """
             SELECT DISTINCT
@@ -592,9 +773,10 @@ class PlayersPage(QWidget):
 
     def apply_filters(
         self,
+        *_args,
     ) -> None:
         search_text = (
-            self.search_input.text()
+            self.toolbar.search_bar.text()
             .strip()
             .casefold()
         )
@@ -617,42 +799,35 @@ class PlayersPage(QWidget):
             )
         ]
 
-        self._fill_player_list()
+        self._fill_player_table()
 
-    def _fill_player_list(
-        self,
-    ) -> None:
+    def _fill_player_table(self) -> None:
         selected_player_id = (
             self.current_player_id
         )
 
-        self.player_list.blockSignals(
-            True
+        rows = [
+            {
+                "id": player["player_id"],
+                "player_name": player["player_name"],
+                "position": player["position"],
+                "team_name": player["team_name"],
+            }
+            for player in self.filtered_players
+        ]
+
+        self.player_table.set_rows(
+            rows,
+            id_key="id",
         )
-        self.player_list.clear()
 
-        for player in self.filtered_players:
-            item = QListWidgetItem(
-                (
-                    f"{player['player_name']}\n"
-                    f"{player['team_name']} · "
-                    f"{player['position']}"
-                )
-            )
-            item.setData(
-                Qt.ItemDataRole.UserRole,
-                player["player_id"],
-            )
-            self.player_list.addItem(
-                item
-            )
-
-        self.player_list.blockSignals(
-            False
+        count = len(
+            self.filtered_players
         )
 
         self.player_count_label.setText(
-            f"{len(self.filtered_players)} Spieler"
+            f"{count} "
+            f"{'Spieler' if count == 1 else 'Spieler'}"
         )
 
         if selected_player_id is not None:
@@ -661,19 +836,20 @@ class PlayersPage(QWidget):
             )
 
         if (
-            self.player_list.currentRow() < 0
-            and self.player_list.count() > 0
+            self.player_table.rowCount() > 0
+            and self.player_table.currentRow() < 0
         ):
-            self.player_list.setCurrentRow(
+            self.player_table.selectRow(
                 0
             )
 
-        if self.player_list.count() == 0:
+        if self.player_table.rowCount() == 0:
             self.current_player_id = None
             self._show_empty_state()
 
     def _competition_changed(
         self,
+        *_args,
     ) -> None:
         competition_id = (
             self.competition_combo.currentData()
@@ -691,20 +867,11 @@ class PlayersPage(QWidget):
         self._load_players()
         self.apply_filters()
 
-    def _player_changed(
+    def _player_selection_changed(
         self,
-        current: QListWidgetItem | None,
-        previous: QListWidgetItem | None,
     ) -> None:
-        del previous
-
-        if current is None:
-            self.current_player_id = None
-            self._show_empty_state()
-            return
-
-        player_id = current.data(
-            Qt.ItemDataRole.UserRole
+        player_id = (
+            self.player_table.selected_row_id()
         )
 
         if player_id is None:
@@ -712,12 +879,10 @@ class PlayersPage(QWidget):
             self._show_empty_state()
             return
 
-        self.current_player_id = int(
-            player_id
-        )
+        self.current_player_id = player_id
 
         self._load_player_profile(
-            self.current_player_id
+            player_id
         )
 
     def _load_player_profile(
@@ -752,9 +917,12 @@ class PlayersPage(QWidget):
             )
         )
 
+        self.current_player_id = player_id
+
         self.player_name_label.setText(
             statistics["player_name"]
         )
+
         self.player_meta_label.setText(
             (
                 f"{statistics['team_name']} · "
@@ -765,33 +933,43 @@ class PlayersPage(QWidget):
         self.appearances_value.setText(
             str(statistics["appearances"])
         )
+
         self.starts_value.setText(
             str(statistics["starts"])
         )
+
         self.substituted_in_value.setText(
             str(statistics["substituted_in"])
         )
+
         self.substituted_out_value.setText(
             str(statistics["substituted_out"])
         )
+
         self.unused_bench_value.setText(
             str(statistics["unused_bench"])
         )
+
         self.minutes_value.setText(
             str(statistics["minutes_played"])
         )
+
         self.average_minutes_value.setText(
             str(statistics["average_minutes"])
         )
+
         self.goals_value.setText(
             str(statistics["goals"])
         )
+
         self.own_goals_value.setText(
             str(statistics["own_goals"])
         )
+
         self.assists_value.setText(
             str(statistics["assists"])
         )
+
         self.goals_per_90_value.setText(
             str(statistics["goals_per_90"])
         )
@@ -811,9 +989,11 @@ class PlayersPage(QWidget):
         self.yellow_cards_value.setText(
             str(statistics["yellow_cards"])
         )
+
         self.yellow_red_cards_value.setText(
             str(statistics["yellow_red_cards"])
         )
+
         self.red_cards_value.setText(
             str(statistics["red_cards"])
         )
@@ -825,6 +1005,7 @@ class PlayersPage(QWidget):
         self.empty_label.setVisible(
             False
         )
+
         self.profile_widget.setVisible(
             True
         )
@@ -833,11 +1014,9 @@ class PlayersPage(QWidget):
         self,
         history: list[dict],
     ) -> None:
-        self.history_table.setRowCount(
-            len(history)
-        )
+        rows = []
 
-        for row_index, match in enumerate(
+        for index, match in enumerate(
             history
         ):
             matchday = (
@@ -876,66 +1055,66 @@ class PlayersPage(QWidget):
                     f"Rot {match['red_cards']}"
                 )
 
-            values = [
-                matchday,
-                match_date,
-                encounter,
-                (
-                    "Ja"
-                    if match["is_starting"]
-                    else "Nein"
-                ),
-                (
-                    str(match["minute_in"])
-                    if match["was_substituted_in"]
-                    else "-"
-                ),
-                (
-                    str(match["minute_out"])
-                    if match["was_substituted_out"]
-                    else "-"
-                ),
-                str(match["minutes_played"]),
-                str(match["goals"]),
-                ", ".join(card_parts) or "-",
-            ]
+            rows.append(
+                {
+                    "id": index,
+                    "matchday": matchday,
+                    "match_date": match_date,
+                    "encounter": encounter,
+                    "start": (
+                        "Ja"
+                        if match["is_starting"]
+                        else "Nein"
+                    ),
+                    "minute_in": (
+                        str(match["minute_in"])
+                        if match["was_substituted_in"]
+                        else "-"
+                    ),
+                    "minute_out": (
+                        str(match["minute_out"])
+                        if match["was_substituted_out"]
+                        else "-"
+                    ),
+                    "minutes": str(
+                        match["minutes_played"]
+                    ),
+                    "goals": str(
+                        match["goals"]
+                    ),
+                    "cards": (
+                        ", ".join(card_parts)
+                        or "-"
+                    ),
+                }
+            )
 
-            for column_index, value in enumerate(
-                values
-            ):
-                item = QTableWidgetItem(
-                    value
-                )
-                self.history_table.setItem(
-                    row_index,
-                    column_index,
-                    item,
-                )
+        self.history_table.set_rows(
+            rows,
+            id_key="id",
+        )
 
-        self.history_table.resizeColumnsToContents()
-
-    def _show_empty_state(
-        self,
-    ) -> None:
+    def _show_empty_state(self) -> None:
         self.empty_label.setVisible(
             True
         )
+
         self.profile_widget.setVisible(
             False
         )
-        self.history_table.setRowCount(
-            0
-        )
+
+        self.history_table.clear_rows()
 
     def _select_player(
         self,
         player_id: int,
     ) -> None:
         for row in range(
-            self.player_list.count()
+            self.player_table.rowCount()
         ):
-            item = self.player_list.item(
-                row
+            item = self.player_table.item(
+                row,
+                0,
             )
 
             if item is None:
@@ -947,7 +1126,7 @@ class PlayersPage(QWidget):
                 )
                 == player_id
             ):
-                self.player_list.setCurrentRow(
+                self.player_table.selectRow(
                     row
                 )
                 return
@@ -1002,4 +1181,123 @@ class PlayersPage(QWidget):
         raise RuntimeError(
             "Die Datenbankverbindung konnte "
             "nicht aus dem Repository gelesen werden."
+        )
+
+    def _apply_style(self) -> None:
+        self.setStyleSheet(
+            f"""
+            QWidget#PlayersPage {{
+                background-color:
+                    {Colors.BACKGROUND};
+            }}
+
+            QLabel#FilterLabel {{
+                color:
+                    {Colors.TEXT_SECONDARY};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+
+            QLabel#PlayerCountLabel {{
+                color:
+                    {Colors.TEXT_SECONDARY};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+
+            QComboBox#PlayerFilterCombo {{
+                min-height:
+                    {Metrics.INPUT_HEIGHT}px;
+                background-color:
+                    {Colors.INPUT_BACKGROUND};
+                color:
+                    {Colors.TEXT_PRIMARY};
+                border:
+                    {Metrics.BORDER_WIDTH}px
+                    solid {Colors.INPUT_BORDER};
+                border-radius:
+                    {Metrics.RADIUS_MEDIUM}px;
+                padding-left:
+                    {Metrics.INPUT_PADDING_HORIZONTAL}px;
+                padding-right:
+                    {Metrics.INPUT_PADDING_HORIZONTAL}px;
+            }}
+
+            QComboBox#PlayerFilterCombo:hover {{
+                background-color:
+                    {Colors.INPUT_BACKGROUND_HOVER};
+                border-color:
+                    {Colors.BORDER_LIGHT};
+            }}
+
+            QComboBox#PlayerFilterCombo::drop-down {{
+                border:
+                    none;
+                width:
+                    28px;
+            }}
+
+            QComboBox#PlayerFilterCombo QAbstractItemView {{
+                background-color:
+                    {Colors.CARD_BACKGROUND};
+                color:
+                    {Colors.TEXT_PRIMARY};
+                border:
+                    {Metrics.BORDER_WIDTH}px
+                    solid {Colors.BORDER};
+                selection-background-color:
+                    {Colors.TABLE_ROW_SELECTED};
+                selection-color:
+                    {Colors.TEXT_PRIMARY};
+            }}
+
+            QLabel#PlayerEmptyState {{
+                color:
+                    {Colors.TEXT_MUTED};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+
+            QLabel#PlayerName {{
+                color:
+                    {Colors.TEXT_PRIMARY};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+
+            QLabel#PlayerMeta {{
+                color:
+                    {Colors.TEXT_SECONDARY};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+
+            QLabel#StatLabel {{
+                color:
+                    {Colors.TEXT_SECONDARY};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+
+            QLabel#StatValue {{
+                color:
+                    {Colors.TEXT_PRIMARY};
+                background:
+                    transparent;
+                border:
+                    none;
+            }}
+            """
         )
