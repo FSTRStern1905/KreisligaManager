@@ -136,6 +136,94 @@ class MatchRepository:
             for row in self.cursor.fetchall()
         ]
 
+    def get_by_date(
+        self,
+        match_date: str,
+    ) -> list[Match]:
+        normalized_date = match_date.strip()
+
+        if not normalized_date:
+            raise ValueError(
+                "Das Spieldatum darf nicht leer sein."
+            )
+
+        self.cursor.execute(
+            f"""
+            SELECT
+                {self.SELECT_FIELDS}
+            FROM matches AS m
+            INNER JOIN teams AS home_team
+                ON home_team.team_id = m.home_team_id
+            INNER JOIN teams AS away_team
+                ON away_team.team_id = m.away_team_id
+            WHERE m.match_date = ?
+            ORDER BY
+                m.kickoff_time ASC,
+                m.match_id ASC
+            """,
+            (normalized_date,),
+        )
+
+        return [
+            self._row_to_match(row)
+            for row in self.cursor.fetchall()
+        ]
+
+    def get_between_dates(
+        self,
+        start_date: str,
+        end_date: str,
+    ) -> list[Match]:
+        normalized_start_date = (
+            start_date.strip()
+        )
+        normalized_end_date = (
+            end_date.strip()
+        )
+
+        if not normalized_start_date:
+            raise ValueError(
+                "Das Startdatum darf nicht leer sein."
+            )
+
+        if not normalized_end_date:
+            raise ValueError(
+                "Das Enddatum darf nicht leer sein."
+            )
+
+        if normalized_start_date > normalized_end_date:
+            raise ValueError(
+                "Das Startdatum darf nicht nach dem Enddatum liegen."
+            )
+
+        self.cursor.execute(
+            f"""
+            SELECT
+                {self.SELECT_FIELDS}
+            FROM matches AS m
+            INNER JOIN teams AS home_team
+                ON home_team.team_id = m.home_team_id
+            INNER JOIN teams AS away_team
+                ON away_team.team_id = m.away_team_id
+            WHERE
+                m.match_date >= ?
+                AND m.match_date <= ?
+            ORDER BY
+                m.match_date ASC,
+                m.kickoff_time ASC,
+                m.match_id ASC
+            """,
+            (
+                normalized_start_date,
+                normalized_end_date,
+            ),
+        )
+
+        return [
+            self._row_to_match(row)
+            for row in self.cursor.fetchall()
+        ]
+
     def add(
         self,
         match: Match,

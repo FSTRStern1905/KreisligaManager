@@ -17,6 +17,7 @@ from src.database.repository import Repository
 from src.services.settings.module_settings_service import (
     ModuleSettingsService,
 )
+from src.ui.pages.calendar_page import CalendarPage
 from src.ui.pages.import_page import ImportPage
 from src.ui.pages.players_page import PlayersPage
 from src.ui.sidebar.sidebar_manager import (
@@ -153,16 +154,7 @@ class MainWindow(QMainWindow):
         matches_page = MatchesPage()
         import_page = ImportPage()
 
-        calendar_placeholder = (
-            self._create_placeholder(
-                icon="📅",
-                title="Kalender",
-                text=(
-                    "Der Fußball-Kalender "
-                    "wird als nächstes gebaut."
-                ),
-            )
-        )
+        calendar_page = CalendarPage()
 
         statistics_placeholder = (
             self._create_placeholder(
@@ -188,7 +180,7 @@ class MainWindow(QMainWindow):
 
         self.page_instances = {
             "dashboard": dashboard,
-            "calendar": calendar_placeholder,
+            "calendar": calendar_page,
             "clubs": clubs_page,
             "seasons": seasons_page,
             "competitions":
@@ -207,6 +199,7 @@ class MainWindow(QMainWindow):
         self,
     ) -> None:
         refresh_callbacks = {
+            "calendar": self._refresh_calendar,
             "clubs": self._refresh_clubs,
             "seasons": self._refresh_seasons,
             "competitions":
@@ -254,6 +247,16 @@ class MainWindow(QMainWindow):
         )
 
         return label
+
+    @staticmethod
+    def _refresh_calendar(
+        page: QWidget,
+    ) -> None:
+        if isinstance(
+            page,
+            CalendarPage,
+        ):
+            page.refresh_data()
 
     @staticmethod
     def _refresh_clubs(
