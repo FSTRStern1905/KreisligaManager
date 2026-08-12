@@ -67,6 +67,7 @@ class ScheduleImportService:
     def import_schedule(
         self,
         parser: ScheduleParser,
+        schedule_only: bool = False,
     ) -> ImportResult:
         schedule_data = parser.parse()
 
@@ -118,6 +119,7 @@ class ScheduleImportService:
             league_id=league_id,
             season_id=season_id,
             result=result,
+            schedule_only=schedule_only,
         )
 
         return result
@@ -213,7 +215,7 @@ class ScheduleImportService:
                 name=schedule_data.season_name,
                 start_date=start_date,
                 end_date=end_date,
-                external_id=None,
+                external_id="",
                 active=True,
             )
         )
@@ -354,6 +356,7 @@ class ScheduleImportService:
         league_id: int,
         season_id: int,
         result: ImportResult,
+        schedule_only: bool = False,
     ) -> None:
         for schedule_match in matches:
             home_team_id = team_ids.get(
@@ -380,6 +383,86 @@ class ScheduleImportService:
                     f"{schedule_match.away_team}"
                 )
 
+            existing_match = None
+
+            if (
+                schedule_only
+                and schedule_match.match_id
+            ):
+                existing_match = (
+                    self.match_repository
+                    .get_by_external_id(
+                        schedule_match.match_id
+                    )
+                )
+
+            if schedule_only:
+                if existing_match is None:
+                    home_goals = None
+                    away_goals = None
+                    status = "scheduled"
+                    stadium_id = None
+                    referee_id = None
+                    attendance = None
+                    detail_imported = False
+                    notes = (
+                        "fussball.de: "
+                        f"{schedule_match.match_url}"
+                    )
+                else:
+                    home_goals = (
+                        existing_match.home_goals
+                    )
+                    away_goals = (
+                        existing_match.away_goals
+                    )
+                    status = (
+                        existing_match.status
+                        or "scheduled"
+                    )
+                    stadium_id = (
+                        existing_match.stadium_id
+                    )
+                    referee_id = (
+                        existing_match.referee_id
+                    )
+                    attendance = (
+                        existing_match.attendance
+                    )
+                    detail_imported = bool(
+                        getattr(
+                            existing_match,
+                            "detail_imported",
+                            False,
+                        )
+                    )
+                    notes = (
+                        existing_match.notes
+                        or (
+                            "fussball.de: "
+                            f"{schedule_match.match_url}"
+                        )
+                    )
+            else:
+                home_goals = (
+                    schedule_match.home_score
+                )
+                away_goals = (
+                    schedule_match.away_score
+                )
+                status = (
+                    schedule_match.status.strip()
+                    or "scheduled"
+                )
+                stadium_id = None
+                referee_id = None
+                attendance = None
+                detail_imported = False
+                notes = (
+                    "fussball.de: "
+                    f"{schedule_match.match_url}"
+                )
+
             database_match = Match(
                 competition_id=competition_id,
                 season_id=season_id,
@@ -389,16 +472,14 @@ class ScheduleImportService:
                 kickoff_time=schedule_match.time or None,
                 home_team_id=home_team_id,
                 away_team_id=away_team_id,
-                home_goals=schedule_match.home_score,
-                away_goals=schedule_match.away_score,
-                status=(
-                    schedule_match.status.strip()
-                    or "scheduled"
-                ),
-                notes=(
-                    "fussball.de: "
-                    f"{schedule_match.match_url}"
-                ),
+                stadium_id=stadium_id,
+                referee_id=referee_id,
+                attendance=attendance,
+                home_goals=home_goals,
+                away_goals=away_goals,
+                status=status,
+                detail_imported=detail_imported,
+                notes=notes,
                 external_id=schedule_match.match_id,
                 home_team_name=schedule_match.home_team,
                 away_team_name=schedule_match.away_team,

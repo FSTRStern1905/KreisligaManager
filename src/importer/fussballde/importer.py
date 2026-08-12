@@ -17,7 +17,8 @@ class FussballDeImporter:
     def import_schedule(
         self,
         url: str,
-        headless: bool = False,
+        headless: bool = True,
+        schedule_only: bool = False,
     ) -> ImportResult:
         normalized_url = url.strip()
 
@@ -30,7 +31,7 @@ class FussballDeImporter:
 
         try:
             browser.start(
-                headless=False,
+                headless=headless,
             )
 
             browser.open(normalized_url)
@@ -46,6 +47,7 @@ class FussballDeImporter:
 
             return self.import_service.import_schedule(
                 parser=parser,
+                schedule_only=schedule_only,
             )
 
         finally:
