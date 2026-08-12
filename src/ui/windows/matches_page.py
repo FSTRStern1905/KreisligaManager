@@ -3,6 +3,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QLabel,
     QMessageBox,
@@ -360,6 +361,74 @@ class MatchesPage(QWidget):
                     f"{total_count} Spielen"
                 )
             )
+
+    def focus_match(
+        self,
+        match_id: int,
+    ) -> bool:
+        if match_id <= 0:
+            return False
+
+        self.load_matches()
+
+        target_match = next(
+            (
+                match
+                for match in self.matches
+                if int(match["id"]) == match_id
+            ),
+            None,
+        )
+
+        if target_match is None:
+            return False
+
+        self.toolbar.search_bar.set_text(
+            ""
+        )
+
+        self.filtered_matches = list(
+            self.matches
+        )
+        self._render_matches()
+
+        for row_index in range(
+            self.table.rowCount()
+        ):
+            item = self.table.item(
+                row_index,
+                0,
+            )
+
+            if item is None:
+                continue
+
+            row_id = item.data(
+                Qt.ItemDataRole.UserRole
+            )
+
+            try:
+                current_id = int(row_id)
+            except (
+                TypeError,
+                ValueError,
+            ):
+                continue
+
+            if current_id != match_id:
+                continue
+
+            self.table.selectRow(
+                row_index
+            )
+            self.table.scrollToItem(
+                item
+            )
+            self.table.setFocus()
+
+            return True
+
+        return False
 
     @staticmethod
     def _search_text(

@@ -3,10 +3,11 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
-from PySide6.QtCore import QDate, Qt
+from PySide6.QtCore import QDate, Qt, Signal
 from PySide6.QtGui import QColor, QPainter, QTextCharFormat
 from PySide6.QtWidgets import (
     QCalendarWidget,
+    QComboBox,
     QFrame,
     QScrollArea,
     QHBoxLayout,
@@ -16,6 +17,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from src.database.repositories.competition_repository import CompetitionRepository
 from src.database.repositories.match_repository import MatchRepository
 from src.ui.theme.colors import Colors
 from src.ui.theme.metrics import Metrics
@@ -102,7 +104,39 @@ class MatchCalendarWidget(QCalendarWidget):
         painter.restore()
 
 
+class ClickableMatchCard(QFrame):
+    clicked = Signal(int)
+
+    def __init__(
+        self,
+        match_id: int,
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+
+        self.match_id = match_id
+        self.setCursor(
+            Qt.CursorShape.PointingHandCursor
+        )
+
+    def mousePressEvent(
+        self,
+        event,
+    ) -> None:
+        if (
+            event.button()
+            == Qt.MouseButton.LeftButton
+        ):
+            self.clicked.emit(
+                self.match_id
+            )
+
+        super().mousePressEvent(event)
+
+
 class CalendarPage(QWidget):
+    match_requested = Signal(int)
+
     def __init__(
         self,
         parent: QWidget | None = None,
@@ -112,7 +146,9 @@ class CalendarPage(QWidget):
         self.setObjectName("CalendarPage")
         self.selected_date = QDate.currentDate()
         self.month_matches = []
+        self.filtered_matches = []
         self.matches_by_date: dict[str, list] = {}
+        self.competition_names: dict[int, str] = {}
 
         self._setup_ui()
         self._connect_signals()
@@ -225,6 +261,45 @@ class CalendarPage(QWidget):
         root_layout.addLayout(
             header_layout
         )
+
+        filter_layout = QHBoxLayout()
+        filter_layout.setContentsMargins(0, 0, 0, 0)
+        filter_layout.setSpacing(
+            Metrics.SPACING_SMALL
+        )
+
+        competition_label = QLabel("Wettbewerb:")
+        competition_label.setObjectName(
+            "CalendarFilterLabel"
+        )
+
+        self.competition_filter = QComboBox()
+        self.competition_filter.setObjectName(
+            "CalendarFilter"
+        )
+        self.competition_filter.setMinimumWidth(240)
+
+        team_label = QLabel("Mannschaft:")
+        team_label.setObjectName(
+            "CalendarFilterLabel"
+        )
+
+        self.team_filter = QComboBox()
+        self.team_filter.setObjectName(
+            "CalendarFilter"
+        )
+        self.team_filter.setMinimumWidth(240)
+
+        filter_layout.addWidget(competition_label)
+        filter_layout.addWidget(self.competition_filter)
+        filter_layout.addSpacing(
+            Metrics.SPACING_MEDIUM
+        )
+        filter_layout.addWidget(team_label)
+        filter_layout.addWidget(self.team_filter)
+        filter_layout.addStretch()
+
+        root_layout.addLayout(filter_layout)
 
         content_layout = QHBoxLayout()
         content_layout.setSpacing(
@@ -423,6 +498,14 @@ class CalendarPage(QWidget):
             self._show_next_month
         )
 
+        self.competition_filter.currentIndexChanged.connect(
+            self._handle_competition_filter_changed
+        )
+
+        self.team_filter.currentIndexChanged.connect(
+            self._apply_filters
+        )
+
     def _handle_date_selected(self) -> None:
         self.selected_date = (
             self.calendar.selectedDate()
@@ -591,10 +674,150 @@ class CalendarPage(QWidget):
         finally:
             connection.close()
 
+        self._load_competition_names()
+        self._refresh_competition_filter()
+        self._apply_filters()
+
+    def _load_competition_names(self) -> None:
+        self.competition_names = {}
+
+        if not DATABASE_PATH.exists():
+            return
+
+        connection = sqlite3.connect(DATABASE_PATH)
+
+        try:
+            repository = CompetitionRepository(connection)
+
+            for competition in repository.get_all():
+                if competition.competition_id is None:
+                    continue
+
+                self.competition_names[
+                    int(competition.competition_id)
+                ] = competition.name
+        finally:
+            connection.close()
+
+    def _refresh_competition_filter(self) -> None:
+        current_id = self.competition_filter.currentData()
+
+        competition_ids = sorted(
+            {
+                int(match.competition_id)
+                for match in self.month_matches
+                if match.competition_id is not None
+            },
+            key=lambda competition_id: (
+                self.competition_names.get(
+                    competition_id,
+                    str(competition_id),
+                ).casefold()
+            ),
+        )
+
+        self.competition_filter.blockSignals(True)
+        self.competition_filter.clear()
+        self.competition_filter.addItem(
+            "Alle Wettbewerbe",
+            None,
+        )
+
+        for competition_id in competition_ids:
+            self.competition_filter.addItem(
+                self.competition_names.get(
+                    competition_id,
+                    f"Wettbewerb {competition_id}",
+                ),
+                competition_id,
+            )
+
+        if current_id is not None:
+            index = self.competition_filter.findData(current_id)
+            if index >= 0:
+                self.competition_filter.setCurrentIndex(index)
+
+        self.competition_filter.blockSignals(False)
+        self._refresh_team_filter()
+
+    def _refresh_team_filter(self) -> None:
+        current_team_id = self.team_filter.currentData()
+        competition_id = self.competition_filter.currentData()
+
+        team_names: dict[int, str] = {}
+
         for match in self.month_matches:
-            match_date = (
-                match.match_date or ""
-            ).strip()
+            if (
+                competition_id is not None
+                and match.competition_id != competition_id
+            ):
+                continue
+
+            if match.home_team_id is not None:
+                team_names[int(match.home_team_id)] = (
+                    match.home_team_name
+                )
+
+            if match.away_team_id is not None:
+                team_names[int(match.away_team_id)] = (
+                    match.away_team_name
+                )
+
+        self.team_filter.blockSignals(True)
+        self.team_filter.clear()
+        self.team_filter.addItem(
+            "Alle Mannschaften",
+            None,
+        )
+
+        for team_id, team_name in sorted(
+            team_names.items(),
+            key=lambda item: item[1].casefold(),
+        ):
+            self.team_filter.addItem(
+                team_name,
+                team_id,
+            )
+
+        if current_team_id is not None:
+            index = self.team_filter.findData(current_team_id)
+            if index >= 0:
+                self.team_filter.setCurrentIndex(index)
+
+        self.team_filter.blockSignals(False)
+
+    def _handle_competition_filter_changed(
+        self,
+    ) -> None:
+        self._refresh_team_filter()
+        self._apply_filters()
+
+    def _apply_filters(self) -> None:
+        competition_id = self.competition_filter.currentData()
+        team_id = self.team_filter.currentData()
+
+        self.filtered_matches = []
+
+        for match in self.month_matches:
+            if (
+                competition_id is not None
+                and match.competition_id != competition_id
+            ):
+                continue
+
+            if (
+                team_id is not None
+                and match.home_team_id != team_id
+                and match.away_team_id != team_id
+            ):
+                continue
+
+            self.filtered_matches.append(match)
+
+        self.matches_by_date = {}
+
+        for match in self.filtered_matches:
+            match_date = (match.match_date or "").strip()
 
             if not match_date:
                 continue
@@ -605,8 +828,8 @@ class CalendarPage(QWidget):
             ).append(match)
 
         self._apply_match_markers(
-            year,
-            month,
+            self.calendar.yearShown(),
+            self.calendar.monthShown(),
         )
         self._render_selected_date_matches()
 
@@ -704,9 +927,28 @@ class CalendarPage(QWidget):
         self,
         match,
     ) -> QFrame:
-        card = QFrame()
+        match_id = getattr(
+            match,
+            "match_id",
+            None,
+        )
+
+        if match_id is None:
+            match_id = getattr(
+                match,
+                "id",
+                0,
+            )
+
+        card = ClickableMatchCard(
+            int(match_id or 0)
+        )
         card.setObjectName(
             "CalendarMatchCard"
+        )
+
+        card.clicked.connect(
+            self.match_requested.emit
         )
 
         layout = QVBoxLayout(card)
@@ -968,6 +1210,30 @@ class CalendarPage(QWidget):
                 color: {{Colors.TEXT_SECONDARY}};
                 background: transparent;
                 border: none;
+            }}
+
+            QLabel#CalendarFilterLabel {{
+                color: {{Colors.TEXT_SECONDARY}};
+                background: transparent;
+                border: none;
+            }}
+
+            QComboBox#CalendarFilter {{
+                min-height: 34px;
+                padding-left: 10px;
+                padding-right: 10px;
+                background-color: {{Colors.CARD_BACKGROUND_ACTIVE}};
+                color: {{Colors.TEXT_PRIMARY}};
+                border: 1px solid {{Colors.BORDER}};
+                border-radius: {{Metrics.RADIUS_MEDIUM}}px;
+            }}
+
+            QComboBox#CalendarFilter QAbstractItemView {{
+                background-color: {{Colors.CARD_BACKGROUND}};
+                color: {{Colors.TEXT_PRIMARY}};
+                border: 1px solid {{Colors.BORDER}};
+                selection-background-color: {{Colors.PRIMARY}};
+                selection-color: {{Colors.TEXT_ON_PRIMARY}};
             }}
 
             QPushButton {{

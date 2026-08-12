@@ -156,6 +156,10 @@ class MainWindow(QMainWindow):
 
         calendar_page = CalendarPage()
 
+        calendar_page.match_requested.connect(
+            self._open_match_from_calendar
+        )
+
         statistics_placeholder = (
             self._create_placeholder(
                 icon="📊",
@@ -327,6 +331,32 @@ class MainWindow(QMainWindow):
             ImportPage,
         ):
             page.refresh_data()
+
+    def _open_match_from_calendar(
+        self,
+        match_id: int,
+    ) -> None:
+        if match_id <= 0:
+            return
+
+        if not self.open_module(
+            "matches"
+        ):
+            return
+
+        page = self.page_instances.get(
+            "matches"
+        )
+
+        if not isinstance(
+            page,
+            MatchesPage,
+        ):
+            return
+
+        page.focus_match(
+            match_id
+        )
 
     def _on_module_changed(
         self,
