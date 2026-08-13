@@ -74,6 +74,8 @@ class DatabaseSchema:
                 self.connection
             ).create()
 
+        self.ensure_competition_sync_columns()
+
         ImportSchemaMigration(
             self.connection
         ).run()
@@ -87,6 +89,40 @@ class DatabaseSchema:
         ).seed()
 
         self.connection.commit()
+
+    def ensure_competition_sync_columns(
+        self,
+    ) -> None:
+        self.cursor.execute(
+            "PRAGMA table_info(competitions);"
+        )
+
+        columns = {
+            row[1]
+            for row in self.cursor.fetchall()
+        }
+
+        required_columns = {
+            "schedule_url":
+                "TEXT NOT NULL DEFAULT ''",
+            "last_schedule_sync":
+                "TEXT",
+        }
+
+        for (
+            column_name,
+            column_definition,
+        ) in required_columns.items():
+            if column_name in columns:
+                continue
+
+            self.cursor.execute(
+                f"""
+                ALTER TABLE competitions
+                ADD COLUMN {column_name}
+                {column_definition};
+                """
+            )
 
     def enable_foreign_keys(self) -> None:
         self.cursor.execute(

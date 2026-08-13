@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 import time
+from datetime import datetime
 from pathlib import Path
 
 from PySide6.QtCore import QDate, QEvent, Qt, Signal
@@ -574,6 +575,16 @@ class CalendarPage(QWidget):
             "CalendarScheduleImportButton"
         )
 
+        self.schedule_refresh_button = QPushButton(
+            "↻ Spielplan aktualisieren"
+        )
+        self.schedule_refresh_button.setObjectName(
+            "CalendarScheduleRefreshButton"
+        )
+        self.schedule_refresh_button.setEnabled(
+            False
+        )
+
         import_layout.addWidget(
             self.schedule_url_input,
             1,
@@ -581,9 +592,23 @@ class CalendarPage(QWidget):
         import_layout.addWidget(
             self.schedule_import_button
         )
+        import_layout.addWidget(
+            self.schedule_refresh_button
+        )
 
         root_layout.addLayout(
             import_layout
+        )
+
+        self.schedule_sync_label = QLabel(
+            "Kein gespeicherter Staffel-Link."
+        )
+        self.schedule_sync_label.setObjectName(
+            "CalendarScheduleSyncLabel"
+        )
+
+        root_layout.addWidget(
+            self.schedule_sync_label
         )
 
         self.view_stack = QStackedWidget()
@@ -1515,6 +1540,10 @@ class CalendarPage(QWidget):
             self._start_schedule_import
         )
 
+        self.schedule_refresh_button.clicked.connect(
+            self._refresh_selected_schedule
+        )
+
         self.day_view_button.clicked.connect(
             lambda: self._set_calendar_view(
                 "day"
@@ -1535,6 +1564,134 @@ class CalendarPage(QWidget):
                 "year"
             )
         )
+
+    def _load_selected_competition_sync(
+        self,
+    ) -> None:
+        competition_id = (
+            self.competition_filter.currentData()
+        )
+
+        if competition_id is None:
+            self.schedule_refresh_button.setEnabled(
+                False
+            )
+            self.schedule_sync_label.setText(
+                "Kein einzelner Wettbewerb ausgewählt."
+            )
+            return
+
+        connection = sqlite3.connect(
+            DATABASE_PATH
+        )
+
+        try:
+            repository = CompetitionRepository(
+                connection
+            )
+            competition = repository.get(
+                int(competition_id)
+            )
+        finally:
+            connection.close()
+
+        if competition is None:
+            self.schedule_refresh_button.setEnabled(
+                False
+            )
+            self.schedule_sync_label.setText(
+                "Wettbewerb konnte nicht geladen werden."
+            )
+            return
+
+        schedule_url = (
+            competition.schedule_url or ""
+        ).strip()
+
+        if schedule_url:
+            self.schedule_url_input.setText(
+                schedule_url
+            )
+            self.schedule_refresh_button.setEnabled(
+                True
+            )
+        else:
+            self.schedule_refresh_button.setEnabled(
+                False
+            )
+
+        if competition.last_schedule_sync:
+            sync_text = (
+                competition.last_schedule_sync
+                .replace("T", " ")
+            )
+        else:
+            sync_text = "noch nie"
+
+        if schedule_url:
+            self.schedule_sync_label.setText(
+                f"Letzter Spielplan-Sync: {sync_text}"
+            )
+        else:
+            self.schedule_sync_label.setText(
+                "Für diesen Wettbewerb ist noch "
+                "kein Staffel-Link gespeichert."
+            )
+
+    def _refresh_selected_schedule(
+        self,
+    ) -> None:
+        competition_id = (
+            self.competition_filter.currentData()
+        )
+
+        if competition_id is None:
+            QMessageBox.warning(
+                self,
+                "Spielplan aktualisieren",
+                "Bitte zuerst einen Wettbewerb auswählen.",
+            )
+            return
+
+        connection = sqlite3.connect(
+            DATABASE_PATH
+        )
+
+        try:
+            repository = CompetitionRepository(
+                connection
+            )
+            competition = repository.get(
+                int(competition_id)
+            )
+        finally:
+            connection.close()
+
+        if competition is None:
+            QMessageBox.warning(
+                self,
+                "Spielplan aktualisieren",
+                "Der Wettbewerb wurde nicht gefunden.",
+            )
+            return
+
+        schedule_url = (
+            competition.schedule_url or ""
+        ).strip()
+
+        if not schedule_url:
+            QMessageBox.warning(
+                self,
+                "Spielplan aktualisieren",
+                "Für diesen Wettbewerb ist "
+                "noch kein Staffel-Link gespeichert.",
+            )
+            return
+
+        self.schedule_url_input.setText(
+            schedule_url
+        )
+        self._start_schedule_import()
 
     def _start_schedule_import(
         self,
@@ -1617,6 +1774,34 @@ class CalendarPage(QWidget):
                 schedule_only=True,
             )
 
+            competition_id = (
+                service.last_competition_id
+            )
+
+            if competition_id is None:
+                raise RuntimeError(
+                    "Der importierte Wettbewerb "
+                    "konnte nicht ermittelt werden."
+                )
+
+            sync_timestamp = (
+                datetime.now().isoformat(
+                    timespec="seconds"
+                )
+            )
+
+            CompetitionRepository(
+                connection
+            ).update_schedule_sync(
+                competition_id=int(
+                    competition_id
+                ),
+                schedule_url=url,
+                last_schedule_sync=(
+                    sync_timestamp
+                ),
+            )
+
             connection.commit()
 
             duration = (
@@ -1624,7 +1809,24 @@ class CalendarPage(QWidget):
                 - start_time
             )
 
+            imported_competition_id = int(
+                competition_id
+            )
+
             self.refresh_data()
+
+            competition_index = (
+                self.competition_filter.findData(
+                    imported_competition_id
+                )
+            )
+
+            if competition_index >= 0:
+                self.competition_filter.setCurrentIndex(
+                    competition_index
+                )
+
+            self._load_selected_competition_sync()
 
             QMessageBox.information(
                 self,
@@ -1893,6 +2095,7 @@ class CalendarPage(QWidget):
 
         self.competition_filter.blockSignals(False)
         self._refresh_team_filter()
+        self._load_selected_competition_sync()
 
     def _refresh_team_filter(self) -> None:
         selected_team_ids = (
@@ -1941,6 +2144,7 @@ class CalendarPage(QWidget):
         self,
     ) -> None:
         self._refresh_team_filter()
+        self._load_selected_competition_sync()
         self._apply_filters()
 
     def _apply_filters(self) -> None:
@@ -2490,6 +2694,26 @@ class CalendarPage(QWidget):
                 selection-color: {{Colors.TEXT_ON_PRIMARY}};
                 border: none;
                 outline: none;
+            }}
+
+            QLabel#CalendarScheduleSyncLabel {{
+                color: {{Colors.TEXT_SECONDARY}};
+                background: transparent;
+                border: none;
+            }}
+
+            QPushButton#CalendarScheduleRefreshButton {{
+                min-height: 36px;
+                padding-left: 14px;
+                padding-right: 14px;
+                background-color: {{Colors.CARD_BACKGROUND_ACTIVE}};
+                color: {{Colors.TEXT_PRIMARY}};
+                border: 1px solid {{Colors.BORDER}};
+                border-radius: {{Metrics.RADIUS_MEDIUM}}px;
+            }}
+
+            QPushButton#CalendarScheduleRefreshButton:hover:enabled {{
+                border-color: {{Colors.PRIMARY}};
             }}
 
             QLineEdit#CalendarScheduleUrl {{

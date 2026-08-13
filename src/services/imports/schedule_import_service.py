@@ -63,6 +63,7 @@ class ScheduleImportService:
         self.team_repository = team_repository
         self.competition_repository = competition_repository
         self.match_repository = match_repository
+        self.last_competition_id: int | None = None
 
     def import_schedule(
         self,
@@ -99,6 +100,11 @@ class ScheduleImportService:
             season_id=season_id,
             result=result,
         )
+
+        self.last_competition_id = int(
+            competition_id
+        )
+
 
         self._import_clubs(
             matches=schedule_data.matches,

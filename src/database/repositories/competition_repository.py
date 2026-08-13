@@ -20,7 +20,9 @@ class CompetitionRepository:
                 league_id,
                 season_id,
                 name,
-                active
+                active,
+                schedule_url,
+                last_schedule_sync
             FROM competitions
             ORDER BY name ASC
             """
@@ -47,7 +49,9 @@ class CompetitionRepository:
                 league_id,
                 season_id,
                 name,
-                active
+                active,
+                schedule_url,
+                last_schedule_sync
             FROM competitions
             WHERE competition_id = ?
             LIMIT 1
@@ -98,7 +102,9 @@ class CompetitionRepository:
                 league_id,
                 season_id,
                 name,
-                active
+                active,
+                schedule_url,
+                last_schedule_sync
             FROM competitions
             WHERE
                 league_id = ?
@@ -147,15 +153,19 @@ class CompetitionRepository:
                 league_id,
                 season_id,
                 name,
-                active
+                active,
+                schedule_url,
+                last_schedule_sync
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
             (
                 competition.league_id,
                 competition.season_id,
                 normalized_name,
                 int(competition.active),
+                competition.schedule_url.strip(),
+                competition.last_schedule_sync,
             ),
         )
 
@@ -211,6 +221,8 @@ class CompetitionRepository:
             season_id=season_id,
             name=normalized_name,
             active=active,
+            schedule_url="",
+            last_schedule_sync=None,
         )
 
         return self.add(
@@ -255,7 +267,9 @@ class CompetitionRepository:
                 league_id = ?,
                 season_id = ?,
                 name = ?,
-                active = ?
+                active = ?,
+                schedule_url = ?,
+                last_schedule_sync = ?
             WHERE competition_id = ?
             """,
             (
@@ -263,7 +277,41 @@ class CompetitionRepository:
                 competition.season_id,
                 normalized_name,
                 int(competition.active),
+                competition.schedule_url.strip(),
+                competition.last_schedule_sync,
                 competition.competition_id,
+            ),
+        )
+
+        self.connection.commit()
+
+        return self.cursor.rowcount
+
+    def update_schedule_sync(
+        self,
+        competition_id: int,
+        schedule_url: str,
+        last_schedule_sync: str | None,
+    ) -> int:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerbs-ID."
+            )
+
+        normalized_url = schedule_url.strip()
+
+        self.cursor.execute(
+            """
+            UPDATE competitions
+            SET
+                schedule_url = ?,
+                last_schedule_sync = ?
+            WHERE competition_id = ?
+            """,
+            (
+                normalized_url,
+                last_schedule_sync,
+                competition_id,
             ),
         )
 
@@ -481,4 +529,14 @@ class CompetitionRepository:
             season_id=row[2],
             name=row[3],
             active=bool(row[4]),
+            schedule_url=(
+                row[5]
+                if len(row) > 5 and row[5]
+                else ""
+            ),
+            last_schedule_sync=(
+                row[6]
+                if len(row) > 6
+                else None
+            ),
         )

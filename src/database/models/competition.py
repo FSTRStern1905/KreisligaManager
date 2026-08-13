@@ -22,6 +22,9 @@ class Competition:
 
     active: bool = True
 
+    schedule_url: str = ""
+    last_schedule_sync: str | None = None
+
     def __str__(self) -> str:
         return self.name
 
