@@ -1,0 +1,67 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 3: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 5: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 784: Events enthalten 7 Tore, player_match_stats enthalten 2.
+    ✖ Spiel 783: FC St. Pauli - SpVgg Greuther Fürth; Ergebnis enthält 0 Tore, Events enthalten 2.
+    ✖ Spiel 784: 1. FC Heidenheim 1846 - VfL Osnabrück; Ergebnis enthält 5 Tore, Events enthalten 7.
+    ✖ Spiel 785: SV Darmstadt 98 - Holstein Kiel; Ergebnis enthält 2 Tore, Events enthalten 4.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 3, SV Werder Bremen: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 4, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 4, Sport-Club Freiburg: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 781, Hertha BSC: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 782, VfL Wolfsburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 782, 1. FC Kaiserslautern: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 783, SpVgg Greuther Fürth: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 784, VfL Osnabrück: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 785, Holstein Kiel: 4 Einwechslungen, 3 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 2, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 2, TSG Hoffenheim: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 3, SV Werder Bremen: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, FC Augsburg: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 4, Sport-Club Freiburg: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FC Köln: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 781, Hertha BSC: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 782, VfL Wolfsburg: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 782, 1. FC Kaiserslautern: 966 Mannschaftsminuten statt 990.
+    ⚠ Spiel 783, SpVgg Greuther Fürth: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 784, VfL Osnabrück: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 785, Holstein Kiel: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 785, SV Darmstadt 98: 1015 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=44, player_match_stats=31.
+    ⚠ 3 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  3
+FEHLER:                   1
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  56.0 %
+Einzelinfos:               0
+Einzelwarnungen:           31
+Einzelfehler:              3
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================

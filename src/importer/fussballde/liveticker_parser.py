@@ -92,6 +92,10 @@ class LivetickerParser:
                     event
                 )
 
+        data.events = self._deduplicate_events(
+            data.events
+        )
+
         data.ticker_available = bool(
             data.events
             or self._has_ticker_container(
@@ -178,6 +182,10 @@ class LivetickerParser:
                     event
                 )
 
+        data.events = self._deduplicate_events(
+            data.events
+        )
+
         if not data.events:
             data.warnings.append(
                 "JSON erkannt, aber keine "
@@ -226,6 +234,84 @@ class LivetickerParser:
             source_url=source_url,
             match_id=match_id,
         )
+
+    @classmethod
+    def _deduplicate_events(
+        cls,
+        events: list[LivetickerEvent],
+    ) -> list[LivetickerEvent]:
+        deduplicated: list[LivetickerEvent] = []
+        seen: set[tuple] = set()
+
+        for event in events:
+            raw_data = (
+                event.raw_data
+                if isinstance(
+                    event.raw_data,
+                    dict,
+                )
+                else {}
+            )
+
+            team_external_id = str(
+                raw_data.get(
+                    "team_id",
+                    "",
+                )
+                or event.team
+                or ""
+            ).strip()
+
+            member_id = str(
+                raw_data.get(
+                    "member_id",
+                    "",
+                )
+                or event.player_id
+                or ""
+            ).strip()
+
+            member2_id = str(
+                raw_data.get(
+                    "member2_id",
+                    "",
+                )
+                or event.player_out_id
+                or ""
+            ).strip()
+
+            signature = (
+                event.minute,
+                event.additional_time,
+                event.event_type,
+                team_external_id,
+                member_id,
+                member2_id,
+                cls._normalize_event_text(
+                    event.description
+                ),
+            )
+
+            if signature in seen:
+                continue
+
+            seen.add(
+                signature
+            )
+
+            deduplicated.append(
+                event
+            )
+
+        return deduplicated
+
+    @staticmethod
+    def _normalize_event_text(
+        value: str,
+    ) -> str:
+        return " ".join(
+            (value or "").split()
+        ).casefold()
 
     def _parse_html_event(
         self,
@@ -397,6 +483,8 @@ class LivetickerParser:
                 "person",
                 "athlete",
                 "playerIn",
+                "member",
+                "member_id",
             ),
         )
 
@@ -416,6 +504,8 @@ class LivetickerParser:
                     "playerOut",
                     "player_out",
                     "substitutedPlayer",
+                    "member2",
+                    "member2_id",
                 ),
             )
         )
@@ -441,10 +531,49 @@ class LivetickerParser:
             ),
         )
 
+        if (
+            score_home is None
+            or score_away is None
+        ):
+            score_text = raw_event.get(
+                "score"
+            )
+
+            if isinstance(
+                score_text,
+                str,
+            ):
+                (
+                    parsed_home,
+                    parsed_away,
+                ) = self._extract_score_from_text(
+                    score_text
+                )
+
+                if score_home is None:
+                    score_home = parsed_home
+
+                if score_away is None:
+                    score_away = parsed_away
+
         event_type = self._detect_event_type(
             text=description,
             raw_type=raw_type,
         )
+
+        if not player and description:
+            player = self._extract_player_name_from_description(
+                description=description,
+                event_type=event_type,
+                position=1,
+            )
+
+        if not player_out and description:
+            player_out = self._extract_player_name_from_description(
+                description=description,
+                event_type=event_type,
+                position=2,
+            )
 
         return LivetickerEvent(
             minute=minute,
@@ -1182,6 +1311,7 @@ class LivetickerParser:
             "teamName",
             "club",
             "side",
+            "team_id",
         ):
             value = raw_event.get(
                 key
@@ -1205,8 +1335,59 @@ class LivetickerParser:
                         "name",
                         "teamName",
                         "displayName",
+                        "id",
                     ),
                 )
+
+        return ""
+
+    @staticmethod
+    def _extract_player_name_from_description(
+        description: str,
+        event_type: str,
+        position: int,
+    ) -> str:
+        text = " ".join(
+            description.split()
+        )
+
+        if ":" not in text:
+            return ""
+
+        payload = text.split(
+            ":",
+            1,
+        )[1].strip()
+
+        if not payload:
+            return ""
+
+        if event_type == "substitution":
+            parts = [
+                part.strip()
+                for part in payload.split(
+                    "=>",
+                    1,
+                )
+            ]
+
+            if position == 1:
+                return (
+                    parts[0]
+                    if parts
+                    else ""
+                )
+
+            if (
+                position == 2
+                and len(parts) > 1
+            ):
+                return parts[1]
+
+            return ""
+
+        if position == 1:
+            return payload
 
         return ""
 
@@ -1253,6 +1434,15 @@ class LivetickerParser:
             value = raw_event.get(
                 key
             )
+
+            if isinstance(
+                value,
+                str,
+            ):
+                normalized = value.strip()
+
+                if normalized:
+                    return normalized
 
             if isinstance(
                 value,

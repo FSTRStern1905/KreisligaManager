@@ -65,6 +65,11 @@ class MatchEventImporter:
             connection
         )
 
+        self._liveticker_team_cache: dict[
+            tuple[int, str],
+            int,
+        ] = {}
+
     def import_events(
         self,
         match_id: int,
@@ -99,9 +104,17 @@ class MatchEventImporter:
     ) -> tuple[int, set[int]]:
         prepared_events: list[dict] = []
 
+        self._seed_liveticker_team_cache(
+            match_id=match_id,
+            liveticker_data=liveticker_data,
+            home_team_id=home_team_id,
+            away_team_id=away_team_id,
+        )
+
         for event in liveticker_data.events:
             team_id = (
                 self._resolve_liveticker_team_id(
+                    match_id=match_id,
                     event=event,
                     detail_data=detail_data,
                     home_team_id=home_team_id,
@@ -112,6 +125,7 @@ class MatchEventImporter:
             if event.event_type == "substitution":
                 prepared_events.extend(
                     self._prepare_liveticker_substitution(
+                        match_id=match_id,
                         event=event,
                         team_id=team_id,
                     )
@@ -120,6 +134,7 @@ class MatchEventImporter:
 
             prepared_event = (
                 self._prepare_liveticker_event(
+                    match_id=match_id,
                     event=event,
                     team_id=team_id,
                 )
@@ -149,6 +164,7 @@ class MatchEventImporter:
 
     def _prepare_liveticker_event(
         self,
+        match_id: int,
         event: LivetickerEvent,
         team_id: int | None,
     ) -> dict | None:
@@ -170,6 +186,7 @@ class MatchEventImporter:
             return None
 
         player_id = self._get_or_create_player(
+            match_id=match_id,
             player_name=event.player,
             external_id=event.player_id,
             team_id=team_id,
@@ -198,11 +215,13 @@ class MatchEventImporter:
 
     def _prepare_liveticker_substitution(
         self,
+        match_id: int,
         event: LivetickerEvent,
         team_id: int | None,
     ) -> list[dict]:
         player_in_id = (
             self._get_or_create_player(
+                match_id=match_id,
                 player_name=event.player,
                 external_id=event.player_id,
                 team_id=team_id,
@@ -211,6 +230,7 @@ class MatchEventImporter:
 
         player_out_id = (
             self._get_or_create_player(
+                match_id=match_id,
                 player_name=event.player_out,
                 external_id=event.player_out_id,
                 team_id=team_id,
@@ -271,8 +291,161 @@ class MatchEventImporter:
 
         return events
 
+    def _seed_liveticker_team_cache(
+        self,
+        match_id: int,
+        liveticker_data: LivetickerData,
+        home_team_id: int,
+        away_team_id: int,
+    ) -> None:
+        team_external_ids = {
+            self._normalize_name(
+                event.team
+            )
+            for event in liveticker_data.events
+            if self._normalize_name(
+                event.team
+            )
+        }
+
+        if not team_external_ids:
+            return
+
+        goal_types = {
+            "goal",
+            "own_goal",
+            "penalty_goal",
+        }
+
+        goal_events = [
+            event
+            for event in liveticker_data.events
+            if (
+                event.event_type in goal_types
+                and self._normalize_name(
+                    event.team
+                )
+                and event.score_home is not None
+                and event.score_away is not None
+            )
+        ]
+
+        goal_events.sort(
+            key=lambda event: (
+                event.minute
+                if event.minute is not None
+                else 999,
+                event.additional_time,
+            )
+        )
+
+        previous_home = 0
+        previous_away = 0
+
+        for event in goal_events:
+            external_team_id = (
+                self._normalize_name(
+                    event.team
+                )
+            )
+
+            current_home = int(
+                event.score_home
+            )
+            current_away = int(
+                event.score_away
+            )
+
+            home_delta = (
+                current_home
+                - previous_home
+            )
+            away_delta = (
+                current_away
+                - previous_away
+            )
+
+            cache_key = (
+                match_id,
+                external_team_id,
+            )
+
+            if (
+                home_delta > 0
+                and away_delta <= 0
+            ):
+                self._liveticker_team_cache[
+                    cache_key
+                ] = home_team_id
+
+            elif (
+                away_delta > 0
+                and home_delta <= 0
+            ):
+                self._liveticker_team_cache[
+                    cache_key
+                ] = away_team_id
+
+            previous_home = max(
+                previous_home,
+                current_home,
+            )
+            previous_away = max(
+                previous_away,
+                current_away,
+            )
+
+        mapped_external_ids = {
+            external_id: team_id
+            for (
+                cached_match_id,
+                external_id,
+            ), team_id
+            in self._liveticker_team_cache.items()
+            if cached_match_id == match_id
+        }
+
+        if (
+            len(team_external_ids) == 2
+            and len(mapped_external_ids) == 1
+        ):
+            mapped_external_id = next(
+                iter(
+                    mapped_external_ids
+                )
+            )
+
+            mapped_team_id = (
+                mapped_external_ids[
+                    mapped_external_id
+                ]
+            )
+
+            remaining_external_id = next(
+                external_id
+                for external_id
+                in team_external_ids
+                if external_id
+                != mapped_external_id
+            )
+
+            remaining_team_id = (
+                away_team_id
+                if mapped_team_id
+                == home_team_id
+                else home_team_id
+            )
+
+            self._liveticker_team_cache[
+                (
+                    match_id,
+                    remaining_external_id,
+                )
+            ] = remaining_team_id
+
     def _resolve_liveticker_team_id(
         self,
+        match_id: int,
         event: LivetickerEvent,
         detail_data: MatchDetailData,
         home_team_id: int,
@@ -282,26 +455,226 @@ class MatchEventImporter:
             event.team
         )
 
-        if not event_team:
+        home_name = self._normalize_name(
+            detail_data.home_team
+        )
+        away_name = self._normalize_name(
+            detail_data.away_team
+        )
+
+        if event_team:
+            if event_team == home_name:
+                return home_team_id
+
+            if event_team == away_name:
+                return away_team_id
+
+            cache_key = (
+                match_id,
+                event_team,
+            )
+
+            cached_team_id = (
+                self._liveticker_team_cache.get(
+                    cache_key
+                )
+            )
+
+            if cached_team_id is not None:
+                return cached_team_id
+
+            team_id = (
+                self._resolve_team_by_external_id(
+                    external_id=event.team,
+                    home_team_id=home_team_id,
+                    away_team_id=away_team_id,
+                )
+            )
+
+            if team_id is not None:
+                self._liveticker_team_cache[
+                    cache_key
+                ] = team_id
+
+                return team_id
+
+        team_id = (
+            self._resolve_team_from_lineup(
+                match_id=match_id,
+                player_external_ids=(
+                    event.player_id,
+                    event.player_out_id,
+                ),
+                player_names=(
+                    event.player,
+                    event.player_out,
+                ),
+                home_team_id=home_team_id,
+                away_team_id=away_team_id,
+            )
+        )
+
+        if (
+            team_id is not None
+            and event_team
+        ):
+            self._liveticker_team_cache[
+                (
+                    match_id,
+                    event_team,
+                )
+            ] = team_id
+
+        return team_id
+
+    def _resolve_team_by_external_id(
+        self,
+        external_id: str,
+        home_team_id: int,
+        away_team_id: int,
+    ) -> int | None:
+        normalized_external_id = (
+            external_id.strip()
+        )
+
+        if not normalized_external_id:
             return None
 
-        home_names = {
-            self._normalize_name(
-                detail_data.home_team
-            ),
+        row = self.connection.execute(
+            """
+            SELECT team_id
+            FROM teams
+            WHERE external_id = ?
+            LIMIT 1
+            """,
+            (normalized_external_id,),
+        ).fetchone()
+
+        if row is None:
+            return None
+
+        team_id = int(row[0])
+
+        if team_id not in {
+            home_team_id,
+            away_team_id,
+        }:
+            return None
+
+        return team_id
+
+    def _resolve_team_from_lineup(
+        self,
+        match_id: int,
+        player_external_ids: tuple[str, str],
+        player_names: tuple[str, str],
+        home_team_id: int,
+        away_team_id: int,
+    ) -> int | None:
+        valid_team_ids = {
+            home_team_id,
+            away_team_id,
         }
 
-        away_names = {
-            self._normalize_name(
-                detail_data.away_team
-            ),
+        for external_id in player_external_ids:
+            normalized_external_id = (
+                external_id.strip()
+            )
+
+            if not normalized_external_id:
+                continue
+
+            row = self.connection.execute(
+                """
+                SELECT
+                    lineups.team_id
+                FROM lineups
+                INNER JOIN players
+                    ON players.player_id =
+                       lineups.player_id
+                WHERE
+                    lineups.match_id = ?
+                    AND players.external_id = ?
+                LIMIT 1
+                """,
+                (
+                    match_id,
+                    normalized_external_id,
+                ),
+            ).fetchone()
+
+            if row is None:
+                continue
+
+            team_id = int(row[0])
+
+            if team_id in valid_team_ids:
+                return team_id
+
+        normalized_names = {
+            self._normalize_name(name)
+            for name in player_names
+            if self._normalize_name(name)
         }
 
-        if event_team in home_names:
-            return home_team_id
+        if not normalized_names:
+            return None
 
-        if event_team in away_names:
-            return away_team_id
+        rows = self.connection.execute(
+            """
+            SELECT
+                lineups.team_id,
+                players.first_name,
+                players.last_name
+            FROM lineups
+            INNER JOIN players
+                ON players.player_id =
+                   lineups.player_id
+            WHERE lineups.match_id = ?
+            """,
+            (match_id,),
+        ).fetchall()
+
+        for row in rows:
+            team_id = int(row[0])
+
+            if team_id not in valid_team_ids:
+                continue
+
+            first_name = str(
+                row[1] or ""
+            ).strip()
+            last_name = str(
+                row[2] or ""
+            ).strip()
+
+            full_name = self._normalize_name(
+                " ".join(
+                    part
+                    for part in (
+                        first_name,
+                        last_name,
+                    )
+                    if part
+                )
+            )
+
+            reverse_name = self._normalize_name(
+                " ".join(
+                    part
+                    for part in (
+                        last_name,
+                        first_name,
+                    )
+                    if part
+                )
+            )
+
+            if (
+                full_name in normalized_names
+                or reverse_name in normalized_names
+            ):
+                return team_id
 
         return None
 
@@ -541,6 +914,7 @@ class MatchEventImporter:
         player_name: str,
         external_id: str,
         team_id: int | None,
+        match_id: int | None = None,
     ) -> int | None:
         normalized_name = (
             MatchNotesBuilder
@@ -558,6 +932,22 @@ class MatchEventImporter:
             and not normalized_external_id
         ):
             return None
+
+        if (
+            match_id is not None
+            and team_id is not None
+            and normalized_name
+        ):
+            lineup_player_id = (
+                self._find_lineup_player_by_name(
+                    match_id=match_id,
+                    team_id=team_id,
+                    player_name=normalized_name,
+                )
+            )
+
+            if lineup_player_id is not None:
+                return lineup_player_id
 
         first_name, last_name = (
             self._split_player_name(
@@ -581,6 +971,116 @@ class MatchEventImporter:
             external_id=normalized_external_id,
             commit=False,
         )
+
+    def _find_lineup_player_by_name(
+        self,
+        match_id: int,
+        team_id: int,
+        player_name: str,
+    ) -> int | None:
+        target = self._normalize_name(
+            player_name
+        )
+
+        if not target:
+            return None
+
+        rows = self.connection.execute(
+            """
+            SELECT
+                players.player_id,
+                players.first_name,
+                players.last_name
+            FROM lineups
+            INNER JOIN players
+                ON players.player_id =
+                   lineups.player_id
+            WHERE
+                lineups.match_id = ?
+                AND lineups.team_id = ?
+            """,
+            (
+                match_id,
+                team_id,
+            ),
+        ).fetchall()
+
+        exact_matches: list[int] = []
+        relaxed_matches: list[int] = []
+
+        for row in rows:
+            player_id = int(
+                row[0]
+            )
+
+            first_name = str(
+                row[1] or ""
+            ).strip()
+
+            last_name = str(
+                row[2] or ""
+            ).strip()
+
+            full_name = self._normalize_name(
+                " ".join(
+                    part
+                    for part in (
+                        first_name,
+                        last_name,
+                    )
+                    if part
+                )
+            )
+
+            reverse_name = self._normalize_name(
+                " ".join(
+                    part
+                    for part in (
+                        last_name,
+                        first_name,
+                    )
+                    if part
+                )
+            )
+
+            normalized_first = (
+                self._normalize_name(
+                    first_name
+                )
+            )
+            normalized_last = (
+                self._normalize_name(
+                    last_name
+                )
+            )
+
+            if target in {
+                full_name,
+                reverse_name,
+            }:
+                exact_matches.append(
+                    player_id
+                )
+                continue
+
+            if (
+                target
+                and (
+                    target == normalized_first
+                    or target == normalized_last
+                )
+            ):
+                relaxed_matches.append(
+                    player_id
+                )
+
+        if len(exact_matches) == 1:
+            return exact_matches[0]
+
+        if len(relaxed_matches) == 1:
+            return relaxed_matches[0]
+
+        return None
 
     def _resolve_html_team_id(
         self,

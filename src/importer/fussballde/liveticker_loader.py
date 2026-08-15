@@ -7,8 +7,8 @@ from typing import Any
 from src.importer.fussballde.liveticker_data import (
     LivetickerData,
 )
-from src.importer.fussballde.liveticker_json_parser import (
-    LivetickerJsonParser,
+from src.importer.fussballde.liveticker_parser import (
+    LivetickerParser,
 )
 
 
@@ -38,7 +38,7 @@ class LivetickerLoader:
     }
 
     def __init__(self) -> None:
-        self.parser = LivetickerJsonParser()
+        self.parser = LivetickerParser()
 
     def load(
         self,
@@ -147,8 +147,9 @@ class LivetickerLoader:
         )
 
         try:
-            data = self.parser.parse(
-                payload=payload,
+            data = self.parser.parse_auto(
+                content=payload,
+                match_id=match_external_id,
                 source_url=liveticker_url,
             )
         except Exception:

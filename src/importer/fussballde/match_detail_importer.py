@@ -35,8 +35,8 @@ from src.importer.fussballde.liveticker_loader import (
     LivetickerLoader,
 )
 
-from src.services.statistics.statistics_updater import (
-    StatisticsUpdater,
+from src.services.player_match_stats.player_match_stats_builder import (
+    PlayerMatchStatsBuilder,
 )
 
 class MatchDetailImporter:
@@ -72,10 +72,8 @@ class MatchDetailImporter:
         self.lineup_importer = LineupImporter(
             connection
         )
-        self.statistics_updater = (
-            StatisticsUpdater(
-                connection
-            )
+        self.player_match_stats_builder = PlayerMatchStatsBuilder(
+            connection
         )
 
     def import_from_page(
@@ -129,6 +127,11 @@ class MatchDetailImporter:
             )
         )
 
+        self._fill_result_from_liveticker(
+            detail_data=detail_data,
+            liveticker_data=liveticker_data,
+        )
+
         result = self.import_data(
             detail_data=detail_data,
             source_url=normalized_url,
@@ -160,6 +163,44 @@ class MatchDetailImporter:
         return result
 
 
+
+    @staticmethod
+    def _fill_result_from_liveticker(
+        detail_data: MatchDetailData,
+        liveticker_data: LivetickerData | None,
+    ) -> None:
+        if liveticker_data is None:
+            return
+
+        score_events = [
+            event
+            for event in liveticker_data.events
+            if (
+                event.score_home is not None
+                and event.score_away is not None
+            )
+        ]
+
+        if not score_events:
+            return
+
+        final_event = max(
+            score_events,
+            key=lambda event: (
+                event.minute
+                if event.minute is not None
+                else -1,
+                event.additional_time,
+                event.source_event_id,
+            ),
+        )
+
+        detail_data.home_goals = int(
+            final_event.score_home
+        )
+        detail_data.away_goals = int(
+            final_event.score_away
+        )
 
     def import_from_html(
         self,
@@ -286,9 +327,8 @@ class MatchDetailImporter:
                 liveticker_data=liveticker_data,
             )
 
-            statistics_result = (
-                self.statistics_updater
-                .update_match(
+            player_match_stats_result = (
+                self.player_match_stats_builder.build(
                     match_id
                 )
             )
@@ -317,8 +357,8 @@ class MatchDetailImporter:
                 else "match_html"
             ),
             "player_match_stats_created": (
-                statistics_result[
-                    "player_match_stats_created"
+                player_match_stats_result[
+                    "stats_created"
                 ]
             ),
         }    

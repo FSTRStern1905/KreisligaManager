@@ -828,27 +828,41 @@ class MatchDetailParser(BaseParser):
         return minute, additional_time
 
     def _is_goal_event(self, event_element: Tag) -> bool:
-        if event_element.select_one(".score-left, .score-right"):
+        score_left = event_element.select_one(
+            ".score-left"
+        )
+        score_right = event_element.select_one(
+            ".score-right"
+        )
+
+        if (
+            score_left is not None
+            and score_right is not None
+        ):
             return True
 
         if event_element.select_one(
-            ".goal, .icon-goal, .icon-ball, .hexagon.green"
+            ".goal, .icon-goal, .icon-ball"
         ):
             return True
 
         text = self.clean_text(
-            event_element.get_text(" ", strip=True)
-        ).lower()
+            event_element.get_text(
+                " ",
+                strip=True,
+            )
+        ).casefold()
+
+        goal_labels = (
+            "eigentor",
+            "elfmetertor",
+            "foulelfmetertor",
+            "strafstoßtor",
+        )
 
         return any(
-            keyword in text
-            for keyword in [
-                "tor",
-                "eigentor",
-                "elfmetertor",
-                "foulelfmeter",
-                "strafstoß",
-            ]
+            label in text
+            for label in goal_labels
         )
 
     def _detect_special_event_type(self, text: str) -> str:
@@ -1062,37 +1076,36 @@ class MatchDetailParser(BaseParser):
 
     @staticmethod
     def _fill_missing_final_result(
-            data: MatchDetailData,
-        ) -> None:
-            home_goals = 0
-            away_goals = 0
-            goal_events_found = False
+        data: MatchDetailData,
+    ) -> None:
+        if (
+            data.home_goals is not None
+            and data.away_goals is not None
+        ):
+            return
 
-            for event in data.events:
-                if event.event_type not in (
-                    MatchDetailParser.EVENT_GOAL,
-                    MatchDetailParser.EVENT_OWN_GOAL,
-                ):
-                    continue
+        home_goals = 0
+        away_goals = 0
+        goal_events_found = False
 
-                goal_events_found = True
-
-                if event.team == data.home_team:
-                    home_goals += 1
-
-                elif event.team == data.away_team:
-                    away_goals += 1
-
-            if goal_events_found:
-                data.home_goals = home_goals
-                data.away_goals = away_goals
-                return
-
-            if (
-                data.home_goals is not None
-                and data.away_goals is not None
+        for event in data.events:
+            if event.event_type not in (
+                MatchDetailParser.EVENT_GOAL,
+                MatchDetailParser.EVENT_OWN_GOAL,
             ):
-                return
+                continue
 
-            data.home_goals = 0
-            data.away_goals = 0
+            goal_events_found = True
+
+            if event.team == data.home_team:
+                home_goals += 1
+            elif event.team == data.away_team:
+                away_goals += 1
+
+        if goal_events_found:
+            data.home_goals = home_goals
+            data.away_goals = away_goals
+            return
+
+        data.home_goals = 0
+        data.away_goals = 0
