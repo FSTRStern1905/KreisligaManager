@@ -1073,6 +1073,34 @@ class MatchEventImporter:
                 relaxed_matches.append(
                     player_id
                 )
+                continue
+
+            shorter = (
+                full_name
+                if len(full_name) <= len(target)
+                else target
+            )
+
+            longer = (
+                target
+                if len(target) >= len(full_name)
+                else full_name
+            )
+
+            shorter_tokens = (
+                shorter.split()
+            )
+
+            if (
+                len(shorter_tokens) >= 2
+                and len(shorter) >= 8
+                and longer.startswith(
+                    shorter + " "
+                )
+            ):
+                relaxed_matches.append(
+                    player_id
+                )
 
         if len(exact_matches) == 1:
             return exact_matches[0]

@@ -352,6 +352,7 @@ def main() -> None:
                 prepared_events.extend(
                     importer
                     ._prepare_liveticker_substitution(
+                        match_id=match_id,
                         event=event,
                         team_id=team_id,
                     )
@@ -361,6 +362,7 @@ def main() -> None:
             prepared = (
                 importer
                 ._prepare_liveticker_event(
+                    match_id=match_id,
                     event=event,
                     team_id=team_id,
                 )
