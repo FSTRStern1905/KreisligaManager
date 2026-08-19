@@ -1,0 +1,68 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 4: Events enthalten 7 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 12: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ✖ Spiel 5: SV Darmstadt 98 - Holstein Kiel; Ergebnis enthält 4 Tore, Events enthalten 5.
+    ✖ Spiel 9: FC Energie Cottbus - Hannover 96; Ergebnis enthält 5 Tore, Events enthalten 4.
+    ✖ Spiel 14: Holstein Kiel - FC St. Pauli; Ergebnis enthält 4 Tore, Events enthalten 5.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 1, Hertha BSC: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 2, 1. FC Kaiserslautern: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 5, Holstein Kiel: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 6, 1. FC Nürnberg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 6, SG Dynamo Dresden: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 7, DSC Arminia Bielefeld: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 8, 1. FC Magdeburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 8, Eintracht Braunschweig: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 11, 1. FC Kaiserslautern: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 12, Hertha BSC: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 13, SG Dynamo Dresden: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 15, DSC Arminia Bielefeld: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 17, 1. FC Nürnberg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 18, 1. FC Magdeburg: 5 Einwechslungen, 4 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 1, Hertha BSC: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 2, 1. FC Kaiserslautern: 966 Mannschaftsminuten statt 990.
+    ⚠ Spiel 5, Holstein Kiel: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 6, 1. FC Nürnberg: 966 Mannschaftsminuten statt 990.
+    ⚠ Spiel 6, SG Dynamo Dresden: 960 Mannschaftsminuten statt 990.
+    ⚠ Spiel 7, DSC Arminia Bielefeld: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 8, 1. FC Magdeburg: 907 Mannschaftsminuten statt 990.
+    ⚠ Spiel 8, Eintracht Braunschweig: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 11, 1. FC Kaiserslautern: 944 Mannschaftsminuten statt 990.
+    ⚠ Spiel 12, Hertha BSC: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 13, SG Dynamo Dresden: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 13, SV Darmstadt 98: 971 Mannschaftsminuten statt 990.
+    ⚠ Spiel 15, DSC Arminia Bielefeld: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 17, 1. FC Nürnberg: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 18, 1. FC Magdeburg: 991 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=67, player_match_stats=61.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  3
+FEHLER:                   1
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  56.0 %
+Einzelinfos:               0
+Einzelwarnungen:           32
+Einzelfehler:              3
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================

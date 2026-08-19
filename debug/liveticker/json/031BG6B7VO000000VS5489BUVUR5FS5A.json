@@ -9,7 +9,7 @@
   "actualKickoffFirstExtra": null,
   "actualKickoffSecondExtra": null,
   "actualKickoffPenalties": null,
-  "currentTimestamp": "15.08.2026 14:58:44",
+  "currentTimestamp": "16.08.2026 22:00:54",
   "duration": 90,
   "duration_sections": 2,
   "extratime_duration": 0,
@@ -773,7 +773,7 @@
       "score": "4:1",
       "minute": 90,
       "minute_additional": null,
-      "likes": 0,
+      "likes": 1,
       "ad": "dfb_promateur",
       "timestamp": "2026-08-15T12:51:22.000+0000"
     },
@@ -1173,7 +1173,7 @@
       "score": "3:0",
       "minute": 35,
       "minute_additional": null,
-      "likes": 1,
+      "likes": 2,
       "ad": "dfb_promateur",
       "timestamp": "2026-08-15T11:34:31.000+0000"
     },
@@ -1205,7 +1205,7 @@
       "score": "2:0",
       "minute": 26,
       "minute_additional": null,
-      "likes": 1,
+      "likes": 2,
       "ad": "dfb_promateur",
       "timestamp": "2026-08-15T11:25:46.000+0000"
     },
@@ -1269,7 +1269,7 @@
       "score": "1:0",
       "minute": 2,
       "minute_additional": null,
-      "likes": 1,
+      "likes": 2,
       "ad": "dfb_promateur",
       "timestamp": "2026-08-15T11:06:11.000+0000"
     },
@@ -1301,7 +1301,7 @@
     }
   ],
   "matchId": "031BG6B7VO000000VS5489BUVUR5FS5A",
-  "matchStatusId": 3,
+  "matchStatusId": 7,
   "copyright": "© SID Sport-Informations-Dienst GmbH",
   "home_goals_played_time": 4,
   "guest_goals_played_time": 1,

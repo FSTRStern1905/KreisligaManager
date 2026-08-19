@@ -536,8 +536,16 @@ class PlayerRepository:
                 or ""
             ),
             last_name=(
-                last_name
-                or existing["last_name"]
+                self._choose_preferred_last_name(
+                    incoming_last_name=last_name,
+                    existing_last_name=(
+                        existing["last_name"]
+                        or ""
+                    ),
+                    incoming_external_id=(
+                        normalized_external_id
+                    ),
+                )
             ),
             team_id=(
                 team_id
@@ -626,7 +634,13 @@ class PlayerRepository:
                 )
             )
 
-        if existing is None:
+        if (
+            existing is None
+            and not self._is_unknown_placeholder(
+                normalized_last_name,
+                normalized_external_id,
+            )
+        ):
             existing = (
                 self._find_compatible_player(
                     team_id=team_id,
@@ -648,6 +662,28 @@ class PlayerRepository:
                     commit=False,
                 )
 
+            existing_first_name = (
+                existing["first_name"]
+                or ""
+            ).strip()
+            existing_last_name = (
+                existing["last_name"]
+                or ""
+            ).strip()
+
+            incoming_is_placeholder = (
+                self._is_unknown_placeholder(
+                    normalized_last_name,
+                    normalized_external_id,
+                )
+            )
+            existing_is_placeholder = (
+                self._is_unknown_placeholder(
+                    existing_last_name,
+                    existing["external_id"] or "",
+                )
+            )
+
             should_update_primary_id = (
                 normalized_external_id
                 and not existing["external_id"]
@@ -655,15 +691,23 @@ class PlayerRepository:
 
             should_update_first_name = (
                 normalized_first_name
-                and not (
-                    existing["first_name"]
-                    or ""
-                ).strip()
+                and (
+                    not existing_first_name
+                    or existing_is_placeholder
+                )
+                and not incoming_is_placeholder
+            )
+
+            should_update_last_name = (
+                normalized_last_name
+                and existing_is_placeholder
+                and not incoming_is_placeholder
             )
 
             if (
                 should_update_primary_id
                 or should_update_first_name
+                or should_update_last_name
             ):
                 self.cursor.execute(
                     """
@@ -678,20 +722,24 @@ class PlayerRepository:
                             ELSE external_id
                         END,
                         first_name = CASE
-                            WHEN
-                                (first_name IS NULL
-                                 OR first_name = '')
-                                AND ? != ''
+                            WHEN ? = 1
                             THEN ?
                             ELSE first_name
+                        END,
+                        last_name = CASE
+                            WHEN ? = 1
+                            THEN ?
+                            ELSE last_name
                         END
                     WHERE player_id = ?
                     """,
                     (
                         normalized_external_id,
                         normalized_external_id,
+                        int(should_update_first_name),
                         normalized_first_name,
-                        normalized_first_name,
+                        int(should_update_last_name),
+                        normalized_last_name,
                         player_id,
                     ),
                 )
@@ -762,6 +810,76 @@ class PlayerRepository:
 
         if commit:
             self.connection.commit()
+
+    @classmethod
+    def _choose_preferred_last_name(
+        cls,
+        incoming_last_name: str,
+        existing_last_name: str,
+        incoming_external_id: str = "",
+    ) -> str:
+        normalized_incoming = (
+            incoming_last_name.strip()
+        )
+        normalized_existing = (
+            existing_last_name.strip()
+        )
+
+        if not normalized_incoming:
+            return normalized_existing
+
+        incoming_is_placeholder = (
+            cls._is_unknown_placeholder(
+                normalized_incoming,
+                incoming_external_id,
+            )
+        )
+        existing_is_placeholder = (
+            cls._is_unknown_placeholder(
+                normalized_existing
+            )
+        )
+
+        if (
+            incoming_is_placeholder
+            and normalized_existing
+            and not existing_is_placeholder
+        ):
+            return normalized_existing
+
+        return normalized_incoming
+
+    @staticmethod
+    def _is_unknown_placeholder(
+        last_name: str,
+        external_id: str = "",
+    ) -> bool:
+        normalized_last_name = (
+            " ".join(
+                last_name.strip().split()
+            )
+        )
+
+        if not normalized_last_name:
+            return False
+
+        normalized_external_id = (
+            external_id.strip()
+        )
+
+        if normalized_external_id:
+            return (
+                normalized_last_name.casefold()
+                == (
+                    "Unbekannt "
+                    f"{normalized_external_id}"
+                ).casefold()
+            )
+
+        return (
+            normalized_last_name.casefold()
+            .startswith("unbekannt ")
+        )
 
     def _find_compatible_player(
         self,

@@ -70,6 +70,11 @@ class LivetickerData:
     away_score: int | None = None
     ticker_available: bool = False
     source_type: str = ""
+
+    players: dict[str, dict[str, str]] = field(
+        default_factory=dict
+    )
+
     events: list[LivetickerEvent] = field(
         default_factory=list
     )
@@ -143,6 +148,11 @@ class LivetickerData:
                 self.ticker_available
             ),
             "source_type": self.source_type,
+            "players": {
+                player_id: dict(player_data)
+                for player_id, player_data
+                in self.players.items()
+            },
             "event_count": self.event_count,
             "assigned_event_count": (
                 self.assigned_event_count

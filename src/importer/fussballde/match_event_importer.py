@@ -111,6 +111,13 @@ class MatchEventImporter:
             away_team_id=away_team_id,
         )
 
+        self._hydrate_liveticker_players(
+            match_id=match_id,
+            liveticker_data=liveticker_data,
+            home_team_id=home_team_id,
+            away_team_id=away_team_id,
+        )
+
         for event in liveticker_data.events:
             team_id = (
                 self._resolve_liveticker_team_id(
@@ -162,6 +169,130 @@ class MatchEventImporter:
             player_ids,
         )
 
+    def _hydrate_liveticker_players(
+        self,
+        match_id: int,
+        liveticker_data: LivetickerData,
+        home_team_id: int,
+        away_team_id: int,
+    ) -> None:
+        if not liveticker_data.players:
+            return
+
+        valid_team_ids = {
+            home_team_id,
+            away_team_id,
+        }
+
+        for external_id, player_data in (
+            liveticker_data.players.items()
+        ):
+            normalized_external_id = (
+                external_id.strip()
+            )
+
+            if not normalized_external_id:
+                continue
+
+            first_name = (
+                MatchNotesBuilder
+                .clean_import_text(
+                    str(
+                        player_data.get(
+                            "first_name",
+                            "",
+                        )
+                        or ""
+                    )
+                )
+            )
+
+            last_name = (
+                MatchNotesBuilder
+                .clean_import_text(
+                    str(
+                        player_data.get(
+                            "last_name",
+                            "",
+                        )
+                        or ""
+                    )
+                )
+            )
+
+            if not last_name:
+                continue
+
+            existing = (
+                self.player_repository
+                .get_by_external_id(
+                    normalized_external_id
+                )
+            )
+
+            team_id = None
+
+            team_external_id = str(
+                player_data.get(
+                    "team_external_id",
+                    "",
+                )
+                or ""
+            ).strip()
+
+            if team_external_id:
+                cache_key = (
+                    match_id,
+                    self._normalize_name(
+                        team_external_id
+                    ),
+                )
+
+                team_id = (
+                    self._liveticker_team_cache.get(
+                        cache_key
+                    )
+                )
+
+                if team_id is None:
+                    team_id = (
+                        self._resolve_team_by_external_id(
+                            external_id=team_external_id,
+                            home_team_id=home_team_id,
+                            away_team_id=away_team_id,
+                        )
+                    )
+
+            if (
+                team_id not in valid_team_ids
+                and existing is not None
+            ):
+                existing_team_id = (
+                    existing.get("team_id")
+                )
+
+                if (
+                    existing_team_id is not None
+                    and int(existing_team_id)
+                    in valid_team_ids
+                ):
+                    team_id = int(
+                        existing_team_id
+                    )
+
+            if team_id not in valid_team_ids:
+                team_id = None
+
+            self.player_repository.get_or_create(
+                first_name=first_name,
+                last_name=last_name,
+                team_id=team_id,
+                external_id=(
+                    normalized_external_id
+                ),
+                commit=False,
+            )
+
     def _prepare_liveticker_event(
         self,
         match_id: int,
@@ -170,7 +301,9 @@ class MatchEventImporter:
     ) -> dict | None:
         event_type_mapping = {
             "goal": "GOAL",
+            "own_goal": "OWN_GOAL",
             "penalty_goal": "PENALTY_GOAL",
+            "penalty_missed": "PENALTY_MISSED",
             "yellow_card": "YELLOW_CARD",
             "yellow_red_card": "YELLOW_RED_CARD",
             "red_card": "RED_CARD",
@@ -933,6 +1066,55 @@ class MatchEventImporter:
         ):
             return None
 
+        if normalized_external_id:
+            existing_by_external_id = (
+                self.player_repository
+                .get_by_external_id(
+                    normalized_external_id
+                )
+            )
+
+            if existing_by_external_id is not None:
+                first_name, last_name = (
+                    self._split_player_name(
+                        normalized_name
+                    )
+                )
+
+                return (
+                    self.player_repository
+                    .get_or_create(
+                        first_name=(
+                            first_name
+                            or existing_by_external_id[
+                                "first_name"
+                            ]
+                            or ""
+                        ),
+                        last_name=(
+                            last_name
+                            or existing_by_external_id[
+                                "last_name"
+                            ]
+                            or (
+                                "Unbekannt "
+                                f"{normalized_external_id}"
+                            )
+                        ),
+                        team_id=(
+                            team_id
+                            if team_id is not None
+                            else existing_by_external_id[
+                                "team_id"
+                            ]
+                        ),
+                        external_id=(
+                            normalized_external_id
+                        ),
+                        commit=False,
+                    )
+                )
+
         if (
             match_id is not None
             and team_id is not None
@@ -947,6 +1129,34 @@ class MatchEventImporter:
             )
 
             if lineup_player_id is not None:
+                if normalized_external_id:
+                    self._link_external_id_to_player(
+                        player_id=lineup_player_id,
+                        external_id=(
+                            normalized_external_id
+                        ),
+                    )
+
+                    first_name, last_name = (
+                        self._split_player_name(
+                            normalized_name
+                        )
+                    )
+
+                    if last_name:
+                        return (
+                            self.player_repository
+                            .get_or_create(
+                                first_name=first_name,
+                                last_name=last_name,
+                                team_id=team_id,
+                                external_id=(
+                                    normalized_external_id
+                                ),
+                                commit=False,
+                            )
+                        )
+
                 return lineup_player_id
 
         first_name, last_name = (
@@ -970,6 +1180,79 @@ class MatchEventImporter:
             team_id=team_id,
             external_id=normalized_external_id,
             commit=False,
+        )
+
+
+    def _link_external_id_to_player(
+        self,
+        player_id: int,
+        external_id: str,
+    ) -> None:
+        normalized_external_id = (
+            external_id.strip()
+        )
+
+        if (
+            player_id <= 0
+            or not normalized_external_id
+        ):
+            return
+
+        existing_row = self.connection.execute(
+            """
+            SELECT player_id
+            FROM player_external_ids
+            WHERE external_id = ?
+            LIMIT 1
+            """,
+            (normalized_external_id,),
+        ).fetchone()
+
+        if existing_row is not None:
+            existing_player_id = int(
+                existing_row[0]
+            )
+
+            if existing_player_id != player_id:
+                raise ValueError(
+                    "Liveticker-Spieler-ID ist bereits "
+                    "einem anderen Spieler zugeordnet: "
+                    f"{normalized_external_id}"
+                )
+
+            return
+
+        self.connection.execute(
+            """
+            INSERT INTO player_external_ids (
+                player_id,
+                external_id,
+                source
+            )
+            VALUES (?, ?, ?)
+            """,
+            (
+                player_id,
+                normalized_external_id,
+                "liveticker",
+            ),
+        )
+
+        self.connection.execute(
+            """
+            UPDATE players
+            SET external_id = ?
+            WHERE
+                player_id = ?
+                AND (
+                    external_id IS NULL
+                    OR external_id = ''
+                )
+            """,
+            (
+                normalized_external_id,
+                player_id,
+            ),
         )
 
     def _find_lineup_player_by_name(

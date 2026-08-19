@@ -158,8 +158,37 @@ class MatchDetailParser(BaseParser):
             if home_goals is not None and away_goals is not None:
                 return home_goals, away_goals
 
+        # FUSSBALL.DE legt Endergebnis und Halbzeitstand
+        # teilweise im selben ".result"-Container ab.
+        #
+        # Das Endergebnis kann dabei per Webfont obfuskiert sein,
+        # während der Halbzeitstand als Klartext vorhanden ist.
+        # Würden wir den gesamten ".result"-Block auswerten,
+        # würden wir deshalb fälschlich z. B. "[1 : 1]" als
+        # Endergebnis übernehmen.
+        #
+        # Deshalb zuerst ausschließlich echte Endergebnis-
+        # Elemente prüfen. Ist deren Text nicht direkt lesbar,
+        # bleibt das Ergebnis zunächst unbekannt und wird später
+        # aus den geparsten Torereignissen rekonstruiert.
+        end_result_selectors = [
+            ".stage-body .result .end-result",
+            ".result .end-result",
+            ".end-result",
+            ".final-result",
+            ".full-time-result",
+        ]
+
+        for selector in end_result_selectors:
+            for element in soup.select(selector):
+                result = self._extract_score_from_text(
+                    element.get_text(" ", strip=True)
+                )
+
+                if result != (None, None):
+                    return result
+
         result_selectors = [
-            ".result",
             ".score",
             ".match-result",
             ".stage-result",

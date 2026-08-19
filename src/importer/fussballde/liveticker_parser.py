@@ -27,6 +27,31 @@ class LivetickerParser:
     EVENT_TYPE_FULLTIME = "fulltime"
     EVENT_TYPE_COMMENT = "comment"
 
+    # FUSSBALL.DE Liveticker type_id mapping.
+    # Known non-importable types are deliberately mapped to
+    # COMMENT so their description cannot accidentally be
+    # classified as a goal (e.g. "Torschuss" or "Torwart").
+    JSON_EVENT_TYPE_BY_ID = {
+        1: EVENT_TYPE_GOAL,
+        2: EVENT_TYPE_YELLOW_CARD,
+        3: EVENT_TYPE_RED_CARD,
+        4: EVENT_TYPE_SUBSTITUTION,
+        5: EVENT_TYPE_COMMENT,  # Ecke
+        6: EVENT_TYPE_COMMENT,  # Abseits
+        7: EVENT_TYPE_COMMENT,  # Freistoß
+        8: EVENT_TYPE_COMMENT,  # Elfmeter-Situation
+        9: EVENT_TYPE_YELLOW_RED_CARD,
+        10: EVENT_TYPE_COMMENT,  # Foul
+        11: EVENT_TYPE_COMMENT,  # Torschuss
+        12: EVENT_TYPE_OWN_GOAL,
+        24: EVENT_TYPE_COMMENT,
+        28: EVENT_TYPE_KICKOFF,
+        29: EVENT_TYPE_FULLTIME,
+        32: EVENT_TYPE_COMMENT,
+        99: EVENT_TYPE_COMMENT,
+        100: EVENT_TYPE_PENALTY_GOAL,
+    }
+
     HTML_EVENT_SELECTORS = (
         ".liveticker-event",
         ".live-ticker-event",
@@ -130,6 +155,12 @@ class LivetickerParser:
 
         root = self._extract_json_root(
             parsed_payload
+        )
+
+        data.players.update(
+            self._extract_json_players(
+                root
+            )
         )
 
         data.page_title = self._get_first_text(
@@ -398,6 +429,92 @@ class LivetickerParser:
             },
         )
 
+    @staticmethod
+    def _extract_json_players(
+        root: Any,
+    ) -> dict[str, dict[str, str]]:
+        players: dict[str, dict[str, str]] = {}
+
+        if not isinstance(root, dict):
+            return players
+
+        team_keys = (
+            "home_team",
+            "homeTeam",
+            "home",
+            "guest_team",
+            "guestTeam",
+            "away_team",
+            "awayTeam",
+            "away",
+        )
+
+        for team_key in team_keys:
+            team_data = root.get(team_key)
+
+            if not isinstance(team_data, dict):
+                continue
+
+            members = team_data.get("members")
+
+            if isinstance(members, dict):
+                member_items = members.items()
+            elif isinstance(members, list):
+                member_items = (
+                    ("", member)
+                    for member in members
+                )
+            else:
+                continue
+
+            team_external_id = str(
+                team_data.get("id")
+                or team_data.get("team_id")
+                or team_data.get("teamId")
+                or ""
+            ).strip()
+
+            for member_key, member in member_items:
+                if not isinstance(member, dict):
+                    continue
+
+                external_id = str(
+                    member.get("id")
+                    or member_key
+                    or member.get("member_id")
+                    or member.get("memberId")
+                    or member.get("player_id")
+                    or member.get("playerId")
+                    or ""
+                ).strip()
+
+                if not external_id:
+                    continue
+
+                first_name = str(
+                    member.get("firstname")
+                    or member.get("first_name")
+                    or member.get("firstName")
+                    or ""
+                ).strip()
+
+                last_name = str(
+                    member.get("name")
+                    or member.get("lastname")
+                    or member.get("last_name")
+                    or member.get("lastName")
+                    or ""
+                ).strip()
+
+                players[external_id] = {
+                    "external_id": external_id,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "team_external_id": team_external_id,
+                }
+
+        return players
+
     def _parse_json_event(
         self,
         raw_event: Any,
@@ -445,6 +562,7 @@ class LivetickerParser:
             self._get_first_integer(
                 raw_event,
                 (
+                    "minute_additional",
                     "additionalTime",
                     "additional_time",
                     "stoppageTime",
@@ -556,10 +674,25 @@ class LivetickerParser:
                 if score_away is None:
                     score_away = parsed_away
 
-        event_type = self._detect_event_type(
-            text=description,
-            raw_type=raw_type,
+        type_id = self._get_first_integer(
+            raw_event,
+            (
+                "type_id",
+                "typeId",
+            ),
         )
+
+        event_type = (
+            self.JSON_EVENT_TYPE_BY_ID.get(type_id)
+            if type_id is not None
+            else None
+        )
+
+        if event_type is None:
+            event_type = self._detect_event_type(
+                text=description,
+                raw_type=raw_type,
+            )
 
         if not player and description:
             player = self._extract_player_name_from_description(

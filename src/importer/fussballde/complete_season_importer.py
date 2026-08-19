@@ -4,9 +4,7 @@ import sqlite3
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from src.importer.fussballde.browser import (
-    FussballDeBrowser,
-)
+from src.importer.fussballde.browser import FussballDeBrowser
 from src.importer.fussballde.match_detail_importer import (
     MatchDetailImporter,
 )
@@ -16,15 +14,11 @@ from src.importer.fussballde.parsers.schedule_parser import (
 from src.services.imports.schedule_import_service import (
     ScheduleImportService,
 )
-from src.services.statistics.statistics_updater import (
-    StatisticsUpdater,
-)
 
 
 @dataclass(slots=True)
 class CompleteSeasonImportResult:
     schedule_result: Any = None
-    statistics_result: dict | None = None
     matches_found: int = 0
     match_details_imported: int = 0
     match_details_failed: int = 0
@@ -39,15 +33,10 @@ class CompleteSeasonImportResult:
 
         if schedule_result is None:
             result["schedule_result"] = None
-
-        elif hasattr(
-            schedule_result,
-            "__dict__",
-        ):
+        elif hasattr(schedule_result, "__dict__"):
             result["schedule_result"] = dict(
                 schedule_result.__dict__
             )
-
         else:
             result["schedule_result"] = str(
                 schedule_result
@@ -80,7 +69,6 @@ class CompleteSeasonImporter:
         schedule_import_service: ScheduleImportService,
     ) -> None:
         self.connection = connection
-
         self.schedule_import_service = (
             schedule_import_service
         )
@@ -88,12 +76,6 @@ class CompleteSeasonImporter:
         self.match_detail_importer = (
             MatchDetailImporter(
                 connection=connection,
-            )
-        )
-
-        self.statistics_updater = (
-            StatisticsUpdater(
-                connection
             )
         )
 
@@ -140,10 +122,8 @@ class CompleteSeasonImporter:
                     "nicht geladen."
                 )
 
-            schedule_parser = (
-                ScheduleParser(
-                    browser.page
-                )
+            schedule_parser = ScheduleParser(
+                browser.page
             )
 
             parsed_schedule = (
@@ -179,25 +159,39 @@ class CompleteSeasonImporter:
                 )
             )
 
-            competition_id = (
-                self._resolve_competition_id(
-                    schedule_matches
+            finished_matches = [
+                schedule_match
+                for schedule_match in schedule_matches
+                if self._is_finished_match(
+                    schedule_match
                 )
-            )
+            ]
 
-            detail_matches = schedule_matches
+            detail_matches = finished_matches
 
             if max_detail_matches is not None:
                 detail_matches = (
-                    schedule_matches[
+                    finished_matches[
                         :max_detail_matches
                     ]
                 )
 
+            skipped_detail_matches = (
+                len(schedule_matches)
+                - len(finished_matches)
+            )
+
             print(
-                "Detailspiele für diesen Lauf: "
+                "Abgeschlossene Spiele mit "
+                "Detailimport: "
                 f"{len(detail_matches)} von "
-                f"{len(schedule_matches)}"
+                f"{len(finished_matches)}"
+            )
+
+            print(
+                "Nicht abgeschlossene / noch nicht "
+                "terminierte Spiele nur im Spielplan: "
+                f"{skipped_detail_matches}"
             )
 
             for index, schedule_match in enumerate(
@@ -223,7 +217,6 @@ class CompleteSeasonImporter:
                     )
 
                     result.match_details_failed += 1
-
                     continue
 
                 print(
@@ -276,21 +269,6 @@ class CompleteSeasonImporter:
                     if not continue_on_detail_error:
                         raise
 
-            print(
-                "Aktualisiere Wettbewerbsstatistiken ..."
-            )
-
-            result.statistics_result = (
-                self.statistics_updater
-                .update_competition(
-                    competition_id
-                )
-            )
-
-            print(
-                "Wettbewerbsstatistiken aktualisiert."
-            )
-
             result.errors = tuple(
                 errors
             )
@@ -304,55 +282,38 @@ class CompleteSeasonImporter:
         finally:
             browser.close()
 
-    def _resolve_competition_id(
-        self,
-        schedule_matches: list[Any],
-    ) -> int:
-        """
-        Ermittelt den Wettbewerb über eine externe Spiel-ID,
-        die gerade vom ScheduleImportService importiert wurde.
-        """
-
-        cursor = self.connection.cursor()
-
-        for schedule_match in schedule_matches:
-            external_id = str(
-                self._get_value(
-                    schedule_match,
-                    "match_id",
-                    "",
-                )
-                or ""
-            ).strip()
-
-            if not external_id:
-                continue
-
-            cursor.execute(
-                """
-                SELECT competition_id
-                FROM matches
-                WHERE external_id = ?
-                LIMIT 1;
-                """,
-                (external_id,),
+    @classmethod
+    def _is_finished_match(
+        cls,
+        schedule_match: Any,
+    ) -> bool:
+        status = str(
+            cls._get_value(
+                schedule_match,
+                "status",
+                "",
             )
+            or ""
+        ).strip().casefold()
 
-            row = cursor.fetchone()
+        home_score = cls._get_value(
+            schedule_match,
+            "home_score",
+            None,
+        )
 
-            if row is None:
-                continue
+        away_score = cls._get_value(
+            schedule_match,
+            "away_score",
+            None,
+        )
 
-            competition_id = int(
-                row[0]
-            )
+        if status == "finished":
+            return True
 
-            if competition_id > 0:
-                return competition_id
-
-        raise RuntimeError(
-            "Die Wettbewerb-ID konnte nach dem "
-            "Spielplanimport nicht ermittelt werden."
+        return (
+            home_score is not None
+            and away_score is not None
         )
 
     @staticmethod
@@ -387,10 +348,7 @@ class CompleteSeasonImporter:
         name: str,
         default: Any = None,
     ) -> Any:
-        if isinstance(
-            source,
-            dict,
-        ):
+        if isinstance(source, dict):
             return source.get(
                 name,
                 default,
