@@ -369,12 +369,23 @@ class MatchDetailImporter:
         detail_data: MatchDetailData,
         source_url: str,
     ) -> None:
-        if detail_data.home_goals is not None:
+        # Das Endergebnis aus dem Spielplan ist die
+        # maßgebliche Quelle. Detailseiten/Liveticker können
+        # bei einzelnen Spielen unvollständig sein und dürfen
+        # ein bereits vorhandenes offizielles Ergebnis deshalb
+        # nicht überschreiben.
+        if (
+            database_match.home_goals is None
+            and detail_data.home_goals is not None
+        ):
             database_match.home_goals = (
                 detail_data.home_goals
             )
 
-        if detail_data.away_goals is not None:
+        if (
+            database_match.away_goals is None
+            and detail_data.away_goals is not None
+        ):
             database_match.away_goals = (
                 detail_data.away_goals
             )
@@ -385,8 +396,8 @@ class MatchDetailImporter:
             )
 
         if (
-            detail_data.home_goals is not None
-            and detail_data.away_goals is not None
+            database_match.home_goals is not None
+            and database_match.away_goals is not None
         ):
             database_match.status = "finished"
 
