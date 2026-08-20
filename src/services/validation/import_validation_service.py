@@ -248,12 +248,26 @@ class ImportValidationService:
         ) in rows:
             match_goals = int(home_goals) + int(away_goals)
 
-            if int(event_goals) != match_goals:
+            if int(event_goals) < match_goals:
+                missing_goals = (
+                    match_goals - int(event_goals)
+                )
+
+                warnings.append(
+                    f"Spiel {match_id}: {home_name} - "
+                    f"{away_name}; Liveticker unvollständig: "
+                    f"Ergebnis enthält {match_goals} Tore, "
+                    f"Events enthalten {event_goals}. "
+                    f"Es fehlen {missing_goals} Tor-Events."
+                )
+
+            elif int(event_goals) > match_goals:
                 errors.append(
                     f"Spiel {match_id}: {home_name} - "
-                    f"{away_name}; Ergebnis enthält "
-                    f"{match_goals} Tore, Events enthalten "
-                    f"{event_goals}."
+                    f"{away_name}; Events enthalten mehr Tore "
+                    f"als das offizielle Ergebnis: "
+                    f"Ergebnis={match_goals}, "
+                    f"Events={event_goals}."
                 )
 
             if int(stat_goals) != int(event_goals):

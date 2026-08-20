@@ -1,0 +1,950 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+⚠ Tore und Endergebnisse
+    ⚠ Spiel 5: Events enthalten 7 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 8: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 16: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 22: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 64: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 66: Events enthalten 6 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 73: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 74: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 76: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 78: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 111: Events enthalten 4 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 123: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 150: SV Föhren - FSG Ehrang-Pfalzel; Liveticker unvollständig: Ergebnis enthält 9 Tore, Events enthalten 1. Es fehlen 8 Tor-Events.
+    ⚠ Spiel 150: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 155: FSG Ehrang-Pfalzel - SV Trier-Irsch; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 5. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 169: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 181: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 187: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 189: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 197: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 198: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 199: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 203: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 206: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 207: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 215: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 218: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 220: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 222: Events enthalten 10 Tore, player_match_stats enthalten 9.
+    ⚠ Spiel 227: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 234: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 236: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 241: Events enthalten 3 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 243: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 244: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 249: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 250: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 251: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 253: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 255: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 257: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 258: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 263: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 268: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 271: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 272: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 281: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 285: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 288: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 289: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 303: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 304: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 308: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 316: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 319: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 322: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 324: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 329: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 330: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 332: Events enthalten 2 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 333: TSG Hoffenheim - Borussia Mönchengladbach; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 5. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 333: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 335: Hamburger SV - Bayer 04 Leverkusen; Liveticker unvollständig: Ergebnis enthält 1 Tore, Events enthalten 0. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 338: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 339: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 341: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 345: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 346: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 349: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 358: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 360: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 363: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 370: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 377: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 378: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 380: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 387: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 388: Events enthalten 6 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 389: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 391: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 393: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 396: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 401: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 402: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 403: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 404: Events enthalten 5 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 414: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 415: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 422: Events enthalten 7 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 428: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 433: Events enthalten 3 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 434: Events enthalten 2 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 436: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 438: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 440: Events enthalten 4 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 443: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 444: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 448: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 452: Events enthalten 3 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 455: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 456: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 459: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 462: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 466: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 468: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 469: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 470: Events enthalten 6 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 473: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 474: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 477: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 478: Events enthalten 4 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 479: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 486: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 488: Events enthalten 2 Tore, player_match_stats enthalten 1.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 13, SG Serrig: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 30, SG Kenn: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 73, FSV Trier-Tarforst II: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 94, SG Weintal Oberemmel: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 113, SV Trier-Irsch: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 122, FSV Trier-Tarforst II: 1 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 122, SG Serrig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 4 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 131, VfL Trier: 2 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 139, SV Trier-Irsch: 5 Einwechslungen, 6 Auswechslungen.
+    ⚠ Spiel 141, SV Trier-Irsch: 6 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 155, SV Trier-Irsch: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 157, SG Niederkell Waldweiler: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 162, DJK St. Matthias Trier: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 5 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 168, TuS Schillingen: 3 Einwechslungen, 0 Auswechslungen.
+    ⚠ Spiel 170, SG Kenn: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 181, SV Trier-Irsch: 5 Einwechslungen, 6 Auswechslungen.
+    ⚠ Spiel 185, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 185, SV Werder Bremen: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 186, Sport-Club Freiburg: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 187, 1. FC Köln: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 189, 1. FC Union Berlin: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 189, VfB Stuttgart: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 191, VfL Wolfsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 192, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 193, 1. FC Heidenheim 1846: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 193, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 194, Bayer 04 Leverkusen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 194, SV Werder Bremen: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 195, Borussia Mönchengladbach: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 195, VfB Stuttgart: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 196, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 198, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 202, Bayer 04 Leverkusen: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 204, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 205, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 205, SV Werder Bremen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 206, 1. FC Köln: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 206, VfL Wolfsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 207, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 207, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 208, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 209, Borussia Dortmund: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 210, Bayer 04 Leverkusen: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 210, Borussia Mönchengladbach: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 211, Eintracht Frankfurt: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 212, Borussia Dortmund: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 213, 1. FC Köln: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 213, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 214, SV Werder Bremen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 215, VfB Stuttgart: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 216, FC Augsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 217, TSG Hoffenheim: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 218, Hamburger SV: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 219, SV Werder Bremen: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 221, 1. FSV Mainz 05: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 221, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 222, Borussia Mönchengladbach: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 222, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 225, Bayer 04 Leverkusen: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 226, 1. FC Heidenheim 1846: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 226, FC Augsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 227, 1. FC Köln: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 227, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 228, 1. FC Union Berlin: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 228, Bayer 04 Leverkusen: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 229, Eintracht Frankfurt: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 230, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 231, SV Werder Bremen: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 232, 1. FC Heidenheim 1846: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 232, VfB Stuttgart: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 235, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 235, TSG Hoffenheim: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 236, Hamburger SV: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 237, Borussia Dortmund: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 239, 1. FSV Mainz 05: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 241, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 242, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 243, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 244, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 244, SV Werder Bremen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 245, 1. FC Köln: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 245, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 246, Bayer 04 Leverkusen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 246, Sport-Club Freiburg: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 248, 1. FC Köln: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 248, Borussia Dortmund: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 249, SV Werder Bremen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 252, RB Leipzig: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 253, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 253, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 254, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 256, SV Werder Bremen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 257, VfB Stuttgart: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 258, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 259, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 261, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 262, 1. FC Heidenheim 1846: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 262, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 263, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 263, Hamburger SV: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 266, Sport-Club Freiburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 267, SV Werder Bremen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 268, FC Augsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 268, VfB Stuttgart: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 269, 1. FC Köln: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 270, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 271, TSG Hoffenheim: 5 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 272, Borussia Dortmund: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 272, Hamburger SV: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 273, Sport-Club Freiburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 274, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 275, TSG Hoffenheim: 3 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 276, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 277, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 278, FC Augsburg: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 279, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 280, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 280, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 281, 1. FC Köln: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 284, Eintracht Frankfurt: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 285, 1. FSV Mainz 05: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 286, 1. FC Köln: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 288, 1. FC Heidenheim 1846: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 288, 1. FC Union Berlin: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 289, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 289, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 290, Hamburger SV: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 292, Borussia Mönchengladbach: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 293, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 293, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 294, VfB Stuttgart: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 295, 1. FC Union Berlin: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 295, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 296, Bayer 04 Leverkusen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 297, 1. FC Heidenheim 1846: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 298, 1. FC Köln: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 299, Hamburger SV: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 299, SV Werder Bremen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 301, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 301, Bayer 04 Leverkusen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 302, Eintracht Frankfurt: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 303, Borussia Dortmund: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 303, Sport-Club Freiburg: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 304, SV Werder Bremen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 304, VfB Stuttgart: 2 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 305, Borussia Mönchengladbach: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 306, RB Leipzig: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 308, Hamburger SV: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 308, TSG Hoffenheim: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 309, Borussia Dortmund: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 309, Borussia Mönchengladbach: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 311, Bayer 04 Leverkusen: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 311, RB Leipzig: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 313, VfL Wolfsburg: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 315, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 316, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 316, 1. FC Union Berlin: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 317, Hamburger SV: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 318, FC Bayern München: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 319, Bayer 04 Leverkusen: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 320, Borussia Dortmund: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 320, Eintracht Frankfurt: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 322, SV Werder Bremen: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 322, TSG Hoffenheim: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 323, FC Augsburg: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 324, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 324, 1. FSV Mainz 05: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 326, 1. FC Heidenheim 1846: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 326, 1. FC Köln: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 327, Borussia Dortmund: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 328, 1. FC Heidenheim 1846: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 328, 1. FSV Mainz 05: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 329, Sport-Club Freiburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 330, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 330, VfB Stuttgart: 5 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 332, 1. FC Union Berlin: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 333, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 333, TSG Hoffenheim: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 334, 1. FC Köln: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 336, Borussia Dortmund: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 338, Eintracht Frankfurt: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 338, SV Werder Bremen: 1 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 339, 1. FC Union Berlin: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 340, 1. FC Heidenheim 1846: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 341, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 341, Sport-Club Freiburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 342, Bayer 04 Leverkusen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 343, 1. FC Köln: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 343, 1. FSV Mainz 05: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 345, FC Bayern München: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 347, Eintracht Frankfurt: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 348, Sport-Club Freiburg: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 349, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 350, Borussia Mönchengladbach: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 350, VfB Stuttgart: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 351, 1. FC Union Berlin: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 351, Borussia Dortmund: 1 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 353, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 353, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 354, Bayer 04 Leverkusen: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 354, Eintracht Frankfurt: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 355, 1. FC Heidenheim 1846: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 355, Borussia Dortmund: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 356, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 357, Borussia Mönchengladbach: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 357, SV Werder Bremen: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 358, Sport-Club Freiburg: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 358, VfB Stuttgart: 2 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 359, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 360, 1. FC Union Berlin: 2 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 360, TSG Hoffenheim: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 361, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 362, Hamburger SV: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 363, TSG Hoffenheim: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 364, SV Werder Bremen: 1 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 365, FC Augsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 366, Bayer 04 Leverkusen: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 367, Borussia Dortmund: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 367, VfL Wolfsburg: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 368, Eintracht Frankfurt: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 369, VfB Stuttgart: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 370, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 370, Hamburger SV: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 371, 1. FC Köln: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 371, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 372, Bayer 04 Leverkusen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 373, Borussia Mönchengladbach: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 373, Eintracht Frankfurt: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 374, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 376, SV Werder Bremen: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 377, 1. FC Köln: 5 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 377, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 378, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 378, FC Augsburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 379, Sport-Club Freiburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 379, TSG Hoffenheim: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 380, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 381, Eintracht Frankfurt: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 382, Borussia Mönchengladbach: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 382, Sport-Club Freiburg: 1 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 383, Hamburger SV: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 384, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 384, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 385, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 385, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 386, Bayer 04 Leverkusen: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 387, SV Werder Bremen: 2 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 388, 1. FC Heidenheim 1846: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 388, VfB Stuttgart: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 389, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 389, TSG Hoffenheim: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 390, Bayer 04 Leverkusen: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 391, Eintracht Frankfurt: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 391, Sport-Club Freiburg: 1 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 393, 1. FC Heidenheim 1846: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 393, SV Werder Bremen: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 395, 1. FC Union Berlin: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 395, Borussia Mönchengladbach: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 396, FC Augsburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 397, TSG Hoffenheim: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 400, Bayer 04 Leverkusen: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 400, Sport-Club Freiburg: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 401, 1. FSV Mainz 05: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 401, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 402, FC Augsburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 403, Hamburger SV: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 403, VfL Wolfsburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 406, 1. FC Heidenheim 1846: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 407, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 409, 1. FC Heidenheim 1846: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 409, Eintracht Frankfurt: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 410, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 410, FC Augsburg: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 411, 1. FC Union Berlin: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 411, Sport-Club Freiburg: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 412, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 415, TSG Hoffenheim: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 415, VfL Wolfsburg: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 416, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 416, Hamburger SV: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 417, 1. FC Union Berlin: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 418, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 418, Hamburger SV: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 419, 1. FSV Mainz 05: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 419, Eintracht Frankfurt: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 420, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 421, SV Werder Bremen: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 421, VfL Wolfsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 422, FC Augsburg: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 422, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 423, Sport-Club Freiburg: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 424, Bayer 04 Leverkusen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 425, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 425, Borussia Mönchengladbach: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 426, Bayer 04 Leverkusen: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 426, VfL Wolfsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 427, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 427, Eintracht Frankfurt: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 428, Sport-Club Freiburg: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 429, SV Werder Bremen: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 430, Borussia Dortmund: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 431, 1. FC Heidenheim 1846: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 431, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 433, TSG Hoffenheim: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 434, FC Augsburg: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 434, Hamburger SV: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 435, Bayer 04 Leverkusen: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 435, Borussia Dortmund: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 436, Sport-Club Freiburg: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 437, Borussia Mönchengladbach: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 437, RB Leipzig: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 438, Hamburger SV: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 438, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 439, Eintracht Frankfurt: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 439, VfL Wolfsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 440, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 440, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 442, 1. FC Heidenheim 1846: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 442, 1. FC Union Berlin: 4 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 443, 1. FC Köln: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 445, Bayer 04 Leverkusen: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 446, RB Leipzig: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 447, Sport-Club Freiburg: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 448, Hamburger SV: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 449, 1. FSV Mainz 05: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 449, Borussia Mönchengladbach: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 450, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 451, 1. FC Köln: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 452, Borussia Dortmund: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 452, TSG Hoffenheim: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 453, Borussia Dortmund: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 454, 1. FSV Mainz 05: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 455, 1. FC Union Berlin: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 456, SV Werder Bremen: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 456, VfB Stuttgart: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 458, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 458, FC Augsburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 459, 1. FC Heidenheim 1846: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 460, 1. FC Köln: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 460, Bayer 04 Leverkusen: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 461, TSG Hoffenheim: 3 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 463, Bayer 04 Leverkusen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 463, RB Leipzig: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 464, Eintracht Frankfurt: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 466, FC Augsburg: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 467, Borussia Dortmund: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 467, Borussia Mönchengladbach: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 469, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 470, TSG Hoffenheim: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 470, VfB Stuttgart: 1 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 471, Borussia Dortmund: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 472, 1. FC Union Berlin: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 472, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 473, RB Leipzig: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 474, VfB Stuttgart: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 475, VfL Wolfsburg: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 476, FC Augsburg: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 477, SV Werder Bremen: 1 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 477, TSG Hoffenheim: 1 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 478, 1. FC Heidenheim 1846: 4 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 478, 1. FC Köln: 5 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 479, Hamburger SV: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 481, Bayer 04 Leverkusen: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 481, Hamburger SV: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 482, VfB Stuttgart: 3 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 483, Sport-Club Freiburg: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 484, Borussia Dortmund: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 484, SV Werder Bremen: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 485, Borussia Mönchengladbach: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 485, TSG Hoffenheim: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 486, FC Augsburg: 5 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 488, 1. FSV Mainz 05: 5 Einwechslungen, 4 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 13, SG Serrig: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 50, SV Trier-Irsch: 922 Mannschaftsminuten statt 990.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 73, FSG Ehrang-Pfalzel: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 73, FSV Trier-Tarforst II: 962 Mannschaftsminuten statt 990.
+    ⚠ Spiel 74, SV Trier-Irsch: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 76, TuS Mosella Schweich II: 924 Mannschaftsminuten statt 990.
+    ⚠ Spiel 94, SG Weintal Oberemmel: 933 Mannschaftsminuten statt 990.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 109, DJK St. Matthias Trier: 921 Mannschaftsminuten statt 990.
+    ⚠ Spiel 122, FSV Trier-Tarforst II: 896 Mannschaftsminuten statt 990.
+    ⚠ Spiel 122, SG Serrig: 965 Mannschaftsminuten statt 990.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 1085 Mannschaftsminuten statt 990.
+    ⚠ Spiel 131, VfL Trier: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 139, SV Trier-Irsch: 887 Mannschaftsminuten statt 990.
+    ⚠ Spiel 141, SV Trier-Irsch: 863 Mannschaftsminuten statt 990.
+    ⚠ Spiel 155, SV Trier-Irsch: 886 Mannschaftsminuten statt 990.
+    ⚠ Spiel 157, SG Niederkell Waldweiler: 894 Mannschaftsminuten statt 990.
+    ⚠ Spiel 157, SG Serrig: 917 Mannschaftsminuten statt 990.
+    ⚠ Spiel 162, DJK St. Matthias Trier: 1026 Mannschaftsminuten statt 990.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 1440 Mannschaftsminuten statt 990.
+    ⚠ Spiel 168, TuS Schillingen: 1260 Mannschaftsminuten statt 990.
+    ⚠ Spiel 170, SG Kenn: 923 Mannschaftsminuten statt 990.
+    ⚠ Spiel 181, SV Trier-Irsch: 832 Mannschaftsminuten statt 990.
+    ⚠ Spiel 184, TSG Hoffenheim: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 185, Eintracht Frankfurt: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 185, SV Werder Bremen: 965 Mannschaftsminuten statt 990.
+    ⚠ Spiel 186, Sport-Club Freiburg: 949 Mannschaftsminuten statt 990.
+    ⚠ Spiel 187, 1. FC Köln: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 187, 1. FSV Mainz 05: 960 Mannschaftsminuten statt 990.
+    ⚠ Spiel 189, 1. FC Union Berlin: 945 Mannschaftsminuten statt 990.
+    ⚠ Spiel 189, VfB Stuttgart: 971 Mannschaftsminuten statt 990.
+    ⚠ Spiel 191, VfL Wolfsburg: 989 Mannschaftsminuten statt 990.
+    ⚠ Spiel 192, 1. FC Union Berlin: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 192, Borussia Dortmund: 987 Mannschaftsminuten statt 990.
+    ⚠ Spiel 193, 1. FC Heidenheim 1846: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 194, Bayer 04 Leverkusen: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 194, SV Werder Bremen: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 195, Borussia Mönchengladbach: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 195, VfB Stuttgart: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 196, VfL Wolfsburg: 946 Mannschaftsminuten statt 990.
+    ⚠ Spiel 198, TSG Hoffenheim: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 199, 1. FC Köln: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 199, Sport-Club Freiburg: 935 Mannschaftsminuten statt 990.
+    ⚠ Spiel 200, Hamburger SV: 951 Mannschaftsminuten statt 990.
+    ⚠ Spiel 202, Bayer 04 Leverkusen: 931 Mannschaftsminuten statt 990.
+    ⚠ Spiel 203, Sport-Club Freiburg: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 204, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 205, Borussia Mönchengladbach: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 205, SV Werder Bremen: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 206, 1. FC Köln: 946 Mannschaftsminuten statt 990.
+    ⚠ Spiel 206, VfL Wolfsburg: 989 Mannschaftsminuten statt 990.
+    ⚠ Spiel 207, 1. FC Union Berlin: 956 Mannschaftsminuten statt 990.
+    ⚠ Spiel 207, TSG Hoffenheim: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 208, FC Augsburg: 1035 Mannschaftsminuten statt 990.
+    ⚠ Spiel 209, 1. FC Heidenheim 1846: 921 Mannschaftsminuten statt 990.
+    ⚠ Spiel 209, Borussia Dortmund: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 210, Bayer 04 Leverkusen: 1044 Mannschaftsminuten statt 990.
+    ⚠ Spiel 210, Borussia Mönchengladbach: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 211, Eintracht Frankfurt: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 213, 1. FC Köln: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 213, RB Leipzig: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 214, SV Werder Bremen: 973 Mannschaftsminuten statt 990.
+    ⚠ Spiel 215, VfB Stuttgart: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 216, 1. FSV Mainz 05: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 216, FC Augsburg: 946 Mannschaftsminuten statt 990.
+    ⚠ Spiel 217, TSG Hoffenheim: 955 Mannschaftsminuten statt 990.
+    ⚠ Spiel 218, 1. FC Heidenheim 1846: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 218, Hamburger SV: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 219, SV Werder Bremen: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 220, Sport-Club Freiburg: 1036 Mannschaftsminuten statt 990.
+    ⚠ Spiel 221, 1. FSV Mainz 05: 946 Mannschaftsminuten statt 990.
+    ⚠ Spiel 221, Borussia Dortmund: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 222, Borussia Mönchengladbach: 1042 Mannschaftsminuten statt 990.
+    ⚠ Spiel 222, Eintracht Frankfurt: 957 Mannschaftsminuten statt 990.
+    ⚠ Spiel 225, Bayer 04 Leverkusen: 912 Mannschaftsminuten statt 990.
+    ⚠ Spiel 226, 1. FC Heidenheim 1846: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 226, FC Augsburg: 959 Mannschaftsminuten statt 990.
+    ⚠ Spiel 227, 1. FC Köln: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 227, VfB Stuttgart: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 228, 1. FC Union Berlin: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 228, Bayer 04 Leverkusen: 1055 Mannschaftsminuten statt 990.
+    ⚠ Spiel 229, Eintracht Frankfurt: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 230, Borussia Dortmund: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 231, SV Werder Bremen: 951 Mannschaftsminuten statt 990.
+    ⚠ Spiel 232, 1. FC Heidenheim 1846: 989 Mannschaftsminuten statt 990.
+    ⚠ Spiel 232, VfB Stuttgart: 957 Mannschaftsminuten statt 990.
+    ⚠ Spiel 235, 1. FC Köln: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 235, TSG Hoffenheim: 945 Mannschaftsminuten statt 990.
+    ⚠ Spiel 236, Hamburger SV: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 237, Borussia Dortmund: 1040 Mannschaftsminuten statt 990.
+    ⚠ Spiel 238, Sport-Club Freiburg: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 239, 1. FSV Mainz 05: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 240, Hamburger SV: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 241, VfB Stuttgart: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 242, 1. FC Union Berlin: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 242, Borussia Mönchengladbach: 960 Mannschaftsminuten statt 990.
+    ⚠ Spiel 243, TSG Hoffenheim: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 244, 1. FC Heidenheim 1846: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 244, SV Werder Bremen: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 245, 1. FC Köln: 959 Mannschaftsminuten statt 990.
+    ⚠ Spiel 245, FC Augsburg: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 246, Bayer 04 Leverkusen: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 246, Sport-Club Freiburg: 989 Mannschaftsminuten statt 990.
+    ⚠ Spiel 247, Eintracht Frankfurt: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 248, 1. FC Köln: 1042 Mannschaftsminuten statt 990.
+    ⚠ Spiel 248, Borussia Dortmund: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 252, RB Leipzig: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 253, 1. FC Heidenheim 1846: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 253, TSG Hoffenheim: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 254, Hamburger SV: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 254, VfL Wolfsburg: 956 Mannschaftsminuten statt 990.
+    ⚠ Spiel 256, SV Werder Bremen: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 257, VfB Stuttgart: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 258, TSG Hoffenheim: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 259, FC Augsburg: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 261, Borussia Mönchengladbach: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 262, 1. FC Heidenheim 1846: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 262, Eintracht Frankfurt: 926 Mannschaftsminuten statt 990.
+    ⚠ Spiel 263, 1. FC Köln: 973 Mannschaftsminuten statt 990.
+    ⚠ Spiel 263, Hamburger SV: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 265, Eintracht Frankfurt: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 266, Sport-Club Freiburg: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 267, SV Werder Bremen: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 268, FC Augsburg: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 268, VfB Stuttgart: 952 Mannschaftsminuten statt 990.
+    ⚠ Spiel 269, 1. FC Köln: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 270, 1. FC Union Berlin: 958 Mannschaftsminuten statt 990.
+    ⚠ Spiel 271, TSG Hoffenheim: 1030 Mannschaftsminuten statt 990.
+    ⚠ Spiel 272, Hamburger SV: 961 Mannschaftsminuten statt 990.
+    ⚠ Spiel 273, Sport-Club Freiburg: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 274, VfB Stuttgart: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 275, 1. FSV Mainz 05: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 275, TSG Hoffenheim: 1035 Mannschaftsminuten statt 990.
+    ⚠ Spiel 276, SV Werder Bremen: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 277, VfL Wolfsburg: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 278, FC Augsburg: 1033 Mannschaftsminuten statt 990.
+    ⚠ Spiel 279, 1. FC Union Berlin: 948 Mannschaftsminuten statt 990.
+    ⚠ Spiel 280, 1. FC Heidenheim 1846: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 280, Borussia Mönchengladbach: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 281, 1. FC Köln: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 284, Eintracht Frankfurt: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 285, 1. FSV Mainz 05: 910 Mannschaftsminuten statt 990.
+    ⚠ Spiel 286, 1. FC Köln: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 288, 1. FC Heidenheim 1846: 943 Mannschaftsminuten statt 990.
+    ⚠ Spiel 288, 1. FC Union Berlin: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 289, FC Augsburg: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 289, TSG Hoffenheim: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 290, Hamburger SV: 905 Mannschaftsminuten statt 990.
+    ⚠ Spiel 290, VfB Stuttgart: 1037 Mannschaftsminuten statt 990.
+    ⚠ Spiel 291, TSG Hoffenheim: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 292, Borussia Mönchengladbach: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 293, Eintracht Frankfurt: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 293, RB Leipzig: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 294, VfB Stuttgart: 936 Mannschaftsminuten statt 990.
+    ⚠ Spiel 295, 1. FC Union Berlin: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 295, VfL Wolfsburg: 946 Mannschaftsminuten statt 990.
+    ⚠ Spiel 296, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 296, FC Augsburg: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 297, 1. FC Heidenheim 1846: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 298, 1. FC Köln: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 299, Hamburger SV: 959 Mannschaftsminuten statt 990.
+    ⚠ Spiel 299, SV Werder Bremen: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 301, 1. FC Köln: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 301, Bayer 04 Leverkusen: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 302, Eintracht Frankfurt: 1078 Mannschaftsminuten statt 990.
+    ⚠ Spiel 303, Borussia Dortmund: 919 Mannschaftsminuten statt 990.
+    ⚠ Spiel 303, Sport-Club Freiburg: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 304, SV Werder Bremen: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 304, VfB Stuttgart: 955 Mannschaftsminuten statt 990.
+    ⚠ Spiel 305, Borussia Mönchengladbach: 970 Mannschaftsminuten statt 990.
+    ⚠ Spiel 306, 1. FC Union Berlin: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 306, RB Leipzig: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 307, FC St. Pauli: 945 Mannschaftsminuten statt 990.
+    ⚠ Spiel 308, Hamburger SV: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 308, TSG Hoffenheim: 1036 Mannschaftsminuten statt 990.
+    ⚠ Spiel 309, Borussia Dortmund: 1009 Mannschaftsminuten statt 990.
+    ⚠ Spiel 309, Borussia Mönchengladbach: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 311, Bayer 04 Leverkusen: 950 Mannschaftsminuten statt 990.
+    ⚠ Spiel 311, RB Leipzig: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 313, VfL Wolfsburg: 978 Mannschaftsminuten statt 990.
+    ⚠ Spiel 315, 1. FC Heidenheim 1846: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, 1. FC Köln: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, 1. FC Union Berlin: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 317, Hamburger SV: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 318, FC Bayern München: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 319, Bayer 04 Leverkusen: 962 Mannschaftsminuten statt 990.
+    ⚠ Spiel 319, VfB Stuttgart: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 320, Borussia Dortmund: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 320, Eintracht Frankfurt: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 321, Hamburger SV: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 321, Sport-Club Freiburg: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 322, SV Werder Bremen: 928 Mannschaftsminuten statt 990.
+    ⚠ Spiel 322, TSG Hoffenheim: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 323, FC Augsburg: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 324, 1. FC Union Berlin: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 324, 1. FSV Mainz 05: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 326, 1. FC Heidenheim 1846: 1032 Mannschaftsminuten statt 990.
+    ⚠ Spiel 326, 1. FC Köln: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 327, Borussia Dortmund: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 328, 1. FC Heidenheim 1846: 1043 Mannschaftsminuten statt 990.
+    ⚠ Spiel 329, Sport-Club Freiburg: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 330, Eintracht Frankfurt: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 330, VfB Stuttgart: 1036 Mannschaftsminuten statt 990.
+    ⚠ Spiel 332, 1. FC Union Berlin: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 332, FC Augsburg: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 333, Borussia Mönchengladbach: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 333, TSG Hoffenheim: 938 Mannschaftsminuten statt 990.
+    ⚠ Spiel 334, 1. FC Köln: 966 Mannschaftsminuten statt 990.
+    ⚠ Spiel 336, Borussia Dortmund: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 338, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 338, SV Werder Bremen: 964 Mannschaftsminuten statt 990.
+    ⚠ Spiel 339, 1. FC Union Berlin: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 339, VfB Stuttgart: 989 Mannschaftsminuten statt 990.
+    ⚠ Spiel 340, VfL Wolfsburg: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 341, FC Augsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 341, Sport-Club Freiburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 342, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 342, TSG Hoffenheim: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 343, 1. FC Köln: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 343, 1. FSV Mainz 05: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 345, FC Augsburg: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 345, FC Bayern München: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 347, Eintracht Frankfurt: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 348, Sport-Club Freiburg: 949 Mannschaftsminuten statt 990.
+    ⚠ Spiel 349, VfL Wolfsburg: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 350, Borussia Mönchengladbach: 949 Mannschaftsminuten statt 990.
+    ⚠ Spiel 350, VfB Stuttgart: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 351, 1. FC Union Berlin: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 351, Borussia Dortmund: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 353, 1. FC Heidenheim 1846: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 353, RB Leipzig: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 354, Bayer 04 Leverkusen: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 354, Eintracht Frankfurt: 992 Mannschaftsminuten statt 990.
+    ⚠ Spiel 355, Borussia Dortmund: 958 Mannschaftsminuten statt 990.
+    ⚠ Spiel 356, 1. FSV Mainz 05: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 357, Borussia Mönchengladbach: 957 Mannschaftsminuten statt 990.
+    ⚠ Spiel 357, SV Werder Bremen: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 358, Sport-Club Freiburg: 954 Mannschaftsminuten statt 990.
+    ⚠ Spiel 358, VfB Stuttgart: 916 Mannschaftsminuten statt 990.
+    ⚠ Spiel 359, FC Augsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 360, 1. FC Union Berlin: 911 Mannschaftsminuten statt 990.
+    ⚠ Spiel 360, TSG Hoffenheim: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 361, VfL Wolfsburg: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 362, Hamburger SV: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 363, TSG Hoffenheim: 955 Mannschaftsminuten statt 990.
+    ⚠ Spiel 364, Sport-Club Freiburg: 968 Mannschaftsminuten statt 990.
+    ⚠ Spiel 364, SV Werder Bremen: 948 Mannschaftsminuten statt 990.
+    ⚠ Spiel 365, FC Augsburg: 957 Mannschaftsminuten statt 990.
+    ⚠ Spiel 366, Bayer 04 Leverkusen: 1059 Mannschaftsminuten statt 990.
+    ⚠ Spiel 366, Borussia Mönchengladbach: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 367, Borussia Dortmund: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 367, VfL Wolfsburg: 891 Mannschaftsminuten statt 990.
+    ⚠ Spiel 368, 1. FC Union Berlin: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 368, Eintracht Frankfurt: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 369, VfB Stuttgart: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 370, 1. FC Heidenheim 1846: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 370, Hamburger SV: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 372, Bayer 04 Leverkusen: 1021 Mannschaftsminuten statt 990.
+    ⚠ Spiel 373, Borussia Mönchengladbach: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 373, Eintracht Frankfurt: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 374, 1. FSV Mainz 05: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 374, Borussia Dortmund: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 376, SV Werder Bremen: 921 Mannschaftsminuten statt 990.
+    ⚠ Spiel 377, 1. FC Köln: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 377, VfB Stuttgart: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 378, 1. FC Heidenheim 1846: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 378, FC Augsburg: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 379, Sport-Club Freiburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 379, TSG Hoffenheim: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 380, 1. FC Union Berlin: 968 Mannschaftsminuten statt 990.
+    ⚠ Spiel 380, Hamburger SV: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 381, Eintracht Frankfurt: 947 Mannschaftsminuten statt 990.
+    ⚠ Spiel 382, Borussia Mönchengladbach: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 382, Sport-Club Freiburg: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 383, Hamburger SV: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 384, Borussia Dortmund: 965 Mannschaftsminuten statt 990.
+    ⚠ Spiel 385, FC Augsburg: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 386, 1. FC Union Berlin: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 386, Bayer 04 Leverkusen: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 387, SV Werder Bremen: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 388, 1. FC Heidenheim 1846: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 388, VfB Stuttgart: 1052 Mannschaftsminuten statt 990.
+    ⚠ Spiel 389, 1. FC Köln: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 389, TSG Hoffenheim: 991 Mannschaftsminuten statt 990.
+    ⚠ Spiel 390, Bayer 04 Leverkusen: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 391, Eintracht Frankfurt: 1076 Mannschaftsminuten statt 990.
+    ⚠ Spiel 391, Sport-Club Freiburg: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, 1. FC Heidenheim 1846: 1040 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, SV Werder Bremen: 1021 Mannschaftsminuten statt 990.
+    ⚠ Spiel 394, VfL Wolfsburg: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 395, 1. FC Union Berlin: 971 Mannschaftsminuten statt 990.
+    ⚠ Spiel 396, 1. FC Köln: 964 Mannschaftsminuten statt 990.
+    ⚠ Spiel 396, FC Augsburg: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 397, TSG Hoffenheim: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 399, Borussia Mönchengladbach: 955 Mannschaftsminuten statt 990.
+    ⚠ Spiel 400, Bayer 04 Leverkusen: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 400, Sport-Club Freiburg: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 401, VfB Stuttgart: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 402, FC Augsburg: 1047 Mannschaftsminuten statt 990.
+    ⚠ Spiel 403, Hamburger SV: 1026 Mannschaftsminuten statt 990.
+    ⚠ Spiel 403, VfL Wolfsburg: 1050 Mannschaftsminuten statt 990.
+    ⚠ Spiel 404, SV Werder Bremen: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 406, 1. FC Heidenheim 1846: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 406, TSG Hoffenheim: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 407, 1. FC Köln: 945 Mannschaftsminuten statt 990.
+    ⚠ Spiel 407, Borussia Dortmund: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 408, FC Bayern München: 936 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, 1. FC Heidenheim 1846: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, Eintracht Frankfurt: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 410, Borussia Dortmund: 986 Mannschaftsminuten statt 990.
+    ⚠ Spiel 410, FC Augsburg: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 411, 1. FC Union Berlin: 964 Mannschaftsminuten statt 990.
+    ⚠ Spiel 411, Sport-Club Freiburg: 1028 Mannschaftsminuten statt 990.
+    ⚠ Spiel 412, 1. FSV Mainz 05: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 412, SV Werder Bremen: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 415, TSG Hoffenheim: 961 Mannschaftsminuten statt 990.
+    ⚠ Spiel 415, VfL Wolfsburg: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 416, 1. FC Köln: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 416, Hamburger SV: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 417, 1. FC Union Berlin: 961 Mannschaftsminuten statt 990.
+    ⚠ Spiel 418, Borussia Dortmund: 958 Mannschaftsminuten statt 990.
+    ⚠ Spiel 418, Hamburger SV: 979 Mannschaftsminuten statt 990.
+    ⚠ Spiel 419, 1. FSV Mainz 05: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 419, Eintracht Frankfurt: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 420, RB Leipzig: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 421, SV Werder Bremen: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 421, VfL Wolfsburg: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 422, FC Augsburg: 921 Mannschaftsminuten statt 990.
+    ⚠ Spiel 422, VfB Stuttgart: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 423, Sport-Club Freiburg: 942 Mannschaftsminuten statt 990.
+    ⚠ Spiel 424, Bayer 04 Leverkusen: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 425, 1. FC Köln: 973 Mannschaftsminuten statt 990.
+    ⚠ Spiel 425, Borussia Mönchengladbach: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 426, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 426, VfL Wolfsburg: 966 Mannschaftsminuten statt 990.
+    ⚠ Spiel 427, 1. FC Köln: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 427, Eintracht Frankfurt: 932 Mannschaftsminuten statt 990.
+    ⚠ Spiel 428, Sport-Club Freiburg: 978 Mannschaftsminuten statt 990.
+    ⚠ Spiel 429, SV Werder Bremen: 935 Mannschaftsminuten statt 990.
+    ⚠ Spiel 430, Borussia Dortmund: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 430, VfB Stuttgart: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 431, 1. FC Heidenheim 1846: 949 Mannschaftsminuten statt 990.
+    ⚠ Spiel 431, Borussia Mönchengladbach: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 432, 1. FC Union Berlin: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 433, TSG Hoffenheim: 961 Mannschaftsminuten statt 990.
+    ⚠ Spiel 434, Hamburger SV: 987 Mannschaftsminuten statt 990.
+    ⚠ Spiel 435, Bayer 04 Leverkusen: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 435, Borussia Dortmund: 950 Mannschaftsminuten statt 990.
+    ⚠ Spiel 436, Sport-Club Freiburg: 1042 Mannschaftsminuten statt 990.
+    ⚠ Spiel 437, Borussia Mönchengladbach: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 438, Hamburger SV: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 438, VfB Stuttgart: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 439, Eintracht Frankfurt: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 439, VfL Wolfsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 440, FC Augsburg: 964 Mannschaftsminuten statt 990.
+    ⚠ Spiel 440, TSG Hoffenheim: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 442, 1. FC Heidenheim 1846: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 442, 1. FC Union Berlin: 1039 Mannschaftsminuten statt 990.
+    ⚠ Spiel 443, 1. FC Köln: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 443, SV Werder Bremen: 962 Mannschaftsminuten statt 990.
+    ⚠ Spiel 444, VfB Stuttgart: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 445, Bayer 04 Leverkusen: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 445, FC Augsburg: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 446, RB Leipzig: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 447, Sport-Club Freiburg: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 448, Hamburger SV: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 449, 1. FSV Mainz 05: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 449, Borussia Mönchengladbach: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 450, 1. FC Union Berlin: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 451, 1. FC Köln: 951 Mannschaftsminuten statt 990.
+    ⚠ Spiel 452, Borussia Dortmund: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 452, TSG Hoffenheim: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 453, Borussia Dortmund: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 453, Sport-Club Freiburg: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 454, 1. FSV Mainz 05: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 455, 1. FC Union Berlin: 1056 Mannschaftsminuten statt 990.
+    ⚠ Spiel 456, SV Werder Bremen: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 456, VfB Stuttgart: 957 Mannschaftsminuten statt 990.
+    ⚠ Spiel 458, Eintracht Frankfurt: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 458, FC Augsburg: 973 Mannschaftsminuten statt 990.
+    ⚠ Spiel 460, 1. FC Köln: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 460, Bayer 04 Leverkusen: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 461, TSG Hoffenheim: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 463, Bayer 04 Leverkusen: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 463, RB Leipzig: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 464, Eintracht Frankfurt: 961 Mannschaftsminuten statt 990.
+    ⚠ Spiel 465, Sport-Club Freiburg: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 466, FC Augsburg: 913 Mannschaftsminuten statt 990.
+    ⚠ Spiel 466, SV Werder Bremen: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 467, Borussia Dortmund: 970 Mannschaftsminuten statt 990.
+    ⚠ Spiel 467, Borussia Mönchengladbach: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 468, 1. FC Köln: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 468, 1. FC Union Berlin: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 469, 1. FSV Mainz 05: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 470, VfB Stuttgart: 895 Mannschaftsminuten statt 990.
+    ⚠ Spiel 471, Borussia Dortmund: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 472, 1. FC Union Berlin: 930 Mannschaftsminuten statt 990.
+    ⚠ Spiel 472, 1. FSV Mainz 05: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 473, RB Leipzig: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 474, VfB Stuttgart: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 476, Borussia Mönchengladbach: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 476, FC Augsburg: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 477, SV Werder Bremen: 857 Mannschaftsminuten statt 990.
+    ⚠ Spiel 477, TSG Hoffenheim: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 478, 1. FC Heidenheim 1846: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 478, 1. FC Köln: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 479, Hamburger SV: 965 Mannschaftsminuten statt 990.
+    ⚠ Spiel 479, Sport-Club Freiburg: 980 Mannschaftsminuten statt 990.
+    ⚠ Spiel 480, 1. FC Köln: 978 Mannschaftsminuten statt 990.
+    ⚠ Spiel 481, Bayer 04 Leverkusen: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 481, Hamburger SV: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 482, Eintracht Frankfurt: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 482, VfB Stuttgart: 1024 Mannschaftsminuten statt 990.
+    ⚠ Spiel 483, Sport-Club Freiburg: 972 Mannschaftsminuten statt 990.
+    ⚠ Spiel 484, Borussia Dortmund: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 484, SV Werder Bremen: 933 Mannschaftsminuten statt 990.
+    ⚠ Spiel 485, Borussia Mönchengladbach: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 485, TSG Hoffenheim: 931 Mannschaftsminuten statt 990.
+    ⚠ Spiel 486, FC Augsburg: 1025 Mannschaftsminuten statt 990.
+    ⚠ Spiel 488, 1. FC Heidenheim 1846: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 488, 1. FSV Mainz 05: 996 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=1927, player_match_stats=1013.
+    ⚠ YELLOW_RED_CARD: Events=25, player_match_stats=23.
+    ⚠ RED_CARD: Events=47, player_match_stats=22.
+    ⚠ 16 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 662 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  4
+FEHLER:                   0
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  68.0 %
+Einzelinfos:               0
+Einzelwarnungen:           917
+Einzelfehler:              0
+
+ERGEBNIS: MIT WARNUNGEN ABGESCHLOSSEN
+
+============================================================

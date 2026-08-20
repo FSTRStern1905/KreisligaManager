@@ -9,7 +9,7 @@
   "actualKickoffFirstExtra": null,
   "actualKickoffSecondExtra": null,
   "actualKickoffPenalties": null,
-  "currentTimestamp": "07.08.2026 16:59:38",
+  "currentTimestamp": "20.08.2026 19:59:02",
   "duration": 90,
   "duration_sections": 2,
   "extratime_duration": 0,
@@ -703,10 +703,10 @@
         "is_starting": false,
         "player_id": "016SE9QUL0000000VV0AG80NVS7R7KB6",
         "player_user_id": "02TNR60RS4000000VUM1D52SVSTULC7I",
-        "player_image_url": "https:\\/\\/cdn.fussball.de\\/public\\/02TVC2GC2S000000VS5489C0VVHUS4F7.stamp",
-        "player_image_url_unescaped": "https://cdn.fussball.de/public/02TVC2GC2S000000VS5489C0VVHUS4F7.stamp",
-        "player_image_url_max": "https:\\/\\/cdn.fussball.de\\/public\\/02TVC2GC2S000000VS5489C0VVHUS4F7.web",
-        "player_image_url_max_unescaped": "https://cdn.fussball.de/public/02TVC2GC2S000000VS5489C0VVHUS4F7.web",
+        "player_image_url": "https:\\/\\/cdn.fussball.de\\/public\\/031NCBSDNC000000VS5489C3VS6JRAQR.stamp",
+        "player_image_url_unescaped": "https://cdn.fussball.de/public/031NCBSDNC000000VS5489C3VS6JRAQR.stamp",
+        "player_image_url_max": "https:\\/\\/cdn.fussball.de\\/public\\/031NCBSDNC000000VS5489C3VS6JRAQR.web",
+        "player_image_url_max_unescaped": "https://cdn.fussball.de/public/031NCBSDNC000000VS5489C3VS6JRAQR.web",
         "is_player_image_placeholder": false,
         "is_not_public": false
       }
