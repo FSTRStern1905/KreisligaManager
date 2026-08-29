@@ -107,16 +107,12 @@ class MatchDetailImporter:
             source_url=normalized_url,
         )
 
-        lineup_result = (
-            self.lineup_importer
-            .import_from_page(
-                page=page,
-                match_external_id=(
-                    detail_data.match_id
-                ),
-            )
-        )
-
+        # Erst den Liveticker laden.
+        #
+        # FUSSBALL.DE löst dabei bei manchen Spielen die echte
+        # ticker_id erst im Browser aus. Der LineupImporter kann
+        # diese anschließend aus den bereits geladenen
+        # Performance-Resources übernehmen.
         liveticker_data = (
             self.liveticker_loader.load(
                 page=page,
@@ -124,6 +120,27 @@ class MatchDetailImporter:
                 match_external_id=(
                     detail_data.match_id
                 ),
+            )
+        )
+
+        ticker_id = (
+            self.liveticker_loader
+            .last_ticker_id
+        )
+
+        print(
+            "[LINEUP DEBUG] Ticker-ID vom "
+            f"LivetickerLoader: {ticker_id}"
+        )
+
+        lineup_result = (
+            self.lineup_importer
+            .import_from_page(
+                page=page,
+                match_external_id=(
+                    detail_data.match_id
+                ),
+                ticker_id=ticker_id,
             )
         )
 

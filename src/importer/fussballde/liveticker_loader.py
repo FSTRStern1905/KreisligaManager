@@ -39,6 +39,7 @@ class LivetickerLoader:
 
     def __init__(self) -> None:
         self.parser = LivetickerParser()
+        self.last_ticker_id: str | None = None
 
     def load(
         self,
@@ -47,6 +48,7 @@ class LivetickerLoader:
         match_external_id: str,
     ) -> LivetickerData | None:
         payloads: list[dict] = []
+        self.last_ticker_id = None
 
         def handle_response(
             response: Any,
@@ -73,14 +75,28 @@ class LivetickerLoader:
             except Exception:
                 return
 
-            if (
-                isinstance(payload, dict)
-                and isinstance(
-                    payload.get(
-                        "events"
-                    ),
-                    list,
+            if not isinstance(payload, dict):
+                return
+
+            ticker_id = (
+                self.extract_ticker_id_from_payload(
+                    payload
                 )
+            )
+
+            if not ticker_id:
+                ticker_id = self.extract_ticker_id(
+                    response_url
+                )
+
+            if ticker_id:
+                self.last_ticker_id = ticker_id
+
+            if isinstance(
+                payload.get(
+                    "events"
+                ),
+                list,
             ):
                 payloads.append(
                     payload
@@ -161,6 +177,60 @@ class LivetickerLoader:
             return None
 
         return data
+
+    @staticmethod
+    def extract_ticker_id_from_payload(
+        payload: dict,
+    ) -> str | None:
+        ticker_id = str(
+            payload.get("id") or ""
+        ).strip()
+
+        if ticker_id:
+            return ticker_id
+
+        tickers = payload.get("tickers")
+
+        if isinstance(tickers, list):
+            for ticker in tickers:
+                if not isinstance(ticker, dict):
+                    continue
+
+                ticker_id = str(
+                    ticker.get("id") or ""
+                ).strip()
+
+                if ticker_id:
+                    return ticker_id
+
+        return None
+
+    @staticmethod
+    def extract_ticker_id(
+        response_url: str,
+    ) -> str | None:
+        marker = "ticker-id/"
+
+        if marker not in response_url:
+            return None
+
+        ticker_id = (
+            response_url
+            .split(marker, 1)[1]
+            .split("/", 1)[0]
+            .split("?", 1)[0]
+            .split("#", 1)[0]
+            .strip()
+        )
+
+        if (
+            not ticker_id
+            or ticker_id.casefold()
+            == "selectedtickerid"
+        ):
+            return None
+
+        return ticker_id
 
     @staticmethod
     def build_url(

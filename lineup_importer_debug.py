@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sqlite3
-import re
 from typing import Any
 
 from src.database.repositories.lineup_repository import (
@@ -46,7 +45,6 @@ class LineupImporter:
         self,
         page: Any,
         match_external_id: str,
-        ticker_id: str | None = None,
     ) -> dict:
         if page is None:
             raise ValueError(
@@ -63,7 +61,6 @@ class LineupImporter:
         html = self._load_lineup_html(
             page=page,
             match_external_id=normalized_external_id,
-            ticker_id=ticker_id,
         )
 
         return self.import_from_html(
@@ -76,57 +73,7 @@ class LineupImporter:
         self,
         page: Any,
         match_external_id: str,
-        ticker_id: str | None = None,
     ) -> str:
-        normalized_ticker_id = (
-            (ticker_id or "").strip()
-        )
-
-        if (
-            normalized_ticker_id
-            and normalized_ticker_id.casefold()
-            != "selectedtickerid"
-        ):
-            direct_url = self._build_lineup_url(
-                match_external_id=match_external_id,
-                ticker_id=normalized_ticker_id,
-            )
-
-            response = page.request.get(
-                direct_url,
-                timeout=60_000,
-            )
-
-            if not response.ok:
-                raise RuntimeError(
-                    "Die Aufstellung konnte mit direkt "
-                    "übergebener Ticker-ID nicht geladen "
-                    f"werden: HTTP {response.status}"
-                )
-
-            direct_html = response.text()
-
-            print(
-                "[LINEUP DEBUG] Direkte ticker_id: "
-                f"{normalized_ticker_id}"
-            )
-            print(
-                "[LINEUP DEBUG] Direct-Response: "
-                f"{len(direct_html)} Zeichen | "
-                f"Spieler erkannt="
-                f"{self._lineup_contains_players(direct_html)}"
-            )
-
-            if self._lineup_contains_players(
-                direct_html
-            ):
-                return direct_html
-
-            print(
-                "[LINEUP DEBUG] Direkte ticker_id lieferte "
-                "keine Aufstellung - Fallback-Suche folgt."
-            )
-
         default_url = self._build_lineup_url(
             match_external_id=match_external_id,
             ticker_id="selectedTickerId",
@@ -245,38 +192,6 @@ class LineupImporter:
         page: Any,
         match_external_id: str,
     ) -> str | None:
-        # Die echte Ticker-ID steckt häufig bereits im
-        # gerenderten HTML/Liveticker der Spielseite.
-        # Das ist zuverlässiger als ein UI-Klick auf den
-        # Aufstellungen-Tab.
-        try:
-            page_html = page.content()
-        except Exception:
-            page_html = ""
-
-        ticker_id = self._extract_ticker_id_from_html(
-            page_html
-        )
-
-        if ticker_id:
-            print(
-                "[LINEUP DEBUG] ticker_id direkt "
-                f"aus Page-HTML: {ticker_id}"
-            )
-            return ticker_id
-
-        ticker_id = self._extract_ticker_id_from_performance(
-            page=page,
-            match_external_id=match_external_id,
-        )
-
-        if ticker_id:
-            print(
-                "[LINEUP DEBUG] ticker_id aus "
-                f"Performance-Resources: {ticker_id}"
-            )
-            return ticker_id
-
         discovered_urls: list[str] = []
 
         def remember_response(response: Any) -> None:
@@ -356,96 +271,6 @@ class LineupImporter:
                     continue
 
         return False
-
-    @staticmethod
-    def _extract_ticker_id_from_performance(
-        page: Any,
-        match_external_id: str,
-    ) -> str | None:
-        try:
-            urls = page.evaluate(
-                """
-                () => performance
-                    .getEntriesByType('resource')
-                    .map(entry => entry.name)
-                """
-            )
-        except Exception:
-            return None
-
-        if not isinstance(urls, list):
-            return None
-
-        candidates: list[str] = []
-
-        for raw_url in urls:
-            url = str(raw_url or "")
-
-            if match_external_id not in url:
-                continue
-
-            if "ticker-id/" not in url:
-                continue
-
-            if (
-                "ajax.liveticker" not in url
-                and "ajax.match.lineup" not in url
-            ):
-                continue
-
-            candidates.append(url)
-
-        for url in reversed(candidates):
-            marker = "ticker-id/"
-
-            ticker_id = (
-                url.split(marker, 1)[1]
-                .split("/", 1)[0]
-                .split("?", 1)[0]
-                .split("#", 1)[0]
-                .strip()
-            )
-
-            if (
-                ticker_id
-                and ticker_id.casefold()
-                != "selectedtickerid"
-            ):
-                return ticker_id
-
-        return None
-
-    @staticmethod
-    def _extract_ticker_id_from_html(
-        html: str,
-    ) -> str | None:
-        if not html:
-            return None
-
-        patterns = (
-            r"ajax\.match\.lineup[^\"']*"
-            r"ticker-id/([A-Za-z0-9]+)",
-            r"ajax\.liveticker[^\"']*"
-            r"ticker-id/([A-Za-z0-9]+)",
-            r"ticker-id/([A-Za-z0-9]+)",
-        )
-
-        for pattern in patterns:
-            for match in re.finditer(
-                pattern,
-                html,
-                flags=re.IGNORECASE,
-            ):
-                ticker_id = match.group(1).strip()
-
-                if (
-                    ticker_id
-                    and ticker_id.casefold()
-                    != "selectedtickerid"
-                ):
-                    return ticker_id
-
-        return None
 
     @staticmethod
     def _extract_ticker_id(

@@ -14,6 +14,9 @@ from src.database.repositories.player_match_stats_repository import (
 from src.services.player_match_stats.event_mapper import (
     EventMapper,
 )
+from src.services.player_match_stats.event_stat_seed_mapper import (
+    EventStatSeedMapper,
+)
 from src.services.player_match_stats.lineup_mapper import (
     LineupMapper,
 )
@@ -44,6 +47,9 @@ class PlayerMatchStatsBuilder:
         )
 
         self.lineup_mapper = LineupMapper()
+        self.event_stat_seed_mapper = (
+            EventStatSeedMapper()
+        )
         self.event_mapper = EventMapper()
         self.minutes_calculator = (
             MinutesCalculator()
@@ -63,21 +69,29 @@ class PlayerMatchStatsBuilder:
             .get_by_match(match_id)
         )
 
-        if not lineups:
-            return {
-                "match_id": match_id,
-                "lineups_found": 0,
-                "events_found": 0,
-                "stats_created": 0,
-            }
-
         events = (
             self.event_repository
             .get_by_match(match_id)
         )
 
+        if not lineups and not events:
+            return {
+                "match_id": match_id,
+                "lineups_found": 0,
+                "events_found": 0,
+                "event_seed_stats_created": 0,
+                "stats_created": 0,
+            }
+
         stats = self.lineup_mapper.build(
             lineups
+        )
+
+        event_seed_stats_created = (
+            self.event_stat_seed_mapper.extend(
+                stats=stats,
+                events=events,
+            )
         )
 
         self.event_mapper.apply(
@@ -108,5 +122,8 @@ class PlayerMatchStatsBuilder:
             "match_id": match_id,
             "lineups_found": len(lineups),
             "events_found": len(events),
+            "event_seed_stats_created": (
+                event_seed_stats_created
+            ),
             "stats_created": stats_created,
         }

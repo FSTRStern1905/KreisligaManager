@@ -223,13 +223,6 @@ class MatchEventImporter:
             if not last_name:
                 continue
 
-            existing = (
-                self.player_repository
-                .get_by_external_id(
-                    normalized_external_id
-                )
-            )
-
             team_id = None
 
             team_external_id = str(
@@ -262,6 +255,37 @@ class MatchEventImporter:
                             away_team_id=away_team_id,
                         )
                     )
+
+            if (
+                team_id in valid_team_ids
+                and first_name
+                and last_name
+            ):
+                lineup_player_id = (
+                    self._find_lineup_player_by_name(
+                        match_id=match_id,
+                        team_id=team_id,
+                        player_name=(
+                            f"{first_name} {last_name}"
+                        ),
+                    )
+                )
+
+                if lineup_player_id is not None:
+                    self._link_external_id_to_player(
+                        player_id=lineup_player_id,
+                        external_id=(
+                            normalized_external_id
+                        ),
+                    )
+                    continue
+
+            existing = (
+                self.player_repository
+                .get_by_external_id(
+                    normalized_external_id
+                )
+            )
 
             if (
                 team_id not in valid_team_ids
@@ -1066,6 +1090,30 @@ class MatchEventImporter:
         ):
             return None
 
+        if (
+            match_id is not None
+            and team_id is not None
+            and normalized_name
+        ):
+            lineup_player_id = (
+                self._find_lineup_player_by_name(
+                    match_id=match_id,
+                    team_id=team_id,
+                    player_name=normalized_name,
+                )
+            )
+
+            if lineup_player_id is not None:
+                if normalized_external_id:
+                    self._link_external_id_to_player(
+                        player_id=lineup_player_id,
+                        external_id=(
+                            normalized_external_id
+                        ),
+                    )
+
+                return lineup_player_id
+
         if normalized_external_id:
             existing_by_external_id = (
                 self.player_repository
@@ -1114,50 +1162,6 @@ class MatchEventImporter:
                         commit=False,
                     )
                 )
-
-        if (
-            match_id is not None
-            and team_id is not None
-            and normalized_name
-        ):
-            lineup_player_id = (
-                self._find_lineup_player_by_name(
-                    match_id=match_id,
-                    team_id=team_id,
-                    player_name=normalized_name,
-                )
-            )
-
-            if lineup_player_id is not None:
-                if normalized_external_id:
-                    self._link_external_id_to_player(
-                        player_id=lineup_player_id,
-                        external_id=(
-                            normalized_external_id
-                        ),
-                    )
-
-                    first_name, last_name = (
-                        self._split_player_name(
-                            normalized_name
-                        )
-                    )
-
-                    if last_name:
-                        return (
-                            self.player_repository
-                            .get_or_create(
-                                first_name=first_name,
-                                last_name=last_name,
-                                team_id=team_id,
-                                external_id=(
-                                    normalized_external_id
-                                ),
-                                commit=False,
-                            )
-                        )
-
-                return lineup_player_id
 
         first_name, last_name = (
             self._split_player_name(
@@ -1213,11 +1217,168 @@ class MatchEventImporter:
                 existing_row[0]
             )
 
-            if existing_player_id != player_id:
+            if existing_player_id == player_id:
+                return
+
+            target_player = self.connection.execute(
+                """
+                SELECT
+                    player_id,
+                    team_id,
+                    first_name,
+                    last_name
+                FROM players
+                WHERE player_id = ?
+                LIMIT 1
+                """,
+                (player_id,),
+            ).fetchone()
+
+            existing_player = self.connection.execute(
+                """
+                SELECT
+                    player_id,
+                    team_id,
+                    first_name,
+                    last_name
+                FROM players
+                WHERE player_id = ?
+                LIMIT 1
+                """,
+                (existing_player_id,),
+            ).fetchone()
+
+            if (
+                target_player is None
+                or existing_player is None
+            ):
+                raise ValueError(
+                    "Spieler-Alias konnte nicht "
+                    "sicher neu zugeordnet werden: "
+                    f"{normalized_external_id}"
+                )
+
+            target_name = self._normalize_name(
+                " ".join(
+                    part
+                    for part in (
+                        str(
+                            target_player[2]
+                            or ""
+                        ).strip(),
+                        str(
+                            target_player[3]
+                            or ""
+                        ).strip(),
+                    )
+                    if part
+                )
+            )
+
+            existing_name = self._normalize_name(
+                " ".join(
+                    part
+                    for part in (
+                        str(
+                            existing_player[2]
+                            or ""
+                        ).strip(),
+                        str(
+                            existing_player[3]
+                            or ""
+                        ).strip(),
+                    )
+                    if part
+                )
+            )
+
+            target_team_id = target_player[1]
+            existing_team_id = existing_player[1]
+
+            same_team = (
+                target_team_id is not None
+                and existing_team_id is not None
+                and int(target_team_id)
+                == int(existing_team_id)
+            )
+
+            existing_team_unknown = (
+                existing_team_id is None
+                and target_team_id is not None
+            )
+
+            same_name = (
+                bool(target_name)
+                and target_name == existing_name
+            )
+
+            if not (
+                same_name
+                and (
+                    same_team
+                    or existing_team_unknown
+                )
+            ):
                 raise ValueError(
                     "Liveticker-Spieler-ID ist bereits "
-                    "einem anderen Spieler zugeordnet: "
+                    "einem anderen Spieler zugeordnet "
+                    "und die Identität ist nicht "
+                    "eindeutig identisch: "
                     f"{normalized_external_id}"
+                )
+
+            # Alter Importbestand: Derselbe Spieler wurde
+            # bereits doppelt angelegt, weil Lineup und
+            # Liveticker unterschiedliche External-IDs
+            # geliefert haben. In diesem eindeutigen Fall
+            # darf der Liveticker-Alias auf den Lineup-
+            # Spieler umgehängt werden.
+            self.connection.execute(
+                """
+                UPDATE player_external_ids
+                SET
+                    player_id = ?,
+                    source = 'liveticker'
+                WHERE external_id = ?
+                """,
+                (
+                    player_id,
+                    normalized_external_id,
+                ),
+            )
+
+            # Die alte Dublette darf die External-ID nicht
+            # mehr als primäre ID behalten, da
+            # get_by_external_id() sonst weiterhin zuerst
+            # diesen Datensatz finden würde.
+            self.connection.execute(
+                """
+                UPDATE players
+                SET external_id = NULL
+                WHERE
+                    player_id = ?
+                    AND external_id = ?
+                """,
+                (
+                    existing_player_id,
+                    normalized_external_id,
+                ),
+            )
+
+            if (
+                existing_team_id is None
+                and target_team_id is not None
+            ):
+                self.connection.execute(
+                    """
+                    UPDATE players
+                    SET team_id = ?
+                    WHERE player_id = ?
+                    """,
+                    (
+                        int(target_team_id),
+                        existing_player_id,
+                    ),
                 )
 
             return
