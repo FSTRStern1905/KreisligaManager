@@ -128,6 +128,10 @@ class MultiSelectTeamCombo(QComboBox):
     ) -> None:
         super().__init__(parent)
 
+        self.setFont(
+            Typography.body()
+        )
+
         self.setEditable(True)
         self.lineEdit().setReadOnly(True)
         self.lineEdit().setPlaceholderText(
@@ -1809,23 +1813,7 @@ class CalendarPage(QWidget):
                 - start_time
             )
 
-            imported_competition_id = int(
-                competition_id
-            )
-
             self.refresh_data()
-
-            competition_index = (
-                self.competition_filter.findData(
-                    imported_competition_id
-                )
-            )
-
-            if competition_index >= 0:
-                self.competition_filter.setCurrentIndex(
-                    competition_index
-                )
-
             self._load_selected_competition_sync()
 
             QMessageBox.information(
