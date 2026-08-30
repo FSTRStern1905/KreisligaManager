@@ -4,6 +4,7 @@ import io
 import re
 from typing import Any
 
+from fontTools.agl import toUnicode
 from fontTools.ttLib import TTFont
 
 
@@ -200,6 +201,11 @@ class FontDecoder:
 
         if len(glyph_name) == 1:
             return glyph_name
+
+        agl_character = toUnicode(glyph_name)
+
+        if agl_character:
+            return agl_character
 
         if glyph_name.startswith("uni"):
             unicode_value = glyph_name[3:]

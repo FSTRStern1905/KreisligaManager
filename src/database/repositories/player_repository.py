@@ -617,12 +617,17 @@ class PlayerRepository:
         )
 
         existing = None
+        found_by_external_id = False
 
         if normalized_external_id:
             existing = (
                 self.get_by_external_id(
                     normalized_external_id
                 )
+            )
+
+            found_by_external_id = (
+                existing is not None
             )
 
         if existing is None:
@@ -650,6 +655,48 @@ class PlayerRepository:
             )
 
         if existing is not None:
+            if (
+                found_by_external_id
+                and self._should_try_exact_identity_merge(
+                    existing=existing,
+                    incoming_first_name=normalized_first_name,
+                    incoming_last_name=normalized_last_name,
+                    team_id=team_id,
+                    incoming_external_id=normalized_external_id,
+                )
+            ):
+                merge_target = (
+                    self._find_exact_identity_merge_target(
+                        source_player_id=int(
+                            existing["player_id"]
+                        ),
+                        team_id=team_id,
+                        first_name=normalized_first_name,
+                        last_name=normalized_last_name,
+                    )
+                )
+
+                if merge_target is not None:
+                    merged_player_id = self.merge_players(
+                        source_player_id=int(
+                            existing["player_id"]
+                        ),
+                        target_player_id=int(
+                            merge_target["player_id"]
+                        ),
+                        commit=False,
+                    )
+
+                    existing = self.get(
+                        merged_player_id
+                    )
+
+                    if existing is None:
+                        raise RuntimeError(
+                            "Zusammengeführter Spieler konnte "
+                            "nicht erneut geladen werden."
+                        )
+
             player_id = int(
                 existing["player_id"]
             )
@@ -756,6 +803,849 @@ class PlayerRepository:
             external_id=normalized_external_id,
             commit=commit,
         )
+
+    def _should_try_exact_identity_merge(
+        self,
+        existing: dict,
+        incoming_first_name: str,
+        incoming_last_name: str,
+        team_id: int | None,
+        incoming_external_id: str,
+    ) -> bool:
+        if team_id is None or team_id <= 0:
+            return False
+
+        normalized_first = (
+            self._normalize_name_for_match(
+                incoming_first_name
+            )
+        )
+        normalized_last = (
+            self._normalize_name_for_match(
+                incoming_last_name
+            )
+        )
+
+        if not normalized_first or not normalized_last:
+            return False
+
+        if self._is_unknown_placeholder(
+            incoming_last_name,
+            incoming_external_id,
+        ):
+            return False
+
+        existing_first = (
+            self._normalize_name_for_match(
+                existing["first_name"] or ""
+            )
+        )
+        existing_last = (
+            self._normalize_name_for_match(
+                existing["last_name"] or ""
+            )
+        )
+
+        if (
+            existing_first == normalized_first
+            and existing_last == normalized_last
+        ):
+            return False
+
+        existing_is_low_quality = (
+            not existing_first
+            or not existing_last
+            or existing_first == existing_last
+            or self._is_unknown_placeholder(
+                existing["last_name"] or "",
+                existing["external_id"] or "",
+            )
+        )
+
+        if not existing_is_low_quality:
+            return False
+
+        existing_team_id = existing["team_id"]
+
+        if (
+            existing_team_id is not None
+            and int(existing_team_id) != team_id
+        ):
+            return False
+
+        return True
+
+    def _find_exact_identity_merge_target(
+        self,
+        source_player_id: int,
+        team_id: int | None,
+        first_name: str,
+        last_name: str,
+    ) -> dict | None:
+        if (
+            source_player_id <= 0
+            or team_id is None
+            or team_id <= 0
+        ):
+            return None
+
+        normalized_first = first_name.strip()
+        normalized_last = last_name.strip()
+
+        if not normalized_first or not normalized_last:
+            return None
+
+        rows = self.cursor.execute(
+            f"""
+            SELECT {self.COLUMNS}
+            FROM players
+            WHERE
+                player_id != ?
+                AND team_id = ?
+                AND first_name = ?
+                    COLLATE NOCASE
+                AND last_name = ?
+                    COLLATE NOCASE
+            ORDER BY player_id
+            LIMIT 2
+            """,
+            (
+                source_player_id,
+                team_id,
+                normalized_first,
+                normalized_last,
+            ),
+        ).fetchall()
+
+        if len(rows) != 1:
+            return None
+
+        return self._row_to_dict(
+            rows[0]
+        )
+
+    def merge_players(
+        self,
+        source_player_id: int,
+        target_player_id: int,
+        commit: bool = True,
+    ) -> int:
+        """
+        Führt zwei bereits als identisch bestätigte Spieler zusammen.
+
+        Alle bekannten Fremdschlüssel auf den Quellspieler werden auf den
+        Zielspieler umgehängt. External-ID-Aliase bleiben erhalten.
+        Doppelte Lineup-/Stat-Zeilen werden vor dem Umhängen entfernt.
+
+        Die Methode entscheidet NICHT selbst, ob zwei Spieler identisch sind.
+        """
+        if source_player_id <= 0 or target_player_id <= 0:
+            raise ValueError("Ungültige Spieler-ID.")
+
+        if source_player_id == target_player_id:
+            return target_player_id
+
+        source = self.get(source_player_id)
+        target = self.get(target_player_id)
+
+        if source is None:
+            raise ValueError("Quellspieler wurde nicht gefunden.")
+
+        if target is None:
+            raise ValueError("Zielspieler wurde nicht gefunden.")
+
+        source_team_id = source["team_id"]
+        target_team_id = target["team_id"]
+
+        if (
+            source_team_id is not None
+            and target_team_id is not None
+            and source_team_id != target_team_id
+        ):
+            raise ValueError(
+                "Spieler aus unterschiedlichen Mannschaften "
+                "dürfen nicht automatisch zusammengeführt werden."
+            )
+
+        try:
+            self.connection.execute("SAVEPOINT merge_players")
+
+            source_aliases = {
+                row[0]
+                for row in self.connection.execute(
+                    """
+                    SELECT external_id
+                    FROM player_external_ids
+                    WHERE player_id = ?
+                    """,
+                    (source_player_id,),
+                ).fetchall()
+                if row[0]
+            }
+
+            if source["external_id"]:
+                source_aliases.add(source["external_id"])
+
+            # Lineups können bereits eine Zeile für den Zielspieler im
+            # selben Spiel besitzen. Vor dem Löschen der Quellzeile werden
+            # relevante Qualitätsmerkmale zusammengeführt. Besonders wichtig:
+            # War eine der beiden Zeilen Starter, muss der gemergte Spieler
+            # Starter bleiben.
+            self._merge_lineup_rows_before_player_merge(
+                source_player_id=source_player_id,
+                target_player_id=target_player_id,
+            )
+
+            # Spieler-Spiel-Statistiken müssen vor dem Löschen einer
+            # Dubletten-Zeile zusammengeführt werden. Dabei werden Starter-,
+            # Wechsel- und weitere Statistikwerte erhalten, ohne doppelte
+            # Events blind zu addieren.
+            self._merge_player_match_stats_rows_before_player_merge(
+                source_player_id=source_player_id,
+                target_player_id=target_player_id,
+            )
+
+            # Alle übrigen Spielerreferenzen automatisch erfassen.
+            # Neben player_id wird auch related_player_id berücksichtigt,
+            # damit z. B. Wechselbeziehungen nicht auf eine gelöschte
+            # Spieler-ID zeigen.
+            ignored_tables = {
+                "players",
+                "player_external_ids",
+                "lineups",
+                "player_match_stats",
+            }
+
+            for (
+                table_name,
+                reference_columns,
+            ) in self._tables_with_player_references():
+                if table_name in ignored_tables:
+                    continue
+
+                for column_name in reference_columns:
+                    self.connection.execute(
+                        f'UPDATE "{table_name}" '
+                        f'SET "{column_name}" = ? '
+                        f'WHERE "{column_name}" = ?',
+                        (
+                            target_player_id,
+                            source_player_id,
+                        ),
+                    )
+
+            if self._table_exists("lineups"):
+                self.connection.execute(
+                    """
+                    UPDATE lineups
+                    SET player_id = ?
+                    WHERE player_id = ?
+                    """,
+                    (
+                        target_player_id,
+                        source_player_id,
+                    ),
+                )
+
+            if self._table_exists("player_match_stats"):
+                self.connection.execute(
+                    """
+                    UPDATE player_match_stats
+                    SET player_id = ?
+                    WHERE player_id = ?
+                    """,
+                    (
+                        target_player_id,
+                        source_player_id,
+                    ),
+                )
+
+            # Alte Alias-Zeilen des Quellspielers entfernen und anschließend
+            # auf den Zielspieler übertragen.
+            self.connection.execute(
+                """
+                DELETE FROM player_external_ids
+                WHERE player_id = ?
+                """,
+                (source_player_id,),
+            )
+
+            for external_id in sorted(source_aliases):
+                self._add_external_id_alias(
+                    player_id=target_player_id,
+                    external_id=external_id,
+                    source="merge",
+                    commit=False,
+                )
+
+            # Falls der Zielspieler noch keine primäre External-ID besitzt,
+            # darf die primäre ID des Quellspielers übernommen werden.
+            if (
+                not (target["external_id"] or "").strip()
+                and (source["external_id"] or "").strip()
+            ):
+                self.connection.execute(
+                    """
+                    UPDATE players
+                    SET external_id = ?
+                    WHERE player_id = ?
+                    """,
+                    (
+                        source["external_id"].strip(),
+                        target_player_id,
+                    ),
+                )
+
+            self.connection.execute(
+                """
+                DELETE FROM players
+                WHERE player_id = ?
+                """,
+                (source_player_id,),
+            )
+
+            self.connection.execute("RELEASE SAVEPOINT merge_players")
+
+            if commit:
+                self.connection.commit()
+
+            return target_player_id
+
+        except Exception:
+            self.connection.execute(
+                "ROLLBACK TO SAVEPOINT merge_players"
+            )
+            self.connection.execute(
+                "RELEASE SAVEPOINT merge_players"
+            )
+            raise
+
+    def _merge_lineup_rows_before_player_merge(
+        self,
+        source_player_id: int,
+        target_player_id: int,
+    ) -> None:
+        if not self._table_exists("lineups"):
+            return
+
+        columns = {
+            row[1]
+            for row in self.connection.execute(
+                'PRAGMA table_info("lineups")'
+            ).fetchall()
+        }
+
+        if (
+            "match_id" not in columns
+            or "player_id" not in columns
+        ):
+            return
+
+        has_is_starting = "is_starting" in columns
+        has_shirt_number = "shirt_number" in columns
+        has_position = "position" in columns
+
+        source_rows = self.connection.execute(
+            """
+            SELECT *
+            FROM lineups
+            WHERE player_id = ?
+            ORDER BY match_id
+            """,
+            (source_player_id,),
+        ).fetchall()
+
+        column_names = [
+            row[1]
+            for row in self.connection.execute(
+                'PRAGMA table_info("lineups")'
+            ).fetchall()
+        ]
+
+        for source_row in source_rows:
+            source_data = dict(
+                zip(column_names, source_row)
+            )
+            match_id = source_data["match_id"]
+
+            target_row = self.connection.execute(
+                """
+                SELECT *
+                FROM lineups
+                WHERE
+                    match_id = ?
+                    AND player_id = ?
+                LIMIT 1
+                """,
+                (
+                    match_id,
+                    target_player_id,
+                ),
+            ).fetchone()
+
+            if target_row is None:
+                continue
+
+            target_data = dict(
+                zip(column_names, target_row)
+            )
+
+            updates = []
+            values = []
+
+            if has_is_starting:
+                merged_starting = max(
+                    int(source_data.get("is_starting") or 0),
+                    int(target_data.get("is_starting") or 0),
+                )
+                if merged_starting != int(
+                    target_data.get("is_starting") or 0
+                ):
+                    updates.append("is_starting = ?")
+                    values.append(merged_starting)
+
+            if has_shirt_number:
+                target_number = target_data.get(
+                    "shirt_number"
+                )
+                source_number = source_data.get(
+                    "shirt_number"
+                )
+
+                if (
+                    target_number is None
+                    and source_number is not None
+                ):
+                    updates.append("shirt_number = ?")
+                    values.append(source_number)
+
+            if has_position:
+                target_position = str(
+                    target_data.get("position") or ""
+                ).strip()
+                source_position = str(
+                    source_data.get("position") or ""
+                ).strip()
+
+                if (
+                    not target_position
+                    and source_position
+                ):
+                    updates.append("position = ?")
+                    values.append(source_position)
+
+            if updates:
+                values.extend(
+                    (
+                        match_id,
+                        target_player_id,
+                    )
+                )
+
+                self.connection.execute(
+                    f"""
+                    UPDATE lineups
+                    SET {", ".join(updates)}
+                    WHERE
+                        match_id = ?
+                        AND player_id = ?
+                    """,
+                    tuple(values),
+                )
+
+        self._deduplicate_before_player_merge(
+            table_name="lineups",
+            source_player_id=source_player_id,
+            target_player_id=target_player_id,
+            key_columns=("match_id",),
+        )
+
+    def _merge_player_match_stats_rows_before_player_merge(
+        self,
+        source_player_id: int,
+        target_player_id: int,
+    ) -> None:
+        if not self._table_exists("player_match_stats"):
+            return
+
+        pragma_rows = self.connection.execute(
+            'PRAGMA table_info("player_match_stats")'
+        ).fetchall()
+
+        column_names = [
+            row[1]
+            for row in pragma_rows
+        ]
+        columns = set(column_names)
+
+        if (
+            "match_id" not in columns
+            or "player_id" not in columns
+        ):
+            return
+
+        source_rows = self.connection.execute(
+            """
+            SELECT *
+            FROM player_match_stats
+            WHERE player_id = ?
+            ORDER BY match_id
+            """,
+            (source_player_id,),
+        ).fetchall()
+
+        boolean_or_columns = (
+            "is_starting",
+            "was_substituted_in",
+            "was_substituted_out",
+            "clean_sheet",
+        )
+
+        numeric_max_columns = (
+            "minutes_played",
+            "goals",
+            "own_goals",
+            "assists",
+            "yellow_cards",
+            "yellow_red_cards",
+            "red_cards",
+        )
+
+        nullable_min_columns = (
+            "minute_in",
+        )
+
+        nullable_max_columns = (
+            "minute_out",
+        )
+
+        fill_if_missing_columns = (
+            "shirt_number",
+            "position",
+        )
+
+        for source_row in source_rows:
+            source_data = dict(
+                zip(column_names, source_row)
+            )
+            match_id = source_data["match_id"]
+
+            target_row = self.connection.execute(
+                """
+                SELECT *
+                FROM player_match_stats
+                WHERE
+                    match_id = ?
+                    AND player_id = ?
+                LIMIT 1
+                """,
+                (
+                    match_id,
+                    target_player_id,
+                ),
+            ).fetchone()
+
+            if target_row is None:
+                continue
+
+            target_data = dict(
+                zip(column_names, target_row)
+            )
+
+            updates: list[str] = []
+            values: list[object] = []
+
+            for column_name in boolean_or_columns:
+                if column_name not in columns:
+                    continue
+
+                merged_value = max(
+                    int(
+                        source_data.get(column_name)
+                        or 0
+                    ),
+                    int(
+                        target_data.get(column_name)
+                        or 0
+                    ),
+                )
+
+                current_value = int(
+                    target_data.get(column_name)
+                    or 0
+                )
+
+                if merged_value != current_value:
+                    updates.append(
+                        f'"{column_name}" = ?'
+                    )
+                    values.append(merged_value)
+
+            for column_name in numeric_max_columns:
+                if column_name not in columns:
+                    continue
+
+                source_value = int(
+                    source_data.get(column_name)
+                    or 0
+                )
+                target_value = int(
+                    target_data.get(column_name)
+                    or 0
+                )
+
+                merged_value = max(
+                    source_value,
+                    target_value,
+                )
+
+                if merged_value != target_value:
+                    updates.append(
+                        f'"{column_name}" = ?'
+                    )
+                    values.append(merged_value)
+
+            for column_name in nullable_min_columns:
+                if column_name not in columns:
+                    continue
+
+                source_value = source_data.get(
+                    column_name
+                )
+                target_value = target_data.get(
+                    column_name
+                )
+
+                available = [
+                    int(value)
+                    for value in (
+                        source_value,
+                        target_value,
+                    )
+                    if value is not None
+                ]
+
+                merged_value = (
+                    min(available)
+                    if available
+                    else None
+                )
+
+                if merged_value != target_value:
+                    updates.append(
+                        f'"{column_name}" = ?'
+                    )
+                    values.append(merged_value)
+
+            for column_name in nullable_max_columns:
+                if column_name not in columns:
+                    continue
+
+                source_value = source_data.get(
+                    column_name
+                )
+                target_value = target_data.get(
+                    column_name
+                )
+
+                available = [
+                    int(value)
+                    for value in (
+                        source_value,
+                        target_value,
+                    )
+                    if value is not None
+                ]
+
+                merged_value = (
+                    max(available)
+                    if available
+                    else None
+                )
+
+                if merged_value != target_value:
+                    updates.append(
+                        f'"{column_name}" = ?'
+                    )
+                    values.append(merged_value)
+
+            for column_name in fill_if_missing_columns:
+                if column_name not in columns:
+                    continue
+
+                source_value = source_data.get(
+                    column_name
+                )
+                target_value = target_data.get(
+                    column_name
+                )
+
+                target_missing = (
+                    target_value is None
+                    or (
+                        isinstance(target_value, str)
+                        and not target_value.strip()
+                    )
+                )
+
+                source_available = (
+                    source_value is not None
+                    and (
+                        not isinstance(
+                            source_value,
+                            str,
+                        )
+                        or bool(
+                            source_value.strip()
+                        )
+                    )
+                )
+
+                if target_missing and source_available:
+                    updates.append(
+                        f'"{column_name}" = ?'
+                    )
+                    values.append(source_value)
+
+            if updates:
+                values.extend(
+                    (
+                        match_id,
+                        target_player_id,
+                    )
+                )
+
+                self.connection.execute(
+                    f"""
+                    UPDATE player_match_stats
+                    SET {", ".join(updates)}
+                    WHERE
+                        match_id = ?
+                        AND player_id = ?
+                    """,
+                    tuple(values),
+                )
+
+        self._deduplicate_before_player_merge(
+            table_name="player_match_stats",
+            source_player_id=source_player_id,
+            target_player_id=target_player_id,
+            key_columns=("match_id",),
+        )
+
+    def _deduplicate_before_player_merge(
+        self,
+        table_name: str,
+        source_player_id: int,
+        target_player_id: int,
+        key_columns: tuple[str, ...],
+    ) -> None:
+        if not self._table_exists(table_name):
+            return
+
+        columns = {
+            row[1]
+            for row in self.connection.execute(
+                f'PRAGMA table_info("{table_name}")'
+            ).fetchall()
+        }
+
+        if "player_id" not in columns:
+            return
+
+        usable_keys = [
+            column
+            for column in key_columns
+            if column in columns
+        ]
+
+        if not usable_keys:
+            return
+
+        conditions = " AND ".join(
+            f'target."{column}" = source."{column}"'
+            for column in usable_keys
+        )
+
+        self.connection.execute(
+            f"""
+            DELETE FROM "{table_name}" AS source
+            WHERE source.player_id = ?
+              AND EXISTS (
+                  SELECT 1
+                  FROM "{table_name}" AS target
+                  WHERE target.player_id = ?
+                    AND {conditions}
+              )
+            """,
+            (
+                source_player_id,
+                target_player_id,
+            ),
+        )
+
+    def _tables_with_player_references(
+        self,
+    ) -> list[tuple[str, tuple[str, ...]]]:
+        tables: list[
+            tuple[str, tuple[str, ...]]
+        ] = []
+
+        rows = self.connection.execute(
+            """
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table'
+              AND name NOT LIKE 'sqlite_%'
+            ORDER BY name
+            """
+        ).fetchall()
+
+        for row in rows:
+            table_name = row[0]
+
+            columns = {
+                column[1]
+                for column in self.connection.execute(
+                    f'PRAGMA table_info("{table_name}")'
+                ).fetchall()
+            }
+
+            reference_columns = tuple(
+                column_name
+                for column_name in (
+                    "player_id",
+                    "related_player_id",
+                )
+                if column_name in columns
+            )
+
+            if reference_columns:
+                tables.append(
+                    (
+                        table_name,
+                        reference_columns,
+                    )
+                )
+
+        return tables
+
+    def _table_exists(
+        self,
+        table_name: str,
+    ) -> bool:
+        row = self.connection.execute(
+            """
+            SELECT 1
+            FROM sqlite_master
+            WHERE type = 'table'
+              AND name = ?
+            LIMIT 1
+            """,
+            (table_name,),
+        ).fetchone()
+
+        return row is not None
 
     def delete(
         self,

@@ -455,6 +455,34 @@ class MatchEventImporter:
         home_team_id: int,
         away_team_id: int,
     ) -> None:
+        # Die JSON-Quelle kennt Heim und Gast bereits positionssicher.
+        # Deshalb zuerst deren Liveticker-Teamnamen direkt auf die
+        # internen Match-Team-IDs legen. Das funktioniert auch bei 0:0-
+        # Spielen, bei denen die bisherige Tor-Delta-Erkennung keinen
+        # Cache aufbauen kann.
+        home_liveticker_team = self._normalize_name(
+            liveticker_data.home_team
+        )
+        away_liveticker_team = self._normalize_name(
+            liveticker_data.away_team
+        )
+
+        if home_liveticker_team:
+            self._liveticker_team_cache[
+                (
+                    match_id,
+                    home_liveticker_team,
+                )
+            ] = home_team_id
+
+        if away_liveticker_team:
+            self._liveticker_team_cache[
+                (
+                    match_id,
+                    away_liveticker_team,
+                )
+            ] = away_team_id
+
         team_external_ids = {
             self._normalize_name(
                 event.team
