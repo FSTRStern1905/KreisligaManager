@@ -537,7 +537,11 @@ class MatchDetailParser(BaseParser):
         player_out = ""
         player_out_id = ""
 
-        if len(player_elements) >= 1:
+        description = self.clean_text(
+            event_element.get_text(" ", strip=True)
+        )
+
+        if len(player_elements) >= 2:
             player_in = self._extract_player_name(
                 player_elements[0]
             )
@@ -545,7 +549,6 @@ class MatchDetailParser(BaseParser):
                 player_elements[0]
             )
 
-        if len(player_elements) >= 2:
             player_out = self._extract_player_name(
                 player_elements[1]
             )
@@ -553,9 +556,23 @@ class MatchDetailParser(BaseParser):
                 player_elements[1]
             )
 
-        description = self.clean_text(
-            event_element.get_text(" ", strip=True)
-        )
+        elif len(player_elements) == 1:
+            single_player = self._extract_player_name(
+                player_elements[0]
+            )
+            single_player_id = self._extract_player_id(
+                player_elements[0]
+            )
+
+            # FUSSBALL.DE kann einen unvollständigen Wechsel nur als
+            # "Auswechslung <Spieler>" ausgeben. In diesem Fall ist
+            # der einzige genannte Spieler der ausgewechselte Spieler.
+            if "auswechslung" in description.casefold():
+                player_out = single_player
+                player_out_id = single_player_id
+            else:
+                player_in = single_player
+                player_in_id = single_player_id
 
         return MatchEvent(
             minute=minute,
@@ -632,26 +649,25 @@ class MatchDetailParser(BaseParser):
             ".column-player a",
         )
 
-        elements: list[Tag] = []
-        seen_elements: set[int] = set()
-
+        # Wichtig: Nicht Treffer aus mehreren Selektoren
+        # zusammenwerfen. Ein einzelner Spieler kann z. B.
+        # gleichzeitig als <a> und als darin enthaltenes
+        # ".player-name"-Element gefunden werden. Dadurch wurde
+        # ein einseitiger Wechsel bisher fälschlich als zwei
+        # Spieler interpretiert.
+        #
+        # Stattdessen verwenden wir den ersten Selektor, der
+        # mindestens einen Treffer liefert. Bei vollständigen
+        # Wechseln liefert der Anchor-Selektor beide Spieler.
         for selector in selectors:
-            for element in event_element.select(
-                selector
-            ):
-                element_identity = id(element)
+            elements = list(
+                event_element.select(selector)
+            )
 
-                if element_identity in seen_elements:
-                    continue
+            if elements:
+                return elements
 
-                seen_elements.add(
-                    element_identity
-                )
-                elements.append(
-                    element
-                )
-
-        return elements
+        return []
 
     def _extract_player_name(
         self,

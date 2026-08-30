@@ -118,6 +118,19 @@ class MatchEventImporter:
             away_team_id=away_team_id,
         )
 
+        html_substitution_events = [
+            event
+            for event in detail_data.events
+            if (
+                event.event_type
+                == MatchDetailParser.EVENT_SUBSTITUTION
+            )
+        ]
+
+        use_html_substitutions = bool(
+            html_substitution_events
+        )
+
         for event in liveticker_data.events:
             team_id = (
                 self._resolve_liveticker_team_id(
@@ -130,13 +143,14 @@ class MatchEventImporter:
             )
 
             if event.event_type == "substitution":
-                prepared_events.extend(
-                    self._prepare_liveticker_substitution(
-                        match_id=match_id,
-                        event=event,
-                        team_id=team_id,
+                if not use_html_substitutions:
+                    prepared_events.extend(
+                        self._prepare_liveticker_substitution(
+                            match_id=match_id,
+                            event=event,
+                            team_id=team_id,
+                        )
                     )
-                )
                 continue
 
             prepared_event = (
@@ -150,6 +164,22 @@ class MatchEventImporter:
             if prepared_event is not None:
                 prepared_events.append(
                     prepared_event
+                )
+
+        if use_html_substitutions:
+            for event in html_substitution_events:
+                team_id = self._resolve_html_team_id(
+                    event=event,
+                    detail_data=detail_data,
+                    home_team_id=home_team_id,
+                    away_team_id=away_team_id,
+                )
+
+                prepared_events.extend(
+                    self._prepare_html_substitution(
+                        event=event,
+                        team_id=team_id,
+                    )
                 )
 
         imported_event_count = (

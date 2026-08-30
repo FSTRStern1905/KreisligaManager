@@ -55,6 +55,8 @@ def main() -> None:
                     e.team_id,
                     et.code AS event_type,
                     COUNT(*) AS event_count,
+                    COUNT(DISTINCT e.player_id)
+                        AS unique_player_count,
                     SUM(
                         CASE
                             WHEN e.player_id IS NULL
@@ -136,6 +138,8 @@ def main() -> None:
                 lambda: {
                     "in": 0,
                     "out": 0,
+                    "unique_in": 0,
+                    "unique_out": 0,
                     "in_without_player": 0,
                     "out_without_player": 0,
                     "in_without_related": 0,
@@ -174,6 +178,11 @@ def main() -> None:
                     row["event_count"] or 0
                 )
                 event_map[key][
+                    f"unique_{direction}"
+                ] = int(
+                    row["unique_player_count"] or 0
+                )
+                event_map[key][
                     f"{direction}_without_player"
                 ] = int(
                     row["without_player"] or 0
@@ -209,7 +218,10 @@ def main() -> None:
 
             balanced_events = 0
             source_incomplete = 0
+            source_only_cases = 0
+            technical_problem_cases = 0
             stats_mismatch = 0
+            multi_substitution_cases = 0
             both_problematic = 0
             starter_problems = 0
             missing_player_refs = 0
@@ -237,8 +249,13 @@ def main() -> None:
                 )
 
                 stats_equal_events = (
-                    stats["in"] == events["in"]
-                    and stats["out"] == events["out"]
+                    stats["in"] == events["unique_in"]
+                    and stats["out"] == events["unique_out"]
+                )
+
+                has_multi_substitution = (
+                    events["in"] > events["unique_in"]
+                    or events["out"] > events["unique_out"]
                 )
 
                 has_missing_refs = any(
@@ -258,6 +275,9 @@ def main() -> None:
                 if not stats_equal_events:
                     stats_mismatch += 1
 
+                if has_multi_substitution:
+                    multi_substitution_cases += 1
+
                 if (
                     not events_balanced
                     and not stats_equal_events
@@ -270,19 +290,36 @@ def main() -> None:
                 if has_missing_refs:
                     missing_player_refs += 1
 
-                if not events_balanced:
+                source_only = (
+                    not events_balanced
+                    and stats_equal_events
+                    and stats["starters"] == 11
+                    and not has_missing_refs
+                )
+
+                if source_only:
+                    source_only_cases += 1
                     classification = (
-                        "QUELLE/IMPORT UNVOLLSTÄNDIG"
+                        "QUELLSEITIG EINSEITIGE WECHSEL "
+                        "– KEIN IMPORTFEHLER"
+                    )
+                elif not events_balanced:
+                    technical_problem_cases += 1
+                    classification = (
+                        "WECHSEL-DATEN TECHNISCH AUFFÄLLIG"
                     )
                 elif not stats_equal_events:
+                    technical_problem_cases += 1
                     classification = (
                         "PLAYER_MATCH_STATS FEHLER"
                     )
                 elif stats["starters"] != 11:
+                    technical_problem_cases += 1
                     classification = (
                         "STARTELF AUFFÄLLIG"
                     )
                 elif has_missing_refs:
+                    technical_problem_cases += 1
                     classification = (
                         "SPIELERZUORDNUNG FEHLT"
                     )
@@ -312,8 +349,12 @@ def main() -> None:
                 f"{source_incomplete}"
             )
             print(
-                f"Stats ≠ Events:                   "
-                f"{stats_mismatch}"
+                f"Stats ≠ eindeutige Event-Spieler:"
+                f" {stats_mismatch}"
+            )
+            print(
+                f"Rück-/Mehrfachwechsel:            "
+                f"{multi_substitution_cases}"
             )
             print(
                 f"Davon beide Probleme zugleich:    "
@@ -330,6 +371,14 @@ def main() -> None:
             print(
                 f"Wechsel ohne team_id:             "
                 f"{events_without_team}"
+            )
+            print(
+                f"Quellseitig einseitig:            "
+                f"{source_only_cases}"
+            )
+            print(
+                f"Technische Auffälligkeiten:       "
+                f"{technical_problem_cases}"
             )
 
             if events_without_team_rows:
@@ -353,6 +402,50 @@ def main() -> None:
                         f"Gruppen nicht ausgegeben."
                     )
 
+            multi_rows = []
+            for key in keys:
+                events = event_map[key]
+                if (
+                    events["in"] > events["unique_in"]
+                    or events["out"] > events["unique_out"]
+                ):
+                    multi_rows.append((key, events))
+
+            if multi_rows:
+                print()
+                print("RÜCK-/MEHRFACHWECHSEL (LEGAL / INFO)")
+                print("-" * 88)
+                for (match_id, team_id), events in multi_rows[:20]:
+                    match = connection.execute(
+                        """
+                        SELECT
+                            m.matchday,
+                            ht.name AS home_team,
+                            at.name AS away_team,
+                            t.name AS team_name
+                        FROM matches AS m
+                        INNER JOIN teams AS ht
+                            ON ht.team_id = m.home_team_id
+                        INNER JOIN teams AS at
+                            ON at.team_id = m.away_team_id
+                        INNER JOIN teams AS t
+                            ON t.team_id = ?
+                        WHERE m.match_id = ?
+                        """,
+                        (team_id, match_id),
+                    ).fetchone()
+                    if match is not None:
+                        print(
+                            f"  Spiel {match_id} | "
+                            f"ST {match['matchday']} | "
+                            f"{match['team_name']} | "
+                            f"Events IN/OUT="
+                            f"{events['in']}/{events['out']} | "
+                            f"Unique IN/OUT="
+                            f"{events['unique_in']}/"
+                            f"{events['unique_out']}"
+                        )
+
             if not problem_rows:
                 print()
                 print(
@@ -360,9 +453,31 @@ def main() -> None:
                 )
                 continue
 
-            print()
-            print("ERSTE AUFFÄLLIGKEITEN")
-            print("-" * 88)
+            technical_rows = [
+                row
+                for row in problem_rows
+                if not row[0].startswith(
+                    "QUELLSEITIG EINSEITIGE WECHSEL"
+                )
+            ]
+
+            source_rows = [
+                row
+                for row in problem_rows
+                if row[0].startswith(
+                    "QUELLSEITIG EINSEITIGE WECHSEL"
+                )
+            ]
+
+            if source_rows:
+                print()
+                print(
+                    "QUELLSEITIG EINSEITIGE WECHSEL "
+                    "(KEIN IMPORTFEHLER)"
+                )
+                print("-" * 88)
+
+            ordered_rows = source_rows + technical_rows
 
             for (
                 classification,
@@ -370,7 +485,7 @@ def main() -> None:
                 team_id,
                 events,
                 stats,
-            ) in problem_rows[:30]:
+            ) in ordered_rows[:30]:
                 match = connection.execute(
                     """
                     SELECT
@@ -413,6 +528,11 @@ def main() -> None:
                     "  Events: "
                     f"IN={events['in']} "
                     f"OUT={events['out']}"
+                )
+                print(
+                    "  Unique: "
+                    f"IN={events['unique_in']} "
+                    f"OUT={events['unique_out']}"
                 )
                 print(
                     "  Stats:  "
@@ -506,12 +626,28 @@ def main() -> None:
                         f"{player} ↔ {related}"
                     )
 
-            if len(problem_rows) > 30:
+            if len(ordered_rows) > 30:
                 print()
                 print(
                     f"... weitere "
-                    f"{len(problem_rows) - 30} "
-                    f"Auffälligkeiten nicht ausgegeben."
+                    f"{len(ordered_rows) - 30} "
+                    f"Einträge nicht ausgegeben."
+                )
+
+            print()
+            if technical_problem_cases == 0 and events_without_team == 0:
+                if source_only_cases > 0:
+                    print(
+                        "STATUS: OK - Import technisch sauber; "
+                        "nur quellseitig einseitige Wechsel vorhanden."
+                    )
+                else:
+                    print(
+                        "STATUS: OK - keine Auffälligkeiten."
+                    )
+            else:
+                print(
+                    "STATUS: PRÜFEN - technische Auffälligkeiten vorhanden."
                 )
 
     finally:
