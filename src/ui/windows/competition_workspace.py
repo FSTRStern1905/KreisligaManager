@@ -39,6 +39,9 @@ from src.ui.windows.competition_tabs.form_tab import (
 from src.ui.windows.competition_tabs.goal_timeline_tab import (
     CompetitionGoalTimelineTab,
 )
+from src.ui.windows.competition_tabs.head_to_head_tab import (
+    CompetitionHeadToHeadTab,
+)
 from src.ui.windows.competition_tabs.home_away_tab import (
     CompetitionHomeAwayTab,
 )
@@ -51,6 +54,9 @@ from src.ui.windows.competition_tabs.matches_tab import (
 from src.ui.windows.competition_tabs.overview_tab import (
     CompetitionOverviewTab,
 )
+from src.ui.windows.competition_tabs.progress_tab import (
+    CompetitionProgressTab,
+)
 from src.ui.windows.competition_tabs.schedule_tab import (
     CompetitionScheduleTab,
 )
@@ -62,6 +68,9 @@ from src.ui.windows.competition_tabs.table_tab import (
 )
 from src.ui.windows.competition_tabs.teams_tab import (
     CompetitionTeamsTab,
+)
+from src.ui.windows.competition_tabs.comparison_tab import (
+    CompetitionComparisonTab,
 )
 
 
@@ -240,7 +249,10 @@ class CompetitionWorkspace(QWidget):
         self.home_table_tab = CompetitionHomeTableTab()
         self.away_table_tab = CompetitionAwayTableTab()
         self.form_tab = CompetitionFormTab()
+        self.progress_tab = CompetitionProgressTab()
         self.home_away_tab = CompetitionHomeAwayTab()
+        self.comparison_tab = CompetitionComparisonTab()
+        self.head_to_head_tab = CompetitionHeadToHeadTab()
         self.statistics_tab = CompetitionStatisticsTab()
         self.fairplay_tab = CompetitionFairplayTab()
         self.goal_timeline_tab = CompetitionGoalTimelineTab()
@@ -286,8 +298,23 @@ class CompetitionWorkspace(QWidget):
         )
 
         self.register_tab(
+            self.progress_tab,
+            "Verlauf",
+        )
+
+        self.register_tab(
             self.home_away_tab,
+            "Heim/Auswärts",
+        )
+
+        self.register_tab(
+            self.comparison_tab,
             "Vergleich",
+        )
+
+        self.register_tab(
+            self.head_to_head_tab,
+            "Direkte Duelle",
         )
 
         self.register_tab(

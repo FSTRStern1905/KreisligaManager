@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from PySide6.QtCharts import (
     QLineSeries,
     QValueAxis,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QPointF, QMargins, Qt
 from PySide6.QtWidgets import QWidget
 
 from src.ui.charts.base_chart import BaseChart
@@ -15,8 +17,10 @@ class BaseLineChart(BaseChart):
         x_axis_title: str,
         y_axis_title: str,
         parent: QWidget | None = None,
-    ):
-        super().__init__(parent)
+    ) -> None:
+        super().__init__(
+            parent
+        )
 
         self.chart_title = title
         self.x_axis_title = x_axis_title
@@ -27,7 +31,9 @@ class BaseLineChart(BaseChart):
 
         self.setup_chart()
 
-    def setup_chart(self) -> None:
+    def setup_chart(
+        self,
+    ) -> None:
         self.set_title(
             self.chart_title
         )
@@ -40,25 +46,70 @@ class BaseLineChart(BaseChart):
             Qt.AlignmentFlag.AlignBottom
         )
 
+        self.chart.setMargins(
+            QMargins(
+                16,
+                10,
+                16,
+                10,
+            )
+        )
+
         self.axis_x.setTitleText(
             self.x_axis_title
         )
-        self.axis_x.setLabelFormat("%d")
-        self.axis_x.setTickType(
-            QValueAxis.TickType.TicksDynamic
-        )
-        self.axis_x.setTickAnchor(1)
-        self.axis_x.setTickInterval(1)
 
         self.axis_y.setTitleText(
             self.y_axis_title
         )
-        self.axis_y.setLabelFormat("%d")
+
+        self.axis_x.setLabelsVisible(
+            True
+        )
+
+        self.axis_y.setLabelsVisible(
+            True
+        )
+
+        self.axis_x.setLabelsAngle(
+            0
+        )
+
+        self.axis_y.setLabelsAngle(
+            0
+        )
+
+        self.axis_x.setLabelFormat(
+            "%.0f"
+        )
+
+        self.axis_y.setLabelFormat(
+            "%.0f"
+        )
+
+        self.axis_x.setTickType(
+            QValueAxis.TickType.TicksDynamic
+        )
+
+        self.axis_x.setTickAnchor(
+            0.0
+        )
+
+        self.axis_x.setTickInterval(
+            1.0
+        )
+
         self.axis_y.setTickType(
             QValueAxis.TickType.TicksDynamic
         )
-        self.axis_y.setTickAnchor(0)
-        self.axis_y.setTickInterval(1)
+
+        self.axis_y.setTickAnchor(
+            0.0
+        )
+
+        self.axis_y.setTickInterval(
+            1.0
+        )
 
         self.chart.addAxis(
             self.axis_x,
@@ -70,32 +121,93 @@ class BaseLineChart(BaseChart):
             Qt.AlignmentFlag.AlignLeft,
         )
 
-        self.set_axis_ranges(
-            x_min=0,
-            x_max=1,
-            y_min=0,
-            y_max=1,
+        self.set_x_range(
+            0,
+            1,
         )
 
-    def clear(self) -> None:
+        self.set_y_range(
+            0,
+            1,
+        )
+
+    def clear(
+        self,
+    ) -> None:
         self.clear_series()
-        self.restore_chart_title()
+
+        self.axis_x.setReverse(
+            False
+        )
+
+        self.axis_y.setReverse(
+            False
+        )
+
+        self.axis_x.setLabelsVisible(
+            True
+        )
+
+        self.axis_y.setLabelsVisible(
+            True
+        )
+
+        self.axis_x.setLabelsAngle(
+            0
+        )
+
+        self.axis_y.setLabelsAngle(
+            0
+        )
+
+        self.axis_x.setLabelFormat(
+            "%.0f"
+        )
+
+        self.axis_y.setLabelFormat(
+            "%.0f"
+        )
+
+        self.axis_x.setTitleText(
+            self.x_axis_title
+        )
+
+        self.axis_y.setTitleText(
+            self.y_axis_title
+        )
+
+        self.set_title(
+            self.chart_title
+        )
 
     def create_line_series(
         self,
         name: str,
         points: list[
-            tuple[float, float]
+            tuple[
+                float,
+                float,
+            ]
         ],
+        show_points: bool = True,
     ) -> QLineSeries:
         series = QLineSeries()
-        series.setName(name)
+
+        series.setName(
+            name
+        )
 
         for x_value, y_value in points:
             series.append(
-                float(x_value),
-                float(y_value),
+                QPointF(
+                    float(x_value),
+                    float(y_value),
+                )
             )
+
+        series.setPointsVisible(
+            show_points
+        )
 
         self.chart.addSeries(
             series
@@ -111,40 +223,84 @@ class BaseLineChart(BaseChart):
 
         return series
 
-    def set_axis_ranges(
+    def set_x_range(
         self,
-        x_min: float,
-        x_max: float,
-        y_min: float,
-        y_max: float,
+        minimum: float,
+        maximum: float,
     ) -> None:
-        if x_min == x_max:
-            x_max = x_min + 1
-
-        if y_min == y_max:
-            y_max = y_min + 1
+        if minimum == maximum:
+            maximum += 1
 
         self.axis_x.setRange(
-            float(x_min),
-            float(x_max),
+            float(minimum),
+            float(maximum),
         )
+
+    def set_y_range(
+        self,
+        minimum: float,
+        maximum: float,
+    ) -> None:
+        if minimum == maximum:
+            maximum += 1
 
         self.axis_y.setRange(
-            float(y_min),
-            float(y_max),
+            float(minimum),
+            float(maximum),
         )
 
-    def set_axis_tick_intervals(
+    def set_x_tick_interval(
         self,
-        x_interval: float = 1,
-        y_interval: float = 1,
+        interval: float,
     ) -> None:
+        if interval <= 0:
+            return
+
+        self.axis_x.setTickType(
+            QValueAxis.TickType.TicksDynamic
+        )
+
+        self.axis_x.setTickAnchor(
+            0.0
+        )
+
         self.axis_x.setTickInterval(
-            float(x_interval)
+            float(interval)
+        )
+
+    def set_y_tick_interval(
+        self,
+        interval: float,
+    ) -> None:
+        if interval <= 0:
+            return
+
+        self.axis_y.setTickType(
+            QValueAxis.TickType.TicksDynamic
+        )
+
+        self.axis_y.setTickAnchor(
+            0.0
         )
 
         self.axis_y.setTickInterval(
-            float(y_interval)
+            float(interval)
+        )
+
+    def set_y_axis_reversed(
+        self,
+        reversed_axis: bool,
+    ) -> None:
+        self.axis_y.setReverse(
+            reversed_axis
+        )
+
+    def set_x_axis_reversed(
+        self,
+        reversed_axis: bool,
+    ) -> None:
+        self.axis_x.setReverse(
+            reversed_axis
         )
 
     def set_chart_title(
@@ -164,35 +320,22 @@ class BaseLineChart(BaseChart):
             self.chart_title
         )
 
-    def set_legend_visible(
-        self,
-        visible: bool,
-    ) -> None:
-        self.show_legend(
-            visible
-        )
-
-    def set_y_axis_reversed(
-        self,
-        reversed_axis: bool,
-    ) -> None:
-        self.axis_y.setReverse(
-            reversed_axis
-        )
-
     def show_empty_chart(
         self,
         message: str = "Keine Daten vorhanden.",
     ) -> None:
-        self.clear_series()
+        self.clear()
 
         self.set_title(
             message
         )
 
-        self.set_axis_ranges(
-            x_min=0,
-            x_max=1,
-            y_min=0,
-            y_max=1,
+        self.set_x_range(
+            0,
+            1,
+        )
+
+        self.set_y_range(
+            0,
+            1,
         )

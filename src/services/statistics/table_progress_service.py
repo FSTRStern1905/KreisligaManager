@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sqlite3
 
 from src.services.statistics.table_service import (
@@ -9,9 +11,10 @@ class TableProgressService:
     def __init__(
         self,
         connection: sqlite3.Connection,
-    ):
+    ) -> None:
         self.connection = connection
         self.cursor = connection.cursor()
+
         self.table_service = TableService(
             connection
         )
@@ -29,33 +32,61 @@ class TableProgressService:
             competition_id
         )
 
-        matches_by_matchday = (
-            self._load_matches_by_matchday(
-                competition_id
-            )
+        matchdays = self.get_matchdays(
+            competition_id
         )
 
-        for matchday in sorted(
-            matches_by_matchday
-        ):
-            current_table = self._calculate_table_until_matchday(
-                competition_id=competition_id,
-                matchday=matchday,
+        for matchday in matchdays:
+            current_table = (
+                self._calculate_table_until_matchday(
+                    competition_id=competition_id,
+                    matchday=matchday,
+                )
             )
 
             for position, table_row in enumerate(
                 current_table,
                 start=1,
             ):
-                team_id = table_row["team_id"]
+                team_id = int(
+                    table_row["team_id"]
+                )
 
                 if team_id not in teams:
                     continue
 
-                teams[team_id]["positions"].append(
+                teams[
+                    team_id
+                ]["progress"].append(
                     {
                         "matchday": matchday,
                         "position": position,
+                        "points": int(
+                            table_row["points"]
+                        ),
+                        "played": int(
+                            table_row["played"]
+                        ),
+                        "wins": int(
+                            table_row["wins"]
+                        ),
+                        "draws": int(
+                            table_row["draws"]
+                        ),
+                        "losses": int(
+                            table_row["losses"]
+                        ),
+                        "goals_for": int(
+                            table_row["goals_for"]
+                        ),
+                        "goals_against": int(
+                            table_row["goals_against"]
+                        ),
+                        "goal_difference": int(
+                            table_row[
+                                "goal_difference"
+                            ]
+                        ),
                     }
                 )
 
@@ -63,13 +94,100 @@ class TableProgressService:
             teams.values()
         )
 
+        for team in result:
+            progress = team[
+                "progress"
+            ]
+
+            team["positions"] = [
+                {
+                    "matchday": row[
+                        "matchday"
+                    ],
+                    "position": row[
+                        "position"
+                    ],
+                }
+                for row in progress
+            ]
+
+            team["points_progress"] = [
+                {
+                    "matchday": row[
+                        "matchday"
+                    ],
+                    "points": row[
+                        "points"
+                    ],
+                }
+                for row in progress
+            ]
+
+            if progress:
+                latest = progress[
+                    -1
+                ]
+
+                team["current_position"] = (
+                    latest["position"]
+                )
+
+                team["current_points"] = (
+                    latest["points"]
+                )
+
+                team["current_matchday"] = (
+                    latest["matchday"]
+                )
+
+            else:
+                team["current_position"] = None
+                team["current_points"] = 0
+                team["current_matchday"] = None
+
         result.sort(
             key=lambda team: (
-                team["team_name"].lower()
+                (
+                    team["current_position"]
+                    if team[
+                        "current_position"
+                    ] is not None
+                    else 9999
+                ),
+                team[
+                    "team_name"
+                ].lower(),
             )
         )
 
         return result
+
+    def get_team_progress(
+        self,
+        competition_id: int,
+        team_id: int,
+    ) -> dict | None:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerb-ID."
+            )
+
+        if team_id <= 0:
+            raise ValueError(
+                "Ungültige Mannschaft-ID."
+            )
+
+        progress = self.get_table_progress(
+            competition_id
+        )
+
+        for team in progress:
+            if int(
+                team["team_id"]
+            ) == team_id:
+                return team
+
+        return None
 
     def get_matchdays(
         self,
@@ -84,11 +202,16 @@ class TableProgressService:
             """
             SELECT DISTINCT
                 matchday
+
             FROM matches
+
             WHERE
                 competition_id = ?
                 AND status = 'finished'
                 AND matchday IS NOT NULL
+                AND home_goals IS NOT NULL
+                AND away_goals IS NOT NULL
+
             ORDER BY
                 matchday
             """,
@@ -96,8 +219,11 @@ class TableProgressService:
         )
 
         return [
-            row[0]
+            int(
+                row[0]
+            )
             for row in self.cursor.fetchall()
+            if row[0] is not None
         ]
 
     def _create_team_progress(
@@ -109,63 +235,42 @@ class TableProgressService:
             mode="all",
         )
 
-        teams = {}
+        teams: dict[
+            int,
+            dict,
+        ] = {}
 
         for team in table:
-            teams[team["team_id"]] = {
-                "team_id": team["team_id"],
-                "team_name": team["team_name"],
+            team_id = int(
+                team["team_id"]
+            )
+
+            teams[
+                team_id
+            ] = {
+                "team_id": team_id,
+                "team_name": team[
+                    "team_name"
+                ],
+                "progress": [],
                 "positions": [],
+                "points_progress": [],
+                "current_position": None,
+                "current_points": 0,
+                "current_matchday": None,
             }
 
         return teams
-
-    def _load_matches_by_matchday(
-        self,
-        competition_id: int,
-    ) -> dict[int, list[sqlite3.Row]]:
-        self.cursor.execute(
-            """
-            SELECT
-                match_id,
-                matchday,
-                home_team_id,
-                away_team_id,
-                home_goals,
-                away_goals
-            FROM matches
-            WHERE
-                competition_id = ?
-                AND status = 'finished'
-                AND matchday IS NOT NULL
-                AND home_goals IS NOT NULL
-                AND away_goals IS NOT NULL
-            ORDER BY
-                matchday,
-                match_id
-            """,
-            (competition_id,),
-        )
-
-        matches = {}
-
-        for row in self.cursor.fetchall():
-            matchday = row[1]
-
-            matches.setdefault(
-                matchday,
-                [],
-            ).append(row)
-
-        return matches
 
     def _calculate_table_until_matchday(
         self,
         competition_id: int,
         matchday: int,
     ) -> list[dict]:
-        standings = self.table_service._create_empty_table(
-            competition_id
+        standings = (
+            self.table_service._create_empty_table(
+                competition_id
+            )
         )
 
         self.cursor.execute(
@@ -175,7 +280,9 @@ class TableProgressService:
                 away_team_id,
                 home_goals,
                 away_goals
+
             FROM matches
+
             WHERE
                 competition_id = ?
                 AND status = 'finished'
@@ -183,9 +290,11 @@ class TableProgressService:
                 AND matchday <= ?
                 AND home_goals IS NOT NULL
                 AND away_goals IS NOT NULL
+
             ORDER BY
-                matchday,
-                match_id
+                matchday ASC,
+                match_date ASC,
+                match_id ASC
             """,
             (
                 competition_id,
