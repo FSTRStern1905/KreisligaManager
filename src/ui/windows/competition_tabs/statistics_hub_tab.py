@@ -33,6 +33,9 @@ from src.ui.windows.competition_tabs.home_table_tab import (
 from src.ui.windows.competition_tabs.progress_tab import (
     CompetitionProgressTab,
 )
+from src.ui.windows.competition_tabs.result_distribution_tab import (
+    CompetitionResultDistributionTab,
+)
 from src.ui.windows.competition_tabs.statistics_tab import (
     CompetitionStatisticsTab,
 )
@@ -97,6 +100,10 @@ class CompetitionStatisticsHubTab(QWidget):
             CompetitionStreaksTab()
         )
 
+        self.result_distribution_tab = (
+            CompetitionResultDistributionTab()
+        )
+
         self.home_away_tab = (
             CompetitionHomeAwayTab()
         )
@@ -144,6 +151,11 @@ class CompetitionStatisticsHubTab(QWidget):
         self.register_tab(
             self.streaks_tab,
             "Serien",
+        )
+
+        self.register_tab(
+            self.result_distribution_tab,
+            "Ergebnisse",
         )
 
         self.register_tab(

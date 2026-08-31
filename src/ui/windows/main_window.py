@@ -1,6 +1,13 @@
 from __future__ import annotations
 
+from datetime import datetime
+from pathlib import Path
+
 from PySide6.QtCore import Qt
+from PySide6.QtGui import (
+    QKeySequence,
+    QShortcut,
+)
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
@@ -77,6 +84,7 @@ class MainWindow(QMainWindow):
         )
 
         self.setup_ui()
+        self.setup_screenshot_shortcut()
 
     def setup_ui(self) -> None:
         central_widget = QWidget()
@@ -120,6 +128,72 @@ class MainWindow(QMainWindow):
         if self.sidebar_manager is not None:
             self.sidebar_manager.build()
 
+    def setup_screenshot_shortcut(
+        self,
+    ) -> None:
+        self.screenshot_shortcut = QShortcut(
+            QKeySequence(
+                "F12"
+            ),
+            self,
+        )
+
+        self.screenshot_shortcut.activated.connect(
+            self.save_screenshot
+        )
+
+    def save_screenshot(
+        self,
+    ) -> None:
+        screenshot_directory = Path(
+            "exports/screenshots"
+        )
+
+        screenshot_directory.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        timestamp = datetime.now().strftime(
+            "%Y-%m-%d_%H-%M-%S"
+        )
+
+        filename = (
+            screenshot_directory
+            / (
+                "kreisliga_manager_"
+                f"{timestamp}.png"
+            )
+        )
+
+        pixmap = self.grab()
+
+        success = pixmap.save(
+            str(
+                filename
+            ),
+            "PNG",
+        )
+
+        if success:
+            self.statusBar().showMessage(
+                (
+                    "📸 Screenshot gespeichert: "
+                    f"{filename}"
+                ),
+                5000,
+            )
+
+            return
+
+        self.statusBar().showMessage(
+            (
+                "❌ Screenshot konnte "
+                "nicht gespeichert werden."
+            ),
+            5000,
+        )
+
     def _setup_sidebar(self) -> None:
         self.sidebar.setFixedWidth(
             240
@@ -144,13 +218,17 @@ class MainWindow(QMainWindow):
 
         clubs_page = ClubsPage()
         seasons_page = SeasonsPage()
+
         competition_workspace = (
             CompetitionWorkspace()
         )
+
         teams_page = TeamsPage()
+
         players_page = PlayersPage(
             self.repository
         )
+
         matches_page = MatchesPage()
         import_page = ImportPage()
 
