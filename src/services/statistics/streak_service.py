@@ -2,24 +2,12 @@ from __future__ import annotations
 
 import sqlite3
 
+from src.services.statistics.table_service import (
+    TableService,
+)
+
 
 class StreakService:
-    """
-    Berechnet Ergebnisserien innerhalb eines Wettbewerbs.
-
-    Unterstützt:
-    - längste Siegesserie
-    - längste Unentschiedenserie
-    - längste Niederlagenserie
-
-    Die Berechnung erfolgt pro Mannschaft anhand aller
-    abgeschlossenen Spiele in chronologischer Reihenfolge.
-    """
-
-    RESULT_WIN = "W"
-    RESULT_DRAW = "D"
-    RESULT_LOSS = "L"
-
     def __init__(
         self,
         connection: sqlite3.Connection,
@@ -27,7 +15,11 @@ class StreakService:
         self.connection = connection
         self.cursor = connection.cursor()
 
-    def get_team_streaks(
+        self.table_service = TableService(
+            connection
+        )
+
+    def get_streaks(
         self,
         competition_id: int,
     ) -> list[dict]:
@@ -36,142 +28,228 @@ class StreakService:
                 "Ungültige Wettbewerb-ID."
             )
 
-        teams = self._load_teams(
-            competition_id
+        table = self.table_service.get_table(
+            competition_id=competition_id,
+            mode="all",
         )
 
         matches = self._load_matches(
             competition_id
         )
 
-        results_by_team: dict[int, list[str]] = {
-            team_id: []
-            for team_id, _, _ in teams
-        }
+        teams: dict[int, dict] = {}
 
-        for (
-            home_team_id,
-            away_team_id,
-            home_goals,
-            away_goals,
-        ) in matches:
-            home_result, away_result = (
-                self._resolve_result(
-                    home_goals=home_goals,
-                    away_goals=away_goals,
+        for team in table:
+            team_id = int(
+                team["team_id"]
+            )
+
+            teams[team_id] = {
+                "team_id": team_id,
+                "team_name": team["team_name"],
+                "position": None,
+                "results": [],
+            }
+
+        for position, team in enumerate(
+            table,
+            start=1,
+        ):
+            team_id = int(
+                team["team_id"]
+            )
+
+            if team_id in teams:
+                teams[team_id][
+                    "position"
+                ] = position
+
+        for match in matches:
+            (
+                match_id,
+                matchday,
+                home_team_id,
+                away_team_id,
+                home_goals,
+                away_goals,
+            ) = match
+
+            home_team_id = int(
+                home_team_id
+            )
+
+            away_team_id = int(
+                away_team_id
+            )
+
+            home_goals = int(
+                home_goals
+            )
+
+            away_goals = int(
+                away_goals
+            )
+
+            home_result = (
+                self._get_result(
+                    goals_for=home_goals,
+                    goals_against=away_goals,
                 )
             )
 
-            if home_team_id in results_by_team:
-                results_by_team[
+            away_result = (
+                self._get_result(
+                    goals_for=away_goals,
+                    goals_against=home_goals,
+                )
+            )
+
+            if home_team_id in teams:
+                teams[
                     home_team_id
-                ].append(
-                    home_result
+                ]["results"].append(
+                    {
+                        "match_id": int(
+                            match_id
+                        ),
+                        "matchday": (
+                            int(matchday)
+                            if matchday is not None
+                            else None
+                        ),
+                        "result": home_result,
+                    }
                 )
 
-            if away_team_id in results_by_team:
-                results_by_team[
+            if away_team_id in teams:
+                teams[
                     away_team_id
-                ].append(
-                    away_result
+                ]["results"].append(
+                    {
+                        "match_id": int(
+                            match_id
+                        ),
+                        "matchday": (
+                            int(matchday)
+                            if matchday is not None
+                            else None
+                        ),
+                        "result": away_result,
+                    }
                 )
 
         result: list[dict] = []
 
-        for (
-            team_id,
-            team_name,
-            short_name,
-        ) in teams:
-            team_results = results_by_team.get(
-                team_id,
-                [],
+        for team in teams.values():
+            sequence = [
+                row["result"]
+                for row in team["results"]
+            ]
+
+            current_result = (
+                sequence[-1]
+                if sequence
+                else None
+            )
+
+            current_length = (
+                self._current_same_result_streak(
+                    sequence
+                )
             )
 
             result.append(
                 {
-                    "team_id": team_id,
-                    "team_name": (
-                        short_name
-                        or team_name
+                    "team_id": team[
+                        "team_id"
+                    ],
+                    "team_name": team[
+                        "team_name"
+                    ],
+                    "position": team[
+                        "position"
+                    ],
+                    "played": len(
+                        sequence
                     ),
-                    "matches": len(
-                        team_results
+                    "current_result": (
+                        current_result
+                    ),
+                    "current_length": (
+                        current_length
+                    ),
+                    "current_label": (
+                        self._current_streak_label(
+                            current_result,
+                            current_length,
+                        )
                     ),
                     "longest_win_streak": (
                         self._longest_streak(
-                            team_results,
-                            self.RESULT_WIN,
+                            sequence,
+                            allowed={
+                                "S",
+                            },
                         )
                     ),
                     "longest_draw_streak": (
                         self._longest_streak(
-                            team_results,
-                            self.RESULT_DRAW,
+                            sequence,
+                            allowed={
+                                "U",
+                            },
                         )
                     ),
                     "longest_loss_streak": (
                         self._longest_streak(
-                            team_results,
-                            self.RESULT_LOSS,
+                            sequence,
+                            allowed={
+                                "N",
+                            },
                         )
                     ),
-                    "current_streak": (
-                        self._current_streak(
-                            team_results
+                    "longest_unbeaten_streak": (
+                        self._longest_streak(
+                            sequence,
+                            allowed={
+                                "S",
+                                "U",
+                            },
                         )
+                    ),
+                    "longest_winless_streak": (
+                        self._longest_streak(
+                            sequence,
+                            allowed={
+                                "U",
+                                "N",
+                            },
+                        )
+                    ),
+                    "last_5": (
+                        sequence[-5:]
                     ),
                 }
             )
 
+        result.sort(
+            key=lambda team: (
+                team[
+                    "position"
+                ]
+                if team[
+                    "position"
+                ] is not None
+                else 9999,
+                str(
+                    team[
+                        "team_name"
+                    ]
+                ).casefold(),
+            )
+        )
+
         return result
-
-    def get_competition_records(
-        self,
-        competition_id: int,
-    ) -> dict:
-        team_streaks = self.get_team_streaks(
-            competition_id
-        )
-
-        return {
-            "win_streak": self._best_record(
-                team_streaks,
-                "longest_win_streak",
-            ),
-            "draw_streak": self._best_record(
-                team_streaks,
-                "longest_draw_streak",
-            ),
-            "loss_streak": self._best_record(
-                team_streaks,
-                "longest_loss_streak",
-            ),
-        }
-
-    def _load_teams(
-        self,
-        competition_id: int,
-    ) -> list[tuple]:
-        self.cursor.execute(
-            """
-            SELECT
-                teams.team_id,
-                teams.name,
-                teams.short_name
-            FROM competition_teams
-            INNER JOIN teams
-                ON teams.team_id =
-                   competition_teams.team_id
-            WHERE
-                competition_teams.competition_id = ?
-            ORDER BY
-                teams.name;
-            """,
-            (competition_id,),
-        )
-
-        return self.cursor.fetchall()
 
     def _load_matches(
         self,
@@ -180,6 +258,8 @@ class StreakService:
         self.cursor.execute(
             """
             SELECT
+                match_id,
+                matchday,
                 home_team_id,
                 away_team_id,
                 home_goals,
@@ -191,113 +271,109 @@ class StreakService:
                 AND home_goals IS NOT NULL
                 AND away_goals IS NOT NULL
             ORDER BY
-                matchday ASC,
-                match_date ASC,
-                match_id ASC;
+                CASE
+                    WHEN matchday IS NULL
+                    THEN 1
+                    ELSE 0
+                END,
+                matchday,
+                match_id
             """,
-            (competition_id,),
+            (
+                competition_id,
+            ),
         )
 
         return self.cursor.fetchall()
 
-    @classmethod
-    def _resolve_result(
-        cls,
-        home_goals: int,
-        away_goals: int,
-    ) -> tuple[str, str]:
-        if home_goals > away_goals:
-            return (
-                cls.RESULT_WIN,
-                cls.RESULT_LOSS,
-            )
+    @staticmethod
+    def _get_result(
+        goals_for: int,
+        goals_against: int,
+    ) -> str:
+        if goals_for > goals_against:
+            return "S"
 
-        if home_goals < away_goals:
-            return (
-                cls.RESULT_LOSS,
-                cls.RESULT_WIN,
-            )
+        if goals_for < goals_against:
+            return "N"
 
-        return (
-            cls.RESULT_DRAW,
-            cls.RESULT_DRAW,
+        return "U"
+
+    @staticmethod
+    def _current_same_result_streak(
+        sequence: list[str],
+    ) -> int:
+        if not sequence:
+            return 0
+
+        current_result = (
+            sequence[-1]
         )
+
+        streak = 0
+
+        for result in reversed(
+            sequence
+        ):
+            if result != current_result:
+                break
+
+            streak += 1
+
+        return streak
 
     @staticmethod
     def _longest_streak(
-        results: list[str],
-        target: str,
+        sequence: list[str],
+        allowed: set[str],
     ) -> int:
-        longest = 0
+        maximum = 0
         current = 0
 
-        for result in results:
-            if result == target:
+        for result in sequence:
+            if result in allowed:
                 current += 1
-                longest = max(
-                    longest,
+
+                maximum = max(
+                    maximum,
                     current,
                 )
+
             else:
                 current = 0
 
-        return longest
+        return maximum
 
     @staticmethod
-    def _current_streak(
-        results: list[str],
-    ) -> dict:
-        if not results:
-            return {
-                "type": "",
-                "length": 0,
-            }
+    def _current_streak_label(
+        result: str | None,
+        length: int,
+    ) -> str:
+        if result is None:
+            return "-"
 
-        streak_type = results[-1]
-        length = 0
+        if result == "S":
+            if length == 1:
+                return "1 Sieg"
 
-        for result in reversed(
-            results
-        ):
-            if result != streak_type:
-                break
+            return (
+                f"{length} Siege"
+            )
 
-            length += 1
+        if result == "U":
+            if length == 1:
+                return "1 Remis"
 
-        return {
-            "type": streak_type,
-            "length": length,
-        }
+            return (
+                f"{length} Remis"
+            )
 
-    @staticmethod
-    def _best_record(
-        team_streaks: list[dict],
-        key: str,
-    ) -> dict | None:
-        if not team_streaks:
-            return None
+        if result == "N":
+            if length == 1:
+                return "1 Niederlage"
 
-        best = max(
-            team_streaks,
-            key=lambda row: int(
-                row.get(
-                    key,
-                    0,
-                )
-            ),
-        )
+            return (
+                f"{length} Niederlagen"
+            )
 
-        return {
-            "team_id": best[
-                "team_id"
-            ],
-            "team_name": best[
-                "team_name"
-            ],
-            "length": int(
-                best.get(
-                    key,
-                    0,
-                )
-            ),
-        }
+        return "-"

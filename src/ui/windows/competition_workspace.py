@@ -27,50 +27,23 @@ from src.ui.widgets.page_header import PageHeader
 from src.ui.widgets.primary_button import PrimaryButton
 from src.ui.widgets.secondary_button import SecondaryButton
 from src.ui.widgets.toolbar import Toolbar
-from src.ui.windows.competition_tabs.away_table_tab import (
-    CompetitionAwayTableTab,
-)
-from src.ui.windows.competition_tabs.fairplay_tab import (
-    CompetitionFairplayTab,
-)
-from src.ui.windows.competition_tabs.form_tab import (
-    CompetitionFormTab,
-)
-from src.ui.windows.competition_tabs.goal_timeline_tab import (
-    CompetitionGoalTimelineTab,
-)
-from src.ui.windows.competition_tabs.head_to_head_tab import (
-    CompetitionHeadToHeadTab,
-)
-from src.ui.windows.competition_tabs.home_away_tab import (
-    CompetitionHomeAwayTab,
-)
-from src.ui.windows.competition_tabs.home_table_tab import (
-    CompetitionHomeTableTab,
-)
 from src.ui.windows.competition_tabs.matches_tab import (
     CompetitionMatchesTab,
 )
 from src.ui.windows.competition_tabs.overview_tab import (
     CompetitionOverviewTab,
 )
-from src.ui.windows.competition_tabs.progress_tab import (
-    CompetitionProgressTab,
-)
 from src.ui.windows.competition_tabs.schedule_tab import (
     CompetitionScheduleTab,
 )
-from src.ui.windows.competition_tabs.statistics_tab import (
-    CompetitionStatisticsTab,
+from src.ui.windows.competition_tabs.statistics_hub_tab import (
+    CompetitionStatisticsHubTab,
 )
 from src.ui.windows.competition_tabs.table_tab import (
     CompetitionTableTab,
 )
 from src.ui.windows.competition_tabs.teams_tab import (
     CompetitionTeamsTab,
-)
-from src.ui.windows.competition_tabs.comparison_tab import (
-    CompetitionComparisonTab,
 )
 
 
@@ -80,7 +53,9 @@ DATABASE_PATH = Path(
 
 
 class CompetitionWorkspace(QWidget):
-    def __init__(self) -> None:
+    def __init__(
+        self,
+    ) -> None:
         super().__init__()
 
         self.competitions = []
@@ -97,7 +72,9 @@ class CompetitionWorkspace(QWidget):
         self.connect_signals()
         self.load_competitions()
 
-    def setup_ui(self) -> None:
+    def setup_ui(
+        self,
+    ) -> None:
         main_layout = QVBoxLayout(
             self
         )
@@ -173,10 +150,22 @@ class CompetitionWorkspace(QWidget):
 
         self.competition_table.set_columns(
             (
-                ("name", "Wettbewerb"),
-                ("league", "Liga"),
-                ("season", "Saison"),
-                ("status", "Status"),
+                (
+                    "name",
+                    "Wettbewerb",
+                ),
+                (
+                    "league",
+                    "Liga",
+                ),
+                (
+                    "season",
+                    "Saison",
+                ),
+                (
+                    "status",
+                    "Status",
+                ),
             )
         )
 
@@ -234,28 +223,38 @@ class CompetitionWorkspace(QWidget):
 
         self._apply_style()
 
-    def create_tabs(self) -> QTabWidget:
+    def create_tabs(
+        self,
+    ) -> QTabWidget:
         self.tabs = QTabWidget()
 
         self.tabs.setObjectName(
             "CompetitionTabs"
         )
 
-        self.overview_tab = CompetitionOverviewTab()
-        self.teams_tab = CompetitionTeamsTab()
-        self.schedule_tab = CompetitionScheduleTab()
-        self.matches_tab = CompetitionMatchesTab()
-        self.table_tab = CompetitionTableTab()
-        self.home_table_tab = CompetitionHomeTableTab()
-        self.away_table_tab = CompetitionAwayTableTab()
-        self.form_tab = CompetitionFormTab()
-        self.progress_tab = CompetitionProgressTab()
-        self.home_away_tab = CompetitionHomeAwayTab()
-        self.comparison_tab = CompetitionComparisonTab()
-        self.head_to_head_tab = CompetitionHeadToHeadTab()
-        self.statistics_tab = CompetitionStatisticsTab()
-        self.fairplay_tab = CompetitionFairplayTab()
-        self.goal_timeline_tab = CompetitionGoalTimelineTab()
+        self.overview_tab = (
+            CompetitionOverviewTab()
+        )
+
+        self.teams_tab = (
+            CompetitionTeamsTab()
+        )
+
+        self.schedule_tab = (
+            CompetitionScheduleTab()
+        )
+
+        self.matches_tab = (
+            CompetitionMatchesTab()
+        )
+
+        self.table_tab = (
+            CompetitionTableTab()
+        )
+
+        self.statistics_hub_tab = (
+            CompetitionStatisticsHubTab()
+        )
 
         self.register_tab(
             self.overview_tab,
@@ -283,53 +282,8 @@ class CompetitionWorkspace(QWidget):
         )
 
         self.register_tab(
-            self.home_table_tab,
-            "Heim",
-        )
-
-        self.register_tab(
-            self.away_table_tab,
-            "Auswärts",
-        )
-
-        self.register_tab(
-            self.form_tab,
-            "Form",
-        )
-
-        self.register_tab(
-            self.progress_tab,
-            "Verlauf",
-        )
-
-        self.register_tab(
-            self.home_away_tab,
-            "Heim/Auswärts",
-        )
-
-        self.register_tab(
-            self.comparison_tab,
-            "Vergleich",
-        )
-
-        self.register_tab(
-            self.head_to_head_tab,
-            "Direkte Duelle",
-        )
-
-        self.register_tab(
-            self.statistics_tab,
-            "Torjäger",
-        )
-
-        self.register_tab(
-            self.fairplay_tab,
-            "Fairplay",
-        )
-
-        self.register_tab(
-            self.goal_timeline_tab,
-            "Torphasen",
+            self.statistics_hub_tab,
+            "Statistiken",
         )
 
         return self.tabs
@@ -348,7 +302,9 @@ class CompetitionWorkspace(QWidget):
             tab
         )
 
-    def connect_signals(self) -> None:
+    def connect_signals(
+        self,
+    ) -> None:
         self.toolbar.search_bar.text_changed.connect(
             self.filter_competitions
         )
@@ -373,7 +329,9 @@ class CompetitionWorkspace(QWidget):
             self.tab_changed
         )
 
-    def load_competitions(self) -> None:
+    def load_competitions(
+        self,
+    ) -> None:
         previous_competition_id = (
             self.selected_competition_id
         )
@@ -385,12 +343,16 @@ class CompetitionWorkspace(QWidget):
         )
 
         try:
-            repository = CompetitionRepository(
-                connection
+            repository = (
+                CompetitionRepository(
+                    connection
+                )
             )
 
-            service = CompetitionService(
-                repository
+            service = (
+                CompetitionService(
+                    repository
+                )
             )
 
             self.competitions = (
@@ -429,8 +391,13 @@ class CompetitionWorkspace(QWidget):
                 0
             )
 
-        if self.competition_table.rowCount() == 0:
-            self.selected_competition_id = None
+        if (
+            self.competition_table.rowCount()
+            == 0
+        ):
+            self.selected_competition_id = (
+                None
+            )
 
             self.set_competition_for_tabs(
                 None
@@ -480,7 +447,9 @@ class CompetitionWorkspace(QWidget):
         finally:
             connection.close()
 
-        self.filtered_competitions = rows
+        self.filtered_competitions = (
+            rows
+        )
 
         self.competition_table.set_rows(
             rows,
@@ -491,8 +460,11 @@ class CompetitionWorkspace(QWidget):
             self.competition_table.selectRow(
                 0
             )
+
         else:
-            self.selected_competition_id = None
+            self.selected_competition_id = (
+                None
+            )
 
             self.set_competition_for_tabs(
                 None
@@ -507,16 +479,20 @@ class CompetitionWorkspace(QWidget):
 
         cursor.execute(
             """
-            SELECT name
+            SELECT
+                name
             FROM leagues
-            WHERE league_id = ?
+            WHERE
+                league_id = ?
             """,
             (
                 competition.league_id,
             ),
         )
 
-        league_result = cursor.fetchone()
+        league_result = (
+            cursor.fetchone()
+        )
 
         league_name = (
             league_result[0]
@@ -526,16 +502,20 @@ class CompetitionWorkspace(QWidget):
 
         cursor.execute(
             """
-            SELECT name
+            SELECT
+                name
             FROM seasons
-            WHERE season_id = ?
+            WHERE
+                season_id = ?
             """,
             (
                 competition.season_id,
             ),
         )
 
-        season_result = cursor.fetchone()
+        season_result = (
+            cursor.fetchone()
+        )
 
         season_name = (
             season_result[0]
@@ -550,20 +530,28 @@ class CompetitionWorkspace(QWidget):
         )
 
         return {
-            "id": competition.competition_id,
-            "name": competition.name,
+            "id": (
+                competition.competition_id
+            ),
+            "name": (
+                competition.name
+            ),
             "league": league_name,
             "season": season_name,
             "status": status,
         }
 
-    def competition_changed(self) -> None:
+    def competition_changed(
+        self,
+    ) -> None:
         competition_id = (
             self.competition_table.selected_row_id()
         )
 
         if competition_id is None:
-            self.selected_competition_id = None
+            self.selected_competition_id = (
+                None
+            )
 
             self.set_competition_for_tabs(
                 None
@@ -608,9 +596,14 @@ class CompetitionWorkspace(QWidget):
         self,
         index: int,
     ) -> None:
-        current_tab = self.tabs.widget(
-            index
+        current_tab = (
+            self.tabs.widget(
+                index
+            )
         )
+
+        if current_tab is None:
+            return
 
         if hasattr(
             current_tab,
@@ -618,7 +611,9 @@ class CompetitionWorkspace(QWidget):
         ):
             current_tab.refresh()
 
-    def new_competition(self) -> None:
+    def new_competition(
+        self,
+    ) -> None:
         connection = sqlite3.connect(
             DATABASE_PATH
         )
@@ -634,7 +629,9 @@ class CompetitionWorkspace(QWidget):
                 league_repository.get_all()
             )
 
-            cursor = connection.cursor()
+            cursor = (
+                connection.cursor()
+            )
 
             cursor.execute(
                 """
@@ -648,17 +645,20 @@ class CompetitionWorkspace(QWidget):
                 """
             )
 
-            seasons = cursor.fetchall()
+            seasons = (
+                cursor.fetchall()
+            )
 
             if not leagues:
                 QMessageBox.warning(
                     self,
                     "Keine Ligen vorhanden",
                     (
-                        "Bitte lege zuerst mindestens "
-                        "eine Liga an."
+                        "Bitte lege zuerst "
+                        "mindestens eine Liga an."
                     ),
                 )
+
                 return
 
             if not seasons:
@@ -666,10 +666,11 @@ class CompetitionWorkspace(QWidget):
                     self,
                     "Keine Saisons vorhanden",
                     (
-                        "Bitte lege zuerst mindestens "
-                        "eine Saison an."
+                        "Bitte lege zuerst "
+                        "mindestens eine Saison an."
                     ),
                 )
+
                 return
 
             dialog = CompetitionDialog(
@@ -683,20 +684,32 @@ class CompetitionWorkspace(QWidget):
 
             data = dialog.get_data()
 
-            repository = CompetitionRepository(
-                connection
+            repository = (
+                CompetitionRepository(
+                    connection
+                )
             )
 
-            service = CompetitionService(
-                repository
+            service = (
+                CompetitionService(
+                    repository
+                )
             )
 
             competition_id = (
                 service.create_competition(
-                    name=data["name"],
-                    league_id=data["league_id"],
-                    season_id=data["season_id"],
-                    active=data["active"],
+                    name=data[
+                        "name"
+                    ],
+                    league_id=data[
+                        "league_id"
+                    ],
+                    season_id=data[
+                        "season_id"
+                    ],
+                    active=data[
+                        "active"
+                    ],
                 )
             )
 
@@ -724,7 +737,10 @@ class CompetitionWorkspace(QWidget):
 
         self.load_competitions()
 
-        if self.selected_competition_id is not None:
+        if (
+            self.selected_competition_id
+            is not None
+        ):
             self._select_competition(
                 self.selected_competition_id
             )
@@ -736,9 +752,11 @@ class CompetitionWorkspace(QWidget):
         for row in range(
             self.competition_table.rowCount()
         ):
-            item = self.competition_table.item(
-                row,
-                0,
+            item = (
+                self.competition_table.item(
+                    row,
+                    0,
+                )
             )
 
             if item is None:
@@ -760,12 +778,18 @@ class CompetitionWorkspace(QWidget):
     def _user_role():
         from PySide6.QtCore import Qt
 
-        return Qt.ItemDataRole.UserRole
+        return (
+            Qt.ItemDataRole.UserRole
+        )
 
-    def refresh(self) -> None:
+    def refresh(
+        self,
+    ) -> None:
         self.load_competitions()
 
-    def _apply_style(self) -> None:
+    def _apply_style(
+        self,
+    ) -> None:
         self.setStyleSheet(
             f"""
             QWidget#CompetitionWorkspace {{
@@ -781,6 +805,15 @@ class CompetitionWorkspace(QWidget):
                     solid {Colors.BORDER};
                 border-radius:
                     {Metrics.RADIUS_MEDIUM}px;
+                top:
+                    -1px;
+            }}
+
+            QTabWidget#CompetitionStatisticsTabs::pane {{
+                background-color:
+                    {Colors.CARD_BACKGROUND};
+                border:
+                    none;
                 top:
                     -1px;
             }}
