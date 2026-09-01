@@ -9,6 +9,9 @@ from PySide6.QtWidgets import (
 from src.ui.windows.competition_tabs.away_table_tab import (
     CompetitionAwayTableTab,
 )
+from src.ui.windows.competition_tabs.clean_sheet_tab import (
+    CompetitionCleanSheetTab,
+)
 from src.ui.windows.competition_tabs.comparison_tab import (
     CompetitionComparisonTab,
 )
@@ -21,6 +24,12 @@ from src.ui.windows.competition_tabs.form_tab import (
 from src.ui.windows.competition_tabs.goal_timeline_tab import (
     CompetitionGoalTimelineTab,
 )
+from src.ui.windows.competition_tabs.half_goal_tab import (
+    CompetitionHalfGoalTab,
+)
+from src.ui.windows.competition_tabs.halftime_result_tab import (
+    CompetitionHalftimeResultTab,
+)
 from src.ui.windows.competition_tabs.head_to_head_tab import (
     CompetitionHeadToHeadTab,
 )
@@ -30,17 +39,29 @@ from src.ui.windows.competition_tabs.home_away_tab import (
 from src.ui.windows.competition_tabs.home_table_tab import (
     CompetitionHomeTableTab,
 )
+from src.ui.windows.competition_tabs.lead_comeback_tab import (
+    CompetitionLeadComebackTab,
+)
+from src.ui.windows.competition_tabs.over_under_tab import (
+    CompetitionOverUnderTab,
+)
 from src.ui.windows.competition_tabs.progress_tab import (
     CompetitionProgressTab,
 )
 from src.ui.windows.competition_tabs.result_distribution_tab import (
     CompetitionResultDistributionTab,
 )
+from src.ui.windows.competition_tabs.result_margin_tab import (
+    CompetitionResultMarginTab,
+)
 from src.ui.windows.competition_tabs.statistics_tab import (
     CompetitionStatisticsTab,
 )
 from src.ui.windows.competition_tabs.streaks_tab import (
     CompetitionStreaksTab,
+)
+from src.ui.windows.competition_tabs.team_goal_phase_tab import (
+    CompetitionTeamGoalPhaseTab,
 )
 
 
@@ -104,6 +125,34 @@ class CompetitionStatisticsHubTab(QWidget):
             CompetitionResultDistributionTab()
         )
 
+        self.clean_sheet_tab = (
+            CompetitionCleanSheetTab()
+        )
+
+        self.over_under_tab = (
+            CompetitionOverUnderTab()
+        )
+
+        self.team_goal_phase_tab = (
+            CompetitionTeamGoalPhaseTab()
+        )
+
+        self.result_margin_tab = (
+            CompetitionResultMarginTab()
+        )
+
+        self.lead_comeback_tab = (
+            CompetitionLeadComebackTab()
+        )
+
+        self.halftime_result_tab = (
+            CompetitionHalftimeResultTab()
+        )
+
+        self.half_goal_tab = (
+            CompetitionHalfGoalTab()
+        )
+
         self.home_away_tab = (
             CompetitionHomeAwayTab()
         )
@@ -156,6 +205,41 @@ class CompetitionStatisticsHubTab(QWidget):
         self.register_tab(
             self.result_distribution_tab,
             "Ergebnisse",
+        )
+
+        self.register_tab(
+            self.clean_sheet_tab,
+            "Zu Null",
+        )
+
+        self.register_tab(
+            self.over_under_tab,
+            "Over/Under",
+        )
+
+        self.register_tab(
+            self.team_goal_phase_tab,
+            "Früh/Spät",
+        )
+
+        self.register_tab(
+            self.result_margin_tab,
+            "Siegmargen",
+        )
+
+        self.register_tab(
+            self.lead_comeback_tab,
+            "Führung/Rückstand",
+        )
+
+        self.register_tab(
+            self.halftime_result_tab,
+            "Halbzeit",
+        )
+
+        self.register_tab(
+            self.half_goal_tab,
+            "Halbzeiten",
         )
 
         self.register_tab(
