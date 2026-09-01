@@ -21,6 +21,9 @@ from src.ui.windows.competition_tabs.fairplay_tab import (
 from src.ui.windows.competition_tabs.form_tab import (
     CompetitionFormTab,
 )
+from src.ui.windows.competition_tabs.goal_state_tab import (
+    CompetitionGoalStateTab,
+)
 from src.ui.windows.competition_tabs.goal_timeline_tab import (
     CompetitionGoalTimelineTab,
 )
@@ -41,6 +44,9 @@ from src.ui.windows.competition_tabs.home_table_tab import (
 )
 from src.ui.windows.competition_tabs.lead_comeback_tab import (
     CompetitionLeadComebackTab,
+)
+from src.ui.windows.competition_tabs.opening_goal_tab import (
+    CompetitionOpeningGoalTab,
 )
 from src.ui.windows.competition_tabs.over_under_tab import (
     CompetitionOverUnderTab,
@@ -153,6 +159,14 @@ class CompetitionStatisticsHubTab(QWidget):
             CompetitionHalfGoalTab()
         )
 
+        self.goal_state_tab = (
+            CompetitionGoalStateTab()
+        )
+
+        self.opening_goal_tab = (
+            CompetitionOpeningGoalTab()
+        )
+
         self.home_away_tab = (
             CompetitionHomeAwayTab()
         )
@@ -240,6 +254,16 @@ class CompetitionStatisticsHubTab(QWidget):
         self.register_tab(
             self.half_goal_tab,
             "Halbzeiten",
+        )
+
+        self.register_tab(
+            self.goal_state_tab,
+            "Spielstand",
+        )
+
+        self.register_tab(
+            self.opening_goal_tab,
+            "Toreröffnung",
         )
 
         self.register_tab(

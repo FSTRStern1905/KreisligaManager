@@ -13,46 +13,46 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from src.services.statistics.half_goal_service import (
-    HalfGoalService,
+from src.services.statistics.opening_goal_service import (
+    OpeningGoalService,
 )
 from src.ui.windows.competition_tabs.base_statistics_tab import (
     BaseStatisticsTab,
 )
 
 
-class CompetitionHalfGoalTab(
+class CompetitionOpeningGoalTab(
     BaseStatisticsTab
 ):
     def __init__(
         self,
     ) -> None:
         super().__init__(
-            title="⏱ Halbzeiten",
+            title="⚽ Toreröffnung",
             refresh_button_text=(
-                "🔄 Halbzeiten aktualisieren"
+                "🔄 Toreröffnung aktualisieren"
             ),
         )
 
         self.inner_tabs = QTabWidget()
 
-        self.first_half_tab = QWidget()
-        self.second_half_tab = QWidget()
+        self.scored_first_tab = QWidget()
+        self.conceded_first_tab = QWidget()
 
-        self.first_half_table = QTableWidget()
-        self.second_half_table = QTableWidget()
+        self.scored_first_table = QTableWidget()
+        self.conceded_first_table = QTableWidget()
 
-        self.setup_first_half_tab()
-        self.setup_second_half_tab()
+        self.setup_scored_first_tab()
+        self.setup_conceded_first_tab()
 
         self.inner_tabs.addTab(
-            self.first_half_tab,
-            "1. HZ",
+            self.scored_first_tab,
+            "Eigenes 1:0",
         )
 
         self.inner_tabs.addTab(
-            self.second_half_tab,
-            "2. HZ",
+            self.conceded_first_tab,
+            "0:1 kassiert",
         )
 
         self.add_content_widget(
@@ -62,11 +62,11 @@ class CompetitionHalfGoalTab(
 
         self.clear_data()
 
-    def setup_first_half_tab(
+    def setup_scored_first_tab(
         self,
     ) -> None:
         layout = QVBoxLayout(
-            self.first_half_tab
+            self.scored_first_tab
         )
 
         layout.setContentsMargins(
@@ -76,36 +76,38 @@ class CompetitionHalfGoalTab(
             0,
         )
 
-        self.first_half_table.setColumnCount(
-            7
+        self.scored_first_table.setColumnCount(
+            9
         )
 
-        self.first_half_table.setHorizontalHeaderLabels(
+        self.scored_first_table.setHorizontalHeaderLabels(
             [
                 "Tab.",
                 "Mannschaft",
-                "Tore 1. HZ",
-                "GT 1. HZ",
-                "Bilanz 1. HZ",
-                "Toranteil 1. HZ %",
-                "GT-Anteil 1. HZ %",
+                "1:0 erzielt",
+                "Danach Sieg",
+                "Danach Remis",
+                "Danach Niederlage",
+                "Siegquote %",
+                "Punktequote %",
+                "Ø Minute 1:0",
             ]
         )
 
         self._setup_table(
-            self.first_half_table,
-            7,
+            self.scored_first_table,
+            9,
         )
 
         layout.addWidget(
-            self.first_half_table
+            self.scored_first_table
         )
 
-    def setup_second_half_tab(
+    def setup_conceded_first_tab(
         self,
     ) -> None:
         layout = QVBoxLayout(
-            self.second_half_tab
+            self.conceded_first_tab
         )
 
         layout.setContentsMargins(
@@ -115,29 +117,31 @@ class CompetitionHalfGoalTab(
             0,
         )
 
-        self.second_half_table.setColumnCount(
-            7
+        self.conceded_first_table.setColumnCount(
+            9
         )
 
-        self.second_half_table.setHorizontalHeaderLabels(
+        self.conceded_first_table.setHorizontalHeaderLabels(
             [
                 "Tab.",
                 "Mannschaft",
-                "Tore 2. HZ",
-                "GT 2. HZ",
-                "Bilanz 2. HZ",
-                "Toranteil 2. HZ %",
-                "GT-Anteil 2. HZ %",
+                "0:1 kassiert",
+                "Danach Sieg",
+                "Danach Remis",
+                "Danach Niederlage",
+                "Siegquote %",
+                "Punktequote %",
+                "Ø Minute 0:1",
             ]
         )
 
         self._setup_table(
-            self.second_half_table,
-            7,
+            self.conceded_first_table,
+            9,
         )
 
         layout.addWidget(
-            self.second_half_table
+            self.conceded_first_table
         )
 
     def _setup_table(
@@ -193,11 +197,11 @@ class CompetitionHalfGoalTab(
             self.clear_data()
             return
 
-        self.first_half_table.setRowCount(
+        self.scored_first_table.setRowCount(
             0
         )
 
-        self.second_half_table.setRowCount(
+        self.conceded_first_table.setRowCount(
             0
         )
 
@@ -213,7 +217,7 @@ class CompetitionHalfGoalTab(
                     self.clear_data()
                     return
 
-                service = HalfGoalService(
+                service = OpeningGoalService(
                     connection
                 )
 
@@ -223,29 +227,33 @@ class CompetitionHalfGoalTab(
                     )
                 )
 
-                first_half_statistics = (
-                    self._prepare_first_half_statistics(
-                        statistics
-                    )
-                )
-
-                self.populate_first_half_table(
-                    first_half_statistics
-                )
-
-                self.populate_second_half_table(
+                self.populate_scored_first_table(
                     statistics
                 )
 
-                best_first_half_team = (
-                    self._get_best_first_half_team(
-                        first_half_statistics
+                self.populate_conceded_first_table(
+                    statistics
+                )
+
+                best_after_scoring_first = (
+                    self._get_max_team(
+                        statistics,
+                        "win_percentage_after_scoring_first",
                     )
                 )
 
-                best_second_half_team = (
-                    self._get_best_second_half_team(
-                        statistics
+                best_after_conceding_first = (
+                    self._get_max_team(
+                        statistics,
+                        "points_percentage_after_conceding_first",
+                    )
+                )
+
+                earliest_opening_goal = (
+                    self._get_earliest_team(
+                        statistics,
+                        count_key="opening_goal_minute_count",
+                        minute_key="average_opening_goal_minute",
                     )
                 )
 
@@ -253,37 +261,33 @@ class CompetitionHalfGoalTab(
                     competition_name
                 ]
 
-                if best_first_half_team is not None:
-                    first_half_balance_text = (
-                        self._format_signed_value(
-                            best_first_half_team[
-                                "first_half_balance"
-                            ]
-                        )
-                    )
-
+                if best_after_scoring_first is not None:
                     info_parts.append(
                         (
-                            "Beste 1.-HZ-Bilanz: "
-                            f"{best_first_half_team['team_name']} "
-                            f"– {first_half_balance_text}"
+                            "Stärkstes Team nach 1:0: "
+                            f"{best_after_scoring_first['team_name']} "
+                            "– "
+                            f"{best_after_scoring_first['win_percentage_after_scoring_first']:.1f} % Siege"
                         )
                     )
 
-                if best_second_half_team is not None:
-                    second_half_balance_text = (
-                        self._format_signed_value(
-                            best_second_half_team[
-                                "second_half_balance"
-                            ]
-                        )
-                    )
-
+                if best_after_conceding_first is not None:
                     info_parts.append(
                         (
-                            "Beste 2.-HZ-Bilanz: "
-                            f"{best_second_half_team['team_name']} "
-                            f"– {second_half_balance_text}"
+                            "Beste Reaktion auf 0:1: "
+                            f"{best_after_conceding_first['team_name']} "
+                            "– "
+                            f"{best_after_conceding_first['points_percentage_after_conceding_first']:.1f} % Punktequote"
+                        )
+                    )
+
+                if earliest_opening_goal is not None:
+                    info_parts.append(
+                        (
+                            "Frühestes Ø 1:0: "
+                            f"{earliest_opening_goal['team_name']} "
+                            "– "
+                            f"{earliest_opening_goal['average_opening_goal_minute']:.1f}. Min."
                         )
                     )
 
@@ -304,94 +308,27 @@ class CompetitionHalfGoalTab(
         ) as error:
             self.handle_load_error(
                 message=(
-                    "Die Halbzeiten-Statistik "
+                    "Die Toreröffnungs-Statistik "
                     "konnte nicht geladen werden."
                 ),
                 error=error,
             )
 
-    def _prepare_first_half_statistics(
-        self,
-        statistics: list[dict],
-    ) -> list[dict]:
-        rows: list[dict] = []
-
-        for team in statistics:
-            first_half_goals = int(
-                team[
-                    "first_half_goals"
-                ]
-            )
-
-            first_half_goals_against = int(
-                team[
-                    "first_half_goals_against"
-                ]
-            )
-
-            total_goals = int(
-                team[
-                    "total_goals"
-                ]
-            )
-
-            total_goals_against = int(
-                team[
-                    "total_goals_against"
-                ]
-            )
-
-            first_half_balance = (
-                first_half_goals
-                - first_half_goals_against
-            )
-
-            first_half_goal_percentage = (
-                self._percentage(
-                    first_half_goals,
-                    total_goals,
-                )
-            )
-
-            first_half_conceded_percentage = (
-                self._percentage(
-                    first_half_goals_against,
-                    total_goals_against,
-                )
-            )
-
-            rows.append(
-                {
-                    **team,
-                    "first_half_balance": (
-                        first_half_balance
-                    ),
-                    "first_half_goal_percentage": (
-                        first_half_goal_percentage
-                    ),
-                    "first_half_conceded_percentage": (
-                        first_half_conceded_percentage
-                    ),
-                }
-            )
-
-        return rows
-
-    def populate_first_half_table(
+    def populate_scored_first_table(
         self,
         statistics: list[dict],
     ) -> None:
         rows = sorted(
             statistics,
             key=lambda team: (
-                -int(
+                -float(
                     team[
-                        "first_half_balance"
+                        "win_percentage_after_scoring_first"
                     ]
                 ),
                 -int(
                     team[
-                        "first_half_goals"
+                        "scored_first"
                     ]
                 ),
                 int(
@@ -403,7 +340,7 @@ class CompetitionHalfGoalTab(
             ),
         )
 
-        self.first_half_table.setRowCount(
+        self.scored_first_table.setRowCount(
             len(
                 rows
             )
@@ -415,43 +352,53 @@ class CompetitionHalfGoalTab(
             values = [
                 team["position"],
                 team["team_name"],
-                team["first_half_goals"],
-                team["first_half_goals_against"],
-                self._format_signed_value(
+                team["scored_first"],
+                team["won_after_scoring_first"],
+                team["drawn_after_scoring_first"],
+                team["lost_after_scoring_first"],
+                (
+                    f"{team['win_percentage_after_scoring_first']:.1f} %"
+                ),
+                (
+                    f"{team['points_percentage_after_scoring_first']:.1f} %"
+                ),
+                self._format_minute(
                     team[
-                        "first_half_balance"
-                    ]
-                ),
-                (
-                    f"{team['first_half_goal_percentage']:.1f} %"
-                ),
-                (
-                    f"{team['first_half_conceded_percentage']:.1f} %"
+                        "average_opening_goal_minute"
+                    ],
+                    team[
+                        "opening_goal_minute_count"
+                    ],
                 ),
             ]
 
             self._populate_row(
-                table=self.first_half_table,
+                table=self.scored_first_table,
                 row_index=row_index,
                 team=team,
                 values=values,
             )
 
-    def populate_second_half_table(
+    def populate_conceded_first_table(
         self,
         statistics: list[dict],
     ) -> None:
         rows = sorted(
             statistics,
             key=lambda team: (
-                -int(
+                -float(
                     team[
-                        "second_half_balance"
+                        "points_percentage_after_conceding_first"
                     ]
                 ),
                 -int(
                     team[
-                        "second_half_goals"
+                        "won_after_conceding_first"
+                    ]
+                ),
+                -int(
+                    team[
+                        "drawn_after_conceding_first"
                     ]
                 ),
                 int(
@@ -463,7 +410,7 @@ class CompetitionHalfGoalTab(
             ),
         )
 
-        self.second_half_table.setRowCount(
+        self.conceded_first_table.setRowCount(
             len(
                 rows
             )
@@ -475,23 +422,28 @@ class CompetitionHalfGoalTab(
             values = [
                 team["position"],
                 team["team_name"],
-                team["second_half_goals"],
-                team["second_half_goals_against"],
-                self._format_signed_value(
+                team["conceded_first"],
+                team["won_after_conceding_first"],
+                team["drawn_after_conceding_first"],
+                team["lost_after_conceding_first"],
+                (
+                    f"{team['win_percentage_after_conceding_first']:.1f} %"
+                ),
+                (
+                    f"{team['points_percentage_after_conceding_first']:.1f} %"
+                ),
+                self._format_minute(
                     team[
-                        "second_half_balance"
-                    ]
-                ),
-                (
-                    f"{team['second_half_goal_percentage']:.1f} %"
-                ),
-                (
-                    f"{team['second_half_conceded_percentage']:.1f} %"
+                        "average_opening_conceded_minute"
+                    ],
+                    team[
+                        "opening_conceded_minute_count"
+                    ],
                 ),
             ]
 
             self._populate_row(
-                table=self.second_half_table,
+                table=self.conceded_first_table,
                 row_index=row_index,
                 team=team,
                 values=values,
@@ -530,8 +482,9 @@ class CompetitionHalfGoalTab(
             )
 
     @staticmethod
-    def _get_best_first_half_team(
+    def _get_max_team(
         statistics: list[dict],
+        key: str,
     ) -> dict | None:
         if not statistics:
             return None
@@ -539,17 +492,51 @@ class CompetitionHalfGoalTab(
         return max(
             statistics,
             key=lambda team: (
-                int(
-                    team[
-                        "first_half_balance"
-                    ]
-                ),
-                int(
-                    team[
-                        "first_half_goals"
-                    ]
+                float(
+                    team.get(
+                        key,
+                        0.0,
+                    )
                 ),
                 -int(
+                    team.get(
+                        "position",
+                        9999,
+                    )
+                    or 9999
+                ),
+            ),
+        )
+
+    @staticmethod
+    def _get_earliest_team(
+        statistics: list[dict],
+        count_key: str,
+        minute_key: str,
+    ) -> dict | None:
+        candidates = [
+            team
+            for team in statistics
+            if int(
+                team.get(
+                    count_key,
+                    0,
+                )
+            ) > 0
+        ]
+
+        if not candidates:
+            return None
+
+        return min(
+            candidates,
+            key=lambda team: (
+                float(
+                    team[
+                        minute_key
+                    ]
+                ),
+                int(
                     team[
                         "position"
                     ]
@@ -559,79 +546,32 @@ class CompetitionHalfGoalTab(
         )
 
     @staticmethod
-    def _get_best_second_half_team(
-        statistics: list[dict],
-    ) -> dict | None:
-        if not statistics:
-            return None
-
-        return max(
-            statistics,
-            key=lambda team: (
-                int(
-                    team[
-                        "second_half_balance"
-                    ]
-                ),
-                int(
-                    team[
-                        "second_half_goals"
-                    ]
-                ),
-                -int(
-                    team[
-                        "position"
-                    ]
-                    or 9999
-                ),
-            ),
-        )
-
-    @staticmethod
-    def _format_signed_value(
-        value: int,
+    def _format_minute(
+        minute: float,
+        count: int,
     ) -> str:
-        value = int(
-            value
-        )
+        if int(
+            count
+        ) <= 0:
+            return "-"
 
-        if value > 0:
-            return f"+{value}"
-
-        return str(
-            value
-        )
-
-    @staticmethod
-    def _percentage(
-        value: int,
-        total: int,
-    ) -> float:
-        if total <= 0:
-            return 0.0
-
-        return round(
-            value
-            / total
-            * 100,
-            1,
-        )
+        return f"{float(minute):.1f}"
 
     def clear_content(
         self,
     ) -> None:
         if hasattr(
             self,
-            "first_half_table",
+            "scored_first_table",
         ):
-            self.first_half_table.setRowCount(
+            self.scored_first_table.setRowCount(
                 0
             )
 
         if hasattr(
             self,
-            "second_half_table",
+            "conceded_first_table",
         ):
-            self.second_half_table.setRowCount(
+            self.conceded_first_table.setRowCount(
                 0
             )
