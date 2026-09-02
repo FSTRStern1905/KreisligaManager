@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QMessageBox,
     QScrollArea,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
@@ -53,6 +54,150 @@ class CompetitionOverviewTab(QWidget):
             0
         )
 
+        header = QWidget()
+
+        header_layout = QVBoxLayout(
+            header
+        )
+
+        header_layout.setContentsMargins(
+            24,
+            20,
+            24,
+            12,
+        )
+
+        header_layout.setSpacing(
+            8
+        )
+
+        title = QLabel(
+            "Übersicht"
+        )
+
+        title.setObjectName(
+            "PageTitle"
+        )
+
+        self.competition_name_label = QLabel(
+            ""
+        )
+
+        self.competition_name_label.setObjectName(
+            "InfoLabel"
+        )
+
+        header_layout.addWidget(
+            title
+        )
+
+        header_layout.addWidget(
+            self.competition_name_label
+        )
+
+        outer_layout.addWidget(
+            header
+        )
+
+        self.tabs = QTabWidget()
+
+        self.tabs.setObjectName(
+            "CompetitionOverviewTabs"
+        )
+
+        self.season_tab = self._create_scroll_tab()
+        self.records_tab = self._create_scroll_tab()
+        self.streaks_tab = self._create_scroll_tab()
+        self.data_tab = self._create_scroll_tab()
+
+        season_layout = (
+            self.season_tab.widget().layout()
+        )
+
+        records_layout = (
+            self.records_tab.widget().layout()
+        )
+
+        streaks_layout = (
+            self.streaks_tab.widget().layout()
+        )
+
+        data_layout = (
+            self.data_tab.widget().layout()
+        )
+
+        self._create_meta_section(
+            season_layout
+        )
+
+        self._create_kpi_section(
+            season_layout
+        )
+
+        self._create_result_section(
+            season_layout
+        )
+
+        self._create_goal_section(
+            season_layout
+        )
+
+        season_layout.addStretch()
+
+        self._create_record_section(
+            records_layout
+        )
+
+        self._create_team_record_section(
+            records_layout
+        )
+
+        records_layout.addStretch()
+
+        self._create_streak_record_section(
+            streaks_layout
+        )
+
+        streaks_layout.addStretch()
+
+        self._create_card_section(
+            data_layout
+        )
+
+        self._create_data_section(
+            data_layout
+        )
+
+        data_layout.addStretch()
+
+        self.tabs.addTab(
+            self.season_tab,
+            "Saison",
+        )
+
+        self.tabs.addTab(
+            self.records_tab,
+            "Rekorde",
+        )
+
+        self.tabs.addTab(
+            self.streaks_tab,
+            "Serien",
+        )
+
+        self.tabs.addTab(
+            self.data_tab,
+            "Daten",
+        )
+
+        outer_layout.addWidget(
+            self.tabs,
+            1,
+        )
+
+    def _create_scroll_tab(
+        self,
+    ) -> QScrollArea:
         scroll_area = QScrollArea()
 
         scroll_area.setWidgetResizable(
@@ -79,7 +224,7 @@ class CompetitionOverviewTab(QWidget):
 
         layout.setContentsMargins(
             24,
-            20,
+            16,
             24,
             24,
         )
@@ -88,75 +233,11 @@ class CompetitionOverviewTab(QWidget):
             12
         )
 
-        title = QLabel(
-            "Übersicht"
-        )
-
-        title.setObjectName(
-            "PageTitle"
-        )
-
-        self.competition_name_label = QLabel(
-            ""
-        )
-
-        self.competition_name_label.setObjectName(
-            "InfoLabel"
-        )
-
-        layout.addWidget(
-            title
-        )
-
-        layout.addWidget(
-            self.competition_name_label
-        )
-
-        self._create_meta_section(
-            layout
-        )
-
-        self._create_kpi_section(
-            layout
-        )
-
-        self._create_result_section(
-            layout
-        )
-
-        self._create_goal_section(
-            layout
-        )
-
-        self._create_record_section(
-            layout
-        )
-
-        self._create_team_record_section(
-            layout
-        )
-
-        self._create_streak_record_section(
-            layout
-        )
-
-        self._create_card_section(
-            layout
-        )
-
-        self._create_data_section(
-            layout
-        )
-
-        layout.addStretch()
-
         scroll_area.setWidget(
             content
         )
 
-        outer_layout.addWidget(
-            scroll_area
-        )
+        return scroll_area
 
     def _create_meta_section(
         self,

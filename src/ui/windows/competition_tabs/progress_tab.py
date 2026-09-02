@@ -711,27 +711,34 @@ class CompetitionProgressTab(QWidget):
             1
         )
 
+        maximum_position = max(
+            2,
+            team_count,
+        )
+
         self.position_chart.set_y_range(
             1,
-            max(
-                2,
-                team_count,
-            ),
+            maximum_position,
         )
 
         self.position_chart.axis_y.setLabelFormat(
-            "%.0f"
+            "%d"
         )
 
         self.position_chart.axis_y.setTickType(
-            QValueAxis.TickType.TicksFixed
+            QValueAxis.TickType.TicksDynamic
         )
 
-        self.position_chart.axis_y.setTickCount(
-            max(
-                2,
-                team_count,
-            )
+        self.position_chart.axis_y.setTickAnchor(
+            1.0
+        )
+
+        self.position_chart.axis_y.setTickInterval(
+            1.0
+        )
+
+        self.position_chart.axis_y.setMinorTickCount(
+            0
         )
 
         self.position_chart.set_y_axis_reversed(

@@ -5,6 +5,7 @@ from PySide6.QtCharts import (
     QValueAxis,
 )
 from PySide6.QtCore import QPointF, QMargins, Qt
+from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QWidget
 
 from src.ui.charts.base_chart import BaseChart
@@ -48,11 +49,60 @@ class BaseLineChart(BaseChart):
 
         self.chart.setMargins(
             QMargins(
-                16,
+                24,
                 10,
-                16,
+                24,
                 10,
             )
+        )
+
+        self.setup_axes()
+
+        self.chart.addAxis(
+            self.axis_x,
+            Qt.AlignmentFlag.AlignBottom,
+        )
+
+        self.chart.addAxis(
+            self.axis_y,
+            Qt.AlignmentFlag.AlignLeft,
+        )
+
+        self.set_x_range(
+            0,
+            1,
+        )
+
+        self.set_y_range(
+            0,
+            1,
+        )
+
+    def setup_axes(
+        self,
+    ) -> None:
+        label_font = QFont()
+
+        label_font.setFamily(
+            "Segoe UI"
+        )
+
+        label_font.setPointSize(
+            9
+        )
+
+        title_font = QFont()
+
+        title_font.setFamily(
+            "Segoe UI"
+        )
+
+        title_font.setPointSize(
+            9
+        )
+
+        title_font.setBold(
+            True
         )
 
         self.axis_x.setTitleText(
@@ -61,6 +111,22 @@ class BaseLineChart(BaseChart):
 
         self.axis_y.setTitleText(
             self.y_axis_title
+        )
+
+        self.axis_x.setTitleFont(
+            title_font
+        )
+
+        self.axis_y.setTitleFont(
+            title_font
+        )
+
+        self.axis_x.setLabelsFont(
+            label_font
+        )
+
+        self.axis_y.setLabelsFont(
+            label_font
         )
 
         self.axis_x.setLabelsVisible(
@@ -111,25 +177,29 @@ class BaseLineChart(BaseChart):
             1.0
         )
 
-        self.chart.addAxis(
+        self.axis_x.setMinorTickCount(
+            0
+        )
+
+        self.axis_y.setMinorTickCount(
+            0
+        )
+
+        if hasattr(
             self.axis_x,
-            Qt.AlignmentFlag.AlignBottom,
-        )
+            "setTruncateLabels",
+        ):
+            self.axis_x.setTruncateLabels(
+                False
+            )
 
-        self.chart.addAxis(
+        if hasattr(
             self.axis_y,
-            Qt.AlignmentFlag.AlignLeft,
-        )
-
-        self.set_x_range(
-            0,
-            1,
-        )
-
-        self.set_y_range(
-            0,
-            1,
-        )
+            "setTruncateLabels",
+        ):
+            self.axis_y.setTruncateLabels(
+                False
+            )
 
     def clear(
         self,
@@ -175,6 +245,22 @@ class BaseLineChart(BaseChart):
         self.axis_y.setTitleText(
             self.y_axis_title
         )
+
+        if hasattr(
+            self.axis_x,
+            "setTruncateLabels",
+        ):
+            self.axis_x.setTruncateLabels(
+                False
+            )
+
+        if hasattr(
+            self.axis_y,
+            "setTruncateLabels",
+        ):
+            self.axis_y.setTruncateLabels(
+                False
+            )
 
         self.set_title(
             self.chart_title
@@ -268,6 +354,10 @@ class BaseLineChart(BaseChart):
             float(interval)
         )
 
+        self.axis_x.setMinorTickCount(
+            0
+        )
+
     def set_y_tick_interval(
         self,
         interval: float,
@@ -285,6 +375,10 @@ class BaseLineChart(BaseChart):
 
         self.axis_y.setTickInterval(
             float(interval)
+        )
+
+        self.axis_y.setMinorTickCount(
+            0
         )
 
     def set_y_axis_reversed(
