@@ -1,9 +1,24 @@
 from __future__ import annotations
 
+import sqlite3
+from pathlib import Path
+
 from PySide6.QtWidgets import (
+    QDialog,
+    QFileDialog,
+    QHBoxLayout,
+    QMessageBox,
+    QPushButton,
     QTabWidget,
     QVBoxLayout,
     QWidget,
+)
+
+from src.services.export.team_statistics_pdf_service import (
+    TeamStatisticsPdfService,
+)
+from src.services.team_statistics_pdf_exporter import (
+    TeamStatisticsPdfExporter,
 )
 
 from src.ui.windows.competition_tabs.away_table_tab import (
@@ -80,6 +95,14 @@ from src.ui.windows.competition_tabs.streaks_tab import (
 )
 from src.ui.windows.competition_tabs.team_goal_phase_tab import (
     CompetitionTeamGoalPhaseTab,
+)
+from src.ui.dialogs.team_pdf_export_dialog import (
+    TeamPdfExportDialog,
+)
+
+
+DATABASE_PATH = Path(
+    "data/database/kreisligamanager.db"
 )
 
 
@@ -168,6 +191,7 @@ class CompetitionStatisticsHubTab(QWidget):
 
         self.competition_id: int | None = None
         self.statistic_tabs: list[QWidget] = []
+        self.last_export_options: dict | None = None
 
         self.setup_ui()
         self.connect_signals()
@@ -190,6 +214,29 @@ class CompetitionStatisticsHubTab(QWidget):
             0
         )
 
+        self.export_bar = QHBoxLayout()
+
+        self.export_bar.setContentsMargins(
+            0,
+            0,
+            0,
+            8,
+        )
+
+        self.export_bar.addStretch()
+
+        self.export_button = QPushButton(
+            "📄 Team-PDF exportieren"
+        )
+
+        self.export_button.setEnabled(
+            False
+        )
+
+        self.export_bar.addWidget(
+            self.export_button
+        )
+
         self.tabs = QTabWidget()
 
         self.tabs.setObjectName(
@@ -198,6 +245,10 @@ class CompetitionStatisticsHubTab(QWidget):
 
         self.create_statistic_tabs()
         self.create_groups()
+
+        layout.addLayout(
+            self.export_bar
+        )
 
         layout.addWidget(
             self.tabs,
@@ -507,6 +558,10 @@ class CompetitionStatisticsHubTab(QWidget):
             self.tab_changed
         )
 
+        self.export_button.clicked.connect(
+            self.open_team_pdf_export_dialog
+        )
+
     def set_competition(
         self,
         competition_id: int | None,
@@ -514,6 +569,13 @@ class CompetitionStatisticsHubTab(QWidget):
         self.competition_id = (
             competition_id
         )
+
+        self.export_button.setEnabled(
+            competition_id is not None
+        )
+
+        if competition_id is None:
+            self.last_export_options = None
 
         for tab in self.statistic_tabs:
             if hasattr(
@@ -523,6 +585,179 @@ class CompetitionStatisticsHubTab(QWidget):
                 tab.set_competition(
                     competition_id
                 )
+
+    def open_team_pdf_export_dialog(
+        self,
+    ) -> None:
+        if self.competition_id is None:
+            return
+
+        try:
+            dialog = TeamPdfExportDialog(
+                competition_id=self.competition_id,
+                parent=self,
+            )
+        except ValueError as error:
+            QMessageBox.critical(
+                self,
+                "PDF-Export",
+                str(
+                    error
+                ),
+            )
+            return
+
+        result = dialog.exec()
+
+        if (
+            result
+            != QDialog.DialogCode.Accepted
+        ):
+            return
+
+        options = dialog.get_export_options()
+
+        team_id = options.get(
+            "team_id"
+        )
+
+        if team_id is None:
+            return
+
+        self.last_export_options = options
+
+        team_name = str(
+            options.get(
+                "team_name",
+                "",
+            )
+        )
+
+        selected_sections = list(
+            options.get(
+                "sections",
+                [],
+            )
+        )
+
+        safe_team_name = self._safe_filename(
+            team_name
+        )
+
+        default_path = Path(
+            "exports/pdf"
+        ) / (
+            f"{safe_team_name}_Teamstatistik.pdf"
+        )
+
+        default_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Team-Statistik als PDF speichern",
+            str(
+                default_path
+            ),
+            "PDF-Dateien (*.pdf)",
+        )
+
+        if not file_path:
+            return
+
+        try:
+            connection = sqlite3.connect(
+                DATABASE_PATH
+            )
+
+            connection.row_factory = (
+                sqlite3.Row
+            )
+
+            try:
+                report_service = (
+                    TeamStatisticsPdfService(
+                        connection
+                    )
+                )
+
+                report_data = (
+                    report_service.build_report_data(
+                        competition_id=(
+                            self.competition_id
+                        ),
+                        team_id=int(
+                            team_id
+                        ),
+                        selected_sections=(
+                            selected_sections
+                        ),
+                    )
+                )
+            finally:
+                connection.close()
+
+            exporter = (
+                TeamStatisticsPdfExporter()
+            )
+
+            output_path = exporter.export(
+                destination_path=file_path,
+                report_data=report_data,
+            )
+
+        except (
+            sqlite3.Error,
+            ValueError,
+            RuntimeError,
+            OSError,
+        ) as error:
+            QMessageBox.critical(
+                self,
+                "PDF-Export fehlgeschlagen",
+                (
+                    "Die Team-Statistik konnte "
+                    "nicht als PDF exportiert werden.\n"
+                    f"{error}"
+                ),
+            )
+            return
+
+        QMessageBox.information(
+            self,
+            "PDF-Export abgeschlossen",
+            (
+                "Die Team-Statistik wurde "
+                "erfolgreich erstellt.\n\n"
+                f"{output_path}"
+            ),
+        )
+
+    @staticmethod
+    def _safe_filename(
+        value: str,
+    ) -> str:
+        invalid_characters = (
+            '<>:"/\\|?*'
+        )
+
+        result = "".join(
+            "_"
+            if character in invalid_characters
+            else character
+            for character in value.strip()
+        )
+
+        result = result.rstrip(
+            ". "
+        )
+
+        return (
+            result
+            or "Team"
+        )
 
     def tab_changed(
         self,
