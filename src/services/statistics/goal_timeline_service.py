@@ -131,6 +131,155 @@ class GoalTimelineService:
 
         return intervals
 
+    def get_competition_teams(
+        self,
+        competition_id: int,
+    ) -> list[dict]:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerb-ID."
+            )
+
+        self.cursor.execute(
+            """
+            SELECT
+                teams.team_id,
+                teams.name,
+                teams.short_name
+
+            FROM competition_teams
+
+            INNER JOIN teams
+                ON teams.team_id =
+                   competition_teams.team_id
+
+            WHERE
+                competition_teams.competition_id = ?
+
+            ORDER BY
+                teams.name COLLATE NOCASE ASC
+            """,
+            (
+                competition_id,
+            ),
+        )
+
+        return [
+            {
+                "team_id": int(
+                    row[0]
+                ),
+                "team_name": (
+                    row[2]
+                    or row[1]
+                ),
+            }
+            for row in self.cursor.fetchall()
+        ]
+
+    def get_team_goal_timeline(
+        self,
+        competition_id: int,
+        team_id: int,
+    ) -> list[dict]:
+        if competition_id <= 0:
+            raise ValueError(
+                "Ungültige Wettbewerb-ID."
+            )
+
+        if team_id <= 0:
+            raise ValueError(
+                "Ungültige Mannschaft-ID."
+            )
+
+        intervals = self._create_team_intervals()
+
+        goal_events = self._load_goal_events(
+            competition_id
+        )
+
+        for event in goal_events:
+            minute = self._normalize_minute(
+                event["minute"]
+            )
+
+            if minute is None:
+                continue
+
+            interval = self._find_interval(
+                minute=minute,
+                intervals=intervals,
+            )
+
+            if interval is None:
+                continue
+
+            scoring_team_id = (
+                self._get_scoring_team_id(
+                    event
+                )
+            )
+
+            if scoring_team_id is None:
+                continue
+
+            home_team_id = event[
+                "home_team_id"
+            ]
+
+            away_team_id = event[
+                "away_team_id"
+            ]
+
+            if team_id not in (
+                home_team_id,
+                away_team_id,
+            ):
+                continue
+
+            if scoring_team_id == team_id:
+                interval[
+                    "goals_for"
+                ] += 1
+            else:
+                interval[
+                    "goals_against"
+                ] += 1
+
+        total_goals_for = sum(
+            interval["goals_for"]
+            for interval in intervals
+        )
+
+        total_goals_against = sum(
+            interval["goals_against"]
+            for interval in intervals
+        )
+
+        for interval in intervals:
+            interval[
+                "goal_difference"
+            ] = (
+                interval["goals_for"]
+                - interval["goals_against"]
+            )
+
+            interval[
+                "goals_for_percentage"
+            ] = self._calculate_percentage(
+                value=interval["goals_for"],
+                total=total_goals_for,
+            )
+
+            interval[
+                "goals_against_percentage"
+            ] = self._calculate_percentage(
+                value=interval["goals_against"],
+                total=total_goals_against,
+            )
+
+        return intervals
+
     def _load_goal_events(
         self,
         competition_id: int,
@@ -235,10 +384,61 @@ class GoalTimelineService:
 
         return intervals
 
+    def _create_team_intervals(
+        self,
+    ) -> list[dict]:
+        intervals = []
+
+        for start, end in self.INTERVALS:
+            intervals.append(
+                {
+                    "label": (
+                        f"{start}-{end}"
+                    ),
+                    "start": start,
+                    "end": end,
+                    "goals_for": 0,
+                    "goals_against": 0,
+                    "goal_difference": 0,
+                    "goals_for_percentage": 0.0,
+                    "goals_against_percentage": 0.0,
+                }
+            )
+
+        return intervals
+
     @staticmethod
     def _get_goal_side(
         event: dict,
     ) -> str | None:
+        scoring_team_id = (
+            GoalTimelineService
+            ._get_scoring_team_id(
+                event
+            )
+        )
+
+        if scoring_team_id is None:
+            return None
+
+        if (
+            scoring_team_id
+            == event["home_team_id"]
+        ):
+            return "home"
+
+        if (
+            scoring_team_id
+            == event["away_team_id"]
+        ):
+            return "away"
+
+        return None
+
+    @staticmethod
+    def _get_scoring_team_id(
+        event: dict,
+    ) -> int | None:
         team_id = event[
             "team_id"
         ]
@@ -260,18 +460,18 @@ class GoalTimelineService:
 
         if event_type == "OWN_GOAL":
             if team_id == home_team_id:
-                return "away"
+                return away_team_id
 
             if team_id == away_team_id:
-                return "home"
+                return home_team_id
 
             return None
 
-        if team_id == home_team_id:
-            return "home"
-
-        if team_id == away_team_id:
-            return "away"
+        if team_id in (
+            home_team_id,
+            away_team_id,
+        ):
+            return team_id
 
         return None
 
