@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QHeaderView,
+    QLabel,
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
@@ -40,6 +41,9 @@ class CompetitionMatchdayStatisticsTab(
         self.goals_tab = QWidget()
         self.results_tab = QWidget()
         self.home_away_tab = QWidget()
+
+        self.matchday_records_line_1 = QLabel()
+        self.matchday_records_line_2 = QLabel()
 
         self.overview_table = QTableWidget()
         self.goals_table = QTableWidget()
@@ -111,6 +115,14 @@ class CompetitionMatchdayStatisticsTab(
         self._setup_table(
             self.overview_table,
             stretch_column=6,
+        )
+
+        layout.addWidget(
+            self.matchday_records_line_1
+        )
+
+        layout.addWidget(
+            self.matchday_records_line_2
         )
 
         layout.addWidget(
@@ -334,6 +346,10 @@ class CompetitionMatchdayStatisticsTab(
                     statistics
                 )
 
+                self.populate_matchday_records(
+                    statistics
+                )
+
                 info_parts = [
                     competition_name
                 ]
@@ -393,6 +409,188 @@ class CompetitionMatchdayStatisticsTab(
                 ),
                 error=error,
             )
+
+    def populate_matchday_records(
+        self,
+        statistics: list[dict],
+    ) -> None:
+        if not statistics:
+            self.matchday_records_label.clear()
+            return
+
+        most_home_wins = max(
+            statistics,
+            key=lambda row: (
+                int(
+                    row.get(
+                        "home_wins",
+                        0,
+                    )
+                ),
+                -int(
+                    row.get(
+                        "matchday",
+                        0,
+                    )
+                ),
+            ),
+        )
+
+        most_away_wins = max(
+            statistics,
+            key=lambda row: (
+                int(
+                    row.get(
+                        "away_wins",
+                        0,
+                    )
+                ),
+                -int(
+                    row.get(
+                        "matchday",
+                        0,
+                    )
+                ),
+            ),
+        )
+
+        most_draws = max(
+            statistics,
+            key=lambda row: (
+                int(
+                    row.get(
+                        "draws",
+                        0,
+                    )
+                ),
+                -int(
+                    row.get(
+                        "matchday",
+                        0,
+                    )
+                ),
+            ),
+        )
+
+        biggest_home_goal_advantage = max(
+            statistics,
+            key=lambda row: (
+                int(
+                    row.get(
+                        "home_goals",
+                        0,
+                    )
+                )
+                - int(
+                    row.get(
+                        "away_goals",
+                        0,
+                    )
+                ),
+                -int(
+                    row.get(
+                        "matchday",
+                        0,
+                    )
+                ),
+            ),
+        )
+
+        biggest_away_goal_advantage = min(
+            statistics,
+            key=lambda row: (
+                int(
+                    row.get(
+                        "home_goals",
+                        0,
+                    )
+                )
+                - int(
+                    row.get(
+                        "away_goals",
+                        0,
+                    )
+                ),
+                int(
+                    row.get(
+                        "matchday",
+                        0,
+                    )
+                ),
+            ),
+        )
+
+        home_goal_difference = (
+            int(
+                biggest_home_goal_advantage.get(
+                    "home_goals",
+                    0,
+                )
+            )
+            - int(
+                biggest_home_goal_advantage.get(
+                    "away_goals",
+                    0,
+                )
+            )
+        )
+
+        away_goal_difference = (
+            int(
+                biggest_away_goal_advantage.get(
+                    "away_goals",
+                    0,
+                )
+            )
+            - int(
+                biggest_away_goal_advantage.get(
+                    "home_goals",
+                    0,
+                )
+            )
+        )
+
+        parts = [
+            (
+                "🏠 Meiste Heimsiege: "
+                f"ST {most_home_wins['matchday']} "
+                f"– {most_home_wins['home_wins']}"
+            ),
+            (
+                "🚌 Meiste Auswärtssiege: "
+                f"ST {most_away_wins['matchday']} "
+                f"– {most_away_wins['away_wins']}"
+            ),
+            (
+                "🤝 Meiste Remis: "
+                f"ST {most_draws['matchday']} "
+                f"– {most_draws['draws']}"
+            ),
+            (
+                "🏠 Größter Heim-Torvorteil: "
+                f"ST {biggest_home_goal_advantage['matchday']} "
+                f"– +{home_goal_difference}"
+            ),
+            (
+                "🚌 Größter Auswärts-Torvorteil: "
+                f"ST {biggest_away_goal_advantage['matchday']} "
+                f"– +{away_goal_difference}"
+            ),
+        ]
+
+        self.matchday_records_line_1.setText(
+            "Rekorde | "
+            + " | ".join(
+                parts[:3]
+            )
+        )
+
+        self.matchday_records_line_2.setText(
+            "          "
+            + " | ".join(
+                parts[3:]
+            )
+        )
 
     def populate_overview_table(
         self,
@@ -638,6 +836,18 @@ class CompetitionMatchdayStatisticsTab(
     def clear_content(
         self,
     ) -> None:
+        if hasattr(
+            self,
+            "matchday_records_line_1",
+        ):
+            self.matchday_records_line_1.clear()
+
+        if hasattr(
+            self,
+            "matchday_records_line_2",
+        ):
+            self.matchday_records_line_2.clear()
+
         if hasattr(
             self,
             "overview_table",

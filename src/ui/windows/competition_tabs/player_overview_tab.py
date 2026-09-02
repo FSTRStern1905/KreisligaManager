@@ -39,16 +39,19 @@ class CompetitionPlayerOverviewTab(
         self.appearances_tab = QWidget()
         self.minutes_tab = QWidget()
         self.scorer_tab = QWidget()
+        self.efficiency_tab = QWidget()
         self.cards_tab = QWidget()
 
         self.appearances_table = QTableWidget()
         self.minutes_table = QTableWidget()
         self.scorer_table = QTableWidget()
+        self.efficiency_table = QTableWidget()
         self.cards_table = QTableWidget()
 
         self.setup_appearances_tab()
         self.setup_minutes_tab()
         self.setup_scorer_tab()
+        self.setup_efficiency_tab()
         self.setup_cards_tab()
 
         self.inner_tabs.addTab(
@@ -64,6 +67,11 @@ class CompetitionPlayerOverviewTab(
         self.inner_tabs.addTab(
             self.scorer_tab,
             "Scorer",
+        )
+
+        self.inner_tabs.addTab(
+            self.efficiency_tab,
+            "Effizienz",
         )
 
         self.inner_tabs.addTab(
@@ -196,6 +204,47 @@ class CompetitionPlayerOverviewTab(
             self.scorer_table
         )
 
+    def setup_efficiency_tab(
+        self,
+    ) -> None:
+        layout = QVBoxLayout(
+            self.efficiency_tab
+        )
+
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        self.efficiency_table.setColumnCount(
+            10
+        )
+
+        self.efficiency_table.setHorizontalHeaderLabels(
+            [
+                "Spieler",
+                "Mannschaft",
+                "Einsätze",
+                "Minuten",
+                "Tore",
+                "Tore / Einsatz",
+                "Tore / 90",
+                "Min. / Tor",
+                "Ø Minuten",
+                "Startelf %",
+            ]
+        )
+
+        self._setup_table(
+            self.efficiency_table,
+        )
+
+        layout.addWidget(
+            self.efficiency_table
+        )
+
     def setup_cards_tab(
         self,
     ) -> None:
@@ -317,6 +366,10 @@ class CompetitionPlayerOverviewTab(
                 )
 
                 self.populate_scorer_table(
+                    statistics
+                )
+
+                self.populate_efficiency_table(
                     statistics
                 )
 
@@ -662,6 +715,118 @@ class CompetitionPlayerOverviewTab(
                 values=values,
             )
 
+    def populate_efficiency_table(
+        self,
+        statistics: list[dict],
+    ) -> None:
+        filtered = [
+            player
+            for player in statistics
+            if (
+                int(
+                    player.get(
+                        "minutes_played",
+                        0,
+                    )
+                ) >= 900
+                and int(
+                    player.get(
+                        "goals",
+                        0,
+                    )
+                ) > 0
+            )
+        ]
+
+        rows = sorted(
+            filtered,
+            key=lambda player: (
+                -float(
+                    player.get(
+                        "goals_per_90",
+                        0.0,
+                    )
+                ),
+                -int(
+                    player.get(
+                        "goals",
+                        0,
+                    )
+                ),
+                int(
+                    player.get(
+                        "minutes_played",
+                        0,
+                    )
+                ),
+                str(
+                    player.get(
+                        "player_name",
+                        "",
+                    )
+                ).casefold(),
+            ),
+        )
+
+        self.efficiency_table.setRowCount(
+            len(
+                rows
+            )
+        )
+
+        for row_index, player in enumerate(
+            rows
+        ):
+            appearances = int(
+                player.get(
+                    "appearances",
+                    0,
+                )
+            )
+
+            goals = int(
+                player.get(
+                    "goals",
+                    0,
+                )
+            )
+
+            goals_per_appearance = (
+                goals / appearances
+                if appearances > 0
+                else 0.0
+            )
+
+            minutes_per_goal = (
+                player.get(
+                    "minutes_per_goal"
+                )
+            )
+
+            values = [
+                player["player_name"],
+                player["team_name"],
+                appearances,
+                player["minutes_played"],
+                goals,
+                f"{goals_per_appearance:.2f}",
+                f"{player['goals_per_90']:.2f}",
+                (
+                    f"{minutes_per_goal:.1f}"
+                    if minutes_per_goal is not None
+                    else "-"
+                ),
+                f"{player['average_minutes']:.1f}",
+                f"{player['start_percentage']:.1f} %",
+            ]
+
+            self._populate_row(
+                table=self.efficiency_table,
+                row_index=row_index,
+                player=player,
+                values=values,
+            )
+
     def populate_cards_table(
         self,
         statistics: list[dict],
@@ -869,6 +1034,14 @@ class CompetitionPlayerOverviewTab(
             "scorer_table",
         ):
             self.scorer_table.setRowCount(
+                0
+            )
+
+        if hasattr(
+            self,
+            "efficiency_table",
+        ):
+            self.efficiency_table.setRowCount(
                 0
             )
 

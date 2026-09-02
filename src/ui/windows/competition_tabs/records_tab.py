@@ -16,6 +16,12 @@ from PySide6.QtWidgets import (
 from src.services.statistics.records_service import (
     RecordsService,
 )
+from src.services.statistics.team_records_extension_service import (
+    TeamRecordsExtensionService,
+)
+from src.services.statistics.player_records_service import (
+    PlayerRecordsService,
+)
 from src.ui.windows.competition_tabs.base_statistics_tab import (
     BaseStatisticsTab,
 )
@@ -38,15 +44,21 @@ class CompetitionRecordsTab(
 
         self.matches_tab = QWidget()
         self.teams_tab = QWidget()
+        self.home_away_tab = QWidget()
         self.streaks_tab = QWidget()
+        self.players_tab = QWidget()
 
         self.matches_table = QTableWidget()
         self.teams_table = QTableWidget()
+        self.home_away_table = QTableWidget()
         self.streaks_table = QTableWidget()
+        self.players_table = QTableWidget()
 
         self.setup_matches_tab()
         self.setup_teams_tab()
+        self.setup_home_away_tab()
         self.setup_streaks_tab()
+        self.setup_players_tab()
 
         self.inner_tabs.addTab(
             self.matches_tab,
@@ -59,8 +71,18 @@ class CompetitionRecordsTab(
         )
 
         self.inner_tabs.addTab(
+            self.home_away_tab,
+            "Heim/Auswärts",
+        )
+
+        self.inner_tabs.addTab(
             self.streaks_tab,
             "Serien",
+        )
+
+        self.inner_tabs.addTab(
+            self.players_tab,
+            "Spieler",
         )
 
         self.add_content_widget(
@@ -144,6 +166,42 @@ class CompetitionRecordsTab(
             self.teams_table
         )
 
+    def setup_home_away_tab(
+        self,
+    ) -> None:
+        layout = QVBoxLayout(
+            self.home_away_tab
+        )
+
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        self.home_away_table.setColumnCount(
+            4
+        )
+
+        self.home_away_table.setHorizontalHeaderLabels(
+            [
+                "Rekord",
+                "Mannschaft",
+                "Wert",
+                "Spiele",
+            ]
+        )
+
+        self._setup_table(
+            self.home_away_table,
+            stretch_column=1,
+        )
+
+        layout.addWidget(
+            self.home_away_table
+        )
+
     def setup_streaks_tab(
         self,
     ) -> None:
@@ -180,6 +238,44 @@ class CompetitionRecordsTab(
 
         layout.addWidget(
             self.streaks_table
+        )
+
+    def setup_players_tab(
+        self,
+    ) -> None:
+        layout = QVBoxLayout(
+            self.players_tab
+        )
+
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        self.players_table.setColumnCount(
+            6
+        )
+
+        self.players_table.setHorizontalHeaderLabels(
+            [
+                "Rekord",
+                "Spieler",
+                "Mannschaft",
+                "Wert",
+                "Einsätze",
+                "Minuten",
+            ]
+        )
+
+        self._setup_table(
+            self.players_table,
+            stretch_column=1,
+        )
+
+        layout.addWidget(
+            self.players_table
         )
 
     @staticmethod
@@ -230,17 +326,7 @@ class CompetitionRecordsTab(
             self.clear_data()
             return
 
-        self.matches_table.setRowCount(
-            0
-        )
-
-        self.teams_table.setRowCount(
-            0
-        )
-
-        self.streaks_table.setRowCount(
-            0
-        )
+        self.clear_content()
 
         try:
             with self.database_connection() as connection:
@@ -254,12 +340,38 @@ class CompetitionRecordsTab(
                     self.clear_data()
                     return
 
-                service = RecordsService(
+                records_service = RecordsService(
                     connection
                 )
 
-                records = service.get_records(
-                    self.competition_id
+                extension_service = (
+                    TeamRecordsExtensionService(
+                        connection
+                    )
+                )
+
+                player_records_service = (
+                    PlayerRecordsService(
+                        connection
+                    )
+                )
+
+                records = (
+                    records_service.get_records(
+                        self.competition_id
+                    )
+                )
+
+                extended_records = (
+                    extension_service.get_records(
+                        self.competition_id
+                    )
+                )
+
+                player_records = (
+                    player_records_service.get_records(
+                        self.competition_id
+                    )
                 )
 
                 self.populate_matches_table(
@@ -267,24 +379,37 @@ class CompetitionRecordsTab(
                 )
 
                 self.populate_teams_table(
-                    records
+                    records,
+                    extended_records,
+                )
+
+                self.populate_home_away_table(
+                    extended_records
                 )
 
                 self.populate_streaks_table(
                     records
                 )
 
-                biggest_win = records.get(
-                    "biggest_win"
-                )
-
-                longest_unbeaten = records.get(
-                    "longest_unbeaten_streak"
+                self.populate_players_table(
+                    player_records
                 )
 
                 info_parts = [
                     competition_name
                 ]
+
+                biggest_win = records.get(
+                    "biggest_win"
+                )
+
+                most_points = extended_records.get(
+                    "most_points"
+                )
+
+                longest_unbeaten = records.get(
+                    "longest_unbeaten_streak"
+                )
 
                 if biggest_win is not None:
                     info_parts.append(
@@ -294,6 +419,15 @@ class CompetitionRecordsTab(
                             f"{biggest_win['home_goals']}:"
                             f"{biggest_win['away_goals']} "
                             f"{biggest_win['away_team_name']}"
+                        )
+                    )
+
+                if most_points is not None:
+                    info_parts.append(
+                        (
+                            "Meiste Punkte: "
+                            f"{most_points['team_name']} "
+                            f"– {most_points['value']}"
                         )
                     )
 
@@ -395,21 +529,17 @@ class CompetitionRecordsTab(
                 f"{record['away_goals']}"
             )
 
-            matchday = (
-                record.get(
-                    "matchday"
-                )
+            matchday = record.get(
+                "matchday"
             )
 
-            match_date = (
-                record.get(
-                    "match_date"
-                )
+            match_date = record.get(
+                "match_date"
             )
 
             value = record.get(
                 value_key,
-                "-"
+                "-",
             )
 
             rows.append(
@@ -417,12 +547,16 @@ class CompetitionRecordsTab(
                     label,
                     match_text,
                     result_text,
-                    matchday
-                    if matchday is not None
-                    else "-",
-                    match_date
-                    if match_date
-                    else "-",
+                    (
+                        matchday
+                        if matchday is not None
+                        else "-"
+                    ),
+                    (
+                        match_date
+                        if match_date
+                        else "-"
+                    ),
                     value,
                 )
             )
@@ -449,8 +583,11 @@ class CompetitionRecordsTab(
     def populate_teams_table(
         self,
         records: dict,
+        extended_records: dict,
     ) -> None:
-        definitions = [
+        rows: list[tuple] = []
+
+        normal_definitions = [
             (
                 "Beste Offensive",
                 "best_offense",
@@ -489,12 +626,10 @@ class CompetitionRecordsTab(
             ),
         ]
 
-        rows: list[tuple] = []
-
         for (
             label,
             key,
-        ) in definitions:
+        ) in normal_definitions:
             record = records.get(
                 key
             )
@@ -505,15 +640,71 @@ class CompetitionRecordsTab(
             rows.append(
                 (
                     label,
-                    record[
-                        "team_name"
-                    ],
-                    record[
-                        "value"
-                    ],
-                    record[
-                        "played"
-                    ],
+                    record["team_name"],
+                    record["value"],
+                    record["played"],
+                )
+            )
+
+        extended_definitions = [
+            (
+                "Meiste Punkte",
+                "most_points",
+                "integer",
+            ),
+            (
+                "Wenigste Punkte",
+                "fewest_points",
+                "integer",
+            ),
+            (
+                "Beste Punkte / Spiel",
+                "best_points_per_game",
+                "float",
+            ),
+            (
+                "Meiste Zu-Null-Spiele",
+                "most_clean_sheets",
+                "integer",
+            ),
+            (
+                "Wenigste Zu-Null-Spiele",
+                "fewest_clean_sheets",
+                "integer",
+            ),
+            (
+                "Beste Zu-Null-Quote",
+                "best_clean_sheet_rate",
+                "percentage",
+            ),
+        ]
+
+        for (
+            label,
+            key,
+            value_type,
+        ) in extended_definitions:
+            record = extended_records.get(
+                key
+            )
+
+            if record is None:
+                continue
+
+            value = self._format_record_value(
+                record.get(
+                    "value",
+                    0,
+                ),
+                value_type,
+            )
+
+            rows.append(
+                (
+                    label,
+                    record["team_name"],
+                    value,
+                    record["played"],
                 )
             )
 
@@ -528,6 +719,103 @@ class CompetitionRecordsTab(
         ):
             self._populate_row(
                 table=self.teams_table,
+                row_index=row_index,
+                values=values,
+                text_columns=(
+                    0,
+                    1,
+                ),
+            )
+
+    def populate_home_away_table(
+        self,
+        records: dict,
+    ) -> None:
+        definitions = [
+            (
+                "Bestes Heimteam",
+                "best_home_team",
+                "integer",
+            ),
+            (
+                "Schlechtestes Heimteam",
+                "worst_home_team",
+                "integer",
+            ),
+            (
+                "Meiste Heimsiege",
+                "most_home_wins",
+                "integer",
+            ),
+            (
+                "Beste Heimpunkte / Spiel",
+                "best_home_points_per_game",
+                "float",
+            ),
+            (
+                "Bestes Auswärtsteam",
+                "best_away_team",
+                "integer",
+            ),
+            (
+                "Schlechtestes Auswärtsteam",
+                "worst_away_team",
+                "integer",
+            ),
+            (
+                "Meiste Auswärtssiege",
+                "most_away_wins",
+                "integer",
+            ),
+            (
+                "Beste Auswärtspunkte / Spiel",
+                "best_away_points_per_game",
+                "float",
+            ),
+        ]
+
+        rows: list[tuple] = []
+
+        for (
+            label,
+            key,
+            value_type,
+        ) in definitions:
+            record = records.get(
+                key
+            )
+
+            if record is None:
+                continue
+
+            value = self._format_record_value(
+                record.get(
+                    "value",
+                    0,
+                ),
+                value_type,
+            )
+
+            rows.append(
+                (
+                    label,
+                    record["team_name"],
+                    value,
+                    record["played"],
+                )
+            )
+
+        self.home_away_table.setRowCount(
+            len(
+                rows
+            )
+        )
+
+        for row_index, values in enumerate(
+            rows
+        ):
+            self._populate_row(
+                table=self.home_away_table,
                 row_index=row_index,
                 values=values,
                 text_columns=(
@@ -592,20 +880,20 @@ class CompetitionRecordsTab(
             rows.append(
                 (
                     label,
-                    record[
-                        "team_name"
-                    ],
-                    record[
-                        "length"
-                    ],
-                    record.get(
-                        "start_matchday"
-                    )
-                    or "-",
-                    record.get(
-                        "end_matchday"
-                    )
-                    or "-",
+                    record["team_name"],
+                    record["length"],
+                    (
+                        record.get(
+                            "start_matchday"
+                        )
+                        or "-"
+                    ),
+                    (
+                        record.get(
+                            "end_matchday"
+                        )
+                        or "-"
+                    ),
                     period,
                 )
             )
@@ -629,6 +917,90 @@ class CompetitionRecordsTab(
                     5,
                 ),
             )
+
+    def populate_players_table(
+        self,
+        records: dict,
+    ) -> None:
+        definitions = [
+            ("Meiste Tore", "most_goals", "integer"),
+            ("Meiste Startelf-Tore", "most_starter_goals", "integer"),
+            ("Meiste Joker-Tore", "most_substitute_goals", "integer"),
+            ("Meiste Tore in einem Spiel", "most_goals_in_match", "integer"),
+            ("Meiste Mehrfach-Tor-Spiele", "most_multi_goal_matches", "integer"),
+            ("Meiste Hattricks", "most_hattricks", "integer"),
+            ("Meiste Spiele mit Tor", "most_scoring_matches", "integer"),
+            ("Beste Tore / Einsatz (min. 10)", "best_goals_per_appearance", "float"),
+            ("Beste Tore / 90 (min. 900 Min.)", "best_goals_per_90", "float"),
+            ("Beste Minuten / Tor (min. 900 Min.)", "best_minutes_per_goal", "float"),
+            ("Meiste Einsätze", "most_appearances", "integer"),
+            ("Meiste Startelfeinsätze", "most_starts", "integer"),
+            ("Meiste Spielminuten", "most_minutes", "integer"),
+            ("Meiste Einwechslungen", "most_substituted_in", "integer"),
+            ("Meiste Auswechslungen", "most_substituted_out", "integer"),
+            ("Meiste Gelbe Karten", "most_yellow_cards", "integer"),
+            ("Meiste Gelb-Rote Karten", "most_yellow_red_cards", "integer"),
+            ("Meiste Rote Karten", "most_red_cards", "integer"),
+            ("Meiste Karten / 90 (min. 900 Min.)", "most_cards_per_90", "float"),
+            ("Meiste Zu-Null-Spiele", "most_clean_sheets", "integer"),
+        ]
+
+        rows: list[tuple] = []
+
+        for label, key, value_type in definitions:
+            record = records.get(key)
+
+            if record is None:
+                continue
+
+            value = self._format_record_value(
+                record.get("value", 0),
+                value_type,
+            )
+
+            rows.append(
+                (
+                    label,
+                    record["player_name"],
+                    record["team_name"],
+                    value,
+                    record["appearances"],
+                    record["minutes_played"],
+                )
+            )
+
+        self.players_table.setRowCount(
+            len(rows)
+        )
+
+        for row_index, values in enumerate(rows):
+            self._populate_row(
+                table=self.players_table,
+                row_index=row_index,
+                values=values,
+                text_columns=(0, 1, 2),
+            )
+
+    @staticmethod
+    def _format_record_value(
+        value,
+        value_type: str,
+    ) -> str:
+        if value_type == "percentage":
+            return (
+                f"{float(value):.1f} %"
+            )
+
+        if value_type == "float":
+            return (
+                f"{float(value):.2f}"
+            )
+
+        return str(
+            int(
+                value
+            )
+        )
 
     @staticmethod
     def _populate_row(
@@ -695,6 +1067,14 @@ class CompetitionRecordsTab(
             "teams_table",
         ):
             self.teams_table.setRowCount(
+                0
+            )
+
+        if hasattr(
+            self,
+            "home_away_table",
+        ):
+            self.home_away_table.setRowCount(
                 0
             )
 
