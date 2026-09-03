@@ -30,6 +30,9 @@ from src.database.tables.seasons import SeasonsTable
 from src.database.tables.staff import StaffTable
 from src.database.tables.standings import StandingsTable
 from src.database.tables.stadiums import StadiumsTable
+from src.database.tables.team_season_metrics import (
+    TeamSeasonMetricsTable,
+)
 from src.database.tables.teams import TeamsTable
 from src.database.tables.weather import WeatherTable
 
@@ -54,6 +57,7 @@ class DatabaseSchema:
             ClubsTable,
             TeamsTable,
             CompetitionTeamsTable,
+            TeamSeasonMetricsTable,
             StandingsTable,
             PlayersTable,
             StadiumsTable,

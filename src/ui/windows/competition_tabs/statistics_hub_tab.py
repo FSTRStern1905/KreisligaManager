@@ -96,6 +96,9 @@ from src.ui.windows.competition_tabs.streaks_tab import (
 from src.ui.windows.competition_tabs.team_goal_phase_tab import (
     CompetitionTeamGoalPhaseTab,
 )
+from src.ui.windows.competition_tabs.team_development_tab import (
+    CompetitionTeamDevelopmentTab,
+)
 from src.ui.dialogs.team_pdf_export_dialog import (
     TeamPdfExportDialog,
 )
@@ -358,6 +361,10 @@ class CompetitionStatisticsHubTab(QWidget):
             CompetitionRecordsTab()
         )
 
+        self.team_development_tab = (
+            CompetitionTeamDevelopmentTab()
+        )
+
         self.statistic_tabs = [
             self.home_tab,
             self.away_tab,
@@ -384,6 +391,7 @@ class CompetitionStatisticsHubTab(QWidget):
             self.fairplay_tab,
             self.goal_timeline_tab,
             self.records_tab,
+            self.team_development_tab,
         ]
 
     def create_groups(
@@ -544,6 +552,11 @@ class CompetitionStatisticsHubTab(QWidget):
         self.tabs.addTab(
             self.players_group,
             "Spieler",
+        )
+
+        self.tabs.addTab(
+            self.team_development_tab,
+            "Entwicklung",
         )
 
         self.tabs.addTab(

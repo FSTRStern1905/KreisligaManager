@@ -5,7 +5,10 @@ import sqlite3
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QAbstractItemView,
+    QComboBox,
+    QHBoxLayout,
     QHeaderView,
+    QLabel,
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
@@ -15,6 +18,9 @@ from PySide6.QtWidgets import (
 
 from src.services.statistics.half_goal_service import (
     HalfGoalService,
+)
+from src.ui.charts.base_bar_chart import (
+    BaseBarChart,
 )
 from src.ui.windows.competition_tabs.base_statistics_tab import (
     BaseStatisticsTab,
@@ -42,8 +48,58 @@ class CompetitionHalfGoalTab(
         self.first_half_table = QTableWidget()
         self.second_half_table = QTableWidget()
 
+        self.goals_comparison_tab = QWidget()
+        self.goals_comparison_chart = BaseBarChart(
+            title="Erzielte Tore vs. Liga-Ø",
+            x_axis_title="Halbzeit",
+            y_axis_title="Tore",
+        )
+        self.goals_comparison_chart.show_legend(True)
+
+        self.conceded_comparison_tab = QWidget()
+        self.conceded_comparison_chart = BaseBarChart(
+            title="Gegentore vs. Liga-Ø",
+            x_axis_title="Halbzeit",
+            y_axis_title="Gegentore",
+        )
+        self.conceded_comparison_chart.show_legend(True)
+
+        self.team_selector_widget = QWidget()
+        self.team_selector_layout = QHBoxLayout(
+            self.team_selector_widget
+        )
+        self.team_selector_layout.setContentsMargins(
+            8,
+            0,
+            0,
+            0,
+        )
+        self.team_selector_layout.setSpacing(
+            8
+        )
+
+        self.team_selector_label = QLabel(
+            "Mannschaft:"
+        )
+
+        self.team_combo = QComboBox()
+        self.team_combo.setMinimumWidth(
+            260
+        )
+
+        self.team_selector_layout.addWidget(
+            self.team_selector_label
+        )
+        self.team_selector_layout.addWidget(
+            self.team_combo
+        )
+
+        self.statistics_cache: list[dict] = []
+
         self.setup_first_half_tab()
         self.setup_second_half_tab()
+        self.setup_goals_comparison_tab()
+        self.setup_conceded_comparison_tab()
 
         self.inner_tabs.addTab(
             self.first_half_tab,
@@ -53,6 +109,31 @@ class CompetitionHalfGoalTab(
         self.inner_tabs.addTab(
             self.second_half_tab,
             "2. HZ",
+        )
+
+        self.inner_tabs.addTab(
+            self.goals_comparison_tab,
+            "Erzielte Tore",
+        )
+        self.inner_tabs.addTab(
+            self.conceded_comparison_tab,
+            "Gegentore",
+        )
+
+        self.inner_tabs.setCornerWidget(
+            self.team_selector_widget
+        )
+
+        self.team_selector_widget.setVisible(
+            False
+        )
+
+        self.team_combo.currentIndexChanged.connect(
+            self.team_changed
+        )
+
+        self.inner_tabs.currentChanged.connect(
+            self.inner_tab_changed
         )
 
         self.add_content_widget(
@@ -140,6 +221,16 @@ class CompetitionHalfGoalTab(
             self.second_half_table
         )
 
+    def setup_goals_comparison_tab(self) -> None:
+        layout = QVBoxLayout(self.goals_comparison_tab)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.goals_comparison_chart, 1)
+
+    def setup_conceded_comparison_tab(self) -> None:
+        layout = QVBoxLayout(self.conceded_comparison_tab)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.conceded_comparison_chart, 1)
+
     def _setup_table(
         self,
         table: QTableWidget,
@@ -223,6 +314,15 @@ class CompetitionHalfGoalTab(
                     )
                 )
 
+                self.statistics_cache = [
+                    dict(team)
+                    for team in statistics
+                ]
+
+                self.populate_team_combo(
+                    statistics
+                )
+
                 first_half_statistics = (
                     self._prepare_first_half_statistics(
                         statistics
@@ -297,6 +397,8 @@ class CompetitionHalfGoalTab(
                     True
                 )
 
+            self.load_selected_team()
+
         except (
             sqlite3.Error,
             ValueError,
@@ -309,6 +411,186 @@ class CompetitionHalfGoalTab(
                 ),
                 error=error,
             )
+
+    def populate_team_combo(
+        self,
+        statistics: list[dict],
+    ) -> None:
+        previous_team_id = (
+            self.team_combo.currentData()
+        )
+
+        self.team_combo.blockSignals(
+            True
+        )
+
+        self.team_combo.clear()
+
+        teams = sorted(
+            statistics,
+            key=lambda team: str(
+                team["team_name"]
+            ).lower(),
+        )
+
+        for team in teams:
+            self.team_combo.addItem(
+                str(
+                    team["team_name"]
+                ),
+                int(
+                    team["team_id"]
+                ),
+            )
+
+        if previous_team_id is not None:
+            for index in range(
+                self.team_combo.count()
+            ):
+                if (
+                    self.team_combo.itemData(
+                        index
+                    )
+                    == previous_team_id
+                ):
+                    self.team_combo.setCurrentIndex(
+                        index
+                    )
+                    break
+
+        self.team_combo.blockSignals(
+            False
+        )
+
+    def inner_tab_changed(self, index: int) -> None:
+        current_widget = self.inner_tabs.widget(index)
+        is_comparison = current_widget in (
+            self.goals_comparison_tab,
+            self.conceded_comparison_tab,
+        )
+        self.team_selector_widget.setVisible(is_comparison)
+
+        if is_comparison:
+            self.load_selected_team()
+
+    def team_changed(
+        self,
+        index: int,
+    ) -> None:
+        if index < 0:
+            return
+
+        self.load_selected_team()
+
+    def load_selected_team(self) -> None:
+        if not self.statistics_cache:
+            self.goals_comparison_chart.show_empty_chart("Keine Daten vorhanden")
+            self.conceded_comparison_chart.show_empty_chart("Keine Daten vorhanden")
+            return
+
+        team_id = self.team_combo.currentData()
+        if team_id is None:
+            return
+
+        team = next(
+            (
+                row for row in self.statistics_cache
+                if int(row["team_id"]) == int(team_id)
+            ),
+            None,
+        )
+
+        if team is None:
+            return
+
+        self.populate_goals_comparison_chart(team)
+        self.populate_conceded_comparison_chart(team)
+
+    def _league_half_averages(
+        self,
+        first_key: str,
+        second_key: str,
+    ) -> list[float]:
+        count = len(self.statistics_cache)
+        if count <= 0:
+            return [0.0, 0.0]
+
+        return [
+            sum(float(row[first_key]) for row in self.statistics_cache) / count,
+            sum(float(row[second_key]) for row in self.statistics_cache) / count,
+        ]
+
+    def _populate_average_chart(
+        self,
+        chart: BaseBarChart,
+        series_name: str,
+        team_values: list[float],
+        league_values: list[float],
+        lower_is_better: bool,
+    ) -> None:
+        chart.clear()
+        chart.set_categories(["1. Halbzeit", "2. Halbzeit"])
+
+        chart.create_bar_series(
+            name=series_name,
+            values=team_values,
+        )
+
+        chart.create_total_labels(
+            team_values
+        )
+
+        maximum = max(team_values + league_values)
+        padding = max(2.0, maximum * 0.22)
+
+        chart.set_value_range(
+            minimum=0,
+            maximum=maximum + padding,
+        )
+
+        chart.create_reference_markers(
+            reference_values=league_values,
+            comparison_values=team_values,
+            lower_is_better=lower_is_better,
+        )
+
+        chart.restore_chart_title()
+
+    def populate_goals_comparison_chart(self, team: dict) -> None:
+        team_values = [
+            float(team["first_half_goals"]),
+            float(team["second_half_goals"]),
+        ]
+        league_values = self._league_half_averages(
+            "first_half_goals",
+            "second_half_goals",
+        )
+
+        self._populate_average_chart(
+            chart=self.goals_comparison_chart,
+            series_name="Erzielte Tore",
+            team_values=team_values,
+            league_values=league_values,
+            lower_is_better=False,
+        )
+
+    def populate_conceded_comparison_chart(self, team: dict) -> None:
+        team_values = [
+            float(team["first_half_goals_against"]),
+            float(team["second_half_goals_against"]),
+        ]
+        league_values = self._league_half_averages(
+            "first_half_goals_against",
+            "second_half_goals_against",
+        )
+
+        self._populate_average_chart(
+            chart=self.conceded_comparison_chart,
+            series_name="Gegentore",
+            team_values=team_values,
+            league_values=league_values,
+            lower_is_better=True,
+        )
 
     def _prepare_first_half_statistics(
         self,
@@ -620,6 +902,34 @@ class CompetitionHalfGoalTab(
     def clear_content(
         self,
     ) -> None:
+        self.statistics_cache = []
+
+        if hasattr(self, "goals_comparison_chart"):
+            self.goals_comparison_chart.show_empty_chart("Keine Daten")
+
+        if hasattr(self, "conceded_comparison_chart"):
+            self.conceded_comparison_chart.show_empty_chart("Keine Daten")
+
+        if hasattr(
+            self,
+            "team_selector_widget",
+        ):
+            self.team_selector_widget.setVisible(
+                False
+            )
+
+        if hasattr(
+            self,
+            "team_combo",
+        ):
+            self.team_combo.blockSignals(
+                True
+            )
+            self.team_combo.clear()
+            self.team_combo.blockSignals(
+                False
+            )
+
         if hasattr(
             self,
             "first_half_table",

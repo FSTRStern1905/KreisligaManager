@@ -415,7 +415,8 @@ class CompetitionMatchdayStatisticsTab(
         statistics: list[dict],
     ) -> None:
         if not statistics:
-            self.matchday_records_label.clear()
+            self.matchday_records_line_1.clear()
+            self.matchday_records_line_2.clear()
             return
 
         most_home_wins = max(
