@@ -9,7 +9,9 @@ from PySide6.QtCharts import (
     QValueAxis,
 )
 from PySide6.QtCore import QPointF, Qt
+from PySide6.QtGui import QPen
 from PySide6.QtWidgets import (
+    QGraphicsLineItem,
     QGraphicsSimpleTextItem,
     QWidget,
 )
@@ -44,10 +46,19 @@ class BaseBarChart(BaseChart):
             float
         ] = []
 
+        self._reference_values: list[float] = []
+        self._reference_percentages: list[float] = []
+        self._reference_lower_is_better = False
+        self._reference_line_items: list[QGraphicsLineItem] = []
+        self._reference_label_items: list[QGraphicsSimpleTextItem] = []
+
         self.setup_chart()
 
         self.chart.plotAreaChanged.connect(
             self._position_total_labels
+        )
+        self.chart.plotAreaChanged.connect(
+            self._position_reference_markers
         )
 
     def setup_chart(
@@ -96,6 +107,7 @@ class BaseBarChart(BaseChart):
         self,
     ) -> None:
         self._clear_total_labels()
+        self._clear_reference_markers()
 
         self.clear_series()
 
@@ -306,6 +318,311 @@ class BaseBarChart(BaseChart):
 
         return series
 
+    def create_reference_markers(
+        self,
+        reference_values: list[float],
+        comparison_values: list[float],
+        lower_is_better: bool = False,
+    ) -> None:
+        self._clear_reference_markers()
+
+        if len(reference_values) != len(comparison_values):
+            raise ValueError(
+                "Referenz- und Vergleichswerte müssen gleich lang sein."
+            )
+
+        self._reference_values = [
+            float(value)
+            for value in reference_values
+        ]
+
+        self._reference_lower_is_better = (
+            lower_is_better
+        )
+
+        self._reference_percentages = []
+
+        for reference_value, comparison_value in zip(
+            self._reference_values,
+            comparison_values,
+        ):
+            comparison_value = float(
+                comparison_value
+            )
+
+            if reference_value > 0:
+                percentage = (
+                    (
+                        comparison_value
+                        - reference_value
+                    )
+                    / reference_value
+                    * 100.0
+                )
+            elif comparison_value > 0:
+                percentage = 100.0
+            else:
+                percentage = 0.0
+
+            self._reference_percentages.append(
+                percentage
+            )
+
+            is_better = (
+                percentage < 0
+                if lower_is_better
+                else percentage > 0
+            )
+
+            is_equal = abs(
+                percentage
+            ) < 0.05
+
+            marker_color = (
+                Qt.GlobalColor.darkGreen
+                if is_better or is_equal
+                else Qt.GlobalColor.red
+            )
+
+            line_item = QGraphicsLineItem(
+                self.chart
+            )
+
+            pen = QPen(
+                marker_color
+            )
+            pen.setWidthF(
+                2.0
+            )
+
+            line_item.setPen(
+                pen
+            )
+
+            self._reference_line_items.append(
+                line_item
+            )
+
+            label_item = (
+                QGraphicsSimpleTextItem(
+                    f"{percentage:+.0f} %",
+                    self.chart,
+                )
+            )
+
+            label_item.setBrush(
+                marker_color
+            )
+
+            self._reference_label_items.append(
+                label_item
+            )
+
+        self._position_reference_markers()
+
+    def _position_reference_markers(
+        self,
+        *_args,
+    ) -> None:
+        if not self._reference_values:
+            return
+
+        if not self._reference_line_items:
+            return
+
+        plot_area = self.chart.plotArea()
+
+        if (
+            plot_area.width() <= 0
+            or plot_area.height() <= 0
+        ):
+            return
+
+        category_count = len(
+            self._reference_values
+        )
+
+        if category_count <= 0:
+            return
+
+        minimum = float(
+            self.axis_y.min()
+        )
+
+        maximum = float(
+            self.axis_y.max()
+        )
+
+        value_range = (
+            maximum
+            - minimum
+        )
+
+        if value_range <= 0:
+            return
+
+        category_width = (
+            plot_area.width()
+            / category_count
+        )
+
+        marker_width = (
+            category_width
+            * 0.46
+        )
+
+        for index, (
+            line_item,
+            label_item,
+            reference_value,
+        ) in enumerate(
+            zip(
+                self._reference_line_items,
+                self._reference_label_items,
+                self._reference_values,
+            )
+        ):
+            normalized_reference = (
+                (
+                    reference_value
+                    - minimum
+                )
+                / value_range
+            )
+
+            normalized_reference = max(
+                0.0,
+                min(
+                    1.0,
+                    normalized_reference,
+                ),
+            )
+
+            center_x = (
+                plot_area.left()
+                + category_width
+                * (
+                    index
+                    + 0.5
+                )
+            )
+
+            reference_y = (
+                plot_area.bottom()
+                - normalized_reference
+                * plot_area.height()
+            )
+
+            line_item.setLine(
+                center_x
+                - marker_width / 2,
+                reference_y,
+                center_x
+                + marker_width / 2,
+                reference_y,
+            )
+
+            line_item.setZValue(
+                5
+            )
+
+            label_item.setZValue(
+                10
+            )
+
+            label_rect = (
+                label_item.boundingRect()
+            )
+
+            # Prozentwert grundsätzlich oberhalb
+            # der Liga-Ø-Markierung platzieren.
+            label_y = (
+                reference_y
+                - label_rect.height()
+                - 4
+            )
+
+            # Falls dort bereits der Mannschaftswert
+            # steht, den Prozentwert automatisch
+            # noch weiter nach oben schieben.
+            if (
+                index
+                < len(
+                    self._total_label_items
+                )
+            ):
+                total_label = (
+                    self._total_label_items[
+                        index
+                    ]
+                )
+
+                total_rect = (
+                    total_label.boundingRect()
+                    .translated(
+                        total_label.pos()
+                    )
+                )
+
+                candidate_rect = (
+                    label_rect.translated(
+                        center_x
+                        - label_rect.width()
+                        / 2,
+                        label_y,
+                    )
+                )
+
+                if candidate_rect.intersects(
+                    total_rect
+                ):
+                    label_y = (
+                        total_rect.top()
+                        - label_rect.height()
+                        - 4
+                    )
+
+            if label_y < plot_area.top():
+                label_y = (
+                    plot_area.top()
+                    + 2
+                )
+
+            label_item.setPos(
+                QPointF(
+                    center_x
+                    - label_rect.width()
+                    / 2,
+                    label_y,
+                )
+            )
+
+            line_item.setVisible(
+                True
+            )
+
+            label_item.setVisible(
+                True
+            )
+
+    def _clear_reference_markers(
+        self,
+    ) -> None:
+        for item in (
+            self._reference_line_items
+            + self._reference_label_items
+        ):
+            scene = item.scene()
+
+            if scene is not None:
+                scene.removeItem(item)
+
+        self._reference_values.clear()
+        self._reference_percentages.clear()
+        self._reference_lower_is_better = False
+        self._reference_line_items.clear()
+        self._reference_label_items.clear()
+
     def create_total_labels(
         self,
         values: list[float],
@@ -502,6 +819,7 @@ class BaseBarChart(BaseChart):
         )
 
         self._position_total_labels()
+        self._position_reference_markers()
 
     def set_value_label_format(
         self,

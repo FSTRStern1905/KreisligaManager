@@ -40,8 +40,13 @@ class CompetitionGoalTimelineTab(
         self.league_info_text = ""
         self.team_info_text = ""
 
+        self.league_timeline: list[dict] = []
+        self.team_count = 0
+
         self.league_tab = QWidget()
         self.team_tab = QWidget()
+        self.goals_for_tab = QWidget()
+        self.goals_against_tab = QWidget()
 
         self.league_chart = BaseBarChart(
             title="Torverteilung nach Spielminuten",
@@ -93,8 +98,30 @@ class CompetitionGoalTimelineTab(
             True
         )
 
+        self.goals_for_chart = BaseBarChart(
+            title="Erzielte Tore nach Spielminuten",
+            x_axis_title="Spielminute",
+            y_axis_title="Tore",
+        )
+
+        self.goals_for_chart.show_legend(
+            True
+        )
+
+        self.goals_against_chart = BaseBarChart(
+            title="Gegentore nach Spielminuten",
+            x_axis_title="Spielminute",
+            y_axis_title="Gegentore",
+        )
+
+        self.goals_against_chart.show_legend(
+            True
+        )
+
         self.setup_league_tab()
         self.setup_team_tab()
+        self.setup_goals_for_tab()
+        self.setup_goals_against_tab()
 
         self.inner_tabs.addTab(
             self.league_tab,
@@ -104,6 +131,16 @@ class CompetitionGoalTimelineTab(
         self.inner_tabs.addTab(
             self.team_tab,
             "Mannschaft",
+        )
+
+        self.inner_tabs.addTab(
+            self.goals_for_tab,
+            "Erzielte Tore",
+        )
+
+        self.inner_tabs.addTab(
+            self.goals_against_tab,
+            "Gegentore",
         )
 
         self.inner_tabs.setCornerWidget(
@@ -167,6 +204,44 @@ class CompetitionGoalTimelineTab(
             1,
         )
 
+    def setup_goals_for_tab(
+        self,
+    ) -> None:
+        layout = QVBoxLayout(
+            self.goals_for_tab
+        )
+
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        layout.addWidget(
+            self.goals_for_chart,
+            1,
+        )
+
+    def setup_goals_against_tab(
+        self,
+    ) -> None:
+        layout = QVBoxLayout(
+            self.goals_against_tab
+        )
+
+        layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+
+        layout.addWidget(
+            self.goals_against_chart,
+            1,
+        )
+
     def load_data(
         self,
     ) -> None:
@@ -176,6 +251,8 @@ class CompetitionGoalTimelineTab(
 
         self.league_chart.clear()
         self.team_chart.clear()
+        self.goals_for_chart.clear()
+        self.goals_against_chart.clear()
 
         try:
             with self.database_connection() as connection:
@@ -203,6 +280,17 @@ class CompetitionGoalTimelineTab(
                     service.get_competition_teams(
                         self.competition_id
                     )
+                )
+
+                self.league_timeline = [
+                    dict(
+                        interval
+                    )
+                    for interval in timeline
+                ]
+
+                self.team_count = len(
+                    teams
                 )
 
                 self.populate_league_chart(
@@ -382,30 +470,34 @@ class CompetitionGoalTimelineTab(
         self,
         index: int,
     ) -> None:
-        is_team_tab = (
+        current_widget = (
             self.inner_tabs.widget(
                 index
             )
-            is self.team_tab
+        )
+
+        is_league_tab = (
+            current_widget
+            is self.league_tab
         )
 
         self.team_selector_widget.setVisible(
-            is_team_tab
+            not is_league_tab
         )
 
-        if is_team_tab:
-            if self.team_info_text:
-                self.set_info_text(
-                    self.team_info_text
-                )
-
-            self.load_selected_team()
-
-        else:
+        if is_league_tab:
             if self.league_info_text:
                 self.set_info_text(
                     self.league_info_text
                 )
+            return
+
+        if self.team_info_text:
+            self.set_info_text(
+                self.team_info_text
+            )
+
+        self.load_selected_team()
 
     def team_changed(
         self,
@@ -428,6 +520,12 @@ class CompetitionGoalTimelineTab(
             self.team_chart.show_empty_chart(
                 "Keine Mannschaft ausgewählt"
             )
+            self.goals_for_chart.show_empty_chart(
+                "Keine Mannschaft ausgewählt"
+            )
+            self.goals_against_chart.show_empty_chart(
+                "Keine Mannschaft ausgewählt"
+            )
             return
 
         try:
@@ -447,6 +545,26 @@ class CompetitionGoalTimelineTab(
 
             self.populate_team_chart(
                 timeline
+            )
+
+            self.populate_goals_for_chart(
+                timeline=timeline,
+                league_timeline=(
+                    self.league_timeline
+                ),
+                team_count=(
+                    self.team_count
+                ),
+            )
+
+            self.populate_goals_against_chart(
+                timeline=timeline,
+                league_timeline=(
+                    self.league_timeline
+                ),
+                team_count=(
+                    self.team_count
+                ),
             )
 
             team_name = (
@@ -521,7 +639,7 @@ class CompetitionGoalTimelineTab(
 
             if (
                 self.inner_tabs.currentWidget()
-                is self.team_tab
+                is not self.league_tab
             ):
                 self.set_info_text(
                     self.team_info_text
@@ -761,6 +879,258 @@ class CompetitionGoalTimelineTab(
 
         self.team_chart.restore_chart_title()
 
+    def populate_goals_for_chart(
+        self,
+        timeline: list[dict],
+        league_timeline: list[dict],
+        team_count: int,
+    ) -> None:
+        self.goals_for_chart.clear()
+
+        if not timeline:
+            self.goals_for_chart.show_empty_chart(
+                "Keine Daten vorhanden"
+            )
+            return
+
+        categories: list[str] = []
+        team_values: list[float] = []
+        league_average_values: list[float] = []
+
+        maximum_value = 0.0
+
+        for index, interval in enumerate(
+            timeline
+        ):
+            team_value = float(
+                interval.get(
+                    "goals_for",
+                    0,
+                )
+            )
+
+            league_average = (
+                self._get_league_average_for_phase(
+                    league_timeline=(
+                        league_timeline
+                    ),
+                    index=index,
+                    team_count=team_count,
+                )
+            )
+
+            categories.append(
+                f"{interval['label']} Min."
+            )
+
+            team_values.append(
+                team_value
+            )
+
+            league_average_values.append(
+                league_average
+            )
+
+            maximum_value = max(
+                maximum_value,
+                team_value,
+                league_average,
+            )
+
+        if maximum_value <= 0:
+            self.goals_for_chart.show_empty_chart(
+                "Keine Tore mit Minutenangabe"
+            )
+            return
+
+        self.goals_for_chart.set_categories(
+            categories
+        )
+
+        self.goals_for_chart.create_grouped_bar_series(
+            sets=[
+                (
+                    "Erzielte Tore",
+                    team_values,
+                ),
+            ],
+            show_labels=False,
+        )
+
+        padding = max(
+            2.0,
+            maximum_value * 0.22,
+        )
+
+        self.goals_for_chart.set_value_range(
+            minimum=0,
+            maximum=(
+                maximum_value
+                + padding
+            ),
+        )
+
+        self.goals_for_chart.create_total_labels(
+            team_values
+        )
+
+        self.goals_for_chart.create_reference_markers(
+            reference_values=(
+                league_average_values
+            ),
+            comparison_values=(
+                team_values
+            ),
+            lower_is_better=False,
+        )
+
+        self.goals_for_chart.restore_chart_title()
+
+    def populate_goals_against_chart(
+        self,
+        timeline: list[dict],
+        league_timeline: list[dict],
+        team_count: int,
+    ) -> None:
+        self.goals_against_chart.clear()
+
+        if not timeline:
+            self.goals_against_chart.show_empty_chart(
+                "Keine Daten vorhanden"
+            )
+            return
+
+        categories: list[str] = []
+        team_values: list[float] = []
+        league_average_values: list[float] = []
+
+        maximum_value = 0.0
+
+        for index, interval in enumerate(
+            timeline
+        ):
+            team_value = float(
+                interval.get(
+                    "goals_against",
+                    0,
+                )
+            )
+
+            league_average = (
+                self._get_league_average_for_phase(
+                    league_timeline=(
+                        league_timeline
+                    ),
+                    index=index,
+                    team_count=team_count,
+                )
+            )
+
+            categories.append(
+                f"{interval['label']} Min."
+            )
+
+            team_values.append(
+                team_value
+            )
+
+            league_average_values.append(
+                league_average
+            )
+
+            maximum_value = max(
+                maximum_value,
+                team_value,
+                league_average,
+            )
+
+        if maximum_value <= 0:
+            self.goals_against_chart.show_empty_chart(
+                "Keine Gegentore mit Minutenangabe"
+            )
+            return
+
+        self.goals_against_chart.set_categories(
+            categories
+        )
+
+        self.goals_against_chart.create_grouped_bar_series(
+            sets=[
+                (
+                    "Gegentore",
+                    team_values,
+                ),
+            ],
+            show_labels=False,
+        )
+
+        padding = max(
+            2.0,
+            maximum_value * 0.22,
+        )
+
+        self.goals_against_chart.set_value_range(
+            minimum=0,
+            maximum=(
+                maximum_value
+                + padding
+            ),
+        )
+
+        self.goals_against_chart.create_total_labels(
+            team_values
+        )
+
+        self.goals_against_chart.create_reference_markers(
+            reference_values=(
+                league_average_values
+            ),
+            comparison_values=(
+                team_values
+            ),
+            lower_is_better=True,
+        )
+
+        self.goals_against_chart.restore_chart_title()
+
+    @staticmethod
+    def _get_league_average_for_phase(
+        league_timeline: list[dict],
+        index: int,
+        team_count: int,
+    ) -> float:
+        if team_count <= 0:
+            return 0.0
+
+        if index >= len(
+            league_timeline
+        ):
+            return 0.0
+
+        interval = league_timeline[
+            index
+        ]
+
+        assigned_goals = (
+            float(
+                interval.get(
+                    "home_goals",
+                    0,
+                )
+            )
+            + float(
+                interval.get(
+                    "away_goals",
+                    0,
+                )
+            )
+        )
+
+        return (
+            assigned_goals
+            / team_count
+        )
+
     @staticmethod
     def _get_strongest_phase(
         timeline: list[dict],
@@ -849,6 +1219,8 @@ class CompetitionGoalTimelineTab(
     ) -> None:
         self.league_info_text = ""
         self.team_info_text = ""
+        self.league_timeline = []
+        self.team_count = 0
 
         if hasattr(
             self,
@@ -863,6 +1235,22 @@ class CompetitionGoalTimelineTab(
             "team_chart",
         ):
             self.team_chart.show_empty_chart(
+                "Keine Daten"
+            )
+
+        if hasattr(
+            self,
+            "goals_for_chart",
+        ):
+            self.goals_for_chart.show_empty_chart(
+                "Keine Daten"
+            )
+
+        if hasattr(
+            self,
+            "goals_against_chart",
+        ):
+            self.goals_against_chart.show_empty_chart(
                 "Keine Daten"
             )
 
