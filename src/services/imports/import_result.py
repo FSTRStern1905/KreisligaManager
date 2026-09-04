@@ -20,6 +20,7 @@ class ImportResult:
     teams_created: int = 0
     matches_created: int = 0
     matches_updated: int = 0
+    matches_unchanged: int = 0
 
     players_created: int = 0
     players_updated: int = 0
@@ -158,6 +159,7 @@ class ImportResult:
             "teams_created",
             "matches_created",
             "matches_updated",
+            "matches_unchanged",
             "players_created",
             "players_updated",
             "lineups_imported",
@@ -216,6 +218,7 @@ class ImportResult:
             "teams_created": self.teams_created,
             "matches_created": self.matches_created,
             "matches_updated": self.matches_updated,
+            "matches_unchanged": self.matches_unchanged,
             "matches_imported": self.matches_imported,
             "players_created": self.players_created,
             "players_updated": self.players_updated,

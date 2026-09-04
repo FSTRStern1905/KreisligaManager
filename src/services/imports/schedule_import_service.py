@@ -391,10 +391,7 @@ class ScheduleImportService:
 
             existing_match = None
 
-            if (
-                schedule_only
-                and schedule_match.match_id
-            ):
+            if schedule_match.match_id:
                 existing_match = (
                     self.match_repository
                     .get_by_external_id(
@@ -402,64 +399,45 @@ class ScheduleImportService:
                     )
                 )
 
-            if schedule_only:
-                if existing_match is None:
-                    home_goals = None
-                    away_goals = None
-                    status = "scheduled"
-                    stadium_id = None
-                    referee_id = None
-                    attendance = None
-                    detail_imported = False
-                    notes = (
-                        "fussball.de: "
-                        f"{schedule_match.match_url}"
-                    )
-                else:
-                    home_goals = (
-                        existing_match.home_goals
-                    )
-                    away_goals = (
-                        existing_match.away_goals
-                    )
-                    status = (
-                        existing_match.status
-                        or "scheduled"
-                    )
-                    stadium_id = (
-                        existing_match.stadium_id
-                    )
-                    referee_id = (
-                        existing_match.referee_id
-                    )
-                    attendance = (
-                        existing_match.attendance
-                    )
-                    detail_imported = bool(
-                        getattr(
-                            existing_match,
-                            "detail_imported",
-                            False,
-                        )
-                    )
-                    notes = (
-                        existing_match.notes
-                        or (
-                            "fussball.de: "
-                            f"{schedule_match.match_url}"
-                        )
-                    )
+            # Spielplandaten kommen immer frisch von FUSSBALL.DE.
+            # Dadurch werden bei einem späteren Sync Ergebnisse,
+            # Status, Termine und Anstoßzeiten aktualisiert.
+            if schedule_only and existing_match is not None:
+                home_goals = existing_match.home_goals
+                away_goals = existing_match.away_goals
+                status = (
+                    existing_match.status
+                    or "scheduled"
+                )
             else:
-                home_goals = (
-                    schedule_match.home_score
-                )
-                away_goals = (
-                    schedule_match.away_score
-                )
+                home_goals = schedule_match.home_score
+                away_goals = schedule_match.away_score
                 status = (
                     schedule_match.status.strip()
                     or "scheduled"
                 )
+
+            # Detaildaten dürfen durch einen erneuten Spielplanimport
+            # niemals verloren gehen.
+            if existing_match is not None:
+                stadium_id = existing_match.stadium_id
+                referee_id = existing_match.referee_id
+                attendance = existing_match.attendance
+                detail_imported = bool(
+                    getattr(
+                        existing_match,
+                        "detail_imported",
+                        False,
+                    )
+                )
+                notes = (
+                    existing_match.notes
+                    or (
+                        "fussball.de: "
+                        f"{schedule_match.match_url}"
+                    )
+                )
+            else:
                 stadium_id = None
                 referee_id = None
                 attendance = None
@@ -491,14 +469,24 @@ class ScheduleImportService:
                 away_team_name=schedule_match.away_team,
             )
 
-            _, created = self.match_repository.upsert(
-                database_match
+            _, sync_status = (
+                self.match_repository
+                .upsert_with_status(
+                    database_match
+                )
             )
 
-            if created:
+            if sync_status == "created":
                 result.matches_created += 1
-            else:
+            elif sync_status == "updated":
                 result.matches_updated += 1
+            elif sync_status == "unchanged":
+                result.matches_unchanged += 1
+            else:
+                raise RuntimeError(
+                    "Unbekannter Match-Sync-Status: "
+                    f"{sync_status}"
+                )
 
     def _derive_season_name(
         self,

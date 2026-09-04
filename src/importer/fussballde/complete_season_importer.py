@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import re
 import sqlite3
+from datetime import datetime
 from dataclasses import asdict, dataclass
 from typing import Any
 
@@ -121,6 +123,10 @@ class CompleteSeasonImporter:
                     "Die fussball.de-Seite wurde "
                     "nicht geladen."
                 )
+
+            self._prepare_full_schedule_range(
+                browser.page
+            )
 
             schedule_parser = ScheduleParser(
                 browser.page
@@ -281,6 +287,324 @@ class CompleteSeasonImporter:
 
         finally:
             browser.close()
+
+    @classmethod
+    def _prepare_full_schedule_range(
+        cls,
+        page: Any,
+    ) -> None:
+        """
+        Lädt für laufende Wettbewerbe den vollständigen
+        Staffelspielplan.
+
+        Wichtig:
+        FUSSBALL.DE besitzt mehrere Datumsfilter auf derselben Seite.
+        Für den Staffelspielplan sind ausschließlich diese Felder
+        relevant:
+
+            #matchtable-date-from
+            #matchtable-date-to
+
+        Außerdem wird nur der Submit-Button des Formulars mit
+        data-ajax-resource*="ajax.fixturelist" verwendet.
+        """
+        from_input = page.locator(
+            "#matchtable-date-from"
+        )
+        to_input = page.locator(
+            "#matchtable-date-to"
+        )
+
+        if (
+            from_input.count() < 1
+            or to_input.count() < 1
+        ):
+            print(
+                "Spielplan-Zeitraum: Staffel-Datumsfelder "
+                "nicht gefunden. Aktueller Zeitraum bleibt aktiv."
+            )
+            return
+
+        current_from = (
+            from_input.first.input_value()
+            .strip()
+        )
+        current_to = (
+            to_input.first.input_value()
+            .strip()
+        )
+
+        target_from = cls._derive_season_start_date(
+            page=page,
+            current_to=current_to,
+        )
+
+        if not target_from:
+            print(
+                "Spielplan-Zeitraum: Saisonbeginn konnte "
+                "nicht bestimmt werden."
+            )
+            return
+
+        try:
+            current_from_date = datetime.strptime(
+                current_from,
+                "%d.%m.%Y",
+            ).date()
+
+            target_from_date = datetime.strptime(
+                target_from,
+                "%d.%m.%Y",
+            ).date()
+        except ValueError:
+            current_from_date = None
+            target_from_date = None
+
+        if (
+            current_from_date is not None
+            and target_from_date is not None
+            and current_from_date <= target_from_date
+        ):
+            print(
+                "Spielplan-Zeitraum bereits vollständig: "
+                f"{current_from} bis {current_to}"
+            )
+            return
+
+        print(
+            "Spielplan-Zeitraum erweitern: "
+            f"{current_from} -> {target_from}"
+        )
+
+        cls._set_date_input_value(
+            page=page,
+            selector="#matchtable-date-from",
+            value=target_from,
+        )
+
+        cls._set_date_input_value(
+            page=page,
+            selector="#matchtable-date-to",
+            value=current_to,
+        )
+
+        fixture_form = page.locator(
+            "form[data-ajax-resource*='ajax.fixturelist']"
+        )
+
+        if fixture_form.count() < 1:
+            print(
+                "WARNUNG: Staffelspielplan-Formular wurde "
+                "nicht gefunden. Import läuft mit aktuellem "
+                "Zeitraum weiter."
+            )
+            return
+
+        submit_button = fixture_form.first.locator(
+            "button[type='submit']"
+        )
+
+        if submit_button.count() < 1:
+            print(
+                "WARNUNG: Submit-Button des Staffelspielplans "
+                "wurde nicht gefunden. Import läuft mit aktuellem "
+                "Zeitraum weiter."
+            )
+            return
+
+        try:
+            with page.expect_response(
+                lambda response: (
+                    "ajax.fixturelist"
+                    in response.url
+                ),
+                timeout=10000,
+            ):
+                submit_button.first.click(
+                    force=True
+                )
+        except Exception:
+            # Fallback: Klick ausführen und anschließend kurz auf
+            # die AJAX-Aktualisierung warten.
+            try:
+                submit_button.first.click(
+                    force=True
+                )
+            except Exception as error:
+                print(
+                    "WARNUNG: Staffelspielplan konnte nicht "
+                    "neu geladen werden: "
+                    f"{error}"
+                )
+                return
+
+        page.wait_for_timeout(
+            1800
+        )
+
+        try:
+            new_from = (
+                page.locator(
+                    "#matchtable-date-from"
+                )
+                .first
+                .input_value()
+                .strip()
+            )
+        except Exception:
+            new_from = target_from
+
+        print(
+            "Spielplan-Zeitraum geladen: "
+            f"{new_from} bis {current_to}"
+        )
+
+    @classmethod
+    def _derive_season_start_date(
+        cls,
+        page: Any,
+        current_to: str,
+    ) -> str:
+        """
+        Ermittelt einen sicheren Saisonbeginn.
+
+        Wenn die URL z. B. 'saison2627' enthält, wird daraus
+        01.07.2026. Damit werden auch frühe Spieltage sicher
+        mitgeladen, ohne den exakten 1. Spieltag kennen zu müssen.
+        """
+        page_url = str(
+            getattr(
+                page,
+                "url",
+                "",
+            )
+            or ""
+        )
+
+        season_match = re.search(
+            r"saison(\d{2})(\d{2})",
+            page_url,
+            re.IGNORECASE,
+        )
+
+        if season_match:
+            start_year_short = int(
+                season_match.group(1)
+            )
+
+            start_year = (
+                2000
+                + start_year_short
+            )
+
+            return (
+                f"01.07.{start_year}"
+            )
+
+        try:
+            end_year = datetime.strptime(
+                current_to,
+                "%d.%m.%Y",
+            ).year
+
+            return (
+                f"01.07.{end_year - 1}"
+            )
+        except ValueError:
+            return ""
+
+    @staticmethod
+    def _set_date_input_value(
+        page: Any,
+        selector: str,
+        value: str,
+    ) -> None:
+        """
+        Setzt ein readonly AngularJS-Datumsfeld so, dass sowohl
+        das DOM als auch Angulars ngModel die Änderung erhalten.
+        """
+        locator = page.locator(
+            selector
+        ).first
+
+        locator.evaluate(
+            """(element, value) => {
+                element.removeAttribute('readonly');
+                element.value = value;
+
+                element.dispatchEvent(
+                    new Event(
+                        'input',
+                        { bubbles: true }
+                    )
+                );
+
+                element.dispatchEvent(
+                    new Event(
+                        'change',
+                        { bubbles: true }
+                    )
+                );
+
+                element.dispatchEvent(
+                    new Event(
+                        'blur',
+                        { bubbles: true }
+                    )
+                );
+            }""",
+            value,
+        )
+
+        # AngularJS direkt synchronisieren, falls auf der Seite
+        # verfügbar. So serialisiert data-rest-form garantiert den
+        # neuen Wert.
+        page.evaluate(
+            """([selector, value]) => {
+                if (!window.angular) {
+                    return;
+                }
+
+                const element = document.querySelector(
+                    selector
+                );
+
+                if (!element) {
+                    return;
+                }
+
+                const ngElement = window.angular.element(
+                    element
+                );
+
+                const controller = ngElement.controller(
+                    'ngModel'
+                );
+
+                if (!controller) {
+                    return;
+                }
+
+                controller.$setViewValue(
+                    value
+                );
+
+                controller.$render();
+
+                const scope = ngElement.scope();
+
+                if (
+                    scope
+                    && !scope.$root.$$phase
+                ) {
+                    scope.$apply();
+                }
+            }""",
+            [
+                selector,
+                value,
+            ],
+        )
 
     @classmethod
     def _is_finished_match(

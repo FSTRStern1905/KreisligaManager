@@ -362,6 +362,37 @@ class MatchRepository:
         self,
         match: Match,
     ) -> tuple[int, bool]:
+        """
+        Rückwärtskompatibler Upsert.
+
+        Rückgabe:
+            (match_id, created)
+
+        Für den Synchronisationsprozess kann zusätzlich
+        upsert_with_status() verwendet werden.
+        """
+        match_id, status = self.upsert_with_status(
+            match
+        )
+
+        return (
+            match_id,
+            status == "created",
+        )
+
+    def upsert_with_status(
+        self,
+        match: Match,
+    ) -> tuple[int, str]:
+        """
+        Legt ein Spiel an, aktualisiert es nur bei echten
+        Änderungen oder lässt es unverändert.
+
+        Status:
+            created
+            updated
+            unchanged
+        """
         normalized_external_id = (
             match.external_id.strip()
             if match.external_id
@@ -369,32 +400,141 @@ class MatchRepository:
         )
 
         if not normalized_external_id:
-            match_id = self.add(match)
+            match_id = self.add(
+                match
+            )
 
-            return match_id, True
+            return (
+                match_id,
+                "created",
+            )
 
         existing_match = self.get_by_external_id(
             normalized_external_id
         )
 
         if existing_match is None:
-            match.external_id = normalized_external_id
+            match.external_id = (
+                normalized_external_id
+            )
 
-            match_id = self.add(match)
+            match_id = self.add(
+                match
+            )
 
-            return match_id, True
+            return (
+                match_id,
+                "created",
+            )
 
         if existing_match.match_id is None:
             raise ValueError(
                 "Das vorhandene Spiel besitzt keine match_id."
             )
 
-        match.match_id = existing_match.match_id
-        match.external_id = normalized_external_id
+        match.match_id = (
+            existing_match.match_id
+        )
+        match.external_id = (
+            normalized_external_id
+        )
 
-        self.update(match)
+        if self._matches_equal(
+            existing_match,
+            match,
+        ):
+            return (
+                int(
+                    existing_match.match_id
+                ),
+                "unchanged",
+            )
 
-        return existing_match.match_id, False
+        self.update(
+            match
+        )
+
+        return (
+            int(
+                existing_match.match_id
+            ),
+            "updated",
+        )
+
+    @staticmethod
+    def _matches_equal(
+        existing_match: Match,
+        new_match: Match,
+    ) -> bool:
+        """
+        Vergleicht ausschließlich persistierte Match-Felder.
+
+        Die Hilfsfelder home_team_name / away_team_name
+        gehören nicht zur Tabelle und werden deshalb nicht
+        berücksichtigt.
+        """
+        fields = (
+            "competition_id",
+            "season_id",
+            "league_id",
+            "matchday",
+            "match_date",
+            "kickoff_time",
+            "home_team_id",
+            "away_team_id",
+            "stadium_id",
+            "referee_id",
+            "attendance",
+            "home_goals",
+            "away_goals",
+            "status",
+            "detail_imported",
+            "notes",
+            "external_id",
+        )
+
+        for field_name in fields:
+            existing_value = getattr(
+                existing_match,
+                field_name,
+            )
+
+            new_value = getattr(
+                new_match,
+                field_name,
+            )
+
+            if field_name in (
+                "status",
+                "notes",
+                "external_id",
+            ):
+                existing_value = (
+                    str(
+                        existing_value
+                        or ""
+                    ).strip()
+                )
+
+                new_value = (
+                    str(
+                        new_value
+                        or ""
+                    ).strip()
+                )
+
+            elif field_name == "detail_imported":
+                existing_value = bool(
+                    existing_value
+                )
+                new_value = bool(
+                    new_value
+                )
+
+            if existing_value != new_value:
+                return False
+
+        return True
 
     def delete(
         self,
