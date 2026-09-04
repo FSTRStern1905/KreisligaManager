@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+import re
 from html import escape
 from pathlib import Path
 from typing import Any
@@ -74,10 +75,10 @@ class TeamStatisticsPdfExporter:
 
         printer.setPageMargins(
             QMarginsF(
-                12.0,
-                12.0,
-                12.0,
-                14.0,
+                6.5,
+                6.5,
+                6.5,
+                7.0,
             ),
             QPageLayout.Unit.Millimeter,
         )
@@ -209,15 +210,6 @@ class TeamStatisticsPdfExporter:
             "sections"
         ]
 
-        body_parts = [
-            self._render_cover(
-                team_name=team_name,
-                competition_name=competition_name,
-                season_name=season_name,
-                generated_text=generated_text,
-            )
-        ]
-
         selected_sections = (
             report_data.get(
                 "selected_sections"
@@ -229,24 +221,107 @@ class TeamStatisticsPdfExporter:
                 self.SECTION_TITLES.keys()
             )
 
-        for section_key in selected_sections:
-            if section_key not in (
-                self.SECTION_TITLES
-            ):
-                continue
+        selected = {
+            key
+            for key in selected_sections
+            if key in self.SECTION_TITLES
+            and sections.get(key) is not None
+        }
 
-            section_data = sections.get(
-                section_key
+        page_1_keys = [
+            "overview",
+            "table_form",
+            "goals",
+            "match_flow",
+        ]
+
+        page_2_keys = [
+            "results",
+            "players",
+            "records",
+        ]
+
+        page_1 = [
+            key
+            for key in page_1_keys
+            if key in selected
+        ]
+
+        page_2 = [
+            key
+            for key in page_2_keys
+            if key in selected
+        ]
+
+        # Custom selections still remain usable:
+        # anything not assigned above is appended to page 2.
+        known = set(
+            page_1_keys
+            + page_2_keys
+        )
+
+        for key in selected_sections:
+            if (
+                key in selected
+                and key not in known
+            ):
+                page_2.append(
+                    key
+                )
+
+        body_parts = [
+            self._render_report_header(
+                team_name=team_name,
+                competition_name=competition_name,
+                season_name=season_name,
+                generated_text=generated_text,
+            )
+        ]
+
+        if page_1:
+            body_parts.append(
+                '<div class="report-page page-one">'
             )
 
-            if section_data is None:
-                continue
+            for section_key in page_1:
+                body_parts.append(
+                    self._render_compact_section(
+                        section_key=section_key,
+                        section_data=sections[
+                            section_key
+                        ],
+                    )
+                )
 
             body_parts.append(
-                self._render_section(
-                    section_key=section_key,
-                    section_data=section_data,
+                "</div>"
+            )
+
+        if page_2:
+            body_parts.append(
+                '<div class="report-page page-two">'
+            )
+
+            body_parts.append(
+                self._render_page_header(
+                    team_name=team_name,
+                    competition_name=competition_name,
+                    season_name=season_name,
                 )
+            )
+
+            for section_key in page_2:
+                body_parts.append(
+                    self._render_compact_section(
+                        section_key=section_key,
+                        section_data=sections[
+                            section_key
+                        ],
+                    )
+                )
+
+            body_parts.append(
+                "</div>"
             )
 
         return f"""
@@ -262,126 +337,256 @@ class TeamStatisticsPdfExporter:
     body {{
         font-family: "Arial", "DejaVu Sans", sans-serif;
         color: #1f2933;
-        font-size: 9.5pt;
-        line-height: 1.35;
-    }}
-
-    h1 {{
-        font-size: 24pt;
-        margin: 0 0 10px 0;
-        color: #111827;
+        font-size: 6.45pt;
+        line-height: 1.03;
+        margin: 0;
+        padding: 0;
     }}
 
     h2 {{
-        font-size: 16pt;
-        margin: 0 0 12px 0;
-        color: #111827;
+        font-size: 10.5pt;
+        color: #132238;
+        margin: 0;
     }}
 
     h3 {{
-        font-size: 11pt;
-        margin: 12px 0 6px 0;
-        color: #1f2933;
+        font-size: 7.7pt;
+        color: #22344d;
+        margin: 3px 0 2px 0;
     }}
 
     p {{
-        margin: 4px 0;
+        margin: 1px 0;
     }}
 
-    .cover {{
-        page-break-after: always;
+    .report-header {{
+        border-top: 5px solid #2b5f8f;
+        background: #f3f6f9;
+        padding: 5px 8px 4px 8px;
+        margin-bottom: 5px;
     }}
 
-    .cover-box {{
-        margin-top: 100px;
-        border: 1px solid #d1d5db;
-        padding: 26px;
-    }}
-
-    .cover-team {{
-        font-size: 27pt;
+    .report-brand {{
+        color: #2b5f8f;
+        font-size: 6.5pt;
         font-weight: bold;
-        margin-bottom: 18px;
+        letter-spacing: 0.5px;
     }}
 
-    .cover-meta {{
-        font-size: 13pt;
-        margin-top: 8px;
+    .report-team {{
+        font-size: 15.5pt;
+        font-weight: bold;
+        color: #132238;
+        margin-top: 2px;
+    }}
+
+    .report-meta {{
+        color: #526173;
+        font-size: 7.5pt;
+        margin-top: 2px;
+    }}
+
+    .report-date {{
+        color: #7b8491;
+        font-size: 6pt;
+        margin-top: 2px;
+    }}
+
+    .report-page {{
+        width: 100%;
+    }}
+
+    .page-two {{
+        page-break-before: always;
+    }}
+
+    .page-header {{
+        border-bottom: 2px solid #2b5f8f;
+        margin-bottom: 5px;
+        padding-bottom: 3px;
+    }}
+
+    .page-header-team {{
+        font-size: 10pt;
+        font-weight: bold;
+        color: #132238;
+    }}
+
+    .page-header-meta {{
+        font-size: 6.5pt;
+        color: #6b7280;
+    }}
+
+    .compact-section {{
+        margin: 0 0 3px 0;
+    }}
+
+    .compact-title {{
+        border-bottom: 1px solid #9eb4c8;
+        padding: 1px 0 1px 0;
+        margin-bottom: 3px;
+    }}
+
+    .keyfacts {{
+        border-left: 3px solid #2b5f8f;
+        background: #edf3f8;
+        color: #23364d;
+        padding: 2px 4px;
+        margin: 2px 0 3px 0;
+        font-weight: bold;
+        font-size: 6.4pt;
+    }}
+
+    .facts {{
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2px 0 3px 0;
+        page-break-inside: avoid;
+    }}
+
+    .facts td {{
+        width: 25%;
+        border: 1px solid #d9dee5;
+        background: #fbfcfd;
+        padding: 1.4px 2px;
+        vertical-align: top;
+    }}
+
+    .facts td.fact-empty {{
+        border: none;
+        background: transparent;
+        padding: 0;
+    }}
+
+    .fact-label {{
+        color: #687386;
+        font-size: 5.4pt;
+        line-height: 1.0;
+    }}
+
+    .fact-value {{
+        font-weight: bold;
+        font-size: 7.8pt;
+        color: #17263a;
+        margin-top: 1px;
+    }}
+
+    .block {{
+        page-break-inside: auto;
+        margin-bottom: 2px;
+    }}
+
+    table.data {{
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2px 0 3px 0;
+        font-size: 6.2pt;
+    }}
+
+    table.data th {{
+        background: #dfe8f0;
+        color: #20354d;
+        border: 1px solid #c4d0dc;
+        padding: 1.6px 2px;
+        text-align: left;
+        font-weight: bold;
+        white-space: nowrap;
+    }}
+
+    table.data td {{
+        border: 1px solid #d8dde3;
+        padding: 1.4px 2px;
+        vertical-align: top;
+    }}
+
+    table.data tr:nth-child(even) td {{
+        background: #f8fafc;
+    }}
+
+    .section-table_form .block {{
+        display: block;
+    }}
+
+    .section-table_form .facts {{
+        margin-bottom: 2px;
+    }}
+
+    .section-goals table.data {{
+        font-size: 6pt;
+    }}
+
+    .section-match_flow {{
+        margin-bottom: 1px;
+    }}
+
+    .section-match_flow h3 {{
+        margin: 2px 0 1px 0;
+        font-size: 7.2pt;
+    }}
+
+    .section-match_flow .facts {{
+        margin: 1px 0 1px 0;
+    }}
+
+    .section-match_flow .facts td {{
+        padding: 1.4px 2px;
+    }}
+
+    .section-match_flow .fact-label {{
+        font-size: 5.1pt;
+    }}
+
+    .section-match_flow .fact-value {{
+        font-size: 7.4pt;
+    }}
+
+    .section-results table.data {{
+        font-size: 5.9pt;
+    }}
+
+    .section-players .keyfacts {{
+        font-size: 6pt;
+    }}
+
+    .section-players table.data {{
+        font-size: 5.55pt;
+    }}
+
+    .section-players table.data th {{
+        padding: 1.4px 1.7px;
+    }}
+
+    .section-players table.data td {{
+        padding: 1.2px 1.7px;
+        line-height: 1.0;
+    }}
+
+    .section-players table.data th:first-child,
+    .section-players table.data td:first-child {{
+        width: 30%;
+    }}
+
+    .section-records table.data {{
+        font-size: 5.9pt;
     }}
 
     .muted {{
         color: #6b7280;
     }}
 
-    .section {{
-        page-break-before: always;
+    .small-note {{
+        color: #7a8493;
+        font-size: 5.8pt;
+        margin-top: 2px;
     }}
 
-    .section:first-of-type {{
-        page-break-before: auto;
+    ul {{
+        margin: 2px 0 3px 12px;
+        padding: 0;
     }}
 
-    .facts {{
-        width: 100%;
-        border-collapse: collapse;
-        margin: 8px 0 14px 0;
-    }}
-
-    .facts td {{
-        width: 25%;
-        border: 1px solid #d1d5db;
-        padding: 8px;
-        vertical-align: top;
-    }}
-
-    .fact-label {{
-        color: #6b7280;
-        font-size: 8pt;
-    }}
-
-    .fact-value {{
-        font-weight: bold;
-        font-size: 12pt;
-        margin-top: 3px;
-    }}
-
-    table.data {{
-        width: 100%;
-        border-collapse: collapse;
-        margin: 7px 0 14px 0;
-    }}
-
-    table.data th {{
-        background: #e5e7eb;
-        border: 1px solid #c7cdd4;
-        padding: 5px;
-        text-align: left;
-        font-weight: bold;
-    }}
-
-    table.data td {{
-        border: 1px solid #d8dde3;
-        padding: 5px;
-        vertical-align: top;
-    }}
-
-    .keyfacts {{
-        border-left: 4px solid #64748b;
-        background: #f3f4f6;
-        padding: 8px 10px;
-        margin: 6px 0 12px 0;
-    }}
-
-    .note {{
-        color: #6b7280;
-        font-size: 8pt;
-        margin-top: 8px;
-    }}
-
-    .page-title {{
-        border-bottom: 2px solid #9ca3af;
-        padding-bottom: 6px;
-        margin-bottom: 10px;
+    li {{
+        margin: 0;
     }}
 </style>
 </head>
@@ -391,7 +596,7 @@ class TeamStatisticsPdfExporter:
 </html>
 """
 
-    def _render_cover(
+    def _render_report_header(
         self,
         team_name: str,
         competition_name: str,
@@ -399,34 +604,93 @@ class TeamStatisticsPdfExporter:
         generated_text: str,
     ) -> str:
         return f"""
-<div class="cover">
-    <div class="cover-box">
-        <div class="muted">
-            KreisligaManager
-        </div>
-
-        <div class="cover-team">
-            {team_name}
-        </div>
-
-        <div class="cover-meta">
-            {competition_name}
-        </div>
-
-        <div class="cover-meta">
-            Saison {season_name}
-        </div>
-
-        <div class="cover-meta muted">
-            Team-Statistikreport
-        </div>
-
-        <p class="note">
-            Erstellt am {escape(generated_text)}
-        </p>
+<div class="report-header">
+    <div class="report-brand">
+        KREISLIGAMANAGER · TEAM-STATISTIKREPORT
+    </div>
+    <div class="report-team">
+        {team_name}
+    </div>
+    <div class="report-meta">
+        {competition_name} · Saison {season_name}
+    </div>
+    <div class="report-date">
+        Erstellt am {escape(generated_text)}
     </div>
 </div>
 """
+
+    def _render_page_header(
+        self,
+        team_name: str,
+        competition_name: str,
+        season_name: str,
+    ) -> str:
+        return f"""
+<div class="page-header">
+    <div class="page-header-team">
+        {team_name}
+    </div>
+    <div class="page-header-meta">
+        {competition_name} · Saison {season_name} ·
+        Team-Statistikreport
+    </div>
+</div>
+"""
+
+    def _render_compact_section(
+        self,
+        section_key: str,
+        section_data: Any,
+    ) -> str:
+        title = escape(
+            self.SECTION_TITLES[
+                section_key
+            ]
+        )
+
+        section_class = (
+            "compact-section "
+            f"section-{escape(section_key)}"
+        )
+
+        parts = [
+            f'<div class="{section_class}">',
+            '<div class="compact-title">',
+            f"<h2>{title}</h2>",
+            "</div>",
+        ]
+
+        if isinstance(
+            section_data,
+            dict,
+        ):
+            parts.append(
+                self._render_section_dict(
+                    section_data
+                )
+            )
+        elif isinstance(
+            section_data,
+            list,
+        ):
+            parts.append(
+                self._render_generic_list(
+                    section_data
+                )
+            )
+        else:
+            parts.append(
+                f"<p>{escape(str(section_data))}</p>"
+            )
+
+        parts.append(
+            "</div>"
+        )
+
+        return "".join(
+            parts
+        )
 
     def _render_section(
         self,
@@ -439,8 +703,20 @@ class TeamStatisticsPdfExporter:
             ]
         )
 
+        section_class = (
+            "compact-section "
+            f"section-{escape(section_key)}"
+        )
+
         parts = [
-            '<div class="section">',
+            (
+                f'<div class="{section_class}">'
+            ),
+            (
+                '<div class="section-kicker">'
+                'Team-Statistikreport'
+                '</div>'
+            ),
             (
                 '<h2 class="page-title">'
                 f"{title}"
@@ -638,7 +914,7 @@ class TeamStatisticsPdfExporter:
                 row_cells
             ) < 4:
                 row_cells.append(
-                    "<td></td>"
+                    '<td class="fact-empty"></td>'
                 )
 
             rows.append(
@@ -717,8 +993,12 @@ class TeamStatisticsPdfExporter:
                 f"<p>{escape(str(text))}</p>"
             )
 
-        return "".join(
-            parts
+        return (
+            '<div class="block">'
+            + "".join(
+                parts
+            )
+            + "</div>"
         )
 
     def _render_table(
@@ -840,9 +1120,38 @@ class TeamStatisticsPdfExporter:
             value,
             float,
         ):
-            return (
+            formatted = (
                 f"{value:.2f}"
+                .rstrip("0")
+                .rstrip(".")
             )
+
+            return formatted.replace(
+                ".",
+                ",",
+            )
+
+        if isinstance(
+            value,
+            str,
+        ):
+            stripped = value.strip()
+
+            if re.fullmatch(
+                r"\d{4}-\d{2}-\d{2}",
+                stripped,
+            ):
+                try:
+                    return datetime.strptime(
+                        stripped,
+                        "%Y-%m-%d",
+                    ).strftime(
+                        "%d.%m.%Y"
+                    )
+                except ValueError:
+                    pass
+
+            return stripped
 
         return str(
             value
