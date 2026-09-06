@@ -23,7 +23,7 @@ def main():
         app.setStyleSheet(style_file.read())
 
     window = MainWindow(repository)
-    window.show()
+    window.showMaximized()
 
     exit_code = app.exec()
 
