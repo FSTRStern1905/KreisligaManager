@@ -1,0 +1,109 @@
+﻿match_id;competition_id;season_id;league_id;matchday;match_date;kickoff_time;home_team_id;away_team_id;stadium_id;referee_id;attendance;home_goals;away_goals;status;detail_imported;notes;external_id;home_team_name;away_team_name;selected_team_role;opponent_name
+191;2;1;2;1;2025-08-23;15:30;15;32;35;;;1;3;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-vfl-wolfsburg/-/spiel/02TKDR1RCK000000VS5489BUVUD1610F";02TKDR1RCK000000VS5489BUVUD1610F;1. FC Heidenheim 1846;VfL Wolfsburg;home;VfL Wolfsburg
+193;2;1;2;2;2025-08-30;15:30;27;15;37;;;2;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, Red Bull Arena, Am Sportforum 2, 04105 Leipzig
+fussball.de: https://www.fussball.de/spiel/rb-leipzig-1-fc-heidenheim-1846/-/spiel/02TKDR1RFS000000VS5489BUVUD1610F";02TKDR1RFS000000VS5489BUVUD1610F;RB Leipzig;1. FC Heidenheim 1846;away;RB Leipzig
+209;2;1;2;3;2025-09-13;15:30;15;20;35;13;;0;2;finished;1;"Halbzeit: 0:2
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+Schiedsrichter: Christian Dietz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-borussia-dortmund/-/spiel/02TKDR1SA8000000VS5489BUVUD1610F";02TKDR1SA8000000VS5489BUVUD1610F;1. FC Heidenheim 1846;Borussia Dortmund;home;Borussia Dortmund
+218;2;1;2;4;2025-09-20;15:30;26;15;44;;;2;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Volksparkstadion, Uwe Seeler Allee 9, 22525 Hamburg
+fussball.de: https://www.fussball.de/spiel/hamburger-sv-1-fc-heidenheim-1846/-/spiel/02TKDR1SQS000000VS5489BUVUD1610F";02TKDR1SQS000000VS5489BUVUD1610F;Hamburger SV;1. FC Heidenheim 1846;away;Hamburger SV
+226;2;1;2;5;2025-09-27;15:30;15;23;35;;;2;1;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-fc-augsburg/-/spiel/02TKDR1TAC000000VS5489BUVUD1610F";02TKDR1TAC000000VS5489BUVUD1610F;1. FC Heidenheim 1846;FC Augsburg;home;FC Augsburg
+232;2;1;2;6;2025-10-05;15:30;31;15;39;;;1;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, MHPArena, Mercedesstr. 87, 70372 Stuttgart
+fussball.de: https://www.fussball.de/spiel/vfb-stuttgart-1-fc-heidenheim-1846/-/spiel/02TKDR1TM0000000VS5489BUVUD1610F";02TKDR1TM0000000VS5489BUVUD1610F;VfB Stuttgart;1. FC Heidenheim 1846;away;VfB Stuttgart
+244;2;1;2;7;2025-10-18;15:30;15;29;35;;;2;2;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-sv-werder-bremen/-/spiel/02TKDR1UEO000000VS5489BUVUD1610F";02TKDR1UEO000000VS5489BUVUD1610F;1. FC Heidenheim 1846;SV Werder Bremen;home;SV Werder Bremen
+253;2;1;2;8;2025-10-25;15:30;30;15;42;;;3;1;finished;1;"Halbzeit: 2:0
+Spielstätte: Rasenplatz, SNP Arena, Dietmar-Hopp-Straße 1, 74889 Sinsheim
+fussball.de: https://www.fussball.de/spiel/tsg-hoffenheim-1-fc-heidenheim-1846/-/spiel/02TKDR1V1G000000VS5489BUVUD1610F";02TKDR1V1G000000VS5489BUVUD1610F;TSG Hoffenheim;1. FC Heidenheim 1846;away;TSG Hoffenheim
+262;2;1;2;9;2025-11-01;15:30;15;22;35;;;1;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-eintracht-frankfurt/-/spiel/02TKDR1VL8000000VS5489BUVUD1610F";02TKDR1VL8000000VS5489BUVUD1610F;1. FC Heidenheim 1846;Eintracht Frankfurt;home;Eintracht Frankfurt
+264;2;1;2;10;2025-11-08;15:30;19;15;28;;;6;0;finished;1;"Halbzeit: 5:0
+Spielstätte: Rasenplatz, BayArena, Bismarckstr. 122-124, 51373 Leverkusen
+fussball.de: https://www.fussball.de/spiel/bayer-04-leverkusen-1-fc-heidenheim-1846/-/spiel/02TKDR1VPS000000VS5489BUVUD1610F";02TKDR1VPS000000VS5489BUVUD1610F;Bayer 04 Leverkusen;1. FC Heidenheim 1846;away;Bayer 04 Leverkusen
+280;2;1;2;11;2025-11-22;15:30;15;21;35;;;0;3;finished;1;"Halbzeit: 0:1
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-borussia-moenchengladbach/-/spiel/02TKDR20VO000000VS5489BUVUD1610F";02TKDR20VO000000VS5489BUVUD1610F;1. FC Heidenheim 1846;Borussia Mönchengladbach;home;Borussia Mönchengladbach
+288;2;1;2;12;2025-11-29;15:30;17;15;33;;;1;2;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Stadion An der Alten Försterei, An der Wuhlheide 263, 12555 Berlin
+fussball.de: https://www.fussball.de/spiel/1-fc-union-berlin-1-fc-heidenheim-1846/-/spiel/02TKDR21I0000000VS5489BUVUD1610F";02TKDR21I0000000VS5489BUVUD1610F;1. FC Union Berlin;1. FC Heidenheim 1846;away;1. FC Union Berlin
+297;2;1;2;13;2025-12-06;15:30;15;28;35;;;2;1;finished;1;"Halbzeit: 0:1
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-sport-club-freiburg/-/spiel/02TKDR227O000000VS5489BUVUD1610F";02TKDR227O000000VS5489BUVUD1610F;1. FC Heidenheim 1846;Sport-Club Freiburg;home;Sport-Club Freiburg
+307;2;1;2;14;2025-12-13;15:30;25;15;34;15;;2;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Millerntor-Stadion, Harald-Stender-Platz 1, 20359 Hamburg
+Schiedsrichter: Thorben Siewer
+fussball.de: https://www.fussball.de/spiel/fc-st-pauli-1-fc-heidenheim-1846/-/spiel/02TKDR231K000000VS5489BUVUD1610F";02TKDR231K000000VS5489BUVUD1610F;FC St. Pauli;1. FC Heidenheim 1846;away;FC St. Pauli
+315;2;1;2;15;2025-12-21;17:30;15;24;35;;;0;4;finished;1;"Halbzeit: 0:2
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-fc-bayern-muenchen/-/spiel/02TKDR23N0000000VS5489BUVUD1610F";02TKDR23N0000000VS5489BUVUD1610F;1. FC Heidenheim 1846;FC Bayern München;home;FC Bayern München
+326;2;1;2;16;2026-01-10;15:30;15;16;35;;;2;2;finished;1;"Halbzeit: 2:1
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-1-fc-koeln/-/spiel/02TKDR24LG000000VS5489BUVUD1610F";02TKDR24LG000000VS5489BUVUD1610F;1. FC Heidenheim 1846;1. FC Köln;home;1. FC Köln
+328;2;1;2;17;2026-01-13;20:30;18;15;31;;;2;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, MEWA ARENA, Eugen-Salomon-Str. 1, 55128 Mainz
+fussball.de: https://www.fussball.de/spiel/1-fsv-mainz-05-1-fc-heidenheim-1846/-/spiel/02TKDR24R4000000VS5489BUVUD1610F";02TKDR24R4000000VS5489BUVUD1610F;1. FSV Mainz 05;1. FC Heidenheim 1846;away;1. FSV Mainz 05
+340;2;1;2;18;2026-01-17;15:30;32;15;40;;;1;1;finished;1;"Halbzeit: 0:1
+Spielstätte: Rasenplatz, VOLKSWAGEN ARENA, In den Allerwiesen 1, 38446 Wolfsburg
+fussball.de: https://www.fussball.de/spiel/vfl-wolfsburg-1-fc-heidenheim-1846/-/spiel/02TKDR25T0000000VS5489BUVUD1610F";02TKDR25T0000000VS5489BUVUD1610F;VfL Wolfsburg;1. FC Heidenheim 1846;away;VfL Wolfsburg
+353;2;1;2;19;2026-01-24;15:30;15;27;35;;;0;3;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-rb-leipzig/-/spiel/02TKDR271O000000VS5489BUVUD1610F";02TKDR271O000000VS5489BUVUD1610F;1. FC Heidenheim 1846;RB Leipzig;home;RB Leipzig
+355;2;1;2;20;2026-02-01;17:30;20;15;36;;;3;2;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, SIGNAL IDUNA PARK, Strobelallee 50, 44139 Dortmund
+fussball.de: https://www.fussball.de/spiel/borussia-dortmund-1-fc-heidenheim-1846/-/spiel/02TKDR277O000000VS5489BUVUD1610F";02TKDR277O000000VS5489BUVUD1610F;Borussia Dortmund;1. FC Heidenheim 1846;away;Borussia Dortmund
+370;2;1;2;21;2026-02-07;15:30;15;26;35;;;0;2;finished;1;"Halbzeit: 0:1
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-hamburger-sv/-/spiel/02TKDR28MS000000VS5489BUVUD1610F";02TKDR28MS000000VS5489BUVUD1610F;1. FC Heidenheim 1846;Hamburger SV;home;Hamburger SV
+378;2;1;2;22;2026-02-15;15:30;23;15;41;13;;1;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, WWK ARENA, Bürgermeister-Ulrich-Str. 90, 86199 Augsburg
+Schiedsrichter: Christian Dietz
+fussball.de: https://www.fussball.de/spiel/fc-augsburg-1-fc-heidenheim-1846/-/spiel/02TKDR29FS000000VS5489BUVUD1610F";02TKDR29FS000000VS5489BUVUD1610F;FC Augsburg;1. FC Heidenheim 1846;away;FC Augsburg
+388;2;1;2;23;2026-02-22;19:30;15;31;35;;;3;3;finished;1;"Halbzeit: 2:2
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-vfb-stuttgart/-/spiel/02TKDR2AFO000000VS5489BUVUD1610F";02TKDR2AFO000000VS5489BUVUD1610F;1. FC Heidenheim 1846;VfB Stuttgart;home;VfB Stuttgart
+393;2;1;2;24;2026-02-28;15:30;29;15;38;;;2;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, Weser-Stadion, Franz-Böhmert-Str. 7, 28205 Bremen
+fussball.de: https://www.fussball.de/spiel/sv-werder-bremen-1-fc-heidenheim-1846/-/spiel/02TKDR2B00000000VS5489BUVUD1610F";02TKDR2B00000000VS5489BUVUD1610F;SV Werder Bremen;1. FC Heidenheim 1846;away;SV Werder Bremen
+406;2;1;2;25;2026-03-07;15:30;15;30;35;;;2;4;finished;1;"Halbzeit: 0:2
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-tsg-hoffenheim/-/spiel/02TKDR2CB4000000VS5489BUVUD1610F";02TKDR2CB4000000VS5489BUVUD1610F;1. FC Heidenheim 1846;TSG Hoffenheim;home;TSG Hoffenheim
+409;2;1;2;26;2026-03-14;15:30;22;15;29;;;1;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Rasenplatz, Deutsche Bank Park, Mörfelder Landstr. 362, 60528 Frankfurt am Main
+fussball.de: https://www.fussball.de/spiel/eintracht-frankfurt-1-fc-heidenheim-1846/-/spiel/02TKDR2CLS000000VS5489BUVUD1610F";02TKDR2CLS000000VS5489BUVUD1610F;Eintracht Frankfurt;1. FC Heidenheim 1846;away;Eintracht Frankfurt
+424;2;1;2;27;2026-03-21;15:30;15;19;35;17;;3;3;finished;1;"Halbzeit: 0:2
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+Schiedsrichter: Felix Prigan
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-bayer-04-leverkusen/-/spiel/02TKDR2EAS000000VS5489BUVUD1610F";02TKDR2EAS000000VS5489BUVUD1610F;1. FC Heidenheim 1846;Bayer 04 Leverkusen;home;Bayer 04 Leverkusen
+431;2;1;2;28;2026-04-04;15:30;21;15;32;;;2;2;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, Ista-Borussia-Park, Hennes-Weisweiler-Allee 1, 41179 Mönchengladbach
+fussball.de: https://www.fussball.de/spiel/borussia-moenchengladbach-1-fc-heidenheim-1846/-/spiel/02TKDR2F5C000000VS5489BUVUD1610F";02TKDR2F5C000000VS5489BUVUD1610F;Borussia Mönchengladbach;1. FC Heidenheim 1846;away;Borussia Mönchengladbach
+442;2;1;2;29;2026-04-11;15:30;15;17;35;15;;3;1;finished;1;"Halbzeit: 2:0
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+Schiedsrichter: Thorben Siewer
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-1-fc-union-berlin/-/spiel/02TKDR2GDC000000VS5489BUVUD1610F";02TKDR2GDC000000VS5489BUVUD1610F;1. FC Heidenheim 1846;1. FC Union Berlin;home;1. FC Union Berlin
+447;2;1;2;30;2026-04-19;15:30;28;15;30;;;2;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Europa-Park Stadion, Achim-Stocker-Str. 1, 79108 Freiburg im Breisgau
+fussball.de: https://www.fussball.de/spiel/sport-club-freiburg-1-fc-heidenheim-1846/-/spiel/02TKDR2H0K000000VS5489BUVUD1610F";02TKDR2H0K000000VS5489BUVUD1610F;Sport-Club Freiburg;1. FC Heidenheim 1846;away;Sport-Club Freiburg
+459;2;1;2;31;2026-04-25;15:30;15;25;35;13;;2;0;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+Schiedsrichter: Christian Dietz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-fc-st-pauli/-/spiel/02TKDR2IEC000000VS5489BUVUD1610F";02TKDR2IEC000000VS5489BUVUD1610F;1. FC Heidenheim 1846;FC St. Pauli;home;FC St. Pauli
+462;2;1;2;32;2026-05-02;15:30;24;15;27;;;3;3;finished;1;"Halbzeit: 1:2
+Spielstätte: Rasenplatz, Allianz Arena, Werner-Heisenberg-Allee 25, 80939 München
+fussball.de: https://www.fussball.de/spiel/fc-bayern-muenchen-1-fc-heidenheim-1846/-/spiel/02TKDR2IPO000000VS5489BUVUD1610F";02TKDR2IPO000000VS5489BUVUD1610F;FC Bayern München;1. FC Heidenheim 1846;away;FC Bayern München
+478;2;1;2;33;2026-05-10;17:30;16;15;43;;;1;3;finished;1;"Halbzeit: 1:2
+Spielstätte: Rasenplatz, RheinEnergieStadion, Aachener Straße, 50933 Köln
+fussball.de: https://www.fussball.de/spiel/1-fc-koeln-1-fc-heidenheim-1846/-/spiel/02TKDR2KOO000000VS5489BUVUD1610F";02TKDR2KOO000000VS5489BUVUD1610F;1. FC Köln;1. FC Heidenheim 1846;away;1. FC Köln
+488;2;1;2;34;2026-05-16;15:30;15;18;35;;;0;2;finished;1;"Halbzeit: 0:2
+Spielstätte: Rasenplatz, Voith-Arena, Heeracker, 89522 Heidenheim an der Brenz
+fussball.de: https://www.fussball.de/spiel/1-fc-heidenheim-1846-1-fsv-mainz-05/-/spiel/02TKDR2M40000000VS5489BUVUD1610F";02TKDR2M40000000VS5489BUVUD1610F;1. FC Heidenheim 1846;1. FSV Mainz 05;home;1. FSV Mainz 05

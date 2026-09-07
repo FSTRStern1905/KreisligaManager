@@ -1,0 +1,892 @@
+﻿event_id;match_id;event_type_id;minute;second;team_id;player_id;related_player_id;value;notes;external_id;event_type_code;event_type_name;player_first_name;player_last_name;related_player_first_name;related_player_last_name;event_team_name;relation_to_selected_team
+4205;191;3;5;0;15;1004;;source:liveticker | 0:0;Gelbe Karte : Diant Ramaj;;YELLOW_CARD;Gelbe Karte;Diant;Ramaj;;;1. FC Heidenheim 1846;own
+4204;191;1;20;0;32;1033;;source:liveticker | 0:1;Tor : Andreas Skov Olsen;;GOAL;Tor;Andreas Skov;Olsen;;;VfL Wolfsburg;opponent
+4203;191;1;29;0;15;1010;;source:liveticker | 1:1;Tor : Leonardo Weschenfelder Scienza;;GOAL;Tor;Leonardo;Weschenfelder Scienza;;;1. FC Heidenheim 1846;own
+4202;191;3;37;0;32;1033;;source:liveticker | 1:1;Gelbe Karte : Andreas Skov Olsen;;YELLOW_CARD;Gelbe Karte;Andreas Skov;Olsen;;;VfL Wolfsburg;opponent
+4201;191;3;41;0;32;1024;;source:liveticker | 1:1;Gelbe Karte : Moritz Jenz;;YELLOW_CARD;Gelbe Karte;Moritz;Jenz;;;VfL Wolfsburg;opponent
+4200;191;3;42;0;32;1027;;source:liveticker | 1:1;Gelbe Karte : Maximilian Arnold;;YELLOW_CARD;Gelbe Karte;Maximilian;Arnold;;;VfL Wolfsburg;opponent
+4198;191;7;61;0;15;1045;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Jonas Föhrenbach;;SUBSTITUTION_OUT;Auswechslung;Jonas;Föhrenbach;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+4199;191;6;61;0;15;1047;1045;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Jonas Föhrenbach;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Jonas;Föhrenbach;1. FC Heidenheim 1846;own
+4196;191;7;62;0;15;1014;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Luca;Kerber;1. FC Heidenheim 1846;own
+4197;191;6;62;0;15;1018;1014;substitution_in | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Niklas;Dorsch;1. FC Heidenheim 1846;own
+4192;191;7;64;0;32;1034;1042;substitution_out | source:liveticker;Wechsel : Mattias Svanberg => Lovro Majer;;SUBSTITUTION_OUT;Auswechslung;Lovro;Majer;Mattias;Svanberg;VfL Wolfsburg;opponent
+4193;191;6;64;0;32;1042;1034;substitution_in | source:liveticker;Wechsel : Mattias Svanberg => Lovro Majer;;SUBSTITUTION_IN;Einwechslung;Mattias;Svanberg;Lovro;Majer;VfL Wolfsburg;opponent
+4194;191;7;64;0;32;1025;1037;substitution_out | source:liveticker;Wechsel : Mohammed-Elamine Amoura => Dzenan Pejcinovic;;SUBSTITUTION_OUT;Auswechslung;Dzenan;Pejcinovic;Mohammed-Elamine;Amoura;VfL Wolfsburg;opponent
+4195;191;6;64;0;32;1037;1025;substitution_in | source:liveticker;Wechsel : Mohammed-Elamine Amoura => Dzenan Pejcinovic;;SUBSTITUTION_IN;Einwechslung;Mohammed-Elamine;Amoura;Dzenan;Pejcinovic;VfL Wolfsburg;opponent
+4191;191;1;67;0;32;1042;;source:liveticker | 1:2;Tor : Mattias Svanberg;;GOAL;Tor;Mattias;Svanberg;;;VfL Wolfsburg;opponent
+4187;191;7;71;0;15;1013;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Mathias;Honsak;1. FC Heidenheim 1846;own
+4188;191;6;71;0;15;1017;1013;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+4189;191;7;71;0;15;1011;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+4190;191;6;71;0;15;1022;1011;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+4185;191;7;78;0;15;1007;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Tim Siersleben;;SUBSTITUTION_OUT;Auswechslung;Tim;Siersleben;Adrian;Beck;1. FC Heidenheim 1846;own
+4186;191;6;78;0;15;1019;1007;substitution_in | source:liveticker;Wechsel : Adrian Beck => Tim Siersleben;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Tim;Siersleben;1. FC Heidenheim 1846;own
+4184;191;8;87;0;32;1037;;source:liveticker | 1:3;Strafstoß-Tor : Mohammed-Elamine Amoura;;PENALTY_GOAL;Elfmetertor;Mohammed-Elamine;Amoura;;;VfL Wolfsburg;opponent
+4180;191;7;89;0;32;1033;1050;substitution_out | source:liveticker;Wechsel : Václav Černý => Andreas Skov Olsen;;SUBSTITUTION_OUT;Auswechslung;Andreas Skov;Olsen;Václav;Černý;VfL Wolfsburg;opponent
+4181;191;6;89;0;32;1050;1033;substitution_in | source:liveticker;Wechsel : Václav Černý => Andreas Skov Olsen;;SUBSTITUTION_IN;Einwechslung;Václav;Černý;Andreas Skov;Olsen;VfL Wolfsburg;opponent
+4182;191;7;89;0;32;1030;1041;substitution_out | source:liveticker;Wechsel : Yannick Gerhardt => Kilian Fischer;;SUBSTITUTION_OUT;Auswechslung;Kilian;Fischer;Yannick;Gerhardt;VfL Wolfsburg;opponent
+4183;191;6;89;0;32;1041;1030;substitution_in | source:liveticker;Wechsel : Yannick Gerhardt => Kilian Fischer;;SUBSTITUTION_IN;Einwechslung;Yannick;Gerhardt;Kilian;Fischer;VfL Wolfsburg;opponent
+4179;191;3;90;0;15;1047;;source:liveticker | 1:3;Gelbe Karte : Omar Haktab Traoré;;YELLOW_CARD;Gelbe Karte;Omar Haktab;Traoré;;;1. FC Heidenheim 1846;own
+4257;193;3;17;0;15;1045;;source:liveticker | 0:0;Gelbe Karte : Jonas Föhrenbach;;YELLOW_CARD;Gelbe Karte;Jonas;Föhrenbach;;;1. FC Heidenheim 1846;own
+4256;193;3;19;0;27;632;;source:liveticker | 0:0;Gelbe Karte : Ezechiel Banzuzi;;YELLOW_CARD;Gelbe Karte;Ezechiel;Banzuzi;;;RB Leipzig;opponent
+4255;193;1;48;0;27;634;;source:liveticker | 1:0;Tor : Christoph Baumgartner;;GOAL;Tor;Christoph;Baumgartner;;;RB Leipzig;opponent
+4254;193;3;51;0;15;1022;;source:liveticker | 1:0;Gelbe Karte : Mikkel Kaufmann;;YELLOW_CARD;Gelbe Karte;Mikkel;Kaufmann;;;1. FC Heidenheim 1846;own
+4253;193;3;54;0;15;1005;;source:liveticker | 1:0;Gelbe Karte : Marnon Busch;;YELLOW_CARD;Gelbe Karte;Marnon;Busch;;;1. FC Heidenheim 1846;own
+4247;193;7;58;0;15;1013;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Sirlord;Conteh;1. FC Heidenheim 1846;own
+4248;193;6;58;0;15;1059;1013;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+4249;193;7;58;0;15;1022;1011;substitution_out | source:liveticker;Wechsel : Budu Zivzivadze => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+4250;193;6;58;0;15;1011;1022;substitution_in | source:liveticker;Wechsel : Budu Zivzivadze => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Budu;Zivzivadze;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+4251;193;7;58;0;15;1014;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Julian;Niehues;1. FC Heidenheim 1846;own
+4252;193;6;58;0;15;1016;1014;substitution_in | source:liveticker;Wechsel : Julian Niehues => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Niklas;Dorsch;1. FC Heidenheim 1846;own
+4246;193;3;59;0;15;1018;;source:liveticker | 1:0;Gelbe Karte : Luca Kerber;;YELLOW_CARD;Gelbe Karte;Luca;Kerber;;;1. FC Heidenheim 1846;own
+4245;193;3;61;0;27;619;;source:liveticker | 1:0;Gelbe Karte : David Raum;;YELLOW_CARD;Gelbe Karte;David;Raum;;;RB Leipzig;opponent
+4244;193;3;66;0;15;1059;;source:liveticker | 1:0;Gelbe Karte : Sirlord Conteh;;YELLOW_CARD;Gelbe Karte;Sirlord;Conteh;;;1. FC Heidenheim 1846;own
+4240;193;7;67;0;27;625;622;substitution_out | source:liveticker;Wechsel : Yan Diomande => Johan Bakayoko;;SUBSTITUTION_OUT;Auswechslung;Johan;Bakayoko;Yan;Diomande;RB Leipzig;opponent
+4241;193;6;67;0;27;622;625;substitution_in | source:liveticker;Wechsel : Yan Diomande => Johan Bakayoko;;SUBSTITUTION_IN;Einwechslung;Yan;Diomande;Johan;Bakayoko;RB Leipzig;opponent
+4242;193;7;67;0;27;632;628;substitution_out | source:liveticker;Wechsel : Nicolas Seiwald => Ezechiel Banzuzi;;SUBSTITUTION_OUT;Auswechslung;Ezechiel;Banzuzi;Nicolas;Seiwald;RB Leipzig;opponent
+4243;193;6;67;0;27;628;632;substitution_in | source:liveticker;Wechsel : Nicolas Seiwald => Ezechiel Banzuzi;;SUBSTITUTION_IN;Einwechslung;Nicolas;Seiwald;Ezechiel;Banzuzi;RB Leipzig;opponent
+4238;193;7;68;0;15;1018;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Luca Kerber;;SUBSTITUTION_OUT;Auswechslung;Luca;Kerber;Adrian;Beck;1. FC Heidenheim 1846;own
+4239;193;6;68;0;15;1019;1018;substitution_in | source:liveticker;Wechsel : Adrian Beck => Luca Kerber;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Luca;Kerber;1. FC Heidenheim 1846;own
+4236;193;7;77;0;15;1017;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+4237;193;6;77;0;15;1047;1017;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Mathias;Honsak;1. FC Heidenheim 1846;own
+4235;193;1;78;0;27;637;;source:liveticker | 2:0;Tor : Rômulo José Cardoso Da Cruz;;GOAL;Tor;Rômulo José;Cardoso Da Cruz;;;RB Leipzig;opponent
+4231;193;7;85;0;27;637;627;substitution_out | source:liveticker;Wechsel : Ikoma-Loïs Openda => Rômulo José Cardoso Da Cruz;;SUBSTITUTION_OUT;Auswechslung;Rômulo José;Cardoso Da Cruz;Ikoma-Loïs;Openda;RB Leipzig;opponent
+4232;193;6;85;0;27;627;637;substitution_in | source:liveticker;Wechsel : Ikoma-Loïs Openda => Rômulo José Cardoso Da Cruz;;SUBSTITUTION_IN;Einwechslung;Ikoma-Loïs;Openda;Rômulo José;Cardoso Da Cruz;RB Leipzig;opponent
+4233;193;7;85;0;27;634;636;substitution_out | source:liveticker;Wechsel : Forzan Assan Ouedraogo => Christoph Baumgartner;;SUBSTITUTION_OUT;Auswechslung;Christoph;Baumgartner;Forzan Assan;Ouedraogo;RB Leipzig;opponent
+4234;193;6;85;0;27;636;634;substitution_in | source:liveticker;Wechsel : Forzan Assan Ouedraogo => Christoph Baumgartner;;SUBSTITUTION_IN;Einwechslung;Forzan Assan;Ouedraogo;Christoph;Baumgartner;RB Leipzig;opponent
+4229;193;7;90;0;27;618;639;substitution_out | source:liveticker;Wechsel : Kosta Nedeljković => Ridle Baku;;SUBSTITUTION_OUT;Auswechslung;Ridle;Baku;Kosta;Nedeljković;RB Leipzig;opponent
+4230;193;6;90;0;27;639;618;substitution_in | source:liveticker;Wechsel : Kosta Nedeljković => Ridle Baku;;SUBSTITUTION_IN;Einwechslung;Kosta;Nedeljković;Ridle;Baku;RB Leipzig;opponent
+4687;209;7;7;0;15;1062;1045;substitution_out | source:liveticker;Wechsel : Jonas Föhrenbach => Leart Paçarada;;SUBSTITUTION_OUT;Auswechslung;Leart;Paçarada;Jonas;Föhrenbach;1. FC Heidenheim 1846;own
+4688;209;6;7;0;15;1045;1062;substitution_in | source:liveticker;Wechsel : Jonas Föhrenbach => Leart Paçarada;;SUBSTITUTION_IN;Einwechslung;Jonas;Föhrenbach;Leart;Paçarada;1. FC Heidenheim 1846;own
+4686;209;4;21;0;15;1011;;source:liveticker | 0:0;Rote Karte : Budu Zivzivadze;;RED_CARD;Rote Karte;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+4685;209;3;27;0;20;983;;source:liveticker | 0:0;Gelbe Karte : Karim David Adeyemi;;YELLOW_CARD;Gelbe Karte;Karim David;Adeyemi;;;Borussia Dortmund;opponent
+4684;209;1;33;0;20;990;;source:liveticker | 0:1;Tor : Serhou Yadaly Guirassy;;GOAL;Tor;Serhou Yadaly;Guirassy;;;Borussia Dortmund;opponent
+4683;209;3;39;0;15;1008;;source:liveticker | 0:1;Gelbe Karte : Benedikt Gimber;;YELLOW_CARD;Gelbe Karte;Benedikt;Gimber;;;1. FC Heidenheim 1846;own
+4681;209;1;45;0;20;995;;source:liveticker | 0:2;Tor : Maximilian Beier;;GOAL;Tor;Maximilian;Beier;;;Borussia Dortmund;opponent
+4682;209;3;45;0;20;996;;source:liveticker | 0:1;Gelbe Karte : Julian Ryerson;;YELLOW_CARD;Gelbe Karte;Julian;Ryerson;;;Borussia Dortmund;opponent
+4677;209;7;46;0;15;1019;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Sirlord;Conteh;1. FC Heidenheim 1846;own
+4678;209;6;46;0;15;1059;1019;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Adrian;Beck;1. FC Heidenheim 1846;own
+4679;209;7;46;0;15;1008;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Marnon;Busch;1. FC Heidenheim 1846;own
+4680;209;6;46;0;15;1005;1008;substitution_in | source:liveticker;Wechsel : Marnon Busch => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Benedikt;Gimber;1. FC Heidenheim 1846;own
+4676;209;3;47;0;15;1044;;source:liveticker | 0:2;Gelbe Karte : Jan Schöppner;;YELLOW_CARD;Gelbe Karte;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+4672;209;7;65;0;20;983;989;substitution_out | source:liveticker;Wechsel : Jobe Bellingham => Karim David Adeyemi;;SUBSTITUTION_OUT;Auswechslung;Karim David;Adeyemi;Jobe;Bellingham;Borussia Dortmund;opponent
+4673;209;6;65;0;20;989;983;substitution_in | source:liveticker;Wechsel : Jobe Bellingham => Karim David Adeyemi;;SUBSTITUTION_IN;Einwechslung;Jobe;Bellingham;Karim David;Adeyemi;Borussia Dortmund;opponent
+4674;209;7;65;0;20;1000;1054;substitution_out | source:liveticker;Wechsel : Carney Chibueze Chukwuemeka => Pascal Groß;;SUBSTITUTION_OUT;Auswechslung;Pascal;Groß;Carney Chibueze;Chukwuemeka;Borussia Dortmund;opponent
+4675;209;6;65;0;20;1054;1000;substitution_in | source:liveticker;Wechsel : Carney Chibueze Chukwuemeka => Pascal Groß;;SUBSTITUTION_IN;Einwechslung;Carney Chibueze;Chukwuemeka;Pascal;Groß;Borussia Dortmund;opponent
+4670;209;7;70;0;15;1017;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+4671;209;6;70;0;15;1022;1017;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Mathias;Honsak;1. FC Heidenheim 1846;own
+4666;209;7;74;0;20;996;1002;substitution_out | source:liveticker;Wechsel : Salih Özcan => Julian Ryerson;;SUBSTITUTION_OUT;Auswechslung;Julian;Ryerson;Salih;Özcan;Borussia Dortmund;opponent
+4667;209;6;74;0;20;1002;996;substitution_in | source:liveticker;Wechsel : Salih Özcan => Julian Ryerson;;SUBSTITUTION_IN;Einwechslung;Salih;Özcan;Julian;Ryerson;Borussia Dortmund;opponent
+4668;209;7;74;0;20;995;997;substitution_out | source:liveticker;Wechsel : William Cole Campbell => Maximilian Beier;;SUBSTITUTION_OUT;Auswechslung;Maximilian;Beier;William Cole;Campbell;Borussia Dortmund;opponent
+4669;209;6;74;0;20;997;995;substitution_in | source:liveticker;Wechsel : William Cole Campbell => Maximilian Beier;;SUBSTITUTION_IN;Einwechslung;William Cole;Campbell;Maximilian;Beier;Borussia Dortmund;opponent
+4664;209;7;81;0;15;1013;1007;substitution_out | source:liveticker;Wechsel : Tim Siersleben => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Tim;Siersleben;1. FC Heidenheim 1846;own
+4665;209;6;81;0;15;1007;1013;substitution_in | source:liveticker;Wechsel : Tim Siersleben => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Tim;Siersleben;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+4663;209;3;85;0;20;990;;source:liveticker | 0:2;Gelbe Karte : Serhou Yadaly Guirassy;;YELLOW_CARD;Gelbe Karte;Serhou Yadaly;Guirassy;;;Borussia Dortmund;opponent
+4661;209;7;90;0;20;993;1001;substitution_out | source:liveticker;Wechsel : Filippo Calixte Mané => Felix Nmecha;;SUBSTITUTION_OUT;Auswechslung;Felix;Nmecha;Filippo Calixte;Mané;Borussia Dortmund;opponent
+4662;209;6;90;0;20;1001;993;substitution_in | source:liveticker;Wechsel : Filippo Calixte Mané => Felix Nmecha;;SUBSTITUTION_IN;Einwechslung;Filippo Calixte;Mané;Felix;Nmecha;Borussia Dortmund;opponent
+4937;218;3;22;0;26;856;;source:liveticker | 0:0;Gelbe Karte : Daniel Elfadli;;YELLOW_CARD;Gelbe Karte;Daniel;Elfadli;;;Hamburger SV;opponent
+4936;218;1;42;0;26;1089;;source:liveticker | 1:0;Tor : Luka Vuskovic;;GOAL;Tor;Luka;Vuskovic;;;Hamburger SV;opponent
+4934;218;7;54;0;15;1018;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Luca Kerber;;SUBSTITUTION_OUT;Auswechslung;Luca;Kerber;Adrian;Beck;1. FC Heidenheim 1846;own
+4935;218;6;54;0;15;1019;1018;substitution_in | source:liveticker;Wechsel : Adrian Beck => Luca Kerber;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Luca;Kerber;1. FC Heidenheim 1846;own
+4933;218;3;56;0;26;865;;source:liveticker | 1:0;Gelbe Karte : Rayan Philippe;;YELLOW_CARD;Gelbe Karte;Rayan;Philippe;;;Hamburger SV;opponent
+4932;218;1;59;0;26;865;;source:liveticker | 2:0;Tor : Rayan Philippe;;GOAL;Tor;Rayan;Philippe;;;Hamburger SV;opponent
+4931;218;3;64;0;26;1096;;source:liveticker | 2:0;Gelbe Karte : Fabio Daniel Ferreira Vieira;;YELLOW_CARD;Gelbe Karte;Fabio Daniel;Ferreira Vieira;;;Hamburger SV;opponent
+4927;218;7;68;0;15;1008;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Marnon;Busch;1. FC Heidenheim 1846;own
+4928;218;6;68;0;15;1005;1008;substitution_in | source:liveticker;Wechsel : Marnon Busch => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Benedikt;Gimber;1. FC Heidenheim 1846;own
+4929;218;7;68;0;15;1044;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Stefan;Schimmer;1. FC Heidenheim 1846;own
+4930;218;6;68;0;15;1138;1044;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Jan;Schöppner;1. FC Heidenheim 1846;own
+4926;218;3;72;0;26;860;;source:liveticker | 2:0;Gelbe Karte : Nicolai Remberg;;YELLOW_CARD;Gelbe Karte;Nicolai;Remberg;;;Hamburger SV;opponent
+4925;218;3;73;0;26;1156;;source:liveticker | 2:0;Gelbe Karte TO : Loïc Favé;;YELLOW_CARD;Gelbe Karte;Loïc;Favé;;;Hamburger SV;opponent
+4921;218;7;74;0;26;1093;1101;substitution_out | source:liveticker;Wechsel : Fabio Baldé => Jean-Luc Dompé;;SUBSTITUTION_OUT;Auswechslung;Jean-Luc;Dompé;Fabio;Baldé;Hamburger SV;opponent
+4922;218;6;74;0;26;1101;1093;substitution_in | source:liveticker;Wechsel : Fabio Baldé => Jean-Luc Dompé;;SUBSTITUTION_IN;Einwechslung;Fabio;Baldé;Jean-Luc;Dompé;Hamburger SV;opponent
+4923;218;7;74;0;26;865;1098;substitution_out | source:liveticker;Wechsel : Albert Sambi Sambi Lokonga => Rayan Philippe;;SUBSTITUTION_OUT;Auswechslung;Rayan;Philippe;Albert Sambi;Sambi Lokonga;Hamburger SV;opponent
+4924;218;6;74;0;26;1098;865;substitution_in | source:liveticker;Wechsel : Albert Sambi Sambi Lokonga => Rayan Philippe;;SUBSTITUTION_IN;Einwechslung;Albert Sambi;Sambi Lokonga;Rayan;Philippe;Hamburger SV;opponent
+4917;218;7;78;0;15;1022;1023;substitution_out | source:liveticker;Wechsel : Yannik Wagner => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Yannik;Wagner;1. FC Heidenheim 1846;own
+4918;218;6;78;0;15;1023;1022;substitution_in | source:liveticker;Wechsel : Yannik Wagner => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Yannik;Wagner;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+4919;218;7;78;0;15;1013;1048;substitution_out | source:liveticker;Wechsel : Adam Kölle => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Adam;Kölle;1. FC Heidenheim 1846;own
+4920;218;6;78;0;15;1048;1013;substitution_in | source:liveticker;Wechsel : Adam Kölle => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Adam;Kölle;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+4915;218;7;79;0;26;1096;854;substitution_out | source:liveticker;Wechsel : Alexander Rossing-Lelesiit => Fabio Daniel Ferreira Vieira;;SUBSTITUTION_OUT;Auswechslung;Fabio Daniel;Ferreira Vieira;Alexander;Rossing-Lelesiit;Hamburger SV;opponent
+4916;218;6;79;0;26;854;1096;substitution_in | source:liveticker;Wechsel : Alexander Rossing-Lelesiit => Fabio Daniel Ferreira Vieira;;SUBSTITUTION_IN;Einwechslung;Alexander;Rossing-Lelesiit;Fabio Daniel;Ferreira Vieira;Hamburger SV;opponent
+4914;218;3;80;0;15;1048;;source:liveticker | 2:0;Gelbe Karte : Adam Kölle;;YELLOW_CARD;Gelbe Karte;Adam;Kölle;;;1. FC Heidenheim 1846;own
+4910;218;7;86;0;26;858;862;substitution_out | source:liveticker;Wechsel : William Mikelbrencis => Giorgi Gocholeishvili;;SUBSTITUTION_OUT;Auswechslung;Giorgi;Gocholeishvili;William;Mikelbrencis;Hamburger SV;opponent
+4911;218;6;86;0;26;862;858;substitution_in | source:liveticker;Wechsel : William Mikelbrencis => Giorgi Gocholeishvili;;SUBSTITUTION_IN;Einwechslung;William;Mikelbrencis;Giorgi;Gocholeishvili;Hamburger SV;opponent
+4912;218;7;86;0;26;1092;1099;substitution_out | source:liveticker;Wechsel : Robert Glatzel => Ransford-Yeboah Königsdörffer;;SUBSTITUTION_OUT;Auswechslung;Ransford-Yeboah;Königsdörffer;Robert;Glatzel;Hamburger SV;opponent
+4913;218;6;86;0;26;1099;1092;substitution_in | source:liveticker;Wechsel : Robert Glatzel => Ransford-Yeboah Königsdörffer;;SUBSTITUTION_IN;Einwechslung;Robert;Glatzel;Ransford-Yeboah;Königsdörffer;Hamburger SV;opponent
+4908;218;1;90;0;15;1048;;source:liveticker | 2:1;Tor : Adam Kölle;;GOAL;Tor;Adam;Kölle;;;1. FC Heidenheim 1846;own
+4909;218;3;90;0;26;855;;source:liveticker | 2:0;Gelbe Karte : Daniel Heuer Fernandes;;YELLOW_CARD;Gelbe Karte;Daniel;Heuer Fernandes;;;Hamburger SV;opponent
+5158;226;3;4;0;23;766;;source:liveticker | 0:0;Gelbe Karte : Cédric Adrian Zesiger;;YELLOW_CARD;Gelbe Karte;Cédric Adrian;Zesiger;;;FC Augsburg;opponent
+5157;226;1;47;0;15;1022;;source:liveticker | 1:0;Tor : Mikkel Kaufmann;;GOAL;Tor;Mikkel;Kaufmann;;;1. FC Heidenheim 1846;own
+5156;226;3;51;0;23;1135;;source:liveticker | 1:0;Gelbe Karte : Fabian Rieder;;YELLOW_CARD;Gelbe Karte;Fabian;Rieder;;;FC Augsburg;opponent
+5155;226;1;54;0;15;1059;;source:liveticker | 2:0;Tor : Sirlord Conteh;;GOAL;Tor;Sirlord;Conteh;;;1. FC Heidenheim 1846;own
+5149;226;7;59;0;23;766;769;substitution_out | source:liveticker;Wechsel : Noahkai Dominic Banks => Cédric Adrian Zesiger;;SUBSTITUTION_OUT;Auswechslung;Cédric Adrian;Zesiger;Noahkai Dominic;Banks;FC Augsburg;opponent
+5150;226;6;59;0;23;769;766;substitution_in | source:liveticker;Wechsel : Noahkai Dominic Banks => Cédric Adrian Zesiger;;SUBSTITUTION_IN;Einwechslung;Noahkai Dominic;Banks;Cédric Adrian;Zesiger;FC Augsburg;opponent
+5151;226;7;59;0;23;750;759;substitution_out | source:liveticker;Wechsel : Dimitrios Christos Giannoulis => Robin Fellhauer;;SUBSTITUTION_OUT;Auswechslung;Robin;Fellhauer;Dimitrios Christos;Giannoulis;FC Augsburg;opponent
+5152;226;6;59;0;23;759;750;substitution_in | source:liveticker;Wechsel : Dimitrios Christos Giannoulis => Robin Fellhauer;;SUBSTITUTION_IN;Einwechslung;Dimitrios Christos;Giannoulis;Robin;Fellhauer;FC Augsburg;opponent
+5153;226;7;59;0;23;1137;778;substitution_out | source:liveticker;Wechsel : Mert Kömür => Alexis Julian Claude-Maurice;;SUBSTITUTION_OUT;Auswechslung;Alexis Julian;Claude-Maurice;Mert;Kömür;FC Augsburg;opponent
+5154;226;6;59;0;23;778;1137;substitution_in | source:liveticker;Wechsel : Mert Kömür => Alexis Julian Claude-Maurice;;SUBSTITUTION_IN;Einwechslung;Mert;Kömür;Alexis Julian;Claude-Maurice;FC Augsburg;opponent
+5146;226;3;67;0;15;1013;;source:liveticker | 2:0;Gelbe Karte : Arijon Ibrahimovic;;YELLOW_CARD;Gelbe Karte;Arijon;Ibrahimovic;;;1. FC Heidenheim 1846;own
+5147;226;3;67;0;23;753;;source:liveticker | 2:0;Gelbe Karte : Keven Matteo Schlotterbeck;;YELLOW_CARD;Gelbe Karte;Keven Matteo;Schlotterbeck;;;FC Augsburg;opponent
+5148;226;3;67;0;23;759;;source:liveticker | 2:0;Gelbe Karte : Dimitrios Christos Giannoulis;;YELLOW_CARD;Gelbe Karte;Dimitrios Christos;Giannoulis;;;FC Augsburg;opponent
+5140;226;7;68;0;23;752;767;substitution_out | source:liveticker;Wechsel : Phillip Tietz => Marius Wolf;;SUBSTITUTION_OUT;Auswechslung;Marius;Wolf;Phillip;Tietz;FC Augsburg;opponent
+5141;226;6;68;0;23;767;752;substitution_in | source:liveticker;Wechsel : Phillip Tietz => Marius Wolf;;SUBSTITUTION_IN;Einwechslung;Phillip;Tietz;Marius;Wolf;FC Augsburg;opponent
+5142;226;7;68;0;15;1059;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Sirlord Conteh;;SUBSTITUTION_OUT;Auswechslung;Sirlord;Conteh;Adrian;Beck;1. FC Heidenheim 1846;own
+5143;226;6;68;0;15;1019;1059;substitution_in | source:liveticker;Wechsel : Adrian Beck => Sirlord Conteh;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Sirlord;Conteh;1. FC Heidenheim 1846;own
+5144;226;7;68;0;15;1022;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Marnon;Busch;1. FC Heidenheim 1846;own
+5145;226;6;68;0;15;1005;1022;substitution_in | source:liveticker;Wechsel : Marnon Busch => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+5139;226;3;73;0;23;1152;;source:liveticker | 2:0;Gelbe Karte : Samuel Emmanuel Essende Mbongu;;YELLOW_CARD;Gelbe Karte;Samuel Emmanuel;Essende Mbongu;;;FC Augsburg;opponent
+5137;226;7;75;0;15;1016;1048;substitution_out | source:liveticker;Wechsel : Adam Kölle => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Adam;Kölle;1. FC Heidenheim 1846;own
+5138;226;6;75;0;15;1048;1016;substitution_in | source:liveticker;Wechsel : Adam Kölle => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Adam;Kölle;Julian;Niehues;1. FC Heidenheim 1846;own
+5136;226;3;77;0;23;757;;source:liveticker | 2:0;Gelbe Karte : Chrislain, Iris Aurel Matsima;;YELLOW_CARD;Gelbe Karte;Chrislain, Iris Aurel;Matsima;;;FC Augsburg;opponent
+5134;226;7;85;0;23;756;763;substitution_out | source:liveticker;Wechsel : Elvis Rexhbecaj => Han-Noah Massengo;;SUBSTITUTION_OUT;Auswechslung;Han-Noah;Massengo;Elvis;Rexhbecaj;FC Augsburg;opponent
+5135;226;6;85;0;23;763;756;substitution_in | source:liveticker;Wechsel : Elvis Rexhbecaj => Han-Noah Massengo;;SUBSTITUTION_IN;Einwechslung;Elvis;Rexhbecaj;Han-Noah;Massengo;FC Augsburg;opponent
+5130;226;7;89;0;15;1013;1008;substitution_out | source:liveticker;Wechsel : Benedikt Gimber => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Benedikt;Gimber;1. FC Heidenheim 1846;own
+5131;226;6;89;0;15;1008;1013;substitution_in | source:liveticker;Wechsel : Benedikt Gimber => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Benedikt;Gimber;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+5132;226;7;89;0;15;1014;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Luca;Kerber;1. FC Heidenheim 1846;own
+5133;226;6;89;0;15;1018;1014;substitution_in | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Niklas;Dorsch;1. FC Heidenheim 1846;own
+5129;226;1;90;0;23;767;;source:liveticker | 2:1;Tor : Phillip Tietz;;GOAL;Tor;Phillip;Tietz;;;FC Augsburg;opponent
+5302;232;3;55;0;31;1115;;source:liveticker | 0:0;Gelbe Karte : Bilal El Khannouss;;YELLOW_CARD;Gelbe Karte;Bilal;El Khannouss;;;VfB Stuttgart;opponent
+5298;232;7;56;0;31;931;937;substitution_out | source:liveticker;Wechsel : Angelo Stiller => Atakan Karazor;;SUBSTITUTION_OUT;Auswechslung;Atakan;Karazor;Angelo;Stiller;VfB Stuttgart;opponent
+5299;232;6;56;0;31;937;931;substitution_in | source:liveticker;Wechsel : Angelo Stiller => Atakan Karazor;;SUBSTITUTION_IN;Einwechslung;Angelo;Stiller;Atakan;Karazor;VfB Stuttgart;opponent
+5300;232;7;56;0;31;930;1151;substitution_out | source:liveticker;Wechsel : Ameen Al-Dakhil => Luca Antony Jaquez;;SUBSTITUTION_OUT;Auswechslung;Luca Antony;Jaquez;Ameen;Al-Dakhil;VfB Stuttgart;opponent
+5301;232;6;56;0;31;1151;930;substitution_in | source:liveticker;Wechsel : Ameen Al-Dakhil => Luca Antony Jaquez;;SUBSTITUTION_IN;Einwechslung;Ameen;Al-Dakhil;Luca Antony;Jaquez;VfB Stuttgart;opponent
+5296;232;7;57;0;31;1114;958;substitution_out | source:liveticker;Wechsel : Tiago Barreiros de Melo Tomás => Badredine Bouanani;;SUBSTITUTION_OUT;Auswechslung;Badredine;Bouanani;Tiago;Barreiros de Melo Tomás;VfB Stuttgart;opponent
+5297;232;6;57;0;31;958;1114;substitution_in | source:liveticker;Wechsel : Tiago Barreiros de Melo Tomás => Badredine Bouanani;;SUBSTITUTION_IN;Einwechslung;Tiago;Barreiros de Melo Tomás;Badredine;Bouanani;VfB Stuttgart;opponent
+5295;232;3;64;0;15;1018;;source:liveticker | 0:0;Gelbe Karte : Luca Kerber;;YELLOW_CARD;Gelbe Karte;Luca;Kerber;;;1. FC Heidenheim 1846;own
+5294;232;1;65;0;31;1115;;source:liveticker | 1:0;Tor : Bilal El Khannouss;;GOAL;Tor;Bilal;El Khannouss;;;VfB Stuttgart;opponent
+5292;232;7;74;0;15;1014;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Stefan;Schimmer;1. FC Heidenheim 1846;own
+5293;232;6;74;0;15;1138;1014;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Niklas;Dorsch;1. FC Heidenheim 1846;own
+5288;232;7;80;0;15;1016;1023;substitution_out | source:liveticker;Wechsel : Yannik Wagner => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Yannik;Wagner;1. FC Heidenheim 1846;own
+5289;232;6;80;0;15;1023;1016;substitution_in | source:liveticker;Wechsel : Yannik Wagner => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Yannik;Wagner;Julian;Niehues;1. FC Heidenheim 1846;own
+5290;232;7;80;0;15;1018;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Luca Kerber;;SUBSTITUTION_OUT;Auswechslung;Luca;Kerber;Marnon;Busch;1. FC Heidenheim 1846;own
+5291;232;6;80;0;15;1005;1018;substitution_in | source:liveticker;Wechsel : Marnon Busch => Luca Kerber;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Luca;Kerber;1. FC Heidenheim 1846;own
+5284;232;7;89;0;15;1022;1191;substitution_out | source:liveticker;Wechsel : Tobias Weigel => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Tobias;Weigel;1. FC Heidenheim 1846;own
+5285;232;6;89;0;15;1191;1022;substitution_in | source:liveticker;Wechsel : Tobias Weigel => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Tobias;Weigel;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+5286;232;7;89;0;15;1013;1048;substitution_out | source:liveticker;Wechsel : Adam Kölle => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Adam;Kölle;1. FC Heidenheim 1846;own
+5287;232;6;89;0;15;1048;1013;substitution_in | source:liveticker;Wechsel : Adam Kölle => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Adam;Kölle;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+5280;232;7;90;0;31;1115;946;substitution_out | source:liveticker;Wechsel : Nikolas Terkelsen Nartey => Bilal El Khannouss;;SUBSTITUTION_OUT;Auswechslung;Bilal;El Khannouss;Nikolas Terkelsen;Nartey;VfB Stuttgart;opponent
+5281;232;6;90;0;31;946;1115;substitution_in | source:liveticker;Wechsel : Nikolas Terkelsen Nartey => Bilal El Khannouss;;SUBSTITUTION_IN;Einwechslung;Nikolas Terkelsen;Nartey;Bilal;El Khannouss;VfB Stuttgart;opponent
+5282;232;7;90;0;31;932;942;substitution_out | source:liveticker;Wechsel : Ramon Hendriks => Jamie Leweling;;SUBSTITUTION_OUT;Auswechslung;Jamie;Leweling;Ramon;Hendriks;VfB Stuttgart;opponent
+5283;232;6;90;0;31;942;932;substitution_in | source:liveticker;Wechsel : Ramon Hendriks => Jamie Leweling;;SUBSTITUTION_IN;Einwechslung;Ramon;Hendriks;Jamie;Leweling;VfB Stuttgart;opponent
+5615;244;3;11;0;15;1007;;source:liveticker | 0:0;Gelbe Karte : Tim Siersleben;;YELLOW_CARD;Gelbe Karte;Tim;Siersleben;;;1. FC Heidenheim 1846;own
+5613;244;7;33;0;15;1022;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Stefan;Schimmer;1. FC Heidenheim 1846;own
+5614;244;6;33;0;15;1138;1022;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+5612;244;3;34;0;29;1124;;source:liveticker | 0:0;Gelbe Karte : Cameron Michel Puertas Castro;;YELLOW_CARD;Gelbe Karte;Cameron Michel;Puertas Castro;;;SV Werder Bremen;opponent
+5611;244;3;45;0;29;729;;source:liveticker | 0:0;Gelbe Karte : Patrice Čović;;YELLOW_CARD;Gelbe Karte;Patrice;Čović;;;SV Werder Bremen;opponent
+5610;244;1;50;0;29;727;;source:liveticker | 0:1;Tor : Marco Grüll;;GOAL;Tor;Marco;Grüll;;;SV Werder Bremen;opponent
+5606;244;7;63;0;29;712;714;substitution_out | source:liveticker;Wechsel : Justin Njinmah => Samuel-Germain Kinduelu Mbangula Tshifunda;;SUBSTITUTION_OUT;Auswechslung;Samuel-Germain Kinduelu;Mbangula Tshifunda;Justin;Njinmah;SV Werder Bremen;opponent
+5607;244;6;63;0;29;714;712;substitution_in | source:liveticker;Wechsel : Justin Njinmah => Samuel-Germain Kinduelu Mbangula Tshifunda;;SUBSTITUTION_IN;Einwechslung;Justin;Njinmah;Samuel-Germain Kinduelu;Mbangula Tshifunda;SV Werder Bremen;opponent
+5608;244;7;63;0;15;1044;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Marnon;Busch;1. FC Heidenheim 1846;own
+5609;244;6;63;0;15;1005;1044;substitution_in | source:liveticker;Wechsel : Marnon Busch => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Jan;Schöppner;1. FC Heidenheim 1846;own
+5605;244;1;67;0;15;1138;;source:liveticker | 1:1;Tor : Stefan Schimmer;;GOAL;Tor;Stefan;Schimmer;;;1. FC Heidenheim 1846;own
+5601;244;7;68;0;29;729;1126;substitution_out | source:liveticker;Wechsel : Victor Okoh Boniface => Patrice Čović;;SUBSTITUTION_OUT;Auswechslung;Patrice;Čović;Victor Okoh;Boniface;SV Werder Bremen;opponent
+5602;244;6;68;0;29;1126;729;substitution_in | source:liveticker;Wechsel : Victor Okoh Boniface => Patrice Čović;;SUBSTITUTION_IN;Einwechslung;Victor Okoh;Boniface;Patrice;Čović;SV Werder Bremen;opponent
+5603;244;7;68;0;29;1124;713;substitution_out | source:liveticker;Wechsel : Leonardo Jesus Loureiro Bittencourt => Cameron Michel Puertas Castro;;SUBSTITUTION_OUT;Auswechslung;Cameron Michel;Puertas Castro;Leonardo Jesus;Loureiro Bittencourt;SV Werder Bremen;opponent
+5604;244;6;68;0;29;713;1124;substitution_in | source:liveticker;Wechsel : Leonardo Jesus Loureiro Bittencourt => Cameron Michel Puertas Castro;;SUBSTITUTION_IN;Einwechslung;Leonardo Jesus;Loureiro Bittencourt;Cameron Michel;Puertas Castro;SV Werder Bremen;opponent
+5600;244;1;69;0;29;1125;;source:liveticker | 1:2;Tor : Jens Dalsgaard Stage;;GOAL;Tor;Jens Dalsgaard;Stage;;;SV Werder Bremen;opponent
+5594;244;7;79;0;15;1011;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Marvin;Pieringer;1. FC Heidenheim 1846;own
+5595;244;6;79;0;15;1232;1011;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+5596;244;7;79;0;15;1019;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Julian;Niehues;1. FC Heidenheim 1846;own
+5597;244;6;79;0;15;1016;1019;substitution_in | source:liveticker;Wechsel : Julian Niehues => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Adrian;Beck;1. FC Heidenheim 1846;own
+5598;244;7;79;0;15;1014;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Mathias;Honsak;1. FC Heidenheim 1846;own
+5599;244;6;79;0;15;1017;1014;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Niklas;Dorsch;1. FC Heidenheim 1846;own
+5592;244;1;83;0;15;1045;;source:liveticker | 2:2;Tor : Jonas Föhrenbach;;GOAL;Tor;Jonas;Föhrenbach;;;1. FC Heidenheim 1846;own
+5593;244;3;83;0;29;713;;source:liveticker | 1:2;Gelbe Karte : Leonardo Jesus Loureiro Bittencourt;;YELLOW_CARD;Gelbe Karte;Leonardo Jesus;Loureiro Bittencourt;;;SV Werder Bremen;opponent
+5850;253;1;18;0;30;668;;source:liveticker | 1:0;Tor : Fisnik Asllani;;GOAL;Tor;Fisnik;Asllani;;;TSG Hoffenheim;opponent
+5849;253;1;45;0;30;660;;source:liveticker | 2:0;Tor : Tim Lemperle;;GOAL;Tor;Tim;Lemperle;;;TSG Hoffenheim;opponent
+5843;253;7;46;0;15;1014;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Mathias;Honsak;1. FC Heidenheim 1846;own
+5844;253;6;46;0;15;1017;1014;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Niklas;Dorsch;1. FC Heidenheim 1846;own
+5845;253;7;46;0;15;1011;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Stefan;Schimmer;1. FC Heidenheim 1846;own
+5846;253;6;46;0;15;1138;1011;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+5847;253;7;46;0;15;1008;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Julian;Niehues;1. FC Heidenheim 1846;own
+5848;253;6;46;0;15;1016;1008;substitution_in | source:liveticker;Wechsel : Julian Niehues => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Benedikt;Gimber;1. FC Heidenheim 1846;own
+5842;253;3;57;0;30;1084;;source:liveticker | 2:0;Gelbe Karte : Albian Hajdari;;YELLOW_CARD;Gelbe Karte;Albian;Hajdari;;;TSG Hoffenheim;opponent
+5841;253;1;63;0;30;681;;source:liveticker | 3:0;Tor : Andrej Kramarić;;GOAL;Tor;Andrej;Kramarić;;;TSG Hoffenheim;opponent
+5835;253;7;67;0;30;682;675;substitution_out | source:liveticker;Wechsel : Alexander Prass => Bazoumana Touré;;SUBSTITUTION_OUT;Auswechslung;Bazoumana;Touré;Alexander;Prass;TSG Hoffenheim;opponent
+5836;253;6;67;0;30;675;682;substitution_in | source:liveticker;Wechsel : Alexander Prass => Bazoumana Touré;;SUBSTITUTION_IN;Einwechslung;Alexander;Prass;Bazoumana;Touré;TSG Hoffenheim;opponent
+5837;253;7;67;0;30;670;683;substitution_out | source:liveticker;Wechsel : Grischa Prömel => Wouter Burger;;SUBSTITUTION_OUT;Auswechslung;Wouter;Burger;Grischa;Prömel;TSG Hoffenheim;opponent
+5838;253;6;67;0;30;683;670;substitution_in | source:liveticker;Wechsel : Grischa Prömel => Wouter Burger;;SUBSTITUTION_IN;Einwechslung;Grischa;Prömel;Wouter;Burger;TSG Hoffenheim;opponent
+5839;253;7;67;0;15;1019;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Marnon;Busch;1. FC Heidenheim 1846;own
+5840;253;6;67;0;15;1005;1019;substitution_in | source:liveticker;Wechsel : Marnon Busch => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Adrian;Beck;1. FC Heidenheim 1846;own
+5834;253;1;75;0;15;1138;;source:liveticker | 3:1;Tor : Stefan Schimmer;;GOAL;Tor;Stefan;Schimmer;;;1. FC Heidenheim 1846;own
+5830;253;7;76;0;30;668;673;substitution_out | source:liveticker;Wechsel : Muhammed Mehmet Damar => Fisnik Asllani;;SUBSTITUTION_OUT;Auswechslung;Fisnik;Asllani;Muhammed Mehmet;Damar;TSG Hoffenheim;opponent
+5831;253;6;76;0;30;673;668;substitution_in | source:liveticker;Wechsel : Muhammed Mehmet Damar => Fisnik Asllani;;SUBSTITUTION_IN;Einwechslung;Muhammed Mehmet;Damar;Fisnik;Asllani;TSG Hoffenheim;opponent
+5832;253;7;76;0;30;660;678;substitution_out | source:liveticker;Wechsel : Max Moerstedt => Tim Lemperle;;SUBSTITUTION_OUT;Auswechslung;Tim;Lemperle;Max;Moerstedt;TSG Hoffenheim;opponent
+5833;253;6;76;0;30;678;660;substitution_in | source:liveticker;Wechsel : Max Moerstedt => Tim Lemperle;;SUBSTITUTION_IN;Einwechslung;Max;Moerstedt;Tim;Lemperle;TSG Hoffenheim;opponent
+5828;253;7;78;0;15;1047;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Marvin;Pieringer;1. FC Heidenheim 1846;own
+5829;253;6;78;0;15;1232;1047;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+5826;253;7;83;0;30;681;1083;substitution_out | source:liveticker;Wechsel : Ozan Kabak => Andrej Kramarić;;SUBSTITUTION_OUT;Auswechslung;Andrej;Kramarić;Ozan;Kabak;TSG Hoffenheim;opponent
+5827;253;6;83;0;30;1083;681;substitution_in | source:liveticker;Wechsel : Ozan Kabak => Andrej Kramarić;;SUBSTITUTION_IN;Einwechslung;Ozan;Kabak;Andrej;Kramarić;TSG Hoffenheim;opponent
+5825;253;3;89;0;15;1044;;source:liveticker | 3:1;Gelbe Karte : Jan Schöppner;;YELLOW_CARD;Gelbe Karte;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+6080;262;7;26;0;22;695;726;substitution_out | source:liveticker;Wechsel : Mario Götze => Can Yilmaz Uzun;;SUBSTITUTION_OUT;Auswechslung;Can Yilmaz;Uzun;Mario;Götze;Eintracht Frankfurt;opponent
+6081;262;6;26;0;22;726;695;substitution_in | source:liveticker;Wechsel : Mario Götze => Can Yilmaz Uzun;;SUBSTITUTION_IN;Einwechslung;Mario;Götze;Can Yilmaz;Uzun;Eintracht Frankfurt;opponent
+6079;262;3;29;0;22;686;;source:liveticker | 0:0;Gelbe Karte : Arthur Theate;;YELLOW_CARD;Gelbe Karte;Arthur;Theate;;;Eintracht Frankfurt;opponent
+6078;262;1;32;0;15;1011;;source:liveticker | 1:0;Tor : Budu Zivzivadze;;GOAL;Tor;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+6077;262;1;55;0;22;690;;source:liveticker | 1:1;Tor : Rasmus Kristensen;;GOAL;Tor;Rasmus;Kristensen;;;Eintracht Frankfurt;opponent
+6071;262;7;63;0;15;1017;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+6072;262;6;63;0;15;1047;1017;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Mathias;Honsak;1. FC Heidenheim 1846;own
+6073;262;7;63;0;22;693;694;substitution_out | source:liveticker;Wechsel : Pharrell Nnamdi Collins => Ritsu Doan;;SUBSTITUTION_OUT;Auswechslung;Ritsu;Doan;Pharrell Nnamdi;Collins;Eintracht Frankfurt;opponent
+6074;262;6;63;0;22;694;693;substitution_in | source:liveticker;Wechsel : Pharrell Nnamdi Collins => Ritsu Doan;;SUBSTITUTION_IN;Einwechslung;Pharrell Nnamdi;Collins;Ritsu;Doan;Eintracht Frankfurt;opponent
+6075;262;7;63;0;22;700;689;substitution_out | source:liveticker;Wechsel : Jonathan Michael Burkardt => Nathaniel Brown;;SUBSTITUTION_OUT;Auswechslung;Nathaniel;Brown;Jonathan Michael;Burkardt;Eintracht Frankfurt;opponent
+6076;262;6;63;0;22;689;700;substitution_in | source:liveticker;Wechsel : Jonathan Michael Burkardt => Nathaniel Brown;;SUBSTITUTION_IN;Einwechslung;Jonathan Michael;Burkardt;Nathaniel;Brown;Eintracht Frankfurt;opponent
+6065;262;7;70;0;15;1011;1014;substitution_out | source:liveticker;Wechsel : Niklas Dorsch => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Niklas;Dorsch;1. FC Heidenheim 1846;own
+6066;262;6;70;0;15;1014;1011;substitution_in | source:liveticker;Wechsel : Niklas Dorsch => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Niklas;Dorsch;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+6067;262;7;70;0;15;1138;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Stefan Schimmer;;SUBSTITUTION_OUT;Auswechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+6068;262;6;70;0;15;1232;1138;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Stefan Schimmer;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+6069;262;7;70;0;15;1016;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Adrian;Beck;1. FC Heidenheim 1846;own
+6070;262;6;70;0;15;1019;1016;substitution_in | source:liveticker;Wechsel : Adrian Beck => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Julian;Niehues;1. FC Heidenheim 1846;own
+6061;262;7;76;0;22;699;704;substitution_out | source:liveticker;Wechsel : Michy Batshuayi-Atunga => Elye Wahi;;SUBSTITUTION_OUT;Auswechslung;Elye;Wahi;Michy;Batshuayi-Atunga;Eintracht Frankfurt;opponent
+6062;262;6;76;0;22;704;699;substitution_in | source:liveticker;Wechsel : Michy Batshuayi-Atunga => Elye Wahi;;SUBSTITUTION_IN;Einwechslung;Michy;Batshuayi-Atunga;Elye;Wahi;Eintracht Frankfurt;opponent
+6063;262;7;76;0;22;698;692;substitution_out | source:liveticker;Wechsel : Jean-Mattéo Bahoya => Ansgar Knauff;;SUBSTITUTION_OUT;Auswechslung;Ansgar;Knauff;Jean-Mattéo;Bahoya;Eintracht Frankfurt;opponent
+6064;262;6;76;0;22;692;698;substitution_in | source:liveticker;Wechsel : Jean-Mattéo Bahoya => Ansgar Knauff;;SUBSTITUTION_IN;Einwechslung;Jean-Mattéo;Bahoya;Ansgar;Knauff;Eintracht Frankfurt;opponent
+6059;262;7;90;0;15;1005;1048;substitution_out | source:liveticker;Wechsel : Adam Kölle => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Adam;Kölle;1. FC Heidenheim 1846;own
+6060;262;6;90;0;15;1048;1005;substitution_in | source:liveticker;Wechsel : Adam Kölle => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Adam;Kölle;Marnon;Busch;1. FC Heidenheim 1846;own
+6139;264;1;2;0;19;646;;source:liveticker | 1:0;Tor : Patrik Schick;;GOAL;Tor;Patrik;Schick;;;Bayer 04 Leverkusen;opponent
+6138;264;1;16;0;19;1139;;source:liveticker | 2:0;Tor : Jonas Hofmann;;GOAL;Tor;Jonas;Hofmann;;;Bayer 04 Leverkusen;opponent
+6137;264;1;22;0;19;646;;source:liveticker | 3:0;Tor : Patrik Schick;;GOAL;Tor;Patrik;Schick;;;Bayer 04 Leverkusen;opponent
+6136;264;1;27;0;19;656;;source:liveticker | 4:0;Tor : Ernest Poku;;GOAL;Tor;Ernest;Poku;;;Bayer 04 Leverkusen;opponent
+6132;264;7;33;0;15;1016;1014;substitution_out | source:liveticker;Wechsel : Niklas Dorsch => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Niklas;Dorsch;1. FC Heidenheim 1846;own
+6133;264;6;33;0;15;1014;1016;substitution_in | source:liveticker;Wechsel : Niklas Dorsch => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Niklas;Dorsch;Julian;Niehues;1. FC Heidenheim 1846;own
+6134;264;7;33;0;15;1011;1008;substitution_out | source:liveticker;Wechsel : Benedikt Gimber => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Benedikt;Gimber;1. FC Heidenheim 1846;own
+6135;264;6;33;0;15;1008;1011;substitution_in | source:liveticker;Wechsel : Benedikt Gimber => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Benedikt;Gimber;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+6131;264;3;36;0;15;1044;;source:liveticker | 4:0;Gelbe Karte : Jan Schöppner;;YELLOW_CARD;Gelbe Karte;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+6130;264;1;45;0;19;650;;source:liveticker | 5:0;Tor : Ibrahim Maza;;GOAL;Tor;Ibrahim;Maza;;;Bayer 04 Leverkusen;opponent
+6124;264;7;46;0;19;645;1066;substitution_out | source:liveticker;Wechsel : Malik Leon Tillman => Arthur Augusto de Matos Soares;;SUBSTITUTION_OUT;Auswechslung;Arthur Augusto;de Matos Soares;Malik Leon;Tillman;Bayer 04 Leverkusen;opponent
+6125;264;6;46;0;19;1066;645;substitution_in | source:liveticker;Wechsel : Malik Leon Tillman => Arthur Augusto de Matos Soares;;SUBSTITUTION_IN;Einwechslung;Malik Leon;Tillman;Arthur Augusto;de Matos Soares;Bayer 04 Leverkusen;opponent
+6126;264;7;46;0;19;656;1229;substitution_out | source:liveticker;Wechsel : Martin Terrier => Ernest Poku;;SUBSTITUTION_OUT;Auswechslung;Ernest;Poku;Martin;Terrier;Bayer 04 Leverkusen;opponent
+6127;264;6;46;0;19;1229;656;substitution_in | source:liveticker;Wechsel : Martin Terrier => Ernest Poku;;SUBSTITUTION_IN;Einwechslung;Martin;Terrier;Ernest;Poku;Bayer 04 Leverkusen;opponent
+6128;264;7;46;0;15;1044;1048;substitution_out | source:liveticker;Wechsel : Adam Kölle => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Adam;Kölle;1. FC Heidenheim 1846;own
+6129;264;6;46;0;15;1048;1044;substitution_in | source:liveticker;Wechsel : Adam Kölle => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Adam;Kölle;Jan;Schöppner;1. FC Heidenheim 1846;own
+6123;264;1;53;0;19;650;;source:liveticker | 6:0;Tor : Ibrahim Maza;;GOAL;Tor;Ibrahim;Maza;;;Bayer 04 Leverkusen;opponent
+6119;264;7;56;0;19;644;1140;substitution_out | source:liveticker;Wechsel : Jeanuël Belocian => Edmond Faycial Tapsoba;;SUBSTITUTION_OUT;Auswechslung;Edmond Faycial;Tapsoba;Jeanuël;Belocian;Bayer 04 Leverkusen;opponent
+6120;264;6;56;0;19;1140;644;substitution_in | source:liveticker;Wechsel : Jeanuël Belocian => Edmond Faycial Tapsoba;;SUBSTITUTION_IN;Einwechslung;Jeanuël;Belocian;Edmond Faycial;Tapsoba;Bayer 04 Leverkusen;opponent
+6121;264;7;56;0;19;646;655;substitution_out | source:liveticker;Wechsel : Alejo Uriel Sarco Castro => Patrik Schick;;SUBSTITUTION_OUT;Auswechslung;Patrik;Schick;Alejo Uriel;Sarco Castro;Bayer 04 Leverkusen;opponent
+6122;264;6;56;0;19;655;646;substitution_in | source:liveticker;Wechsel : Alejo Uriel Sarco Castro => Patrik Schick;;SUBSTITUTION_IN;Einwechslung;Alejo Uriel;Sarco Castro;Patrik;Schick;Bayer 04 Leverkusen;opponent
+6117;264;7;67;0;15;1017;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Marvin;Pieringer;1. FC Heidenheim 1846;own
+6118;264;6;67;0;15;1232;1017;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Mathias;Honsak;1. FC Heidenheim 1846;own
+6115;264;7;75;0;19;649;1104;substitution_out | source:liveticker;Wechsel : Eliesse Ben Seghir => Aleix Garcia;;SUBSTITUTION_OUT;Auswechslung;Aleix;Garcia;Eliesse;Ben Seghir;Bayer 04 Leverkusen;opponent
+6116;264;6;75;0;19;1104;649;substitution_in | source:liveticker;Wechsel : Eliesse Ben Seghir => Aleix Garcia;;SUBSTITUTION_IN;Einwechslung;Eliesse;Ben Seghir;Aleix;Garcia;Bayer 04 Leverkusen;opponent
+6113;264;7;83;0;15;1005;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Adrian;Beck;1. FC Heidenheim 1846;own
+6114;264;6;83;0;15;1019;1005;substitution_in | source:liveticker;Wechsel : Adrian Beck => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Marnon;Busch;1. FC Heidenheim 1846;own
+6542;280;3;42;0;15;1047;;source:liveticker | 0:0;Gelbe Karte : Omar Haktab Traoré;;YELLOW_CARD;Gelbe Karte;Omar Haktab;Traoré;;;1. FC Heidenheim 1846;own
+6541;280;8;45;0;21;842;;source:liveticker | 0:1;Strafstoß-Tor : Kevin Diks;;PENALTY_GOAL;Elfmetertor;Kevin;Diks;;;Borussia Mönchengladbach;opponent
+6540;280;1;55;0;21;834;;source:liveticker | 0:2;Tor : Haris Tabakovic;;GOAL;Tor;Haris;Tabakovic;;;Borussia Mönchengladbach;opponent
+6534;280;7;62;0;15;1017;1011;substitution_out | source:liveticker;Wechsel : Budu Zivzivadze => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+6535;280;6;62;0;15;1011;1017;substitution_in | source:liveticker;Wechsel : Budu Zivzivadze => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Budu;Zivzivadze;Mathias;Honsak;1. FC Heidenheim 1846;own
+6536;280;7;62;0;15;1013;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Stefan;Schimmer;1. FC Heidenheim 1846;own
+6537;280;6;62;0;15;1138;1013;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+6538;280;7;62;0;15;1047;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+6539;280;6;62;0;15;1005;1047;substitution_in | source:liveticker;Wechsel : Marnon Busch => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+6530;280;7;72;0;21;834;846;substitution_out | source:liveticker;Wechsel : Shuto Machino => Haris Tabakovic;;SUBSTITUTION_OUT;Auswechslung;Haris;Tabakovic;Shuto;Machino;Borussia Mönchengladbach;opponent
+6531;280;6;72;0;21;846;834;substitution_in | source:liveticker;Wechsel : Shuto Machino => Haris Tabakovic;;SUBSTITUTION_IN;Einwechslung;Shuto;Machino;Haris;Tabakovic;Borussia Mönchengladbach;opponent
+6532;280;7;72;0;21;844;1122;substitution_out | source:liveticker;Wechsel : Giovanni Alejandro Reyna => Florian Neuhaus;;SUBSTITUTION_OUT;Auswechslung;Florian;Neuhaus;Giovanni Alejandro;Reyna;Borussia Mönchengladbach;opponent
+6533;280;6;72;0;21;1122;844;substitution_in | source:liveticker;Wechsel : Giovanni Alejandro Reyna => Florian Neuhaus;;SUBSTITUTION_IN;Einwechslung;Giovanni Alejandro;Reyna;Florian;Neuhaus;Borussia Mönchengladbach;opponent
+6529;280;1;76;0;21;846;;source:liveticker | 0:3;Tor : Shuto Machino;;GOAL;Tor;Shuto;Machino;;;Borussia Mönchengladbach;opponent
+6528;280;3;79;0;15;1009;;source:liveticker | 0:3;Gelbe Karte : Patrick Mainka;;YELLOW_CARD;Gelbe Karte;Patrick;Mainka;;;1. FC Heidenheim 1846;own
+6524;280;7;82;0;21;1123;1075;substitution_out | source:liveticker;Wechsel : Kevin Stöger => Yannik Engelhardt;;SUBSTITUTION_OUT;Auswechslung;Yannik;Engelhardt;Kevin;Stöger;Borussia Mönchengladbach;opponent
+6525;280;6;82;0;21;1075;1123;substitution_in | source:liveticker;Wechsel : Kevin Stöger => Yannik Engelhardt;;SUBSTITUTION_IN;Einwechslung;Kevin;Stöger;Yannik;Engelhardt;Borussia Mönchengladbach;opponent
+6526;280;7;82;0;21;833;836;substitution_out | source:liveticker;Wechsel : Robin Hack => Franck Honorat;;SUBSTITUTION_OUT;Auswechslung;Franck;Honorat;Robin;Hack;Borussia Mönchengladbach;opponent
+6527;280;6;82;0;21;836;833;substitution_in | source:liveticker;Wechsel : Robin Hack => Franck Honorat;;SUBSTITUTION_IN;Einwechslung;Robin;Hack;Franck;Honorat;Borussia Mönchengladbach;opponent
+6520;280;7;83;0;15;1232;1197;substitution_out | source:liveticker;Wechsel : Thomas Keller => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Thomas;Keller;1. FC Heidenheim 1846;own
+6521;280;6;83;0;15;1197;1232;substitution_in | source:liveticker;Wechsel : Thomas Keller => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Thomas;Keller;Marvin;Pieringer;1. FC Heidenheim 1846;own
+6522;280;7;83;0;15;1014;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Luca;Kerber;1. FC Heidenheim 1846;own
+6523;280;6;83;0;15;1018;1014;substitution_in | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Niklas;Dorsch;1. FC Heidenheim 1846;own
+6518;280;7;90;0;21;845;1261;substitution_out | source:liveticker;Wechsel : Tim Kleindienst => Jens Castrop;;SUBSTITUTION_OUT;Auswechslung;Jens;Castrop;Tim;Kleindienst;Borussia Mönchengladbach;opponent
+6519;280;6;90;0;21;1261;845;substitution_in | source:liveticker;Wechsel : Tim Kleindienst => Jens Castrop;;SUBSTITUTION_IN;Einwechslung;Tim;Kleindienst;Jens;Castrop;Borussia Mönchengladbach;opponent
+6742;288;3;13;0;17;923;;source:liveticker | 0:0;Gelbe Karte : Oliver Jasen Burke;;YELLOW_CARD;Gelbe Karte;Oliver Jasen;Burke;;;1. FC Union Berlin;opponent
+6741;288;1;43;0;17;912;;source:liveticker | 1:0;Tor : Rani Khedira;;GOAL;Tor;Rani;Khedira;;;1. FC Union Berlin;opponent
+6740;288;3;46;0;15;1008;;source:liveticker | 1:0;Gelbe Karte : Benedikt Gimber;;YELLOW_CARD;Gelbe Karte;Benedikt;Gimber;;;1. FC Heidenheim 1846;own
+6734;288;7;57;0;15;1008;1044;substitution_out | source:liveticker;Wechsel : Jan Schöppner => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Jan;Schöppner;1. FC Heidenheim 1846;own
+6735;288;6;57;0;15;1044;1008;substitution_in | source:liveticker;Wechsel : Jan Schöppner => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Jan;Schöppner;Benedikt;Gimber;1. FC Heidenheim 1846;own
+6736;288;7;57;0;15;1019;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Stefan;Schimmer;1. FC Heidenheim 1846;own
+6737;288;6;57;0;15;1138;1019;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Adrian;Beck;1. FC Heidenheim 1846;own
+6738;288;7;57;0;15;1014;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+6739;288;6;57;0;15;1013;1014;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Niklas;Dorsch;1. FC Heidenheim 1846;own
+6732;288;7;61;0;17;923;918;substitution_out | source:liveticker;Wechsel : Andrej Ilic => Oliver Jasen Burke;;SUBSTITUTION_OUT;Auswechslung;Oliver Jasen;Burke;Andrej;Ilic;1. FC Union Berlin;opponent
+6733;288;6;61;0;17;918;923;substitution_in | source:liveticker;Wechsel : Andrej Ilic => Oliver Jasen Burke;;SUBSTITUTION_IN;Einwechslung;Andrej;Ilic;Oliver Jasen;Burke;1. FC Union Berlin;opponent
+6731;288;3;66;0;15;1138;;source:liveticker | 1:0;Gelbe Karte : Stefan Schimmer;;YELLOW_CARD;Gelbe Karte;Stefan;Schimmer;;;1. FC Heidenheim 1846;own
+6730;288;3;72;0;17;922;;source:liveticker | 1:0;Gelbe Karte : Aljoscha Kemlein;;YELLOW_CARD;Gelbe Karte;Aljoscha;Kemlein;;;1. FC Union Berlin;opponent
+6726;288;7;73;0;17;924;953;substitution_out | source:liveticker;Wechsel : Alex Král => Wooyeong Jeong;;SUBSTITUTION_OUT;Auswechslung;Wooyeong;Jeong;Alex;Král;1. FC Union Berlin;opponent
+6727;288;6;73;0;17;953;924;substitution_in | source:liveticker;Wechsel : Alex Král => Wooyeong Jeong;;SUBSTITUTION_IN;Einwechslung;Alex;Král;Wooyeong;Jeong;1. FC Union Berlin;opponent
+6728;288;7;73;0;17;954;916;substitution_out | source:liveticker;Wechsel : Tom Alexander Rothe => Derrick Arthur Köhn;;SUBSTITUTION_OUT;Auswechslung;Derrick Arthur;Köhn;Tom Alexander;Rothe;1. FC Union Berlin;opponent
+6729;288;6;73;0;17;916;954;substitution_in | source:liveticker;Wechsel : Tom Alexander Rothe => Derrick Arthur Köhn;;SUBSTITUTION_IN;Einwechslung;Tom Alexander;Rothe;Derrick Arthur;Köhn;1. FC Union Berlin;opponent
+6725;288;3;75;0;17;912;;source:liveticker | 1:0;Gelbe Karte : Rani Khedira;;YELLOW_CARD;Gelbe Karte;Rani;Khedira;;;1. FC Union Berlin;opponent
+6721;288;7;76;0;15;1005;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+6722;288;6;76;0;15;1047;1005;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+6723;288;7;76;0;15;1017;1023;substitution_out | source:liveticker;Wechsel : Yannik Wagner => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Yannik;Wagner;1. FC Heidenheim 1846;own
+6724;288;6;76;0;15;1023;1017;substitution_in | source:liveticker;Wechsel : Yannik Wagner => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Yannik;Wagner;Mathias;Honsak;1. FC Heidenheim 1846;own
+6717;288;7;79;0;17;920;917;substitution_out | source:liveticker;Wechsel : Janik Haberer => Christopher Trimmel;;SUBSTITUTION_OUT;Auswechslung;Christopher;Trimmel;Janik;Haberer;1. FC Union Berlin;opponent
+6718;288;6;79;0;17;917;920;substitution_in | source:liveticker;Wechsel : Janik Haberer => Christopher Trimmel;;SUBSTITUTION_IN;Einwechslung;Janik;Haberer;Christopher;Trimmel;1. FC Union Berlin;opponent
+6719;288;7;79;0;17;922;951;substitution_out | source:liveticker;Wechsel : András Schäfer => Aljoscha Kemlein;;SUBSTITUTION_OUT;Auswechslung;Aljoscha;Kemlein;András;Schäfer;1. FC Union Berlin;opponent
+6720;288;6;79;0;17;951;922;substitution_in | source:liveticker;Wechsel : András Schäfer => Aljoscha Kemlein;;SUBSTITUTION_IN;Einwechslung;András;Schäfer;Aljoscha;Kemlein;1. FC Union Berlin;opponent
+6715;288;1;90;0;15;1044;;source:liveticker | 1:2;Tor : Jan Schöppner;;GOAL;Tor;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+6716;288;1;90;0;15;1138;;source:liveticker | 1:1;Tor : Stefan Schimmer;;GOAL;Tor;Stefan;Schimmer;;;1. FC Heidenheim 1846;own
+6981;297;3;13;0;15;1197;;source:liveticker | 0:0;Gelbe Karte : Thomas Keller;;YELLOW_CARD;Gelbe Karte;Thomas;Keller;;;1. FC Heidenheim 1846;own
+6980;297;3;37;0;15;1008;;source:liveticker | 0:0;Gelbe Karte : Benedikt Gimber;;YELLOW_CARD;Gelbe Karte;Benedikt;Gimber;;;1. FC Heidenheim 1846;own
+6979;297;1;40;0;28;740;;source:liveticker | 0:1;Tor : Johan Manzambi;;GOAL;Tor;Johan;Manzambi;;;Sport-Club Freiburg;opponent
+6973;297;7;46;0;28;731;1157;substitution_out | source:liveticker;Wechsel : Max Rosenfelder => Philipp Lienhart;;SUBSTITUTION_OUT;Auswechslung;Philipp;Lienhart;Max;Rosenfelder;Sport-Club Freiburg;opponent
+6974;297;6;46;0;28;1157;731;substitution_in | source:liveticker;Wechsel : Max Rosenfelder => Philipp Lienhart;;SUBSTITUTION_IN;Einwechslung;Max;Rosenfelder;Philipp;Lienhart;Sport-Club Freiburg;opponent
+6975;297;7;46;0;15;1008;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+6976;297;6;46;0;15;1013;1008;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Benedikt;Gimber;1. FC Heidenheim 1846;own
+6977;297;7;46;0;15;1197;1007;substitution_out | source:liveticker;Wechsel : Tim Siersleben => Thomas Keller;;SUBSTITUTION_OUT;Auswechslung;Thomas;Keller;Tim;Siersleben;1. FC Heidenheim 1846;own
+6978;297;6;46;0;15;1007;1197;substitution_in | source:liveticker;Wechsel : Tim Siersleben => Thomas Keller;;SUBSTITUTION_IN;Einwechslung;Tim;Siersleben;Thomas;Keller;1. FC Heidenheim 1846;own
+6972;297;1;59;0;15;1009;;source:liveticker | 1:1;Tor : Patrick Mainka;;GOAL;Tor;Patrick;Mainka;;;1. FC Heidenheim 1846;own
+6968;297;7;67;0;28;739;743;substitution_out | source:liveticker;Wechsel : Derry Lionel Scherhant => Vincenzo Grifo;;SUBSTITUTION_OUT;Auswechslung;Vincenzo;Grifo;Derry Lionel;Scherhant;Sport-Club Freiburg;opponent
+6969;297;6;67;0;28;743;739;substitution_in | source:liveticker;Wechsel : Derry Lionel Scherhant => Vincenzo Grifo;;SUBSTITUTION_IN;Einwechslung;Derry Lionel;Scherhant;Vincenzo;Grifo;Sport-Club Freiburg;opponent
+6970;297;7;67;0;28;740;734;substitution_out | source:liveticker;Wechsel : Yuito Suzuki => Johan Manzambi;;SUBSTITUTION_OUT;Auswechslung;Johan;Manzambi;Yuito;Suzuki;Sport-Club Freiburg;opponent
+6971;297;6;67;0;28;734;740;substitution_in | source:liveticker;Wechsel : Yuito Suzuki => Johan Manzambi;;SUBSTITUTION_IN;Einwechslung;Yuito;Suzuki;Johan;Manzambi;Sport-Club Freiburg;opponent
+6966;297;7;70;0;15;1016;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Stefan;Schimmer;1. FC Heidenheim 1846;own
+6967;297;6;70;0;15;1138;1016;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Julian;Niehues;1. FC Heidenheim 1846;own
+6964;297;7;71;0;28;1157;742;substitution_out | source:liveticker;Wechsel : Anthony Jung => Max Rosenfelder;;SUBSTITUTION_OUT;Auswechslung;Max;Rosenfelder;Anthony;Jung;Sport-Club Freiburg;opponent
+6965;297;6;71;0;28;742;1157;substitution_in | source:liveticker;Wechsel : Anthony Jung => Max Rosenfelder;;SUBSTITUTION_IN;Einwechslung;Anthony;Jung;Max;Rosenfelder;Sport-Club Freiburg;opponent
+6962;297;7;83;0;15;1005;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+6963;297;6;83;0;15;1047;1005;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+6960;297;7;84;0;28;771;772;substitution_out | source:liveticker;Wechsel : Christian Günter => Lukas Kübler;;SUBSTITUTION_OUT;Auswechslung;Lukas;Kübler;Christian;Günter;Sport-Club Freiburg;opponent
+6961;297;6;84;0;28;772;771;substitution_in | source:liveticker;Wechsel : Christian Günter => Lukas Kübler;;SUBSTITUTION_IN;Einwechslung;Christian;Günter;Lukas;Kübler;Sport-Club Freiburg;opponent
+6957;297;7;88;0;15;1014;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Luca;Kerber;1. FC Heidenheim 1846;own
+6958;297;6;88;0;15;1018;1014;substitution_in | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Niklas;Dorsch;1. FC Heidenheim 1846;own
+6959;297;3;88;0;28;742;;source:liveticker | 1:1;Gelbe Karte : Anthony Jung;;YELLOW_CARD;Gelbe Karte;Anthony;Jung;;;Sport-Club Freiburg;opponent
+6956;297;1;90;0;15;1138;;source:liveticker | 2:1;Tor : Stefan Schimmer;;GOAL;Tor;Stefan;Schimmer;;;1. FC Heidenheim 1846;own
+7223;307;3;25;0;25;962;;source:liveticker | 0:0;Gelbe Karte : James Sands;;YELLOW_CARD;Gelbe Karte;James;Sands;;;FC St. Pauli;opponent
+7222;307;1;35;0;25;1090;;source:liveticker | 1:0;Tor : Martijn Kaars;;GOAL;Tor;Martijn;Kaars;;;FC St. Pauli;opponent
+7221;307;3;42;0;15;1044;;source:liveticker | 1:0;Gelbe Karte : Jan Schöppner;;YELLOW_CARD;Gelbe Karte;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+7219;307;3;45;0;25;1306;;source:liveticker | 1:0;Gelbe Karte TO : Alexander Blessin;;YELLOW_CARD;Gelbe Karte;Alexander;Blessin;;;FC St. Pauli;opponent
+7220;307;4;45;0;25;963;;source:liveticker | 1:0;Rote Karte : Eric Smith;;RED_CARD;Rote Karte;Eric;Smith;;;FC St. Pauli;opponent
+7213;307;7;46;0;15;1197;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Thomas Keller;;SUBSTITUTION_OUT;Auswechslung;Thomas;Keller;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+7214;307;6;46;0;15;1047;1197;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Thomas Keller;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Thomas;Keller;1. FC Heidenheim 1846;own
+7215;307;7;46;0;15;1044;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Stefan;Schimmer;1. FC Heidenheim 1846;own
+7216;307;6;46;0;15;1138;1044;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Jan;Schöppner;1. FC Heidenheim 1846;own
+7217;307;7;46;0;25;970;968;substitution_out | source:liveticker;Wechsel : Adam Dzwigala => Mathias Pereira Lage;;SUBSTITUTION_OUT;Auswechslung;Mathias;Pereira Lage;Adam;Dzwigala;FC St. Pauli;opponent
+7218;307;6;46;0;25;968;970;substitution_in | source:liveticker;Wechsel : Adam Dzwigala => Mathias Pereira Lage;;SUBSTITUTION_IN;Einwechslung;Adam;Dzwigala;Mathias;Pereira Lage;FC St. Pauli;opponent
+7212;307;1;53;0;25;1090;;source:liveticker | 2:0;Tor : Martijn Kaars;;GOAL;Tor;Martijn;Kaars;;;FC St. Pauli;opponent
+7207;307;7;64;0;15;1019;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+7208;307;6;64;0;15;1022;1019;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Adrian;Beck;1. FC Heidenheim 1846;own
+7209;307;7;64;0;15;1007;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Tim Siersleben;;SUBSTITUTION_OUT;Auswechslung;Tim;Siersleben;Mathias;Honsak;1. FC Heidenheim 1846;own
+7210;307;6;64;0;15;1017;1007;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Tim Siersleben;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Tim;Siersleben;1. FC Heidenheim 1846;own
+7211;307;1;64;0;15;1232;;source:liveticker | 2:1;Tor : Marvin Pieringer;;GOAL;Tor;Marvin;Pieringer;;;1. FC Heidenheim 1846;own
+7206;307;3;69;0;25;965;;source:liveticker | 2:1;Gelbe Karte : Arkadiusz Pyrka;;YELLOW_CARD;Gelbe Karte;Arkadiusz;Pyrka;;;FC St. Pauli;opponent
+7205;307;3;73;0;15;1022;;source:liveticker | 2:1;Gelbe Karte : Mikkel Kaufmann;;YELLOW_CARD;Gelbe Karte;Mikkel;Kaufmann;;;1. FC Heidenheim 1846;own
+7203;307;7;76;0;25;1090;1260;substitution_out | source:liveticker;Wechsel : Ricky-Jade Jones => Martijn Kaars;;SUBSTITUTION_OUT;Auswechslung;Martijn;Kaars;Ricky-Jade;Jones;FC St. Pauli;opponent
+7204;307;6;76;0;25;1260;1090;substitution_in | source:liveticker;Wechsel : Ricky-Jade Jones => Martijn Kaars;;SUBSTITUTION_IN;Einwechslung;Ricky-Jade;Jones;Martijn;Kaars;FC St. Pauli;opponent
+7201;307;7;78;0;15;1016;1014;substitution_out | source:liveticker;Wechsel : Niklas Dorsch => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Niklas;Dorsch;1. FC Heidenheim 1846;own
+7202;307;6;78;0;15;1014;1016;substitution_in | source:liveticker;Wechsel : Niklas Dorsch => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Niklas;Dorsch;Julian;Niehues;1. FC Heidenheim 1846;own
+7200;307;3;87;0;15;1232;;source:liveticker | 2:1;Gelbe Karte : Marvin Pieringer;;YELLOW_CARD;Gelbe Karte;Marvin;Pieringer;;;1. FC Heidenheim 1846;own
+7198;307;7;90;0;25;1260;978;substitution_out | source:liveticker;Wechsel : Connor Metcalfe => Ricky-Jade Jones;;SUBSTITUTION_OUT;Auswechslung;Ricky-Jade;Jones;Connor;Metcalfe;FC St. Pauli;opponent
+7199;307;6;90;0;25;978;1260;substitution_in | source:liveticker;Wechsel : Connor Metcalfe => Ricky-Jade Jones;;SUBSTITUTION_IN;Einwechslung;Connor;Metcalfe;Ricky-Jade;Jones;FC St. Pauli;opponent
+7406;315;1;15;0;24;608;;source:liveticker | 0:1;Tor : Josip Stanisic;;GOAL;Tor;Josip;Stanisic;;;FC Bayern München;opponent
+7405;315;1;32;0;24;606;;source:liveticker | 0:2;Tor : Michael Akpovie Olise;;GOAL;Tor;Michael Akpovie;Olise;;;FC Bayern München;opponent
+7401;315;7;46;0;15;1017;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Stefan;Schimmer;1. FC Heidenheim 1846;own
+7402;315;6;46;0;15;1138;1017;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Mathias;Honsak;1. FC Heidenheim 1846;own
+7403;315;7;46;0;15;1018;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Luca Kerber;;SUBSTITUTION_OUT;Auswechslung;Luca;Kerber;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+7404;315;6;46;0;15;1013;1018;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Luca Kerber;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Luca;Kerber;1. FC Heidenheim 1846;own
+7399;315;7;63;0;24;616;602;substitution_out | source:liveticker;Wechsel : Serge Gnabry => Lennart Karl;;SUBSTITUTION_OUT;Auswechslung;Lennart;Karl;Serge;Gnabry;FC Bayern München;opponent
+7400;315;6;63;0;24;602;616;substitution_in | source:liveticker;Wechsel : Serge Gnabry => Lennart Karl;;SUBSTITUTION_IN;Einwechslung;Serge;Gnabry;Lennart;Karl;FC Bayern München;opponent
+7393;315;7;66;0;15;1005;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Julian;Niehues;1. FC Heidenheim 1846;own
+7394;315;6;66;0;15;1016;1005;substitution_in | source:liveticker;Wechsel : Julian Niehues => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Marnon;Busch;1. FC Heidenheim 1846;own
+7395;315;7;66;0;15;1044;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+7396;315;6;66;0;15;1022;1044;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Jan;Schöppner;1. FC Heidenheim 1846;own
+7397;315;7;66;0;15;1232;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Sirlord;Conteh;1. FC Heidenheim 1846;own
+7398;315;6;66;0;15;1059;1232;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Marvin;Pieringer;1. FC Heidenheim 1846;own
+7391;315;7;72;0;24;612;1226;substitution_out | source:liveticker;Wechsel : David Michael Santos Daiber => Raphael Guerreiro;;SUBSTITUTION_OUT;Auswechslung;Raphael;Guerreiro;David Michael;Santos Daiber;FC Bayern München;opponent
+7392;315;6;72;0;24;1226;612;substitution_in | source:liveticker;Wechsel : David Michael Santos Daiber => Raphael Guerreiro;;SUBSTITUTION_IN;Einwechslung;David Michael;Santos Daiber;Raphael;Guerreiro;FC Bayern München;opponent
+7389;315;7;73;0;24;1257;1297;substitution_out | source:liveticker;Wechsel : Alphonso Boyle Davies => Hiroki Ito;;SUBSTITUTION_OUT;Auswechslung;Hiroki;Ito;Alphonso Boyle;Davies;FC Bayern München;opponent
+7390;315;6;73;0;24;1297;1257;substitution_in | source:liveticker;Wechsel : Alphonso Boyle Davies => Hiroki Ito;;SUBSTITUTION_IN;Einwechslung;Alphonso Boyle;Davies;Hiroki;Ito;FC Bayern München;opponent
+7388;315;1;86;0;24;605;;source:liveticker | 0:3;Tor : Luis Diaz;;GOAL;Tor;Luis;Diaz;;;FC Bayern München;opponent
+7383;315;1;90;0;24;604;;source:liveticker | 0:4;Tor : Harry Edward Kane;;GOAL;Tor;Harry Edward;Kane;;;FC Bayern München;opponent
+7384;315;7;90;0;24;599;1154;substitution_out | source:liveticker;Wechsel : Cassiano Tomas Kiala => Dayotchanculle Oswald Upamecano;;SUBSTITUTION_OUT;Auswechslung;Dayotchanculle Oswald;Upamecano;Cassiano Tomas;Kiala;FC Bayern München;opponent
+7385;315;6;90;0;24;1154;599;substitution_in | source:liveticker;Wechsel : Cassiano Tomas Kiala => Dayotchanculle Oswald Upamecano;;SUBSTITUTION_IN;Einwechslung;Cassiano Tomas;Kiala;Dayotchanculle Oswald;Upamecano;FC Bayern München;opponent
+7386;315;7;90;0;24;606;614;substitution_out | source:liveticker;Wechsel : Wisdom Mike => Michael Akpovie Olise;;SUBSTITUTION_OUT;Auswechslung;Michael Akpovie;Olise;Wisdom;Mike;FC Bayern München;opponent
+7387;315;6;90;0;24;614;606;substitution_in | source:liveticker;Wechsel : Wisdom Mike => Michael Akpovie Olise;;SUBSTITUTION_IN;Einwechslung;Wisdom;Mike;Michael Akpovie;Olise;FC Bayern München;opponent
+7693;326;1;15;0;15;1232;;source:liveticker | 1:0;Tor : Marvin Pieringer;;GOAL;Tor;Marvin;Pieringer;;;1. FC Heidenheim 1846;own
+7692;326;1;18;0;16;810;;source:liveticker | 1:1;Tor : Eric Martel;;GOAL;Tor;Eric;Martel;;;1. FC Köln;opponent
+7691;326;3;21;0;16;810;;source:liveticker | 1:1;Gelbe Karte : Eric Martel;;YELLOW_CARD;Gelbe Karte;Eric;Martel;;;1. FC Köln;opponent
+7690;326;1;26;0;15;1016;;source:liveticker | 2:1;Tor : Julian Niehues;;GOAL;Tor;Julian;Niehues;;;1. FC Heidenheim 1846;own
+7689;326;3;44;0;15;1013;;source:liveticker | 2:1;Gelbe Karte : Arijon Ibrahimovic;;YELLOW_CARD;Gelbe Karte;Arijon;Ibrahimovic;;;1. FC Heidenheim 1846;own
+7687;326;7;46;0;16;814;817;substitution_out | source:liveticker;Wechsel : Said El Mala => Denis Huseinbasic;;SUBSTITUTION_OUT;Auswechslung;Denis;Huseinbasic;Said;El Mala;1. FC Köln;opponent
+7688;326;6;46;0;16;817;814;substitution_in | source:liveticker;Wechsel : Said El Mala => Denis Huseinbasic;;SUBSTITUTION_IN;Einwechslung;Said;El Mala;Denis;Huseinbasic;1. FC Köln;opponent
+7686;326;1;48;0;16;817;;source:liveticker | 2:2;Tor : Said El Mala;;GOAL;Tor;Said;El Mala;;;1. FC Köln;opponent
+7685;326;3;52;0;15;1045;;source:liveticker | 2:2;Gelbe Karte : Jonas Föhrenbach;;YELLOW_CARD;Gelbe Karte;Jonas;Föhrenbach;;;1. FC Heidenheim 1846;own
+7681;326;7;60;0;15;1044;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Adrian;Beck;1. FC Heidenheim 1846;own
+7682;326;6;60;0;15;1019;1044;substitution_in | source:liveticker;Wechsel : Adrian Beck => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Jan;Schöppner;1. FC Heidenheim 1846;own
+7683;326;7;60;0;15;1013;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Mathias;Honsak;1. FC Heidenheim 1846;own
+7684;326;6;60;0;15;1017;1013;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+7679;326;7;62;0;16;1437;1087;substitution_out | source:liveticker;Wechsel : Linton Maina => Fynn Schenten;;SUBSTITUTION_OUT;Auswechslung;Fynn;Schenten;Linton;Maina;1. FC Köln;opponent
+7680;326;6;62;0;16;1087;1437;substitution_in | source:liveticker;Wechsel : Linton Maina => Fynn Schenten;;SUBSTITUTION_IN;Einwechslung;Linton;Maina;Fynn;Schenten;1. FC Köln;opponent
+7675;326;7;75;0;16;803;826;substitution_out | source:liveticker;Wechsel : Marius Bülter => Jan Uwe Thielmann;;SUBSTITUTION_OUT;Auswechslung;Jan Uwe;Thielmann;Marius;Bülter;1. FC Köln;opponent
+7676;326;6;75;0;16;826;803;substitution_in | source:liveticker;Wechsel : Marius Bülter => Jan Uwe Thielmann;;SUBSTITUTION_IN;Einwechslung;Marius;Bülter;Jan Uwe;Thielmann;1. FC Köln;opponent
+7677;326;7;75;0;16;1131;805;substitution_out | source:liveticker;Wechsel : Kristoffer Lund Hansen => Alessio Castro-Montes;;SUBSTITUTION_OUT;Auswechslung;Alessio;Castro-Montes;Kristoffer Lund;Hansen;1. FC Köln;opponent
+7678;326;6;75;0;16;805;1131;substitution_in | source:liveticker;Wechsel : Kristoffer Lund Hansen => Alessio Castro-Montes;;SUBSTITUTION_IN;Einwechslung;Kristoffer Lund;Hansen;Alessio;Castro-Montes;1. FC Köln;opponent
+7671;326;7;78;0;15;1047;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+7672;326;6;78;0;15;1005;1047;substitution_in | source:liveticker;Wechsel : Marnon Busch => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+7673;326;7;78;0;15;1232;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+7674;326;6;78;0;15;1138;1232;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+7669;326;7;83;0;15;1059;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Sirlord Conteh;;SUBSTITUTION_OUT;Auswechslung;Sirlord;Conteh;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+7670;326;6;83;0;15;1022;1059;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Sirlord Conteh;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Sirlord;Conteh;1. FC Heidenheim 1846;own
+7667;326;7;90;0;16;815;1463;substitution_out | source:liveticker;Wechsel : Youssoupha Niang => Ragnar Prince Friedel Ache;;SUBSTITUTION_OUT;Auswechslung;Ragnar Prince Friedel;Ache;Youssoupha;Niang;1. FC Köln;opponent
+7668;326;6;90;0;16;1463;815;substitution_in | source:liveticker;Wechsel : Youssoupha Niang => Ragnar Prince Friedel Ache;;SUBSTITUTION_IN;Einwechslung;Youssoupha;Niang;Ragnar Prince Friedel;Ache;1. FC Köln;opponent
+7743;328;1;30;0;18;798;;source:liveticker | 1:0;Tor : Silvan Dominic Widmer;;GOAL;Tor;Silvan Dominic;Widmer;;;1. FSV Mainz 05;opponent
+7741;328;7;34;0;18;1077;1246;substitution_out | source:liveticker;Wechsel : Kacper Potulski => Nikolas Konrad Veratschnig;;SUBSTITUTION_OUT;Auswechslung;Nikolas Konrad;Veratschnig;Kacper;Potulski;1. FSV Mainz 05;opponent
+7742;328;6;34;0;18;1246;1077;substitution_in | source:liveticker;Wechsel : Kacper Potulski => Nikolas Konrad Veratschnig;;SUBSTITUTION_IN;Einwechslung;Kacper;Potulski;Nikolas Konrad;Veratschnig;1. FSV Mainz 05;opponent
+7740;328;3;45;0;18;791;;source:liveticker | 1:0;Gelbe Karte : Dominik Kohr;;YELLOW_CARD;Gelbe Karte;Dominik;Kohr;;;1. FSV Mainz 05;opponent
+7738;328;7;46;0;15;1044;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Sirlord;Conteh;1. FC Heidenheim 1846;own
+7739;328;6;46;0;15;1059;1044;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Jan;Schöppner;1. FC Heidenheim 1846;own
+7737;328;1;49;0;18;786;;source:liveticker | 2:0;Tor : Nadiem Amiri;;GOAL;Tor;Nadiem;Amiri;;;1. FSV Mainz 05;opponent
+7736;328;3;54;0;15;1232;;source:liveticker | 2:0;Gelbe Karte : Marvin Pieringer;;YELLOW_CARD;Gelbe Karte;Marvin;Pieringer;;;1. FC Heidenheim 1846;own
+7734;328;7;58;0;15;1022;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Stefan;Schimmer;1. FC Heidenheim 1846;own
+7735;328;6;58;0;15;1138;1022;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+7730;328;7;59;0;18;795;785;substitution_out | source:liveticker;Wechsel : Paul Nebel => Armindo Sieb;;SUBSTITUTION_OUT;Auswechslung;Armindo;Sieb;Paul;Nebel;1. FSV Mainz 05;opponent
+7731;328;6;59;0;18;785;795;substitution_in | source:liveticker;Wechsel : Paul Nebel => Armindo Sieb;;SUBSTITUTION_IN;Einwechslung;Paul;Nebel;Armindo;Sieb;1. FSV Mainz 05;opponent
+7732;328;7;59;0;15;1232;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Adrian;Beck;1. FC Heidenheim 1846;own
+7733;328;6;59;0;15;1019;1232;substitution_in | source:liveticker;Wechsel : Adrian Beck => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Marvin;Pieringer;1. FC Heidenheim 1846;own
+7729;328;1;60;0;15;1138;;source:liveticker | 2:1;Tor : Stefan Schimmer;;GOAL;Tor;Stefan;Schimmer;;;1. FC Heidenheim 1846;own
+7728;328;3;66;0;18;1466;;source:liveticker | 2:1;Gelbe Karte TO : Markus Hoffmann;;YELLOW_CARD;Gelbe Karte;Markus;Hoffmann;;;1. FSV Mainz 05;opponent
+7726;328;7;75;0;15;1016;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Mathias;Honsak;1. FC Heidenheim 1846;own
+7727;328;6;75;0;15;1017;1016;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Julian;Niehues;1. FC Heidenheim 1846;own
+7725;328;3;77;0;15;1008;;source:liveticker | 2:1;Gelbe Karte : Benedikt Gimber;;YELLOW_CARD;Gelbe Karte;Benedikt;Gimber;;;1. FC Heidenheim 1846;own
+7723;328;7;81;0;15;1045;1023;substitution_out | source:liveticker;Wechsel : Yannik Wagner => Jonas Föhrenbach;;SUBSTITUTION_OUT;Auswechslung;Jonas;Föhrenbach;Yannik;Wagner;1. FC Heidenheim 1846;own
+7724;328;6;81;0;15;1023;1045;substitution_in | source:liveticker;Wechsel : Yannik Wagner => Jonas Föhrenbach;;SUBSTITUTION_IN;Einwechslung;Yannik;Wagner;Jonas;Föhrenbach;1. FC Heidenheim 1846;own
+7722;328;3;88;0;15;1465;;source:liveticker | 2:1;Gelbe Karte TO : Bernhard Raab;;YELLOW_CARD;Gelbe Karte;Bernhard;Raab;;;1. FC Heidenheim 1846;own
+7717;328;3;90;0;18;798;;source:liveticker | 2:1;Gelbe Karte : Silvan Dominic Widmer;;YELLOW_CARD;Gelbe Karte;Silvan Dominic;Widmer;;;1. FSV Mainz 05;opponent
+7718;328;7;90;0;18;1456;794;substitution_out | source:liveticker;Wechsel : Arnaud Dominique Nordin => Phillip Tietz;;SUBSTITUTION_OUT;Auswechslung;Phillip;Tietz;Arnaud Dominique;Nordin;1. FSV Mainz 05;opponent
+7719;328;6;90;0;18;794;1456;substitution_in | source:liveticker;Wechsel : Arnaud Dominique Nordin => Phillip Tietz;;SUBSTITUTION_IN;Einwechslung;Arnaud Dominique;Nordin;Phillip;Tietz;1. FSV Mainz 05;opponent
+7720;328;7;90;0;18;786;796;substitution_out | source:liveticker;Wechsel : Lennard Maloney => Nadiem Amiri;;SUBSTITUTION_OUT;Auswechslung;Nadiem;Amiri;Lennard;Maloney;1. FSV Mainz 05;opponent
+7721;328;6;90;0;18;796;786;substitution_in | source:liveticker;Wechsel : Lennard Maloney => Nadiem Amiri;;SUBSTITUTION_IN;Einwechslung;Lennard;Maloney;Nadiem;Amiri;1. FSV Mainz 05;opponent
+8020;340;3;16;0;32;1027;;source:liveticker | 0:0;Gelbe Karte : Maximilian Arnold;;YELLOW_CARD;Gelbe Karte;Maximilian;Arnold;;;VfL Wolfsburg;opponent
+8019;340;3;26;0;15;1005;;source:liveticker | 0:0;Gelbe Karte : Marnon Busch;;YELLOW_CARD;Gelbe Karte;Marnon;Busch;;;1. FC Heidenheim 1846;own
+8018;340;3;29;0;15;1014;;source:liveticker | 0:0;Gelbe Karte : Niklas Dorsch;;YELLOW_CARD;Gelbe Karte;Niklas;Dorsch;;;1. FC Heidenheim 1846;own
+8017;340;1;45;0;15;1019;;source:liveticker | 0:1;Tor : Adrian Beck;;GOAL;Tor;Adrian;Beck;;;1. FC Heidenheim 1846;own
+8015;340;7;46;0;32;1026;1440;substitution_out | source:liveticker;Wechsel : Kevin Alexander Paredes => Aaron Zehnter;;SUBSTITUTION_OUT;Auswechslung;Aaron;Zehnter;Kevin Alexander;Paredes;VfL Wolfsburg;opponent
+8016;340;6;46;0;32;1440;1026;substitution_in | source:liveticker;Wechsel : Kevin Alexander Paredes => Aaron Zehnter;;SUBSTITUTION_IN;Einwechslung;Kevin Alexander;Paredes;Aaron;Zehnter;VfL Wolfsburg;opponent
+8014;340;3;58;0;15;1045;;source:liveticker | 0:1;Gelbe Karte : Jonas Föhrenbach;;YELLOW_CARD;Gelbe Karte;Jonas;Föhrenbach;;;1. FC Heidenheim 1846;own
+8009;340;7;59;0;32;1034;1127;substitution_out | source:liveticker;Wechsel : Adam Daghim => Lovro Majer;;SUBSTITUTION_OUT;Auswechslung;Lovro;Majer;Adam;Daghim;VfL Wolfsburg;opponent
+8010;340;6;59;0;32;1127;1034;substitution_in | source:liveticker;Wechsel : Adam Daghim => Lovro Majer;;SUBSTITUTION_IN;Einwechslung;Adam;Daghim;Lovro;Majer;VfL Wolfsburg;opponent
+8011;340;7;59;0;32;1250;1146;substitution_out | source:liveticker;Wechsel : Sael Kumbedi => Jan Bürger;;SUBSTITUTION_OUT;Auswechslung;Jan;Bürger;Sael;Kumbedi;VfL Wolfsburg;opponent
+8012;340;6;59;0;32;1146;1250;substitution_in | source:liveticker;Wechsel : Sael Kumbedi => Jan Bürger;;SUBSTITUTION_IN;Einwechslung;Sael;Kumbedi;Jan;Bürger;VfL Wolfsburg;opponent
+8013;340;3;59;0;32;1130;;source:liveticker | 0:1;Gelbe Karte : Christian Dannemann Eriksen;;YELLOW_CARD;Gelbe Karte;Christian Dannemann;Eriksen;;;VfL Wolfsburg;opponent
+8008;340;3;68;0;32;1440;;source:liveticker | 0:1;Gelbe Karte : Kevin Alexander Paredes;;YELLOW_CARD;Gelbe Karte;Kevin Alexander;Paredes;;;VfL Wolfsburg;opponent
+8006;340;7;70;0;32;1041;1132;substitution_out | source:liveticker;Wechsel : Jesper Grænge Lindstrøm => Yannick Gerhardt;;SUBSTITUTION_OUT;Auswechslung;Yannick;Gerhardt;Jesper Grænge;Lindstrøm;VfL Wolfsburg;opponent
+8007;340;6;70;0;32;1132;1041;substitution_in | source:liveticker;Wechsel : Jesper Grænge Lindstrøm => Yannick Gerhardt;;SUBSTITUTION_IN;Einwechslung;Jesper Grænge;Lindstrøm;Yannick;Gerhardt;VfL Wolfsburg;opponent
+8002;340;7;77;0;15;1045;1495;substitution_out | source:liveticker;Wechsel : Leonidas Stergiou => Jonas Föhrenbach;;SUBSTITUTION_OUT;Auswechslung;Jonas;Föhrenbach;Leonidas;Stergiou;1. FC Heidenheim 1846;own
+8003;340;6;77;0;15;1495;1045;substitution_in | source:liveticker;Wechsel : Leonidas Stergiou => Jonas Föhrenbach;;SUBSTITUTION_IN;Einwechslung;Leonidas;Stergiou;Jonas;Föhrenbach;1. FC Heidenheim 1846;own
+8004;340;7;77;0;15;1019;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Stefan;Schimmer;1. FC Heidenheim 1846;own
+8005;340;6;77;0;15;1138;1019;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Adrian;Beck;1. FC Heidenheim 1846;own
+8001;340;1;80;0;32;1024;;source:liveticker | 1:1;Tor : Moritz Jenz;;GOAL;Tor;Moritz;Jenz;;;VfL Wolfsburg;opponent
+7997;340;7;86;0;15;1014;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Luca;Kerber;1. FC Heidenheim 1846;own
+7998;340;6;86;0;15;1018;1014;substitution_in | source:liveticker;Wechsel : Luca Kerber => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Niklas;Dorsch;1. FC Heidenheim 1846;own
+7999;340;7;86;0;15;1232;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+8000;340;6;86;0;15;1022;1232;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Marvin;Pieringer;1. FC Heidenheim 1846;own
+7996;340;3;89;0;32;1132;;source:liveticker | 1:1;Gelbe Karte : Jesper Grænge Lindstrøm;;YELLOW_CARD;Gelbe Karte;Jesper Grænge;Lindstrøm;;;VfL Wolfsburg;opponent
+7994;340;7;90;0;15;1017;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+7995;340;6;90;0;15;1047;1017;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Mathias;Honsak;1. FC Heidenheim 1846;own
+8331;353;7;62;0;15;1019;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Stefan;Schimmer;1. FC Heidenheim 1846;own
+8332;353;6;62;0;15;1138;1019;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Adrian;Beck;1. FC Heidenheim 1846;own
+8333;353;1;62;0;27;618;;source:liveticker | 0:1;Tor : Ridle Baku;;GOAL;Tor;Ridle;Baku;;;RB Leipzig;opponent
+8329;353;7;63;0;15;1013;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Sirlord;Conteh;1. FC Heidenheim 1846;own
+8330;353;6;63;0;15;1059;1013;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+8328;353;1;68;0;27;633;;source:liveticker | 0:2;Tor : Antonio Eromonsele Nordby Nusa;;GOAL;Tor;Antonio Eromonsele Nordby;Nusa;;;RB Leipzig;opponent
+8327;353;1;70;0;27;619;;source:liveticker | 0:3;Tor : David Raum;;GOAL;Tor;David;Raum;;;RB Leipzig;opponent
+8323;353;7;71;0;27;633;632;substitution_out | source:liveticker;Wechsel : Ezechiel Banzuzi => Antonio Eromonsele Nordby Nusa;;SUBSTITUTION_OUT;Auswechslung;Antonio Eromonsele Nordby;Nusa;Ezechiel;Banzuzi;RB Leipzig;opponent
+8324;353;6;71;0;27;632;633;substitution_in | source:liveticker;Wechsel : Ezechiel Banzuzi => Antonio Eromonsele Nordby Nusa;;SUBSTITUTION_IN;Einwechslung;Ezechiel;Banzuzi;Antonio Eromonsele Nordby;Nusa;RB Leipzig;opponent
+8325;353;7;71;0;27;634;1147;substitution_out | source:liveticker;Wechsel : Tidiam Diadie Stephan Gomis => Christoph Baumgartner;;SUBSTITUTION_OUT;Auswechslung;Christoph;Baumgartner;Tidiam Diadie Stephan;Gomis;RB Leipzig;opponent
+8326;353;6;71;0;27;1147;634;substitution_in | source:liveticker;Wechsel : Tidiam Diadie Stephan Gomis => Christoph Baumgartner;;SUBSTITUTION_IN;Einwechslung;Tidiam Diadie Stephan;Gomis;Christoph;Baumgartner;RB Leipzig;opponent
+8315;353;7;77;0;27;631;1057;substitution_out | source:liveticker;Wechsel : Andrija Maksimovic => El-Chadaille Bitshiabu;;SUBSTITUTION_OUT;Auswechslung;El-Chadaille;Bitshiabu;Andrija;Maksimovic;RB Leipzig;opponent
+8316;353;6;77;0;27;1057;631;substitution_in | source:liveticker;Wechsel : Andrija Maksimovic => El-Chadaille Bitshiabu;;SUBSTITUTION_IN;Einwechslung;Andrija;Maksimovic;El-Chadaille;Bitshiabu;RB Leipzig;opponent
+8317;353;7;77;0;27;619;1061;substitution_out | source:liveticker;Wechsel : Max Finkgräfe => David Raum;;SUBSTITUTION_OUT;Auswechslung;David;Raum;Max;Finkgräfe;RB Leipzig;opponent
+8318;353;6;77;0;27;1061;619;substitution_in | source:liveticker;Wechsel : Max Finkgräfe => David Raum;;SUBSTITUTION_IN;Einwechslung;Max;Finkgräfe;David;Raum;RB Leipzig;opponent
+8319;353;7;77;0;15;1017;1511;substitution_out | source:liveticker;Wechsel : Hennes Behrens => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Hennes;Behrens;1. FC Heidenheim 1846;own
+8320;353;6;77;0;15;1511;1017;substitution_in | source:liveticker;Wechsel : Hennes Behrens => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Hennes;Behrens;Mathias;Honsak;1. FC Heidenheim 1846;own
+8321;353;7;77;0;15;1232;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Luca;Kerber;1. FC Heidenheim 1846;own
+8322;353;6;77;0;15;1018;1232;substitution_in | source:liveticker;Wechsel : Luca Kerber => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Marvin;Pieringer;1. FC Heidenheim 1846;own
+8313;353;7;84;0;15;1044;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Julian;Niehues;1. FC Heidenheim 1846;own
+8314;353;6;84;0;15;1016;1044;substitution_in | source:liveticker;Wechsel : Julian Niehues => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Jan;Schöppner;1. FC Heidenheim 1846;own
+8312;353;3;89;0;15;1008;;source:liveticker | 0:3;Gelbe Karte : Benedikt Gimber;;YELLOW_CARD;Gelbe Karte;Benedikt;Gimber;;;1. FC Heidenheim 1846;own
+8310;353;7;90;0;27;618;1459;substitution_out | source:liveticker;Wechsel : Benjamin Henrichs => Ridle Baku;;SUBSTITUTION_OUT;Auswechslung;Ridle;Baku;Benjamin;Henrichs;RB Leipzig;opponent
+8311;353;6;90;0;27;1459;618;substitution_in | source:liveticker;Wechsel : Benjamin Henrichs => Ridle Baku;;SUBSTITUTION_IN;Einwechslung;Benjamin;Henrichs;Ridle;Baku;RB Leipzig;opponent
+8385;355;3;40;0;15;1017;;source:liveticker | 0:0;Gelbe Karte : Mathias Honsak;;YELLOW_CARD;Gelbe Karte;Mathias;Honsak;;;1. FC Heidenheim 1846;own
+8384;355;1;44;0;20;987;;source:liveticker | 1:0;Tor : Waldemar Anton;;GOAL;Tor;Waldemar;Anton;;;Borussia Dortmund;opponent
+8383;355;1;45;0;15;1016;;source:liveticker | 1:1;Tor : Julian Niehues;;GOAL;Tor;Julian;Niehues;;;1. FC Heidenheim 1846;own
+8379;355;7;46;0;15;1017;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+8380;355;6;46;0;15;1013;1017;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Mathias;Honsak;1. FC Heidenheim 1846;own
+8381;355;7;46;0;20;1001;1161;substitution_out | source:liveticker;Wechsel : Niklas Süle => Filippo Calixte Mané;;SUBSTITUTION_OUT;Auswechslung;Filippo Calixte;Mané;Niklas;Süle;Borussia Dortmund;opponent
+8382;355;6;46;0;20;1161;1001;substitution_in | source:liveticker;Wechsel : Niklas Süle => Filippo Calixte Mané;;SUBSTITUTION_IN;Einwechslung;Niklas;Süle;Filippo Calixte;Mané;Borussia Dortmund;opponent
+8378;355;1;48;0;15;1016;;source:liveticker | 1:2;Tor : Julian Niehues;;GOAL;Tor;Julian;Niehues;;;1. FC Heidenheim 1846;own
+8377;355;3;50;0;20;987;;source:liveticker | 1:2;Gelbe Karte : Waldemar Anton;;YELLOW_CARD;Gelbe Karte;Waldemar;Anton;;;Borussia Dortmund;opponent
+8373;355;7;58;0;20;989;1493;substitution_out | source:liveticker;Wechsel : Carney Chukwuemeka => Jobe Bellingham;;SUBSTITUTION_OUT;Auswechslung;Jobe;Bellingham;Carney;Chukwuemeka;Borussia Dortmund;opponent
+8374;355;6;58;0;20;1493;989;substitution_in | source:liveticker;Wechsel : Carney Chukwuemeka => Jobe Bellingham;;SUBSTITUTION_IN;Einwechslung;Carney;Chukwuemeka;Jobe;Bellingham;Borussia Dortmund;opponent
+8375;355;7;58;0;20;986;995;substitution_out | source:liveticker;Wechsel : Maximilian Beier => Yan Couto;;SUBSTITUTION_OUT;Auswechslung;Yan;Couto;Maximilian;Beier;Borussia Dortmund;opponent
+8376;355;6;58;0;20;995;986;substitution_in | source:liveticker;Wechsel : Maximilian Beier => Yan Couto;;SUBSTITUTION_IN;Einwechslung;Maximilian;Beier;Yan;Couto;Borussia Dortmund;opponent
+8372;355;3;64;0;15;1016;;source:liveticker | 1:2;Gelbe Karte : Julian Niehues;;YELLOW_CARD;Gelbe Karte;Julian;Niehues;;;1. FC Heidenheim 1846;own
+8371;355;8;68;0;20;990;;source:liveticker | 2:2;Strafstoß-Tor : Serhou Yadaly Guirassy;;PENALTY_GOAL;Elfmetertor;Serhou Yadaly;Guirassy;;;Borussia Dortmund;opponent
+8369;355;7;69;0;20;983;1159;substitution_out | source:liveticker;Wechsel : Fábio Daniel Soares Silva => Karim David Adeyemi;;SUBSTITUTION_OUT;Auswechslung;Karim David;Adeyemi;Fábio Daniel;Soares Silva;Borussia Dortmund;opponent
+8370;355;6;69;0;20;1159;983;substitution_in | source:liveticker;Wechsel : Fábio Daniel Soares Silva => Karim David Adeyemi;;SUBSTITUTION_IN;Einwechslung;Fábio Daniel;Soares Silva;Karim David;Adeyemi;Borussia Dortmund;opponent
+8366;355;7;70;0;15;1016;1044;substitution_out | source:liveticker;Wechsel : Jan Schöppner => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Jan;Schöppner;1. FC Heidenheim 1846;own
+8367;355;6;70;0;15;1044;1016;substitution_in | source:liveticker;Wechsel : Jan Schöppner => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Jan;Schöppner;Julian;Niehues;1. FC Heidenheim 1846;own
+8368;355;1;70;0;20;990;;source:liveticker | 3:2;Tor : Serhou Yadaly Guirassy;;GOAL;Tor;Serhou Yadaly;Guirassy;;;Borussia Dortmund;opponent
+8360;355;7;80;0;15;1232;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Sirlord;Conteh;1. FC Heidenheim 1846;own
+8361;355;6;80;0;15;1059;1232;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Marvin;Pieringer;1. FC Heidenheim 1846;own
+8362;355;7;80;0;15;1513;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Eren Sami Dinkci;;SUBSTITUTION_OUT;Auswechslung;Eren Sami;Dinkci;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+8363;355;6;80;0;15;1022;1513;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Eren Sami Dinkci;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+8364;355;7;80;0;15;1047;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Stefan;Schimmer;1. FC Heidenheim 1846;own
+8365;355;6;80;0;15;1138;1047;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+8357;355;3;90;0;20;985;;source:liveticker | 3:2;Gelbe Karte : Gregor Kobel;;YELLOW_CARD;Gelbe Karte;Gregor;Kobel;;;Borussia Dortmund;opponent
+8358;355;7;90;0;20;990;1002;substitution_out | source:liveticker;Wechsel : Salih Özcan => Serhou Yadaly Guirassy;;SUBSTITUTION_OUT;Auswechslung;Serhou Yadaly;Guirassy;Salih;Özcan;Borussia Dortmund;opponent
+8359;355;6;90;0;20;1002;990;substitution_in | source:liveticker;Wechsel : Salih Özcan => Serhou Yadaly Guirassy;;SUBSTITUTION_IN;Einwechslung;Salih;Özcan;Serhou Yadaly;Guirassy;Borussia Dortmund;opponent
+8766;370;3;7;0;26;856;;source:liveticker | 0:0;Gelbe Karte : Daniel Elfadli;;YELLOW_CARD;Gelbe Karte;Daniel;Elfadli;;;Hamburger SV;opponent
+8765;370;1;45;0;26;1092;;source:liveticker | 0:1;Tor : Ransford-Yeboah Königsdörffer;;GOAL;Tor;Ransford-Yeboah;Königsdörffer;;;Hamburger SV;opponent
+8757;370;7;46;0;26;1098;1447;substitution_out | source:liveticker;Wechsel : Damion Downs => Albert Sambi Sambi Lokonga;;SUBSTITUTION_OUT;Auswechslung;Albert Sambi;Sambi Lokonga;Damion;Downs;Hamburger SV;opponent
+8758;370;6;46;0;26;1447;1098;substitution_in | source:liveticker;Wechsel : Damion Downs => Albert Sambi Sambi Lokonga;;SUBSTITUTION_IN;Einwechslung;Damion;Downs;Albert Sambi;Sambi Lokonga;Hamburger SV;opponent
+8759;370;7;46;0;26;856;851;substitution_out | source:liveticker;Wechsel : Jordan Torunarigha => Daniel Elfadli;;SUBSTITUTION_OUT;Auswechslung;Daniel;Elfadli;Jordan;Torunarigha;Hamburger SV;opponent
+8760;370;6;46;0;26;851;856;substitution_in | source:liveticker;Wechsel : Jordan Torunarigha => Daniel Elfadli;;SUBSTITUTION_IN;Einwechslung;Jordan;Torunarigha;Daniel;Elfadli;Hamburger SV;opponent
+8761;370;7;46;0;15;1047;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Sirlord;Conteh;1. FC Heidenheim 1846;own
+8762;370;6;46;0;15;1059;1047;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+8763;370;7;46;0;15;1232;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+8764;370;6;46;0;15;1138;1232;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+8755;370;7;63;0;15;1013;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Mathias;Honsak;1. FC Heidenheim 1846;own
+8756;370;6;63;0;15;1017;1013;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+8753;370;7;64;0;15;1016;1011;substitution_out | source:liveticker;Wechsel : Budu Zivzivadze => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+8754;370;6;64;0;15;1011;1016;substitution_in | source:liveticker;Wechsel : Budu Zivzivadze => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Budu;Zivzivadze;Julian;Niehues;1. FC Heidenheim 1846;own
+8749;370;7;68;0;26;1092;862;substitution_out | source:liveticker;Wechsel : William Mikelbrencis => Ransford-Yeboah Königsdörffer;;SUBSTITUTION_OUT;Auswechslung;Ransford-Yeboah;Königsdörffer;William;Mikelbrencis;Hamburger SV;opponent
+8750;370;6;68;0;26;862;1092;substitution_in | source:liveticker;Wechsel : William Mikelbrencis => Ransford-Yeboah Königsdörffer;;SUBSTITUTION_IN;Einwechslung;William;Mikelbrencis;Ransford-Yeboah;Königsdörffer;Hamburger SV;opponent
+8751;370;7;68;0;26;1531;865;substitution_out | source:liveticker;Wechsel : Rayan Philippe => Philip Porwei Otele;;SUBSTITUTION_OUT;Auswechslung;Philip Porwei;Otele;Rayan;Philippe;Hamburger SV;opponent
+8752;370;6;68;0;26;865;1531;substitution_in | source:liveticker;Wechsel : Rayan Philippe => Philip Porwei Otele;;SUBSTITUTION_IN;Einwechslung;Rayan;Philippe;Philip Porwei;Otele;Hamburger SV;opponent
+8747;370;7;77;0;15;1008;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Adrian;Beck;1. FC Heidenheim 1846;own
+8748;370;6;77;0;15;1019;1008;substitution_in | source:liveticker;Wechsel : Adrian Beck => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Benedikt;Gimber;1. FC Heidenheim 1846;own
+8746;370;1;78;0;26;865;;source:liveticker | 0:2;Tor : Rayan Philippe;;GOAL;Tor;Rayan;Philippe;;;Hamburger SV;opponent
+8744;370;7;80;0;26;1096;858;substitution_out | source:liveticker;Wechsel : Giorgi Gocholeishvili => Fabio Daniel Ferreira Vieira;;SUBSTITUTION_OUT;Auswechslung;Fabio Daniel;Ferreira Vieira;Giorgi;Gocholeishvili;Hamburger SV;opponent
+8745;370;6;80;0;26;858;1096;substitution_in | source:liveticker;Wechsel : Giorgi Gocholeishvili => Fabio Daniel Ferreira Vieira;;SUBSTITUTION_IN;Einwechslung;Giorgi;Gocholeishvili;Fabio Daniel;Ferreira Vieira;Hamburger SV;opponent
+8743;370;3;88;0;26;862;;source:liveticker | 0:2;Gelbe Karte : William Mikelbrencis;;YELLOW_CARD;Gelbe Karte;William;Mikelbrencis;;;Hamburger SV;opponent
+8973;378;7;59;0;23;1455;1496;substitution_out | source:liveticker;Wechsel : Rodrigo Duarte Ribeiro => Michael Gregoritsch;;SUBSTITUTION_OUT;Auswechslung;Michael;Gregoritsch;Rodrigo Duarte;Ribeiro;FC Augsburg;opponent
+8974;378;6;59;0;23;1496;1455;substitution_in | source:liveticker;Wechsel : Rodrigo Duarte Ribeiro => Michael Gregoritsch;;SUBSTITUTION_IN;Einwechslung;Rodrigo Duarte;Ribeiro;Michael;Gregoritsch;FC Augsburg;opponent
+8975;378;7;59;0;23;1080;752;substitution_out | source:liveticker;Wechsel : Marius Wolf => Anton Kade;;SUBSTITUTION_OUT;Auswechslung;Anton;Kade;Marius;Wolf;FC Augsburg;opponent
+8976;378;6;59;0;23;752;1080;substitution_in | source:liveticker;Wechsel : Marius Wolf => Anton Kade;;SUBSTITUTION_IN;Einwechslung;Marius;Wolf;Anton;Kade;FC Augsburg;opponent
+8969;378;7;64;0;15;1138;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Stefan Schimmer;;SUBSTITUTION_OUT;Auswechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+8970;378;6;64;0;15;1232;1138;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Stefan Schimmer;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+8971;378;7;64;0;15;1537;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Christian Joe Conteh;;SUBSTITUTION_OUT;Auswechslung;Christian Joe;Conteh;Sirlord;Conteh;1. FC Heidenheim 1846;own
+8972;378;6;64;0;15;1059;1537;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Christian Joe Conteh;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+8965;378;7;73;0;23;777;763;substitution_out | source:liveticker;Wechsel : Elvis Rexhbecaj => Kristijan Jakić;;SUBSTITUTION_OUT;Auswechslung;Kristijan;Jakić;Elvis;Rexhbecaj;FC Augsburg;opponent
+8966;378;6;73;0;23;763;777;substitution_in | source:liveticker;Wechsel : Elvis Rexhbecaj => Kristijan Jakić;;SUBSTITUTION_IN;Einwechslung;Elvis;Rexhbecaj;Kristijan;Jakić;FC Augsburg;opponent
+8967;378;7;73;0;23;750;759;substitution_out | source:liveticker;Wechsel : Dimitrios Christos Giannoulis => Robin Fellhauer;;SUBSTITUTION_OUT;Auswechslung;Robin;Fellhauer;Dimitrios Christos;Giannoulis;FC Augsburg;opponent
+8968;378;6;73;0;23;759;750;substitution_in | source:liveticker;Wechsel : Dimitrios Christos Giannoulis => Robin Fellhauer;;SUBSTITUTION_IN;Einwechslung;Dimitrios Christos;Giannoulis;Robin;Fellhauer;FC Augsburg;opponent
+8963;378;3;79;0;15;1008;;source:liveticker | 1:0;Gelbe Karte : Benedikt Gimber;;YELLOW_CARD;Gelbe Karte;Benedikt;Gimber;;;1. FC Heidenheim 1846;own
+8964;378;8;80;0;23;1259;;source:liveticker | 1:0;Strafstoß-Tor : Alexis Julien Claude-Maurice;;PENALTY_GOAL;Elfmetertor;Alexis Julien;Claude-Maurice;;;FC Augsburg;opponent
+8961;378;7;81;0;15;1016;1011;substitution_out | source:liveticker;Wechsel : Budu Zivzivadze => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+8962;378;6;81;0;15;1011;1016;substitution_in | source:liveticker;Wechsel : Budu Zivzivadze => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Budu;Zivzivadze;Julian;Niehues;1. FC Heidenheim 1846;own
+8957;378;7;87;0;15;1511;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Hennes Behrens;;SUBSTITUTION_OUT;Auswechslung;Hennes;Behrens;Adrian;Beck;1. FC Heidenheim 1846;own
+8958;378;6;87;0;15;1019;1511;substitution_in | source:liveticker;Wechsel : Adrian Beck => Hennes Behrens;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Hennes;Behrens;1. FC Heidenheim 1846;own
+8959;378;7;87;0;15;1044;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Mathias;Honsak;1. FC Heidenheim 1846;own
+8960;378;6;87;0;15;1017;1044;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Jan;Schöppner;1. FC Heidenheim 1846;own
+8953;378;3;90;0;15;1011;;source:liveticker | 1:0;Gelbe Karte : Budu Zivzivadze;;YELLOW_CARD;Gelbe Karte;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+8954;378;3;90;0;23;755;;source:liveticker | 1:0;Gelbe Karte : Finn Gilbert Dahmen;;YELLOW_CARD;Gelbe Karte;Finn Gilbert;Dahmen;;;FC Augsburg;opponent
+8955;378;7;90;0;23;778;1135;substitution_out | source:liveticker;Wechsel : Fabian Rieder => Mert Kömür;;SUBSTITUTION_OUT;Auswechslung;Mert;Kömür;Fabian;Rieder;FC Augsburg;opponent
+8956;378;6;90;0;23;1135;778;substitution_in | source:liveticker;Wechsel : Fabian Rieder => Mert Kömür;;SUBSTITUTION_IN;Einwechslung;Fabian;Rieder;Mert;Kömür;FC Augsburg;opponent
+9241;388;1;5;0;31;959;;source:liveticker | 0:1;Tor : Chris Führich;;GOAL;Tor;Chris;Führich;;;VfB Stuttgart;opponent
+9240;388;1;20;0;15;1513;;source:liveticker | 1:1;Tor : Eren Sami Dinkci;;GOAL;Tor;Eren Sami;Dinkci;;;1. FC Heidenheim 1846;own
+9238;388;7;24;0;15;1044;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+9239;388;6;24;0;15;1047;1044;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Jan;Schöppner;1. FC Heidenheim 1846;own
+9237;388;8;34;0;15;1013;;source:liveticker | 2:1;Strafstoß-Tor : Arijon Ibrahimovic;;PENALTY_GOAL;Elfmetertor;Arijon;Ibrahimovic;;;1. FC Heidenheim 1846;own
+9236;388;8;45;0;31;956;;source:liveticker | 2:2;Strafstoß-Tor : Maximilian Mittelstädt;;PENALTY_GOAL;Elfmetertor;Maximilian;Mittelstädt;;;VfB Stuttgart;opponent
+9234;388;7;52;0;31;958;934;substitution_out | source:liveticker;Wechsel : Deniz Undav => Tiago Barreiros de Melo Tomás;;SUBSTITUTION_OUT;Auswechslung;Tiago;Barreiros de Melo Tomás;Deniz;Undav;VfB Stuttgart;opponent
+9235;388;6;52;0;31;934;958;substitution_in | source:liveticker;Wechsel : Deniz Undav => Tiago Barreiros de Melo Tomás;;SUBSTITUTION_IN;Einwechslung;Deniz;Undav;Tiago;Barreiros de Melo Tomás;VfB Stuttgart;opponent
+9232;388;7;64;0;15;1537;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Christian Joe Conteh;;SUBSTITUTION_OUT;Auswechslung;Christian Joe;Conteh;Sirlord;Conteh;1. FC Heidenheim 1846;own
+9233;388;6;64;0;15;1059;1537;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Christian Joe Conteh;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+9230;388;7;65;0;15;1232;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+9231;388;6;65;0;15;1138;1232;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+9226;388;7;66;0;31;1115;946;substitution_out | source:liveticker;Wechsel : Nikolas Terkelsen Nartey => Bilal El Khannouss;;SUBSTITUTION_OUT;Auswechslung;Bilal;El Khannouss;Nikolas Terkelsen;Nartey;VfB Stuttgart;opponent
+9227;388;6;66;0;31;946;1115;substitution_in | source:liveticker;Wechsel : Nikolas Terkelsen Nartey => Bilal El Khannouss;;SUBSTITUTION_IN;Einwechslung;Nikolas Terkelsen;Nartey;Bilal;El Khannouss;VfB Stuttgart;opponent
+9228;388;7;66;0;31;959;932;substitution_out | source:liveticker;Wechsel : Jamie Leweling => Chris Führich;;SUBSTITUTION_OUT;Auswechslung;Chris;Führich;Jamie;Leweling;VfB Stuttgart;opponent
+9229;388;6;66;0;31;932;959;substitution_in | source:liveticker;Wechsel : Jamie Leweling => Chris Führich;;SUBSTITUTION_IN;Einwechslung;Jamie;Leweling;Chris;Führich;VfB Stuttgart;opponent
+9225;388;3;72;0;15;1007;;source:liveticker | 2:2;Gelbe Karte : Tim Siersleben;;YELLOW_CARD;Gelbe Karte;Tim;Siersleben;;;1. FC Heidenheim 1846;own
+9221;388;7;75;0;15;1007;1048;substitution_out | source:liveticker;Wechsel : Adam Kölle => Tim Siersleben;;SUBSTITUTION_OUT;Auswechslung;Tim;Siersleben;Adam;Kölle;1. FC Heidenheim 1846;own
+9222;388;6;75;0;15;1048;1007;substitution_in | source:liveticker;Wechsel : Adam Kölle => Tim Siersleben;;SUBSTITUTION_IN;Einwechslung;Adam;Kölle;Tim;Siersleben;1. FC Heidenheim 1846;own
+9223;388;7;75;0;15;1016;1014;substitution_out | source:liveticker;Wechsel : Niklas Dorsch => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Niklas;Dorsch;1. FC Heidenheim 1846;own
+9224;388;6;75;0;15;1014;1016;substitution_in | source:liveticker;Wechsel : Niklas Dorsch => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Niklas;Dorsch;Julian;Niehues;1. FC Heidenheim 1846;own
+9217;388;7;78;0;31;1072;936;substitution_out | source:liveticker;Wechsel : Josha Vagnoman => Lorenz Amegnon Assignon;;SUBSTITUTION_OUT;Auswechslung;Lorenz Amegnon;Assignon;Josha;Vagnoman;VfB Stuttgart;opponent
+9218;388;6;78;0;31;936;1072;substitution_in | source:liveticker;Wechsel : Josha Vagnoman => Lorenz Amegnon Assignon;;SUBSTITUTION_IN;Einwechslung;Josha;Vagnoman;Lorenz Amegnon;Assignon;VfB Stuttgart;opponent
+9219;388;7;78;0;31;937;931;substitution_out | source:liveticker;Wechsel : Atakan Karazor => Angelo Stiller;;SUBSTITUTION_OUT;Auswechslung;Angelo;Stiller;Atakan;Karazor;VfB Stuttgart;opponent
+9220;388;6;78;0;31;931;937;substitution_in | source:liveticker;Wechsel : Atakan Karazor => Angelo Stiller;;SUBSTITUTION_IN;Einwechslung;Atakan;Karazor;Angelo;Stiller;VfB Stuttgart;opponent
+9216;388;1;82;0;15;1059;;source:liveticker | 3:2;Tor : Sirlord Conteh;;GOAL;Tor;Sirlord;Conteh;;;1. FC Heidenheim 1846;own
+9215;388;1;88;0;31;934;;source:liveticker | 3:3;Tor : Deniz Undav;;GOAL;Tor;Deniz;Undav;;;VfB Stuttgart;opponent
+9213;388;3;90;0;31;1115;;source:liveticker | 3:3;Gelbe Karte : Bilal El Khannouss;;YELLOW_CARD;Gelbe Karte;Bilal;El Khannouss;;;VfB Stuttgart;opponent
+9214;388;3;90;0;31;948;;source:liveticker | 3:3;Gelbe Karte : Jose Maria Andres Baixauli;;YELLOW_CARD;Gelbe Karte;Jose Maria;Andres Baixauli;;;VfB Stuttgart;opponent
+9351;393;7;46;0;15;1047;1495;substitution_out | source:liveticker;Wechsel : Leonidas Stergiou => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Leonidas;Stergiou;1. FC Heidenheim 1846;own
+9352;393;6;46;0;15;1495;1047;substitution_in | source:liveticker;Wechsel : Leonidas Stergiou => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Leonidas;Stergiou;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+9353;393;7;46;0;15;1016;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Stefan;Schimmer;1. FC Heidenheim 1846;own
+9354;393;6;46;0;15;1138;1016;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Julian;Niehues;1. FC Heidenheim 1846;own
+9350;393;1;57;0;29;1452;;source:liveticker | 1:0;Tor : Jovan Milošević;;GOAL;Tor;Jovan;Milošević;;;SV Werder Bremen;opponent
+9346;393;7;65;0;15;1044;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Adrian;Beck;1. FC Heidenheim 1846;own
+9347;393;6;65;0;15;1019;1044;substitution_in | source:liveticker;Wechsel : Adrian Beck => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Jan;Schöppner;1. FC Heidenheim 1846;own
+9348;393;7;65;0;15;1513;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Eren Sami Dinkci;;SUBSTITUTION_OUT;Auswechslung;Eren Sami;Dinkci;Marvin;Pieringer;1. FC Heidenheim 1846;own
+9349;393;6;65;0;15;1232;1513;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Eren Sami Dinkci;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+9344;393;7;69;0;29;1452;717;substitution_out | source:liveticker;Wechsel : Keke Maximilian Topp => Jovan Milošević;;SUBSTITUTION_OUT;Auswechslung;Jovan;Milošević;Keke Maximilian;Topp;SV Werder Bremen;opponent
+9345;393;6;69;0;29;717;1452;substitution_in | source:liveticker;Wechsel : Keke Maximilian Topp => Jovan Milošević;;SUBSTITUTION_IN;Einwechslung;Keke Maximilian;Topp;Jovan;Milošević;SV Werder Bremen;opponent
+9343;393;3;72;0;29;1301;;source:liveticker | 1:0;Gelbe Karte : Olivier Deman;;YELLOW_CARD;Gelbe Karte;Olivier;Deman;;;SV Werder Bremen;opponent
+9341;393;7;74;0;15;1008;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Mathias;Honsak;1. FC Heidenheim 1846;own
+9342;393;6;74;0;15;1017;1008;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Benedikt;Gimber;1. FC Heidenheim 1846;own
+9339;393;7;80;0;29;727;714;substitution_out | source:liveticker;Wechsel : Justin Njinmah => Marco Grüll;;SUBSTITUTION_OUT;Auswechslung;Marco;Grüll;Justin;Njinmah;SV Werder Bremen;opponent
+9340;393;6;80;0;29;714;727;substitution_in | source:liveticker;Wechsel : Justin Njinmah => Marco Grüll;;SUBSTITUTION_IN;Einwechslung;Justin;Njinmah;Marco;Grüll;SV Werder Bremen;opponent
+9335;393;7;89;0;29;1125;707;substitution_out | source:liveticker;Wechsel : Julián Malatini => Jens Dalsgaard Stage;;SUBSTITUTION_OUT;Auswechslung;Jens Dalsgaard;Stage;Julián;Malatini;SV Werder Bremen;opponent
+9336;393;6;89;0;29;707;1125;substitution_in | source:liveticker;Wechsel : Julián Malatini => Jens Dalsgaard Stage;;SUBSTITUTION_IN;Einwechslung;Julián;Malatini;Jens Dalsgaard;Stage;SV Werder Bremen;opponent
+9337;393;7;89;0;29;706;713;substitution_out | source:liveticker;Wechsel : Leonardo Jesus Loureiro Bittencourt => Romano Schmid;;SUBSTITUTION_OUT;Auswechslung;Romano;Schmid;Leonardo Jesus;Loureiro Bittencourt;SV Werder Bremen;opponent
+9338;393;6;89;0;29;713;706;substitution_in | source:liveticker;Wechsel : Leonardo Jesus Loureiro Bittencourt => Romano Schmid;;SUBSTITUTION_IN;Einwechslung;Leonardo Jesus;Loureiro Bittencourt;Romano;Schmid;SV Werder Bremen;opponent
+9334;393;2;90;0;29;1511;;source:liveticker | 2:0;Eigentor : Hennes Behrens;;OWN_GOAL;Eigentor;Hennes;Behrens;;;SV Werder Bremen;opponent
+9681;406;1;26;0;30;675;;source:liveticker | 0:1;Tor : Alexander Prass;;GOAL;Tor;Alexander;Prass;;;TSG Hoffenheim;opponent
+9680;406;1;45;0;30;675;;source:liveticker | 0:2;Tor : Alexander Prass;;GOAL;Tor;Alexander;Prass;;;TSG Hoffenheim;opponent
+9676;406;7;46;0;15;1232;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Sirlord;Conteh;1. FC Heidenheim 1846;own
+9677;406;6;46;0;15;1059;1232;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Marvin;Pieringer;1. FC Heidenheim 1846;own
+9678;406;7;46;0;15;1017;1537;substitution_out | source:liveticker;Wechsel : Christian Joe Conteh => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+9679;406;6;46;0;15;1537;1017;substitution_in | source:liveticker;Wechsel : Christian Joe Conteh => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Christian Joe;Conteh;Mathias;Honsak;1. FC Heidenheim 1846;own
+9675;406;1;49;0;30;668;;source:liveticker | 0:3;Tor : Fisnik Asllani;;GOAL;Tor;Fisnik;Asllani;;;TSG Hoffenheim;opponent
+9670;406;7;63;0;15;1014;1513;substitution_out | source:liveticker;Wechsel : Eren Sami Dinkci => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+9671;406;6;63;0;15;1513;1014;substitution_in | source:liveticker;Wechsel : Eren Sami Dinkci => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Eren Sami;Dinkci;Niklas;Dorsch;1. FC Heidenheim 1846;own
+9672;406;7;63;0;15;1047;1005;substitution_out | source:liveticker;Wechsel : Marnon Busch => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+9673;406;6;63;0;15;1005;1047;substitution_in | source:liveticker;Wechsel : Marnon Busch => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+9674;406;1;63;0;15;1018;;source:liveticker | 1:3;Tor : Luca Kerber;;GOAL;Tor;Luca;Kerber;;;1. FC Heidenheim 1846;own
+9668;406;7;65;0;30;670;683;substitution_out | source:liveticker;Wechsel : Grischa Prömel => Wouter Burger;;SUBSTITUTION_OUT;Auswechslung;Wouter;Burger;Grischa;Prömel;TSG Hoffenheim;opponent
+9669;406;6;65;0;30;683;670;substitution_in | source:liveticker;Wechsel : Grischa Prömel => Wouter Burger;;SUBSTITUTION_IN;Einwechslung;Grischa;Prömel;Wouter;Burger;TSG Hoffenheim;opponent
+9666;406;7;73;0;15;1044;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Stefan;Schimmer;1. FC Heidenheim 1846;own
+9667;406;6;73;0;15;1138;1044;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Jan;Schöppner;1. FC Heidenheim 1846;own
+9662;406;7;77;0;30;681;660;substitution_out | source:liveticker;Wechsel : Tim Lemperle => Andrej Kramarić;;SUBSTITUTION_OUT;Auswechslung;Andrej;Kramarić;Tim;Lemperle;TSG Hoffenheim;opponent
+9663;406;6;77;0;30;660;681;substitution_in | source:liveticker;Wechsel : Tim Lemperle => Andrej Kramarić;;SUBSTITUTION_IN;Einwechslung;Tim;Lemperle;Andrej;Kramarić;TSG Hoffenheim;opponent
+9664;406;7;77;0;30;1084;680;substitution_out | source:liveticker;Wechsel : Robin Hranáč => Albian Hajdari;;SUBSTITUTION_OUT;Auswechslung;Albian;Hajdari;Robin;Hranáč;TSG Hoffenheim;opponent
+9665;406;6;77;0;30;680;1084;substitution_in | source:liveticker;Wechsel : Robin Hranáč => Albian Hajdari;;SUBSTITUTION_IN;Einwechslung;Robin;Hranáč;Albian;Hajdari;TSG Hoffenheim;opponent
+9661;406;1;78;0;30;660;;source:liveticker | 1:4;Tor : Tim Lemperle;;GOAL;Tor;Tim;Lemperle;;;TSG Hoffenheim;opponent
+9660;406;1;84;0;15;1018;;source:liveticker | 2:4;Tor : Luca Kerber;;GOAL;Tor;Luca;Kerber;;;1. FC Heidenheim 1846;own
+9658;406;7;87;0;30;668;673;substitution_out | source:liveticker;Wechsel : Muhammed Mehmet Damar => Fisnik Asllani;;SUBSTITUTION_OUT;Auswechslung;Fisnik;Asllani;Muhammed Mehmet;Damar;TSG Hoffenheim;opponent
+9659;406;6;87;0;30;673;668;substitution_in | source:liveticker;Wechsel : Muhammed Mehmet Damar => Fisnik Asllani;;SUBSTITUTION_IN;Einwechslung;Muhammed Mehmet;Damar;Fisnik;Asllani;TSG Hoffenheim;opponent
+9656;406;7;88;0;30;682;1289;substitution_out | source:liveticker;Wechsel : Valentin Gendrey => Bazoumana Touré;;SUBSTITUTION_OUT;Auswechslung;Bazoumana;Touré;Valentin;Gendrey;TSG Hoffenheim;opponent
+9657;406;6;88;0;30;1289;682;substitution_in | source:liveticker;Wechsel : Valentin Gendrey => Bazoumana Touré;;SUBSTITUTION_IN;Einwechslung;Valentin;Gendrey;Bazoumana;Touré;TSG Hoffenheim;opponent
+9760;409;1;53;0;22;1443;;source:liveticker | 1:0;Tor : Arnaud Kalimuendo-Muinga;;GOAL;Tor;Arnaud;Kalimuendo-Muinga;;;Eintracht Frankfurt;opponent
+9759;409;3;57;0;15;1014;;source:liveticker | 1:0;Gelbe Karte : Niklas Dorsch;;YELLOW_CARD;Gelbe Karte;Niklas;Dorsch;;;1. FC Heidenheim 1846;own
+9755;409;7;63;0;15;1014;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+9756;409;6;63;0;15;1022;1014;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Niklas;Dorsch;1. FC Heidenheim 1846;own
+9757;409;7;63;0;15;1013;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Sirlord;Conteh;1. FC Heidenheim 1846;own
+9758;409;6;63;0;15;1059;1013;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+9754;409;3;71;0;15;1513;;source:liveticker | 1:0;Gelbe Karte : Eren Sami Dinkci;;YELLOW_CARD;Gelbe Karte;Eren Sami;Dinkci;;;1. FC Heidenheim 1846;own
+9753;409;5;73;0;22;687;;source:liveticker | 1:0;Gelb-rote Karte : Robin Koch;;YELLOW_RED_CARD;Gelb-Rote Karte;Robin;Koch;;;Eintracht Frankfurt;opponent
+9743;409;7;80;0;22;1443;1086;substitution_out | source:liveticker;Wechsel : Ellyes Skhiri => Arnaud Kalimuendo-Muinga;;SUBSTITUTION_OUT;Auswechslung;Arnaud;Kalimuendo-Muinga;Ellyes;Skhiri;Eintracht Frankfurt;opponent
+9744;409;6;80;0;22;1086;1443;substitution_in | source:liveticker;Wechsel : Ellyes Skhiri => Arnaud Kalimuendo-Muinga;;SUBSTITUTION_IN;Einwechslung;Ellyes;Skhiri;Arnaud;Kalimuendo-Muinga;Eintracht Frankfurt;opponent
+9745;409;7;80;0;22;725;1085;substitution_out | source:liveticker;Wechsel : Elias Baum => Farès Chaïbi;;SUBSTITUTION_OUT;Auswechslung;Farès;Chaïbi;Elias;Baum;Eintracht Frankfurt;opponent
+9746;409;6;80;0;22;1085;725;substitution_in | source:liveticker;Wechsel : Elias Baum => Farès Chaïbi;;SUBSTITUTION_IN;Einwechslung;Elias;Baum;Farès;Chaïbi;Eintracht Frankfurt;opponent
+9747;409;7;80;0;22;1445;689;substitution_out | source:liveticker;Wechsel : Jonathan Michael Burkardt => Ayoube Amaimouni-Echghouyab;;SUBSTITUTION_OUT;Auswechslung;Ayoube;Amaimouni-Echghouyab;Jonathan Michael;Burkardt;Eintracht Frankfurt;opponent
+9748;409;6;80;0;22;689;1445;substitution_in | source:liveticker;Wechsel : Jonathan Michael Burkardt => Ayoube Amaimouni-Echghouyab;;SUBSTITUTION_IN;Einwechslung;Jonathan Michael;Burkardt;Ayoube;Amaimouni-Echghouyab;Eintracht Frankfurt;opponent
+9749;409;7;80;0;15;1011;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Stefan;Schimmer;1. FC Heidenheim 1846;own
+9750;409;6;80;0;15;1138;1011;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+9751;409;7;80;0;15;1018;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Luca Kerber;;SUBSTITUTION_OUT;Auswechslung;Luca;Kerber;Mathias;Honsak;1. FC Heidenheim 1846;own
+9752;409;6;80;0;15;1017;1018;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Luca Kerber;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Luca;Kerber;1. FC Heidenheim 1846;own
+9742;409;3;82;0;22;685;;source:liveticker | 1:0;Gelbe Karte : Michael Zetterer;;YELLOW_CARD;Gelbe Karte;Michael;Zetterer;;;Eintracht Frankfurt;opponent
+9740;409;7;84;0;15;1005;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+9741;409;6;84;0;15;1047;1005;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+9738;409;7;88;0;22;693;1528;substitution_out | source:liveticker;Wechsel : Paul Love Arrhov => Ritsu Doan;;SUBSTITUTION_OUT;Auswechslung;Ritsu;Doan;Paul Love;Arrhov;Eintracht Frankfurt;opponent
+9739;409;6;88;0;22;1528;693;substitution_in | source:liveticker;Wechsel : Paul Love Arrhov => Ritsu Doan;;SUBSTITUTION_IN;Einwechslung;Paul Love;Arrhov;Ritsu;Doan;Eintracht Frankfurt;opponent
+9736;409;7;90;0;22;692;697;substitution_out | source:liveticker;Wechsel : Oscar Hojlund => Jean-Mattéo Bahoya;;SUBSTITUTION_OUT;Auswechslung;Jean-Mattéo;Bahoya;Oscar;Hojlund;Eintracht Frankfurt;opponent
+9737;409;6;90;0;22;697;692;substitution_in | source:liveticker;Wechsel : Oscar Hojlund => Jean-Mattéo Bahoya;;SUBSTITUTION_IN;Einwechslung;Oscar;Hojlund;Jean-Mattéo;Bahoya;Eintracht Frankfurt;opponent
+10140;424;1;22;0;19;1066;;source:liveticker | 0:1;Tor : Malik Leon Tillman;;GOAL;Tor;Malik Leon;Tillman;;;Bayer 04 Leverkusen;opponent
+10139;424;3;25;0;15;1044;;source:liveticker | 0:1;Gelbe Karte : Jan Schöppner;;YELLOW_CARD;Gelbe Karte;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+10138;424;1;35;0;19;646;;source:liveticker | 0:2;Tor : Patrik Schick;;GOAL;Tor;Patrik;Schick;;;Bayer 04 Leverkusen;opponent
+10137;424;3;39;0;19;646;;source:liveticker | 0:2;Gelbe Karte : Patrik Schick;;YELLOW_CARD;Gelbe Karte;Patrik;Schick;;;Bayer 04 Leverkusen;opponent
+10131;424;7;46;0;15;1008;1045;substitution_out | source:liveticker;Wechsel : Jonas Föhrenbach => Benedikt Gimber;;SUBSTITUTION_OUT;Auswechslung;Benedikt;Gimber;Jonas;Föhrenbach;1. FC Heidenheim 1846;own
+10132;424;6;46;0;15;1045;1008;substitution_in | source:liveticker;Wechsel : Jonas Föhrenbach => Benedikt Gimber;;SUBSTITUTION_IN;Einwechslung;Jonas;Föhrenbach;Benedikt;Gimber;1. FC Heidenheim 1846;own
+10133;424;7;46;0;15;1044;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Julian;Niehues;1. FC Heidenheim 1846;own
+10134;424;6;46;0;15;1016;1044;substitution_in | source:liveticker;Wechsel : Julian Niehues => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Jan;Schöppner;1. FC Heidenheim 1846;own
+10135;424;7;46;0;19;656;1229;substitution_out | source:liveticker;Wechsel : Martin Terrier => Ernest Poku;;SUBSTITUTION_OUT;Auswechslung;Ernest;Poku;Martin;Terrier;Bayer 04 Leverkusen;opponent
+10136;424;6;46;0;19;1229;656;substitution_in | source:liveticker;Wechsel : Martin Terrier => Ernest Poku;;SUBSTITUTION_IN;Einwechslung;Martin;Terrier;Ernest;Poku;Bayer 04 Leverkusen;opponent
+10129;424;7;54;0;19;1229;648;substitution_out | source:liveticker;Wechsel : Nathan Tella => Martin Terrier;;SUBSTITUTION_OUT;Auswechslung;Martin;Terrier;Nathan;Tella;Bayer 04 Leverkusen;opponent
+10130;424;6;54;0;19;648;1229;substitution_in | source:liveticker;Wechsel : Nathan Tella => Martin Terrier;;SUBSTITUTION_IN;Einwechslung;Nathan;Tella;Martin;Terrier;Bayer 04 Leverkusen;opponent
+10128;424;1;56;0;15;1511;;source:liveticker | 1:2;Tor : Hennes Behrens;;GOAL;Tor;Hennes;Behrens;;;1. FC Heidenheim 1846;own
+10123;424;7;64;0;15;1537;1232;substitution_out | source:liveticker;Wechsel : Marvin Pieringer => Christian Joe Conteh;;SUBSTITUTION_OUT;Auswechslung;Christian Joe;Conteh;Marvin;Pieringer;1. FC Heidenheim 1846;own
+10124;424;6;64;0;15;1232;1537;substitution_in | source:liveticker;Wechsel : Marvin Pieringer => Christian Joe Conteh;;SUBSTITUTION_IN;Einwechslung;Marvin;Pieringer;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+10125;424;7;64;0;15;1018;1059;substitution_out | source:liveticker;Wechsel : Sirlord Conteh => Luca Kerber;;SUBSTITUTION_OUT;Auswechslung;Luca;Kerber;Sirlord;Conteh;1. FC Heidenheim 1846;own
+10126;424;6;64;0;15;1059;1018;substitution_in | source:liveticker;Wechsel : Sirlord Conteh => Luca Kerber;;SUBSTITUTION_IN;Einwechslung;Sirlord;Conteh;Luca;Kerber;1. FC Heidenheim 1846;own
+10127;424;3;64;0;15;1018;;source:liveticker | 1:2;Gelbe Karte : Luca Kerber;;YELLOW_CARD;Gelbe Karte;Luca;Kerber;;;1. FC Heidenheim 1846;own
+10122;424;8;72;0;15;1232;;source:liveticker | 2:2;Strafstoß-Tor : Marvin Pieringer;;PENALTY_GOAL;Elfmetertor;Marvin;Pieringer;;;1. FC Heidenheim 1846;own
+10121;424;3;74;0;19;649;;source:liveticker | 2:2;Gelbe Karte : Aleix Garcia;;YELLOW_CARD;Gelbe Karte;Aleix;Garcia;;;Bayer 04 Leverkusen;opponent
+10120;424;1;79;0;19;646;;source:liveticker | 2:3;Tor : Patrik Schick;;GOAL;Tor;Patrik;Schick;;;Bayer 04 Leverkusen;opponent
+10116;424;7;82;0;19;1066;1469;substitution_out | source:liveticker;Wechsel : Tim Oermann => Malik Leon Tillman;;SUBSTITUTION_OUT;Auswechslung;Malik Leon;Tillman;Tim;Oermann;Bayer 04 Leverkusen;opponent
+10117;424;6;82;0;19;1469;1066;substitution_in | source:liveticker;Wechsel : Tim Oermann => Malik Leon Tillman;;SUBSTITUTION_IN;Einwechslung;Tim;Oermann;Malik Leon;Tillman;Bayer 04 Leverkusen;opponent
+10118;424;7;82;0;19;649;1109;substitution_out | source:liveticker;Wechsel : Ezequiel Fernández => Aleix Garcia;;SUBSTITUTION_OUT;Auswechslung;Aleix;Garcia;Ezequiel;Fernández;Bayer 04 Leverkusen;opponent
+10119;424;6;82;0;19;1109;649;substitution_in | source:liveticker;Wechsel : Ezequiel Fernández => Aleix Garcia;;SUBSTITUTION_IN;Einwechslung;Ezequiel;Fernández;Aleix;Garcia;Bayer 04 Leverkusen;opponent
+10113;424;7;83;0;15;1014;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Adrian;Beck;1. FC Heidenheim 1846;own
+10114;424;6;83;0;15;1019;1014;substitution_in | source:liveticker;Wechsel : Adrian Beck => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Niklas;Dorsch;1. FC Heidenheim 1846;own
+10115;424;3;83;0;19;650;;source:liveticker | 2:3;Gelbe Karte : Ibrahim Maza;;YELLOW_CARD;Gelbe Karte;Ibrahim;Maza;;;Bayer 04 Leverkusen;opponent
+10112;424;1;85;0;15;1232;;source:liveticker | 3:3;Tor : Marvin Pieringer;;GOAL;Tor;Marvin;Pieringer;;;1. FC Heidenheim 1846;own
+10110;424;7;87;0;19;643;659;substitution_out | source:liveticker;Wechsel : Christian Michel Kofane => Robert Andrich;;SUBSTITUTION_OUT;Auswechslung;Robert;Andrich;Christian Michel;Kofane;Bayer 04 Leverkusen;opponent
+10111;424;6;87;0;19;659;643;substitution_in | source:liveticker;Wechsel : Christian Michel Kofane => Robert Andrich;;SUBSTITUTION_IN;Einwechslung;Christian Michel;Kofane;Robert;Andrich;Bayer 04 Leverkusen;opponent
+10109;424;3;89;0;19;642;;source:liveticker | 3:3;Gelbe Karte : Jarell Amorin Quansah;;YELLOW_CARD;Gelbe Karte;Jarell Amorin;Quansah;;;Bayer 04 Leverkusen;opponent
+10107;424;3;90;0;15;1005;;source:liveticker | 3:3;Gelbe Karte : Marnon Busch;;YELLOW_CARD;Gelbe Karte;Marnon;Busch;;;1. FC Heidenheim 1846;own
+10108;424;3;90;0;15;1019;;source:liveticker | 3:3;Gelbe Karte : Adrian Beck;;YELLOW_CARD;Gelbe Karte;Adrian;Beck;;;1. FC Heidenheim 1846;own
+10335;431;1;16;0;21;1231;;source:liveticker | 1:0;Tor : Wael Mohya;;GOAL;Tor;Wael;Mohya;;;Borussia Mönchengladbach;opponent
+10334;431;1;26;0;15;1009;;source:liveticker | 1:1;Tor : Patrick Mainka;;GOAL;Tor;Patrick;Mainka;;;1. FC Heidenheim 1846;own
+10333;431;3;42;0;21;845;;source:liveticker | 1:1;Gelbe Karte : Jens Castrop;;YELLOW_CARD;Gelbe Karte;Jens;Castrop;;;Borussia Mönchengladbach;opponent
+10332;431;3;44;0;21;1123;;source:liveticker | 1:1;Gelbe Karte : Yannik Engelhardt;;YELLOW_CARD;Gelbe Karte;Yannik;Engelhardt;;;Borussia Mönchengladbach;opponent
+10330;431;7;49;0;15;1511;1495;substitution_out | source:liveticker;Wechsel : Leonidas Stergiou => Hennes Behrens;;SUBSTITUTION_OUT;Auswechslung;Hennes;Behrens;Leonidas;Stergiou;1. FC Heidenheim 1846;own
+10331;431;6;49;0;15;1495;1511;substitution_in | source:liveticker;Wechsel : Leonidas Stergiou => Hennes Behrens;;SUBSTITUTION_IN;Einwechslung;Leonidas;Stergiou;Hennes;Behrens;1. FC Heidenheim 1846;own
+10326;431;7;62;0;15;1017;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+10327;431;6;62;0;15;1013;1017;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Mathias;Honsak;1. FC Heidenheim 1846;own
+10328;431;7;62;0;15;1011;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+10329;431;6;62;0;15;1022;1011;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+10322;431;7;63;0;21;1231;844;substitution_out | source:liveticker;Wechsel : Florian Neuhaus => Wael Mohya;;SUBSTITUTION_OUT;Auswechslung;Wael;Mohya;Florian;Neuhaus;Borussia Mönchengladbach;opponent
+10323;431;6;63;0;21;844;1231;substitution_in | source:liveticker;Wechsel : Florian Neuhaus => Wael Mohya;;SUBSTITUTION_IN;Einwechslung;Florian;Neuhaus;Wael;Mohya;Borussia Mönchengladbach;opponent
+10324;431;7;63;0;21;1123;1075;substitution_out | source:liveticker;Wechsel : Kevin Stöger => Yannik Engelhardt;;SUBSTITUTION_OUT;Auswechslung;Yannik;Engelhardt;Kevin;Stöger;Borussia Mönchengladbach;opponent
+10325;431;6;63;0;21;1075;1123;substitution_in | source:liveticker;Wechsel : Kevin Stöger => Yannik Engelhardt;;SUBSTITUTION_IN;Einwechslung;Kevin;Stöger;Yannik;Engelhardt;Borussia Mönchengladbach;opponent
+10321;431;1;64;0;15;1005;;source:liveticker | 1:2;Tor : Marnon Busch;;GOAL;Tor;Marnon;Busch;;;1. FC Heidenheim 1846;own
+10319;431;7;67;0;15;1022;1008;substitution_out | source:liveticker;Wechsel : Benedikt Gimber => Mikkel Kaufmann;;SUBSTITUTION_OUT;Auswechslung;Mikkel;Kaufmann;Benedikt;Gimber;1. FC Heidenheim 1846;own
+10320;431;6;67;0;15;1008;1022;substitution_in | source:liveticker;Wechsel : Benedikt Gimber => Mikkel Kaufmann;;SUBSTITUTION_IN;Einwechslung;Benedikt;Gimber;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+10315;431;7;70;0;21;838;1522;substitution_out | source:liveticker;Wechsel : Hugo Bolin => Rocco Reitz;;SUBSTITUTION_OUT;Auswechslung;Rocco;Reitz;Hugo;Bolin;Borussia Mönchengladbach;opponent
+10316;431;6;70;0;21;1522;838;substitution_in | source:liveticker;Wechsel : Hugo Bolin => Rocco Reitz;;SUBSTITUTION_IN;Einwechslung;Hugo;Bolin;Rocco;Reitz;Borussia Mönchengladbach;opponent
+10317;431;7;70;0;21;839;834;substitution_out | source:liveticker;Wechsel : Haris Tabakovic => Joseph Michael Scally;;SUBSTITUTION_OUT;Auswechslung;Joseph Michael;Scally;Haris;Tabakovic;Borussia Mönchengladbach;opponent
+10318;431;6;70;0;21;834;839;substitution_in | source:liveticker;Wechsel : Haris Tabakovic => Joseph Michael Scally;;SUBSTITUTION_IN;Einwechslung;Haris;Tabakovic;Joseph Michael;Scally;Borussia Mönchengladbach;opponent
+10314;431;1;74;0;21;833;;source:liveticker | 2:2;Tor : Franck Honorat;;GOAL;Tor;Franck;Honorat;;;Borussia Mönchengladbach;opponent
+10313;431;3;80;0;21;840;;source:liveticker | 2:2;Gelbe Karte : Nico Elvedi;;YELLOW_CARD;Gelbe Karte;Nico;Elvedi;;;Borussia Mönchengladbach;opponent
+10311;431;7;85;0;21;846;1122;substitution_out | source:liveticker;Wechsel : Giovanni Alejandro Reyna => Shuto Machino;;SUBSTITUTION_OUT;Auswechslung;Shuto;Machino;Giovanni Alejandro;Reyna;Borussia Mönchengladbach;opponent
+10312;431;6;85;0;21;1122;846;substitution_in | source:liveticker;Wechsel : Giovanni Alejandro Reyna => Shuto Machino;;SUBSTITUTION_IN;Einwechslung;Giovanni Alejandro;Reyna;Shuto;Machino;Borussia Mönchengladbach;opponent
+10310;431;3;90;0;21;842;;source:liveticker | 2:2;Gelbe Karte : Kevin Diks;;YELLOW_CARD;Gelbe Karte;Kevin;Diks;;;Borussia Mönchengladbach;opponent
+10607;442;1;9;0;15;1017;;source:liveticker | 1:0;Tor : Mathias Honsak;;GOAL;Tor;Mathias;Honsak;;;1. FC Heidenheim 1846;own
+10606;442;3;31;0;17;923;;source:liveticker | 1:0;Gelbe Karte : Oliver Jasen Burke;;YELLOW_CARD;Gelbe Karte;Oliver Jasen;Burke;;;1. FC Union Berlin;opponent
+10605;442;1;36;0;15;1017;;source:liveticker | 2:0;Tor : Mathias Honsak;;GOAL;Tor;Mathias;Honsak;;;1. FC Heidenheim 1846;own
+10601;442;7;62;0;17;923;926;substitution_out | source:liveticker;Wechsel : Tim Skarke => Oliver Jasen Burke;;SUBSTITUTION_OUT;Auswechslung;Oliver Jasen;Burke;Tim;Skarke;1. FC Union Berlin;opponent
+10602;442;6;62;0;17;926;923;substitution_in | source:liveticker;Wechsel : Tim Skarke => Oliver Jasen Burke;;SUBSTITUTION_IN;Einwechslung;Tim;Skarke;Oliver Jasen;Burke;1. FC Union Berlin;opponent
+10603;442;7;62;0;17;954;916;substitution_out | source:liveticker;Wechsel : Tom Alexander Rothe => Derrick Arthur Köhn;;SUBSTITUTION_OUT;Auswechslung;Derrick Arthur;Köhn;Tom Alexander;Rothe;1. FC Union Berlin;opponent
+10604;442;6;62;0;17;916;954;substitution_in | source:liveticker;Wechsel : Tom Alexander Rothe => Derrick Arthur Köhn;;SUBSTITUTION_IN;Einwechslung;Tom Alexander;Rothe;Derrick Arthur;Köhn;1. FC Union Berlin;opponent
+10595;442;7;69;0;15;1138;1011;substitution_out | source:liveticker;Wechsel : Budu Zivzivadze => Stefan Schimmer;;SUBSTITUTION_OUT;Auswechslung;Stefan;Schimmer;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+10596;442;6;69;0;15;1011;1138;substitution_in | source:liveticker;Wechsel : Budu Zivzivadze => Stefan Schimmer;;SUBSTITUTION_IN;Einwechslung;Budu;Zivzivadze;Stefan;Schimmer;1. FC Heidenheim 1846;own
+10597;442;7;69;0;17;1143;1255;substitution_out | source:liveticker;Wechsel : Livan Burcu => Diogo Leite;;SUBSTITUTION_OUT;Auswechslung;Diogo;Leite;Livan;Burcu;1. FC Union Berlin;opponent
+10598;442;6;69;0;17;1255;1143;substitution_in | source:liveticker;Wechsel : Livan Burcu => Diogo Leite;;SUBSTITUTION_IN;Einwechslung;Livan;Burcu;Diogo;Leite;1. FC Union Berlin;opponent
+10599;442;7;69;0;17;951;913;substitution_out | source:liveticker;Wechsel : Ilyas Ansah => András Schäfer;;SUBSTITUTION_OUT;Auswechslung;András;Schäfer;Ilyas;Ansah;1. FC Union Berlin;opponent
+10600;442;6;69;0;17;913;951;substitution_in | source:liveticker;Wechsel : Ilyas Ansah => András Schäfer;;SUBSTITUTION_IN;Einwechslung;Ilyas;Ansah;András;Schäfer;1. FC Union Berlin;opponent
+10594;442;1;75;0;17;915;;source:liveticker | 2:1;Tor : Leopold Querfeld;;GOAL;Tor;Leopold;Querfeld;;;1. FC Union Berlin;opponent
+10590;442;7;77;0;15;1017;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+10591;442;6;77;0;15;1013;1017;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Mathias;Honsak;1. FC Heidenheim 1846;own
+10592;442;7;77;0;15;1232;1014;substitution_out | source:liveticker;Wechsel : Niklas Dorsch => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Niklas;Dorsch;1. FC Heidenheim 1846;own
+10593;442;6;77;0;15;1014;1232;substitution_in | source:liveticker;Wechsel : Niklas Dorsch => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Niklas;Dorsch;Marvin;Pieringer;1. FC Heidenheim 1846;own
+10589;442;1;79;0;15;1011;;source:liveticker | 3:1;Tor : Budu Zivzivadze;;GOAL;Tor;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+10587;442;7;84;0;17;953;1591;substitution_out | source:liveticker;Wechsel : Linus Güther => Alex Král;;SUBSTITUTION_OUT;Auswechslung;Alex;Král;Linus;Güther;1. FC Union Berlin;opponent
+10588;442;6;84;0;17;1591;953;substitution_in | source:liveticker;Wechsel : Linus Güther => Alex Král;;SUBSTITUTION_IN;Einwechslung;Linus;Güther;Alex;Král;1. FC Union Berlin;opponent
+10586;442;3;87;0;17;1591;;source:liveticker | 3:1;Gelbe Karte : Linus Güther;;YELLOW_CARD;Gelbe Karte;Linus;Güther;;;1. FC Union Berlin;opponent
+10582;442;7;88;0;15;1513;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Eren Sami Dinkci;;SUBSTITUTION_OUT;Auswechslung;Eren Sami;Dinkci;Adrian;Beck;1. FC Heidenheim 1846;own
+10583;442;6;88;0;15;1019;1513;substitution_in | source:liveticker;Wechsel : Adrian Beck => Eren Sami Dinkci;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+10584;442;7;88;0;15;1044;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Jan Schöppner;;SUBSTITUTION_OUT;Auswechslung;Jan;Schöppner;Luca;Kerber;1. FC Heidenheim 1846;own
+10585;442;6;88;0;15;1018;1044;substitution_in | source:liveticker;Wechsel : Luca Kerber => Jan Schöppner;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Jan;Schöppner;1. FC Heidenheim 1846;own
+10728;447;1;24;0;28;740;;source:liveticker | 1:0;Tor : Johan Manzambi;;GOAL;Tor;Johan;Manzambi;;;Sport-Club Freiburg;opponent
+10726;447;7;46;0;15;1016;1011;substitution_out | source:liveticker;Wechsel : Budu Zivzivadze => Julian Niehues;;SUBSTITUTION_OUT;Auswechslung;Julian;Niehues;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+10727;447;6;46;0;15;1011;1016;substitution_in | source:liveticker;Wechsel : Budu Zivzivadze => Julian Niehues;;SUBSTITUTION_IN;Einwechslung;Budu;Zivzivadze;Julian;Niehues;1. FC Heidenheim 1846;own
+10725;447;1;59;0;15;1011;;source:liveticker | 1:1;Tor : Budu Zivzivadze;;GOAL;Tor;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+10719;447;7;68;0;28;740;775;substitution_out | source:liveticker;Wechsel : Nicolas Höfler => Johan Manzambi;;SUBSTITUTION_OUT;Auswechslung;Johan;Manzambi;Nicolas;Höfler;Sport-Club Freiburg;opponent
+10720;447;6;68;0;28;775;740;substitution_in | source:liveticker;Wechsel : Nicolas Höfler => Johan Manzambi;;SUBSTITUTION_IN;Einwechslung;Nicolas;Höfler;Johan;Manzambi;Sport-Club Freiburg;opponent
+10721;447;7;68;0;28;743;1112;substitution_out | source:liveticker;Wechsel : Jan-Niklas Beste => Derry Lionel Scherhant;;SUBSTITUTION_OUT;Auswechslung;Derry Lionel;Scherhant;Jan-Niklas;Beste;Sport-Club Freiburg;opponent
+10722;447;6;68;0;28;1112;743;substitution_in | source:liveticker;Wechsel : Jan-Niklas Beste => Derry Lionel Scherhant;;SUBSTITUTION_IN;Einwechslung;Jan-Niklas;Beste;Derry Lionel;Scherhant;Sport-Club Freiburg;opponent
+10723;447;7;68;0;28;1113;734;substitution_out | source:liveticker;Wechsel : Yuito Suzuki => Igor Matanovic;;SUBSTITUTION_OUT;Auswechslung;Igor;Matanovic;Yuito;Suzuki;Sport-Club Freiburg;opponent
+10724;447;6;68;0;28;734;1113;substitution_in | source:liveticker;Wechsel : Yuito Suzuki => Igor Matanovic;;SUBSTITUTION_IN;Einwechslung;Yuito;Suzuki;Igor;Matanovic;Sport-Club Freiburg;opponent
+10718;447;3;70;0;28;770;;source:liveticker | 1:1;Gelbe Karte : Lucas Höler;;YELLOW_CARD;Gelbe Karte;Lucas;Höler;;;Sport-Club Freiburg;opponent
+10716;447;7;72;0;15;1013;1537;substitution_out | source:liveticker;Wechsel : Christian Joe Conteh => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+10717;447;6;72;0;15;1537;1013;substitution_in | source:liveticker;Wechsel : Christian Joe Conteh => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Christian Joe;Conteh;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+10712;447;7;76;0;15;1017;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Mathias Honsak;;SUBSTITUTION_OUT;Auswechslung;Mathias;Honsak;Stefan;Schimmer;1. FC Heidenheim 1846;own
+10713;447;6;76;0;15;1138;1017;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Mathias Honsak;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Mathias;Honsak;1. FC Heidenheim 1846;own
+10714;447;7;76;0;15;1014;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Adrian;Beck;1. FC Heidenheim 1846;own
+10715;447;6;76;0;15;1019;1014;substitution_in | source:liveticker;Wechsel : Adrian Beck => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Niklas;Dorsch;1. FC Heidenheim 1846;own
+10710;447;7;78;0;28;772;747;substitution_out | source:liveticker;Wechsel : Jordy Makengo Basambundu => Christian Günter;;SUBSTITUTION_OUT;Auswechslung;Christian;Günter;Jordy;Makengo Basambundu;Sport-Club Freiburg;opponent
+10711;447;6;78;0;28;747;772;substitution_in | source:liveticker;Wechsel : Jordy Makengo Basambundu => Christian Günter;;SUBSTITUTION_IN;Einwechslung;Jordy;Makengo Basambundu;Christian;Günter;Sport-Club Freiburg;opponent
+10709;447;1;83;0;28;732;;source:liveticker | 2:1;Tor : Maximilian Eggestein;;GOAL;Tor;Maximilian;Eggestein;;;Sport-Club Freiburg;opponent
+10707;447;7;85;0;28;771;731;substitution_out | source:liveticker;Wechsel : Philipp Lienhart => Lukas Kübler;;SUBSTITUTION_OUT;Auswechslung;Lukas;Kübler;Philipp;Lienhart;Sport-Club Freiburg;opponent
+10708;447;6;85;0;28;731;771;substitution_in | source:liveticker;Wechsel : Philipp Lienhart => Lukas Kübler;;SUBSTITUTION_IN;Einwechslung;Philipp;Lienhart;Lukas;Kübler;Sport-Club Freiburg;opponent
+11025;459;1;3;0;15;1011;;source:liveticker | 1:0;Tor : Budu Zivzivadze;;GOAL;Tor;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+11021;459;7;46;0;25;1458;963;substitution_out | source:liveticker;Wechsel : Eric Smith => Mathias Rasmussen;;SUBSTITUTION_OUT;Auswechslung;Mathias;Rasmussen;Eric;Smith;FC St. Pauli;opponent
+11022;459;6;46;0;25;963;1458;substitution_in | source:liveticker;Wechsel : Eric Smith => Mathias Rasmussen;;SUBSTITUTION_IN;Einwechslung;Eric;Smith;Mathias;Rasmussen;FC St. Pauli;opponent
+11023;459;7;46;0;25;966;1090;substitution_out | source:liveticker;Wechsel : Martijn Kaars => Joel Chima Fujita;;SUBSTITUTION_OUT;Auswechslung;Joel Chima;Fujita;Martijn;Kaars;FC St. Pauli;opponent
+11024;459;6;46;0;25;1090;966;substitution_in | source:liveticker;Wechsel : Martijn Kaars => Joel Chima Fujita;;SUBSTITUTION_IN;Einwechslung;Martijn;Kaars;Joel Chima;Fujita;FC St. Pauli;opponent
+11019;459;7;55;0;15;1019;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Adrian Beck;;SUBSTITUTION_OUT;Auswechslung;Adrian;Beck;Luca;Kerber;1. FC Heidenheim 1846;own
+11020;459;6;55;0;15;1018;1019;substitution_in | source:liveticker;Wechsel : Luca Kerber => Adrian Beck;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Adrian;Beck;1. FC Heidenheim 1846;own
+11015;459;7;64;0;25;969;973;substitution_out | source:liveticker;Wechsel : Abdoulie Ceesay => Andreas Hountondji;;SUBSTITUTION_OUT;Auswechslung;Andreas;Hountondji;Abdoulie;Ceesay;FC St. Pauli;opponent
+11016;459;6;64;0;25;973;969;substitution_in | source:liveticker;Wechsel : Abdoulie Ceesay => Andreas Hountondji;;SUBSTITUTION_IN;Einwechslung;Abdoulie;Ceesay;Andreas;Hountondji;FC St. Pauli;opponent
+11017;459;7;64;0;25;972;977;substitution_out | source:liveticker;Wechsel : Lars Ritzka => Manolis Saliakas;;SUBSTITUTION_OUT;Auswechslung;Manolis;Saliakas;Lars;Ritzka;FC St. Pauli;opponent
+11018;459;6;64;0;25;977;972;substitution_in | source:liveticker;Wechsel : Lars Ritzka => Manolis Saliakas;;SUBSTITUTION_IN;Einwechslung;Lars;Ritzka;Manolis;Saliakas;FC St. Pauli;opponent
+11014;459;3;76;0;25;1090;;source:liveticker | 1:0;Gelbe Karte : Martijn Kaars;;YELLOW_CARD;Gelbe Karte;Martijn;Kaars;;;FC St. Pauli;opponent
+11013;459;1;82;0;15;1513;;source:liveticker | 2:0;Tor : Eren Sami Dinkci;;GOAL;Tor;Eren Sami;Dinkci;;;1. FC Heidenheim 1846;own
+11011;459;7;86;0;15;1014;1016;substitution_out | source:liveticker;Wechsel : Julian Niehues => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Julian;Niehues;1. FC Heidenheim 1846;own
+11012;459;6;86;0;15;1016;1014;substitution_in | source:liveticker;Wechsel : Julian Niehues => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Julian;Niehues;Niklas;Dorsch;1. FC Heidenheim 1846;own
+11009;459;7;88;0;25;964;978;substitution_out | source:liveticker;Wechsel : Connor Metcalfe => Danel Sinani;;SUBSTITUTION_OUT;Auswechslung;Danel;Sinani;Connor;Metcalfe;FC St. Pauli;opponent
+11010;459;6;88;0;25;978;964;substitution_in | source:liveticker;Wechsel : Connor Metcalfe => Danel Sinani;;SUBSTITUTION_IN;Einwechslung;Connor;Metcalfe;Danel;Sinani;FC St. Pauli;opponent
+11003;459;7;90;0;15;1232;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+11004;459;6;90;0;15;1138;1232;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+11005;459;7;90;0;15;1011;1537;substitution_out | source:liveticker;Wechsel : Christian Joe Conteh => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+11006;459;6;90;0;15;1537;1011;substitution_in | source:liveticker;Wechsel : Christian Joe Conteh => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Christian Joe;Conteh;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+11007;459;7;90;0;15;1513;1013;substitution_out | source:liveticker;Wechsel : Arijon Ibrahimovic => Eren Sami Dinkci;;SUBSTITUTION_OUT;Auswechslung;Eren Sami;Dinkci;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+11008;459;6;90;0;15;1013;1513;substitution_in | source:liveticker;Wechsel : Arijon Ibrahimovic => Eren Sami Dinkci;;SUBSTITUTION_IN;Einwechslung;Arijon;Ibrahimovic;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+11109;462;1;22;0;15;1011;;source:liveticker | 0:1;Tor : Budu Zivzivadze;;GOAL;Tor;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+11108;462;1;31;0;15;1513;;source:liveticker | 0:2;Tor : Eren Sami Dinkci;;GOAL;Tor;Eren Sami;Dinkci;;;1. FC Heidenheim 1846;own
+11105;462;3;44;0;15;1004;;source:liveticker | 2:2;Gelbe Karte : Diant Ramaj;;YELLOW_CARD;Gelbe Karte;Diant;Ramaj;;;1. FC Heidenheim 1846;own
+11106;462;3;44;0;24;1094;;source:liveticker | 2:2;Gelbe Karte : Nicolas Jackson;;YELLOW_CARD;Gelbe Karte;Nicolas;Jackson;;;FC Bayern München;opponent
+11107;462;1;44;0;24;603;;source:liveticker | 1:2;Tor : Leon Goretzka;;GOAL;Tor;Leon;Goretzka;;;FC Bayern München;opponent
+11097;462;7;46;0;24;617;601;substitution_out | source:liveticker;Wechsel : Joshua Kimmich => Aleksandar Pavlovic;;SUBSTITUTION_OUT;Auswechslung;Aleksandar;Pavlovic;Joshua;Kimmich;FC Bayern München;opponent
+11098;462;6;46;0;24;601;617;substitution_in | source:liveticker;Wechsel : Joshua Kimmich => Aleksandar Pavlovic;;SUBSTITUTION_IN;Einwechslung;Joshua;Kimmich;Aleksandar;Pavlovic;FC Bayern München;opponent
+11099;462;7;46;0;24;608;605;substitution_out | source:liveticker;Wechsel : Luis Diaz => Josip Stanisic;;SUBSTITUTION_OUT;Auswechslung;Josip;Stanisic;Luis;Diaz;FC Bayern München;opponent
+11100;462;6;46;0;24;605;608;substitution_in | source:liveticker;Wechsel : Luis Diaz => Josip Stanisic;;SUBSTITUTION_IN;Einwechslung;Luis;Diaz;Josip;Stanisic;FC Bayern München;opponent
+11101;462;7;46;0;24;1494;606;substitution_out | source:liveticker;Wechsel : Michael Akpovie Olise => Jamal Musiala;;SUBSTITUTION_OUT;Auswechslung;Jamal;Musiala;Michael Akpovie;Olise;FC Bayern München;opponent
+11102;462;6;46;0;24;606;1494;substitution_in | source:liveticker;Wechsel : Michael Akpovie Olise => Jamal Musiala;;SUBSTITUTION_IN;Einwechslung;Michael Akpovie;Olise;Jamal;Musiala;FC Bayern München;opponent
+11103;462;7;46;0;24;1589;604;substitution_out | source:liveticker;Wechsel : Harry Edward Kane => Bara Sapoko Ndiaye;;SUBSTITUTION_OUT;Auswechslung;Bara Sapoko;Ndiaye;Harry Edward;Kane;FC Bayern München;opponent
+11104;462;6;46;0;24;604;1589;substitution_in | source:liveticker;Wechsel : Harry Edward Kane => Bara Sapoko Ndiaye;;SUBSTITUTION_IN;Einwechslung;Harry Edward;Kane;Bara Sapoko;Ndiaye;FC Bayern München;opponent
+11096;462;1;57;0;24;603;;source:liveticker | 3:2;Tor : Leon Goretzka;;GOAL;Tor;Leon;Goretzka;;;FC Bayern München;opponent
+11095;462;3;72;0;24;600;;source:liveticker | 3:2;Gelbe Karte : Jonathan Tah;;YELLOW_CARD;Gelbe Karte;Jonathan;Tah;;;FC Bayern München;opponent
+11094;462;1;76;0;15;1011;;source:liveticker | 3:3;Tor : Budu Zivzivadze;;GOAL;Tor;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+11092;462;7;77;0;24;600;1297;substitution_out | source:liveticker;Wechsel : Alphonso Boyle Davies => Jonathan Tah;;SUBSTITUTION_OUT;Auswechslung;Jonathan;Tah;Alphonso Boyle;Davies;FC Bayern München;opponent
+11093;462;6;77;0;24;1297;600;substitution_in | source:liveticker;Wechsel : Alphonso Boyle Davies => Jonathan Tah;;SUBSTITUTION_IN;Einwechslung;Alphonso Boyle;Davies;Jonathan;Tah;FC Bayern München;opponent
+11090;462;7;78;0;15;1232;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+11091;462;6;78;0;15;1138;1232;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+11086;462;7;81;0;15;1013;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Luca;Kerber;1. FC Heidenheim 1846;own
+11087;462;6;81;0;15;1018;1013;substitution_in | source:liveticker;Wechsel : Luca Kerber => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+11088;462;7;81;0;15;1011;1022;substitution_out | source:liveticker;Wechsel : Mikkel Kaufmann => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Mikkel;Kaufmann;1. FC Heidenheim 1846;own
+11089;462;6;81;0;15;1022;1011;substitution_in | source:liveticker;Wechsel : Mikkel Kaufmann => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Mikkel;Kaufmann;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+11085;462;3;85;0;24;607;;source:liveticker | 3:3;Gelbe Karte : Konrad Laimer;;YELLOW_CARD;Gelbe Karte;Konrad;Laimer;;;FC Bayern München;opponent
+11083;462;7;89;0;15;1014;1007;substitution_out | source:liveticker;Wechsel : Tim Siersleben => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Tim;Siersleben;1. FC Heidenheim 1846;own
+11084;462;6;89;0;15;1007;1014;substitution_in | source:liveticker;Wechsel : Tim Siersleben => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Tim;Siersleben;Niklas;Dorsch;1. FC Heidenheim 1846;own
+11081;462;1;90;0;24;606;;source:liveticker | 4:3;Tor : Michael Akpovie Olise;;GOAL;Tor;Michael Akpovie;Olise;;;FC Bayern München;opponent
+11082;462;3;90;0;15;1005;;source:liveticker | 3:3;Gelbe Karte : Marnon Busch;;YELLOW_CARD;Gelbe Karte;Marnon;Busch;;;1. FC Heidenheim 1846;own
+11528;478;1;8;0;15;1044;;source:liveticker | 0:1;Tor : Jan Schöppner;;GOAL;Tor;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+11527;478;1;10;0;16;826;;source:liveticker | 1:1;Tor : Marius Bülter;;GOAL;Tor;Marius;Bülter;;;1. FC Köln;opponent
+11526;478;1;28;0;15;1013;;source:liveticker | 1:2;Tor : Arijon Ibrahimovic;;GOAL;Tor;Arijon;Ibrahimovic;;;1. FC Heidenheim 1846;own
+11525;478;3;30;0;15;1513;;source:liveticker | 1:2;Gelbe Karte : Eren Sami Dinkci;;YELLOW_CARD;Gelbe Karte;Eren Sami;Dinkci;;;1. FC Heidenheim 1846;own
+11524;478;3;37;0;15;1011;;source:liveticker | 1:2;Gelbe Karte : Budu Zivzivadze;;YELLOW_CARD;Gelbe Karte;Budu;Zivzivadze;;;1. FC Heidenheim 1846;own
+11523;478;3;55;0;16;817;;source:liveticker | 1:2;Gelbe Karte : Said El Mala;;YELLOW_CARD;Gelbe Karte;Said;El Mala;;;1. FC Köln;opponent
+11521;478;7;58;0;16;824;813;substitution_out | source:liveticker;Wechsel : Gian-Luca Waldschmidt => Tom Krauß;;SUBSTITUTION_OUT;Auswechslung;Tom;Krauß;Gian-Luca;Waldschmidt;1. FC Köln;opponent
+11522;478;6;58;0;16;813;824;substitution_in | source:liveticker;Wechsel : Gian-Luca Waldschmidt => Tom Krauß;;SUBSTITUTION_IN;Einwechslung;Gian-Luca;Waldschmidt;Tom;Krauß;1. FC Köln;opponent
+11517;478;7;71;0;16;807;1131;substitution_out | source:liveticker;Wechsel : Alessio Castro-Montes => Joël Pascal Schmied;;SUBSTITUTION_OUT;Auswechslung;Joël Pascal;Schmied;Alessio;Castro-Montes;1. FC Köln;opponent
+11518;478;6;71;0;16;1131;807;substitution_in | source:liveticker;Wechsel : Alessio Castro-Montes => Joël Pascal Schmied;;SUBSTITUTION_IN;Einwechslung;Alessio;Castro-Montes;Joël Pascal;Schmied;1. FC Köln;opponent
+11519;478;7;71;0;16;1087;816;substitution_out | source:liveticker;Wechsel : Florian Kainz => Linton Maina;;SUBSTITUTION_OUT;Auswechslung;Linton;Maina;Florian;Kainz;1. FC Köln;opponent
+11520;478;6;71;0;16;816;1087;substitution_in | source:liveticker;Wechsel : Florian Kainz => Linton Maina;;SUBSTITUTION_IN;Einwechslung;Florian;Kainz;Linton;Maina;1. FC Köln;opponent
+11516;478;1;72;0;15;1044;;source:liveticker | 1:3;Tor : Jan Schöppner;;GOAL;Tor;Jan;Schöppner;;;1. FC Heidenheim 1846;own
+11512;478;7;76;0;15;1013;1537;substitution_out | source:liveticker;Wechsel : Christian Joe Conteh => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+11513;478;6;76;0;15;1537;1013;substitution_in | source:liveticker;Wechsel : Christian Joe Conteh => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Christian Joe;Conteh;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+11514;478;7;76;0;15;1047;1495;substitution_out | source:liveticker;Wechsel : Leonidas Stergiou => Omar Haktab Traoré;;SUBSTITUTION_OUT;Auswechslung;Omar Haktab;Traoré;Leonidas;Stergiou;1. FC Heidenheim 1846;own
+11515;478;6;76;0;15;1495;1047;substitution_in | source:liveticker;Wechsel : Leonidas Stergiou => Omar Haktab Traoré;;SUBSTITUTION_IN;Einwechslung;Leonidas;Stergiou;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+11508;478;7;83;0;15;1513;1018;substitution_out | source:liveticker;Wechsel : Luca Kerber => Eren Sami Dinkci;;SUBSTITUTION_OUT;Auswechslung;Eren Sami;Dinkci;Luca;Kerber;1. FC Heidenheim 1846;own
+11509;478;6;83;0;15;1018;1513;substitution_in | source:liveticker;Wechsel : Luca Kerber => Eren Sami Dinkci;;SUBSTITUTION_IN;Einwechslung;Luca;Kerber;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+11510;478;7;83;0;15;1011;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Budu Zivzivadze;;SUBSTITUTION_OUT;Auswechslung;Budu;Zivzivadze;Mathias;Honsak;1. FC Heidenheim 1846;own
+11511;478;6;83;0;15;1017;1011;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Budu Zivzivadze;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Budu;Zivzivadze;1. FC Heidenheim 1846;own
+11501;478;3;89;0;16;825;;source:liveticker | 1:3;Gelbe Karte : Ísak Bergmann Jóhannesson;;YELLOW_CARD;Gelbe Karte;Ísak Bergmann;Jóhannesson;;;1. FC Köln;opponent
+11502;478;7;89;0;15;1232;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Stefan;Schimmer;1. FC Heidenheim 1846;own
+11503;478;6;89;0;15;1138;1232;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Marvin;Pieringer;1. FC Heidenheim 1846;own
+11504;478;7;89;0;16;828;1149;substitution_out | source:liveticker;Wechsel : Dominique Heintz => Cenk Özkacar;;SUBSTITUTION_OUT;Auswechslung;Cenk;Özkacar;Dominique;Heintz;1. FC Köln;opponent
+11505;478;6;89;0;16;1149;828;substitution_in | source:liveticker;Wechsel : Dominique Heintz => Cenk Özkacar;;SUBSTITUTION_IN;Einwechslung;Dominique;Heintz;Cenk;Özkacar;1. FC Köln;opponent
+11506;478;7;89;0;16;805;1463;substitution_out | source:liveticker;Wechsel : Youssoupha Niang => Kristoffer Lund Hansen;;SUBSTITUTION_OUT;Auswechslung;Kristoffer Lund;Hansen;Youssoupha;Niang;1. FC Köln;opponent
+11507;478;6;89;0;16;1463;805;substitution_in | source:liveticker;Wechsel : Youssoupha Niang => Kristoffer Lund Hansen;;SUBSTITUTION_IN;Einwechslung;Youssoupha;Niang;Kristoffer Lund;Hansen;1. FC Köln;opponent
+11793;488;1;7;0;18;1456;;source:liveticker | 0:1;Tor : Phillip Tietz;;GOAL;Tor;Phillip;Tietz;;;1. FSV Mainz 05;opponent
+11792;488;1;43;0;18;786;;source:liveticker | 0:2;Tor : Nadiem Amiri;;GOAL;Tor;Nadiem;Amiri;;;1. FSV Mainz 05;opponent
+11786;488;7;46;0;18;1504;789;substitution_out | source:liveticker;Wechsel : Danny Vieira Da Costa => Stefan Posch;;SUBSTITUTION_OUT;Auswechslung;Stefan;Posch;Danny Vieira;Da Costa;1. FSV Mainz 05;opponent
+11787;488;6;46;0;18;789;1504;substitution_in | source:liveticker;Wechsel : Danny Vieira Da Costa => Stefan Posch;;SUBSTITUTION_IN;Einwechslung;Danny Vieira;Da Costa;Stefan;Posch;1. FSV Mainz 05;opponent
+11788;488;7;46;0;15;1005;1047;substitution_out | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_OUT;Auswechslung;Marnon;Busch;Omar Haktab;Traoré;1. FC Heidenheim 1846;own
+11789;488;6;46;0;15;1047;1005;substitution_in | source:liveticker;Wechsel : Omar Haktab Traoré => Marnon Busch;;SUBSTITUTION_IN;Einwechslung;Omar Haktab;Traoré;Marnon;Busch;1. FC Heidenheim 1846;own
+11790;488;7;46;0;15;1232;1537;substitution_out | source:liveticker;Wechsel : Christian Joe Conteh => Marvin Pieringer;;SUBSTITUTION_OUT;Auswechslung;Marvin;Pieringer;Christian Joe;Conteh;1. FC Heidenheim 1846;own
+11791;488;6;46;0;15;1537;1232;substitution_in | source:liveticker;Wechsel : Christian Joe Conteh => Marvin Pieringer;;SUBSTITUTION_IN;Einwechslung;Christian Joe;Conteh;Marvin;Pieringer;1. FC Heidenheim 1846;own
+11784;488;7;65;0;15;1013;1138;substitution_out | source:liveticker;Wechsel : Stefan Schimmer => Arijon Ibrahimovic;;SUBSTITUTION_OUT;Auswechslung;Arijon;Ibrahimovic;Stefan;Schimmer;1. FC Heidenheim 1846;own
+11785;488;6;65;0;15;1138;1013;substitution_in | source:liveticker;Wechsel : Stefan Schimmer => Arijon Ibrahimovic;;SUBSTITUTION_IN;Einwechslung;Stefan;Schimmer;Arijon;Ibrahimovic;1. FC Heidenheim 1846;own
+11780;488;7;68;0;18;798;788;substitution_out | source:liveticker;Wechsel : Anthony Caci => Silvan Dominic Widmer;;SUBSTITUTION_OUT;Auswechslung;Silvan Dominic;Widmer;Anthony;Caci;1. FSV Mainz 05;opponent
+11781;488;6;68;0;18;788;798;substitution_in | source:liveticker;Wechsel : Anthony Caci => Silvan Dominic Widmer;;SUBSTITUTION_IN;Einwechslung;Anthony;Caci;Silvan Dominic;Widmer;1. FSV Mainz 05;opponent
+11782;488;7;68;0;18;786;784;substitution_out | source:liveticker;Wechsel : Jae Sung Lee => Nadiem Amiri;;SUBSTITUTION_OUT;Auswechslung;Nadiem;Amiri;Jae Sung;Lee;1. FSV Mainz 05;opponent
+11783;488;6;68;0;18;784;786;substitution_in | source:liveticker;Wechsel : Jae Sung Lee => Nadiem Amiri;;SUBSTITUTION_IN;Einwechslung;Jae Sung;Lee;Nadiem;Amiri;1. FSV Mainz 05;opponent
+11778;488;3;70;0;18;1521;;source:liveticker | 0:2;Gelbe Karte : Sheraldo Becker;;YELLOW_CARD;Gelbe Karte;Sheraldo;Becker;;;1. FSV Mainz 05;opponent
+11779;488;3;70;0;15;1513;;source:liveticker | 0:2;Gelbe Karte : Eren Sami Dinkci;;YELLOW_CARD;Gelbe Karte;Eren Sami;Dinkci;;;1. FC Heidenheim 1846;own
+11774;488;7;73;0;15;1014;1019;substitution_out | source:liveticker;Wechsel : Adrian Beck => Niklas Dorsch;;SUBSTITUTION_OUT;Auswechslung;Niklas;Dorsch;Adrian;Beck;1. FC Heidenheim 1846;own
+11775;488;6;73;0;15;1019;1014;substitution_in | source:liveticker;Wechsel : Adrian Beck => Niklas Dorsch;;SUBSTITUTION_IN;Einwechslung;Adrian;Beck;Niklas;Dorsch;1. FC Heidenheim 1846;own
+11776;488;7;73;0;15;1513;1017;substitution_out | source:liveticker;Wechsel : Mathias Honsak => Eren Sami Dinkci;;SUBSTITUTION_OUT;Auswechslung;Eren Sami;Dinkci;Mathias;Honsak;1. FC Heidenheim 1846;own
+11777;488;6;73;0;15;1017;1513;substitution_in | source:liveticker;Wechsel : Mathias Honsak => Eren Sami Dinkci;;SUBSTITUTION_IN;Einwechslung;Mathias;Honsak;Eren Sami;Dinkci;1. FC Heidenheim 1846;own
+11772;488;7;77;0;18;1521;796;substitution_out | source:liveticker;Wechsel : Lennard Maloney => Sheraldo Becker;;SUBSTITUTION_OUT;Auswechslung;Sheraldo;Becker;Lennard;Maloney;1. FSV Mainz 05;opponent
+11773;488;6;77;0;18;796;1521;substitution_in | source:liveticker;Wechsel : Lennard Maloney => Sheraldo Becker;;SUBSTITUTION_IN;Einwechslung;Lennard;Maloney;Sheraldo;Becker;1. FSV Mainz 05;opponent
+11770;488;7;84;0;18;1456;800;substitution_out | source:liveticker;Wechsel : Nelson Felix Patrick Weiper => Phillip Tietz;;SUBSTITUTION_OUT;Auswechslung;Phillip;Tietz;Nelson Felix Patrick;Weiper;1. FSV Mainz 05;opponent
+11771;488;6;84;0;18;800;1456;substitution_in | source:liveticker;Wechsel : Nelson Felix Patrick Weiper => Phillip Tietz;;SUBSTITUTION_IN;Einwechslung;Nelson Felix Patrick;Weiper;Phillip;Tietz;1. FSV Mainz 05;opponent

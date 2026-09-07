@@ -1,0 +1,123 @@
+﻿event_id;match_id;event_type_id;minute;second;team_id;player_id;related_player_id;value;notes;external_id;event_type_code;event_type_name;player_first_name;player_last_name;related_player_first_name;related_player_last_name;event_team_name;relation_to_selected_team
+23052;31089;7;9;0;154;2903;2907;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Harder Ivan;Tafur Rodallega;Carlos;Linero;SG Rascheid II;opponent
+23053;31089;6;9;0;154;2907;2903;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Carlos;Linero;Harder Ivan;Tafur Rodallega;SG Rascheid II;opponent
+23054;31089;1;14;0;3;169;;goal;;;GOAL;Tor;Malte;Werdermann;;;FSG Ehrang-Pfalzel;own
+23055;31089;3;18;0;3;;;yellow;18’ Gelbe Karte;;YELLOW_CARD;Gelbe Karte;;;;;FSG Ehrang-Pfalzel;own
+23056;31089;7;46;0;3;2910;2911;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Gianni Matteo;Sasso-Sant;Janne;Naber;FSG Ehrang-Pfalzel;own
+23057;31089;6;46;0;3;2911;2910;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Janne;Naber;Gianni Matteo;Sasso-Sant;FSG Ehrang-Pfalzel;own
+23058;31089;3;47;0;154;;;yellow;Gelbe Karte 47’;;YELLOW_CARD;Gelbe Karte;;;;;SG Rascheid II;opponent
+23059;31089;1;56;0;3;173;;goal;;;GOAL;Tor;Marvin;Marvin;;;FSG Ehrang-Pfalzel;own
+23060;31089;7;61;0;3;173;168;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Marvin;Marvin;Andreas;Huwer;FSG Ehrang-Pfalzel;own
+23061;31089;6;61;0;3;168;173;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Andreas;Huwer;Marvin;Marvin;FSG Ehrang-Pfalzel;own
+23062;31089;7;61;0;3;265;263;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Thorsten;Lauterbach;Janik;Lerch;FSG Ehrang-Pfalzel;own
+23063;31089;6;61;0;3;263;265;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Janik;Lerch;Thorsten;Lauterbach;FSG Ehrang-Pfalzel;own
+23064;31089;1;62;0;3;176;;goal;;;GOAL;Tor;Jason;Pütz;;;FSG Ehrang-Pfalzel;own
+23065;31089;7;70;0;3;167;2912;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Rene;Jahn;Pascal;Schmitt;FSG Ehrang-Pfalzel;own
+23066;31089;6;70;0;3;2912;167;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Pascal;Schmitt;Rene;Jahn;FSG Ehrang-Pfalzel;own
+23067;31089;1;71;0;3;2912;;goal;;;GOAL;Tor;Pascal;Schmitt;;;FSG Ehrang-Pfalzel;own
+23068;31089;7;73;0;3;176;2913;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Jason;Pütz;Philipp;Schmidt;FSG Ehrang-Pfalzel;own
+23069;31089;6;73;0;3;2913;176;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Philipp;Schmidt;Jason;Pütz;FSG Ehrang-Pfalzel;own
+23070;31089;7;75;0;154;2901;2906;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Michael;Dziubany;Andres;Supelano;SG Rascheid II;opponent
+23071;31089;6;75;0;154;2906;2901;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Andres;Supelano;Michael;Dziubany;SG Rascheid II;opponent
+23072;31089;7;78;0;154;2897;2908;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Tim;Emmerich;Mathis;Kolz;SG Rascheid II;opponent
+23073;31089;6;78;0;154;2908;2897;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Mathis;Kolz;Tim;Emmerich;SG Rascheid II;opponent
+23074;31089;7;81;0;154;2900;2909;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Leon;Jutz;Johannes;Götten;SG Rascheid II;opponent
+23075;31089;6;81;0;154;2909;2900;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Johannes;Götten;Leon;Jutz;SG Rascheid II;opponent
+23076;31089;1;85;0;3;170;;goal;;;GOAL;Tor;Julien;Masselot;;;FSG Ehrang-Pfalzel;own
+23077;31089;1;88;0;3;263;;goal;;;GOAL;Tor;Janik;Lerch;;;FSG Ehrang-Pfalzel;own
+23376;31102;1;16;0;3;168;;goal;;;GOAL;Tor;Andreas;Huwer;;;FSG Ehrang-Pfalzel;own
+23377;31102;1;28;0;3;511;;goal;;;GOAL;Tor;Samuel;Bayerath;;;FSG Ehrang-Pfalzel;own
+23378;31102;7;46;0;157;2916;2927;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Kevin;Klein;Sebastian;Wahlen;SV Farschweiler;opponent
+23379;31102;6;46;0;157;2927;2916;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Sebastian;Wahlen;Kevin;Klein;SV Farschweiler;opponent
+23380;31102;7;46;0;157;2917;2923;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Niklas;Jonas;Pascal;Wilhelm;SV Farschweiler;opponent
+23381;31102;6;46;0;157;2923;2917;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Pascal;Wilhelm;Niklas;Jonas;SV Farschweiler;opponent
+23382;31102;1;48;0;3;511;;goal;;;GOAL;Tor;Samuel;Bayerath;;;FSG Ehrang-Pfalzel;own
+23383;31102;1;49;0;3;168;;goal;;;GOAL;Tor;Andreas;Huwer;;;FSG Ehrang-Pfalzel;own
+23384;31102;7;51;0;3;2912;3134;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Pascal;Schmitt;William Robert;Hutchinson;FSG Ehrang-Pfalzel;own
+23385;31102;6;51;0;3;3134;2912;substitution_in;;;SUBSTITUTION_IN;Einwechslung;William Robert;Hutchinson;Pascal;Schmitt;FSG Ehrang-Pfalzel;own
+23386;31102;7;51;0;3;264;161;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Finn;Konrad;Sascha;Kraus;FSG Ehrang-Pfalzel;own
+23387;31102;6;51;0;3;161;264;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Sascha;Kraus;Finn;Konrad;FSG Ehrang-Pfalzel;own
+23388;31102;7;51;0;3;265;263;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Thorsten;Lauterbach;Janik;Lerch;FSG Ehrang-Pfalzel;own
+23389;31102;6;51;0;3;263;265;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Janik;Lerch;Thorsten;Lauterbach;FSG Ehrang-Pfalzel;own
+23390;31102;1;60;0;3;162;;goal;;;GOAL;Tor;Sem Luca;Schneider;;;FSG Ehrang-Pfalzel;own
+23391;31102;7;65;0;3;511;173;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Samuel;Bayerath;Marvin;Marvin;FSG Ehrang-Pfalzel;own
+23392;31102;6;65;0;3;173;511;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Marvin;Marvin;Samuel;Bayerath;FSG Ehrang-Pfalzel;own
+23393;31102;1;69;0;3;3134;;goal;;;GOAL;Tor;William Robert;Hutchinson;;;FSG Ehrang-Pfalzel;own
+23394;31102;7;71;0;3;176;2913;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Jason;Pütz;Philipp;Schmidt;FSG Ehrang-Pfalzel;own
+23395;31102;6;71;0;3;2913;176;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Philipp;Schmidt;Jason;Pütz;FSG Ehrang-Pfalzel;own
+23396;31102;1;81;0;3;2913;;goal;;;GOAL;Tor;Philipp;Schmidt;;;FSG Ehrang-Pfalzel;own
+23397;31102;7;86;0;157;2922;3137;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Nico;Welter;Alexander;Schirra;SV Farschweiler;opponent
+23398;31102;6;86;0;157;3137;2922;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Alexander;Schirra;Nico;Welter;SV Farschweiler;opponent
+23399;31102;1;89;0;3;162;;goal;;;GOAL;Tor;Sem Luca;Schneider;;;FSG Ehrang-Pfalzel;own
+23446;31105;7;0;0;158;426;483;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Lasse;Lasse;Maximilian;Geib;SV Trier-Irsch II;opponent
+23447;31105;6;0;0;158;483;426;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Maximilian;Geib;Lasse;Lasse;SV Trier-Irsch II;opponent
+23448;31105;7;0;0;158;2961;14;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Cleiton;Pache;Florian;Meo;SV Trier-Irsch II;opponent
+23449;31105;6;0;0;158;14;2961;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Florian;Meo;Cleiton;Pache;SV Trier-Irsch II;opponent
+23450;31105;7;0;0;158;2963;2969;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Maximilian;Mehlich;Kevin;Schener;SV Trier-Irsch II;opponent
+23451;31105;6;0;0;158;2969;2963;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Kevin;Schener;Maximilian;Mehlich;SV Trier-Irsch II;opponent
+23452;31105;7;0;0;158;2958;2964;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Mika;Mehlich;Peer;Roth;SV Trier-Irsch II;opponent
+23453;31105;6;0;0;158;2964;2958;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Peer;Roth;Mika;Mehlich;SV Trier-Irsch II;opponent
+23454;31105;7;0;0;3;511;2911;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Samuel;Bayerath;Janne;Naber;FSG Ehrang-Pfalzel;own
+23455;31105;6;0;0;3;2911;511;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Janne;Naber;Samuel;Bayerath;FSG Ehrang-Pfalzel;own
+23456;31105;7;0;0;3;265;172;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Thorsten;Lauterbach;Nikolai;Smirnov;FSG Ehrang-Pfalzel;own
+23457;31105;6;0;0;3;172;265;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Nikolai;Smirnov;Thorsten;Lauterbach;FSG Ehrang-Pfalzel;own
+23458;31105;7;0;0;3;176;167;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Jason;Pütz;Rene;Jahn;FSG Ehrang-Pfalzel;own
+23459;31105;6;0;0;3;167;176;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Rene;Jahn;Jason;Pütz;FSG Ehrang-Pfalzel;own
+23460;31105;3;22;0;158;;;yellow;Gelbe Karte 22’;;YELLOW_CARD;Gelbe Karte;;;;;SV Trier-Irsch II;opponent
+23461;31105;1;23;0;158;2959;;goal;;;GOAL;Tor;Maximilian;Dollwett;;;SV Trier-Irsch II;opponent
+23462;31105;3;44;0;158;;;yellow;Gelbe Karte 44’;;YELLOW_CARD;Gelbe Karte;;;;;SV Trier-Irsch II;opponent
+23463;31105;3;55;0;158;;;yellow;Gelbe Karte 55’;;YELLOW_CARD;Gelbe Karte;;;;;SV Trier-Irsch II;opponent
+23464;31105;3;60;0;3;;;yellow;60’ Gelbe Karte;;YELLOW_CARD;Gelbe Karte;;;;;FSG Ehrang-Pfalzel;own
+23465;31105;1;66;0;3;511;;goal;;;GOAL;Tor;Samuel;Bayerath;;;FSG Ehrang-Pfalzel;own
+23466;31105;1;70;0;3;172;;goal;;;GOAL;Tor;Nikolai;Smirnov;;;FSG Ehrang-Pfalzel;own
+23467;31105;1;88;0;3;162;;goal;;;GOAL;Tor;Sem Luca;Schneider;;;FSG Ehrang-Pfalzel;own
+23698;31116;1;12;0;3;168;;goal;;;GOAL;Tor;Andreas;Huwer;;;FSG Ehrang-Pfalzel;own
+23699;31116;1;19;0;159;420;;goal;;;GOAL;Tor;Nick;Stevens;;;TuS Mosella Schweich III;opponent
+23700;31116;1;21;0;159;3147;;goal;;;GOAL;Tor;Silas;Quare;;;TuS Mosella Schweich III;opponent
+23701;31116;1;26;0;159;2998;;goal;;;GOAL;Tor;Benjamin;Lawson;;;TuS Mosella Schweich III;opponent
+23702;31116;1;32;0;3;176;;goal;;;GOAL;Tor;Jason;Pütz;;;FSG Ehrang-Pfalzel;own
+23703;31116;7;41;0;159;2993;3001;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Peter;Wallerath;Moritz;Grünen;TuS Mosella Schweich III;opponent
+23704;31116;6;41;0;159;3001;2993;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Moritz;Grünen;Peter;Wallerath;TuS Mosella Schweich III;opponent
+23705;31116;1;44;0;3;168;;goal;;;GOAL;Tor;Andreas;Huwer;;;FSG Ehrang-Pfalzel;own
+23706;31116;3;45;0;159;;;yellow;45’ Gelbe Karte;;YELLOW_CARD;Gelbe Karte;;;;;TuS Mosella Schweich III;opponent
+23707;31116;1;45;0;3;173;;goal;;;GOAL;Tor;Marvin;Marvin;;;FSG Ehrang-Pfalzel;own
+23708;31116;7;46;0;159;2988;2999;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Finn;Bracker;Michael;Meilen;TuS Mosella Schweich III;opponent
+23709;31116;6;46;0;159;2999;2988;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Michael;Meilen;Finn;Bracker;TuS Mosella Schweich III;opponent
+23710;31116;7;46;0;3;170;365;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Julien;Masselot;Mattheo;Fuhs;FSG Ehrang-Pfalzel;own
+23711;31116;6;46;0;3;365;170;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Mattheo;Fuhs;Julien;Masselot;FSG Ehrang-Pfalzel;own
+23712;31116;8;47;0;3;161;;penalty_goal;;;PENALTY_GOAL;Elfmetertor;Sascha;Kraus;;;FSG Ehrang-Pfalzel;own
+23713;31116;7;57;0;3;264;3134;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Finn;Konrad;William Robert;Hutchinson;FSG Ehrang-Pfalzel;own
+23714;31116;6;57;0;3;3134;264;substitution_in;;;SUBSTITUTION_IN;Einwechslung;William Robert;Hutchinson;Finn;Konrad;FSG Ehrang-Pfalzel;own
+23715;31116;7;60;0;159;420;3126;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Nick;Stevens;Hannes;Jägen;TuS Mosella Schweich III;opponent
+23716;31116;6;60;0;159;3126;420;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Hannes;Jägen;Nick;Stevens;TuS Mosella Schweich III;opponent
+23717;31116;7;65;0;3;173;2912;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Marvin;Marvin;Pascal;Schmitt;FSG Ehrang-Pfalzel;own
+23718;31116;6;65;0;3;2912;173;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Pascal;Schmitt;Marvin;Marvin;FSG Ehrang-Pfalzel;own
+23719;31116;7;65;0;3;172;265;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Nikolai;Smirnov;Thorsten;Lauterbach;FSG Ehrang-Pfalzel;own
+23720;31116;6;65;0;3;265;172;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Thorsten;Lauterbach;Nikolai;Smirnov;FSG Ehrang-Pfalzel;own
+23721;31116;3;68;0;159;;;yellow;68’ Gelbe Karte;;YELLOW_CARD;Gelbe Karte;;;;;TuS Mosella Schweich III;opponent
+23722;31116;7;70;0;3;176;2913;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Jason;Pütz;Philipp;Schmidt;FSG Ehrang-Pfalzel;own
+23723;31116;6;70;0;3;2913;176;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Philipp;Schmidt;Jason;Pütz;FSG Ehrang-Pfalzel;own
+23765;31121;7;0;0;147;3027;3034;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Esaias Aron;Gebre;Fabian;Mart;DJK Morscheid;opponent
+23766;31121;6;0;0;147;3034;3027;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Fabian;Mart;Esaias Aron;Gebre;DJK Morscheid;opponent
+23767;31121;7;0;0;147;3026;3529;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Jan Luca;Thees;Dennis;Wirz;DJK Morscheid;opponent
+23768;31121;6;0;0;147;3529;3026;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Dennis;Wirz;Jan Luca;Thees;DJK Morscheid;opponent
+23769;31121;1;9;0;3;161;;goal;;;GOAL;Tor;Sascha;Kraus;;;FSG Ehrang-Pfalzel;own
+23770;31121;3;41;0;3;;;yellow;41’ Gelbe Karte;;YELLOW_CARD;Gelbe Karte;;;;;FSG Ehrang-Pfalzel;own
+23771;31121;3;43;0;147;;;yellow;Gelbe Karte 43’;;YELLOW_CARD;Gelbe Karte;;;;;DJK Morscheid;opponent
+23772;31121;7;46;0;3;264;172;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Finn;Konrad;Nikolai;Smirnov;FSG Ehrang-Pfalzel;own
+23773;31121;6;46;0;3;172;264;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Nikolai;Smirnov;Finn;Konrad;FSG Ehrang-Pfalzel;own
+23774;31121;1;49;0;3;168;;goal;;;GOAL;Tor;Andreas;Huwer;;;FSG Ehrang-Pfalzel;own
+23775;31121;4;58;0;3;;;red;58’ Rote Karte;;RED_CARD;Rote Karte;;;;;FSG Ehrang-Pfalzel;own
+23776;31121;1;59;0;147;3024;;goal;;;GOAL;Tor;Tim;Schneider;;;DJK Morscheid;opponent
+23777;31121;7;60;0;147;3031;3150;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Julius;Martini;Dominik;Martini;DJK Morscheid;opponent
+23778;31121;6;60;0;147;3150;3031;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Dominik;Martini;Julius;Martini;DJK Morscheid;opponent
+23779;31121;7;61;0;3;161;3134;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Sascha;Kraus;William Robert;Hutchinson;FSG Ehrang-Pfalzel;own
+23780;31121;6;61;0;3;3134;161;substitution_in;;;SUBSTITUTION_IN;Einwechslung;William Robert;Hutchinson;Sascha;Kraus;FSG Ehrang-Pfalzel;own
+23781;31121;1;61;0;3;511;;goal;;;GOAL;Tor;Samuel;Bayerath;;;FSG Ehrang-Pfalzel;own
+23782;31121;7;67;0;3;160;173;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Rene;Schwarz;Marvin;Marvin;FSG Ehrang-Pfalzel;own
+23783;31121;6;67;0;3;173;160;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Marvin;Marvin;Rene;Schwarz;FSG Ehrang-Pfalzel;own
+23784;31121;8;77;0;147;3024;;penalty_goal;;;PENALTY_GOAL;Elfmetertor;Tim;Schneider;;;DJK Morscheid;opponent
+23785;31121;7;80;0;3;176;2913;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Jason;Pütz;Philipp;Schmidt;FSG Ehrang-Pfalzel;own
+23786;31121;6;80;0;3;2913;176;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Philipp;Schmidt;Jason;Pütz;FSG Ehrang-Pfalzel;own
+23787;31121;7;83;0;3;511;2912;substitution_out;;;SUBSTITUTION_OUT;Auswechslung;Samuel;Bayerath;Pascal;Schmitt;FSG Ehrang-Pfalzel;own
+23788;31121;6;83;0;3;2912;511;substitution_in;;;SUBSTITUTION_IN;Einwechslung;Pascal;Schmitt;Samuel;Bayerath;FSG Ehrang-Pfalzel;own

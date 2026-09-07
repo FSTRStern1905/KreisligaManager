@@ -1,0 +1,80 @@
+﻿match_id;competition_id;season_id;league_id;matchday;match_date;kickoff_time;home_team_id;away_team_id;stadium_id;referee_id;attendance;home_goals;away_goals;status;detail_imported;notes;external_id;home_team_name;away_team_name;selected_team_role;opponent_name
+5;1;1;1;1;2025-08-10;14:30;1;3;5;;80;5;2;finished;1;"Halbzeit: 2:1
+Spielstätte: Rasenplatz, Pluwig, Rasenplatz, Spatelweg, 54316 Pluwig
+fussball.de: https://www.fussball.de/spiel/djk-pluwig-gusterath-fsg-ehrang-pfalzel/-/spiel/02TNB07C7O000000VS5489BUVSSD35NB";02TNB07C7O000000VS5489BUVSSD35NB;DJK Pluwig-Gusterath;FSG Ehrang-Pfalzel;away;DJK Pluwig-Gusterath
+10;1;1;1;2;2025-08-17;15:00;3;12;10;;120;3;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Trier-Pfalzel, Rasenplatz, Hans-Adamy-Str., 54293 Trier
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-tus-mosella-schweich-ii/-/spiel/02TNB07CCO000000VS5489BUVSSD35NB";02TNB07CCO000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;TuS Mosella Schweich II;home;TuS Mosella Schweich II
+21;1;1;1;3;2025-08-23;17:00;7;3;16;;120;4;2;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, Kell, Rasenplatz, Am Herrenmarkt 9, 54427 Kell am See
+fussball.de: https://www.fussball.de/spiel/sg-niederkell-waldweiler-fsg-ehrang-pfalzel/-/spiel/02TNB07COO000000VS5489BUVSSD35NB";02TNB07COO000000VS5489BUVSSD35NB;SG Niederkell Waldweiler;FSG Ehrang-Pfalzel;away;SG Niederkell Waldweiler
+24;1;1;1;4;2025-08-30;18:00;3;14;10;;100;2;3;finished;1;"Halbzeit: 2:2
+Spielstätte: Rasenplatz, Trier-Pfalzel, Rasenplatz, Hans-Adamy-Str., 54293 Trier
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-vfl-trier/-/spiel/02TNB07CS4000000VS5489BUVSSD35NB";02TNB07CS4000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;VfL Trier;home;VfL Trier
+29;1;1;1;5;2025-09-07;14:45;5;3;8;;123;4;1;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, Ayl, Rasenplatz, Biebelhausener Str., 54441 Ayl
+fussball.de: https://www.fussball.de/spiel/sg-kanzem-fsg-ehrang-pfalzel/-/spiel/02TNB07D1S000000VS5489BUVSSD35NB";02TNB07D1S000000VS5489BUVSSD35NB;SG Kanzem;FSG Ehrang-Pfalzel;away;SG Kanzem
+39;1;1;1;6;2025-09-14;14:45;6;3;11;;90;1;3;finished;1;"Halbzeit: 0:1
+Spielstätte: Rasenplatz, Fell, Rasenplatz, Im Brühl 3, 54341 Fell
+fussball.de: https://www.fussball.de/spiel/sg-kenn-fsg-ehrang-pfalzel/-/spiel/02TNB07DDG000000VS5489BUVSSD35NB";02TNB07DDG000000VS5489BUVSSD35NB;SG Kenn;FSG Ehrang-Pfalzel;away;SG Kenn
+45;1;1;1;7;2025-09-21;15:00;3;9;10;;100;4;1;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, Trier-Pfalzel, Rasenplatz, Hans-Adamy-Str., 54293 Trier
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sg-weintal-oberemmel/-/spiel/02TNB07DLC000000VS5489BUVSSD35NB";02TNB07DLC000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SG Weintal Oberemmel;home;SG Weintal Oberemmel
+55;1;1;1;8;2025-09-26;19:45;2;3;13;;200;4;2;finished;1;"Halbzeit: 2:1
+Spielstätte: Kunstrasenplatz, Trier-Feyen, Kunstrasenplatz, Clara-Viebig-Str., 54294 Trier
+fussball.de: https://www.fussball.de/spiel/djk-st-matthias-trier-fsg-ehrang-pfalzel/-/spiel/02TNB07E38000000VS5489BUVSSD35NB";02TNB07E38000000VS5489BUVSSD35NB;DJK St. Matthias Trier;FSG Ehrang-Pfalzel;away;DJK St. Matthias Trier
+59;1;1;1;9;2025-10-04;18:00;3;10;10;;65;0;7;finished;1;"Halbzeit: 0:1
+Spielstätte: Rasenplatz, Trier-Pfalzel, Rasenplatz, Hans-Adamy-Str., 54293 Trier
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sv-foehren/-/spiel/02TNB07E8O000000VS5489BUVSSD35NB";02TNB07E8O000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SV Föhren;home;SV Föhren
+64;1;1;1;10;2025-10-12;15:15;11;3;1;;130;3;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Kunstrasenplatz, Trier-Irsch, Kunstrasenplatz, Lärchenweg, 54296 Trier
+fussball.de: https://www.fussball.de/spiel/sv-trier-irsch-fsg-ehrang-pfalzel/-/spiel/02TNB07EG0000000VS5489BUVSSD35NB";02TNB07EG0000000VS5489BUVSSD35NB;SV Trier-Irsch;FSG Ehrang-Pfalzel;away;SV Trier-Irsch
+73;1;1;1;11;2025-10-19;15:00;3;4;10;;120;2;2;finished;1;"Halbzeit: 1:1
+Spielstätte: Rasenplatz, Trier-Pfalzel, Rasenplatz, Hans-Adamy-Str., 54293 Trier
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-fsv-trier-tarforst-ii/-/spiel/02TNB07ETS000000VS5489BUVSSD35NB";02TNB07ETS000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;FSV Trier-Tarforst II;home;FSV Trier-Tarforst II
+80;1;1;1;12;2025-10-26;15:30;8;3;3;;120;4;1;finished;1;"Halbzeit: 2:0
+Spielstätte: Kunstrasenplatz, Saarburg, Sportanlage am Kammerforst, Schadallerstr., 54439 Saarburg
+fussball.de: https://www.fussball.de/spiel/sg-serrig-fsg-ehrang-pfalzel/-/spiel/02TNB07F8C000000VS5489BUVSSD35NB";02TNB07F8C000000VS5489BUVSSD35NB;SG Serrig;FSG Ehrang-Pfalzel;away;SG Serrig
+87;1;1;1;13;2025-11-02;15:00;3;13;19;;100;3;7;finished;1;"Halbzeit: 1:6
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-tus-schillingen/-/spiel/02TNB07FK4000000VS5489BUVSSD35NB";02TNB07FK4000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;TuS Schillingen;home;TuS Schillingen
+96;1;1;1;14;2025-11-09;15:00;3;1;19;;90;3;5;finished;1;"Halbzeit: 2:0
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-djk-pluwig-gusterath/-/spiel/02TNB07G34000000VS5489BUVSSD35NB";02TNB07G34000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;DJK Pluwig-Gusterath;home;DJK Pluwig-Gusterath
+101;1;1;1;15;2025-11-16;13:00;12;3;6;;80;5;2;finished;1;"Halbzeit: 3:2
+Spielstätte: Kunstrasenplatz, Schweich, KR - Mathenstr., Mathenstr., 54338 Schweich
+fussball.de: https://www.fussball.de/spiel/tus-mosella-schweich-ii-fsg-ehrang-pfalzel/-/spiel/02TNB07GC8000000VS5489BUVSSD35NB";02TNB07GC8000000VS5489BUVSSD35NB;TuS Mosella Schweich II;FSG Ehrang-Pfalzel;away;TuS Mosella Schweich II
+112;1;1;1;16;2025-11-23;15:00;3;7;19;;95;2;1;finished;1;"Halbzeit: 0:0
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sg-niederkell-waldweiler/-/spiel/02TNB07H0G000000VS5489BUVSSD35NB";02TNB07H0G000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SG Niederkell Waldweiler;home;SG Niederkell Waldweiler
+115;1;1;1;17;2026-03-15;14:45;14;3;18;;80;0;0;finished;1;"Halbzeit: 0:0
+Spielstätte: Hartplatz, Trier-Mariahof, Hartplatz, Montessoriweg 8, 54296 Trier
+fussball.de: https://www.fussball.de/spiel/vfl-trier-fsg-ehrang-pfalzel/-/spiel/02TNB07H64000000VS5489BUVSSD35NB";02TNB07H64000000VS5489BUVSSD35NB;VfL Trier;FSG Ehrang-Pfalzel;away;VfL Trier
+120;1;1;1;18;2026-03-22;15:00;3;5;19;;133;8;0;finished;1;"Halbzeit: 4:0
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sg-kanzem/-/spiel/02TNB07HFO000000VS5489BUVSSD35NB";02TNB07HFO000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SG Kanzem;home;SG Kanzem
+130;1;1;1;19;2026-03-29;15:00;3;6;19;;150;2;2;finished;1;"Halbzeit: 2:0
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sg-kenn/-/spiel/02TNB07I6O000000VS5489BUVSSD35NB";02TNB07I6O000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SG Kenn;home;SG Kenn
+136;1;1;1;20;2026-04-12;15:00;9;3;26;8;80;1;5;finished;1;"Halbzeit: 0:2
+Spielstätte: Rasenplatz, Oberemmel, Rasenplatz, Ernst-Hartmann-Str. 1A, 54329 Konz
+Schiedsrichter: Jan Henric Albrecht
+fussball.de: https://www.fussball.de/spiel/sg-weintal-oberemmel-fsg-ehrang-pfalzel/-/spiel/02TNB07IIK000000VS5489BUVSSD35NB";02TNB07IIK000000VS5489BUVSSD35NB;SG Weintal Oberemmel;FSG Ehrang-Pfalzel;away;SG Weintal Oberemmel
+146;1;1;1;21;2026-04-19;15:00;3;2;19;;250;1;2;finished;1;"Halbzeit: 0:0
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-djk-st-matthias-trier/-/spiel/02TNB07J6S000000VS5489BUVSSD35NB";02TNB07J6S000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;DJK St. Matthias Trier;home;DJK St. Matthias Trier
+150;1;1;1;22;2026-04-26;14:30;10;3;14;;120;5;4;finished;1;"Halbzeit: 3:0
+Spielstätte: Rasenplatz, Föhren, Rasenplatz, Im Brühl, 54343 Föhren
+fussball.de: https://www.fussball.de/spiel/sv-foehren-fsg-ehrang-pfalzel/-/spiel/02TNB07JFG000000VS5489BUVSSD35NB";02TNB07JFG000000VS5489BUVSSD35NB;SV Föhren;FSG Ehrang-Pfalzel;away;SV Föhren
+155;1;1;1;23;2026-05-03;15:00;3;11;19;;250;3;3;finished;1;"Halbzeit: 3:2
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sv-trier-irsch/-/spiel/02TNB07JQG000000VS5489BUVSSD35NB";02TNB07JQG000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SV Trier-Irsch;home;SV Trier-Irsch
+164;1;1;1;24;2026-05-10;15:00;4;3;2;;66;2;1;finished;1;"Halbzeit: 1:1
+Spielstätte: Kunstrasenplatz, Trier-Tarforst, Kunstrasen, Am Trimmelter Hof, 54296 Trier
+fussball.de: https://www.fussball.de/spiel/fsv-trier-tarforst-ii-fsg-ehrang-pfalzel/-/spiel/02TNB07KES000000VS5489BUVSSD35NB";02TNB07KES000000VS5489BUVSSD35NB;FSV Trier-Tarforst II;FSG Ehrang-Pfalzel;away;FSV Trier-Tarforst II
+171;1;1;1;25;2026-05-17;15:00;3;8;19;;60;5;2;finished;1;"Halbzeit: 1:1
+Spielstätte: Kunstrasenplatz, Ehrang-Heide, Kunstrasenplatz, Im Karrenbachtal, 54293 Ehrang
+fussball.de: https://www.fussball.de/spiel/fsg-ehrang-pfalzel-sg-serrig/-/spiel/02TNB07KV0000000VS5489BUVSSD35NB";02TNB07KV0000000VS5489BUVSSD35NB;FSG Ehrang-Pfalzel;SG Serrig;home;SG Serrig
+178;1;1;1;26;2026-05-24;15:00;13;3;4;;150;3;1;finished;1;"Halbzeit: 1:0
+Spielstätte: Rasenplatz, Schillingen, Rasenplatz, Hauptstr., 54429 SCHILLINGEN
+fussball.de: https://www.fussball.de/spiel/tus-schillingen-fsg-ehrang-pfalzel/-/spiel/02TNB07LFO000000VS5489BUVSSD35NB";02TNB07LFO000000VS5489BUVSSD35NB;TuS Schillingen;FSG Ehrang-Pfalzel;away;TuS Schillingen

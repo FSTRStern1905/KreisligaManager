@@ -20,6 +20,9 @@ from src.services.export.team_statistics_pdf_service import (
 from src.services.team_statistics_pdf_exporter import (
     TeamStatisticsPdfExporter,
 )
+from src.services.team_csv_export_service import (
+    TeamCsvExportService,
+)
 
 from src.ui.windows.competition_tabs.away_table_tab import (
     CompetitionAwayTableTab,
@@ -101,6 +104,9 @@ from src.ui.windows.competition_tabs.team_development_tab import (
 )
 from src.ui.dialogs.team_pdf_export_dialog import (
     TeamPdfExportDialog,
+)
+from src.ui.dialogs.team_csv_export_dialog import (
+    TeamCsvExportDialog,
 )
 
 
@@ -238,6 +244,18 @@ class CompetitionStatisticsHubTab(QWidget):
 
         self.export_bar.addWidget(
             self.export_button
+        )
+
+        self.csv_export_button = QPushButton(
+            "📊 Team-CSV exportieren"
+        )
+
+        self.csv_export_button.setEnabled(
+            False
+        )
+
+        self.export_bar.addWidget(
+            self.csv_export_button
         )
 
         self.tabs = QTabWidget()
@@ -575,6 +593,10 @@ class CompetitionStatisticsHubTab(QWidget):
             self.open_team_pdf_export_dialog
         )
 
+        self.csv_export_button.clicked.connect(
+            self.open_team_csv_export_dialog
+        )
+
     def set_competition(
         self,
         competition_id: int | None,
@@ -584,6 +606,10 @@ class CompetitionStatisticsHubTab(QWidget):
         )
 
         self.export_button.setEnabled(
+            competition_id is not None
+        )
+
+        self.csv_export_button.setEnabled(
             competition_id is not None
         )
 
@@ -744,6 +770,126 @@ class CompetitionStatisticsHubTab(QWidget):
             (
                 "Die Team-Statistik wurde "
                 "erfolgreich erstellt.\n\n"
+                f"{output_path}"
+            ),
+        )
+
+    def open_team_csv_export_dialog(
+        self,
+    ) -> None:
+        if self.competition_id is None:
+            return
+
+        try:
+            dialog = TeamCsvExportDialog(
+                competition_id=self.competition_id,
+                parent=self,
+            )
+        except ValueError as error:
+            QMessageBox.critical(
+                self,
+                "CSV-Export",
+                str(error),
+            )
+            return
+
+        result = dialog.exec()
+
+        if (
+            result
+            != QDialog.DialogCode.Accepted
+        ):
+            return
+
+        options = dialog.get_export_options()
+
+        team_id = options.get(
+            "team_id"
+        )
+
+        if team_id is None:
+            return
+
+        team_name = str(
+            options.get(
+                "team_name",
+                "",
+            )
+        )
+
+        default_root = Path(
+            "exports/csv"
+        )
+
+        selected_directory = (
+            QFileDialog.getExistingDirectory(
+                self,
+                "Zielordner für CSV-Export auswählen",
+                str(default_root),
+            )
+        )
+
+        if not selected_directory:
+            return
+
+        try:
+            connection = sqlite3.connect(
+                DATABASE_PATH
+            )
+
+            connection.row_factory = (
+                sqlite3.Row
+            )
+
+            try:
+                exporter = TeamCsvExportService(
+                    connection
+                )
+
+                output_path = exporter.export_team(
+                    competition_id=(
+                        self.competition_id
+                    ),
+                    team_id=int(
+                        team_id
+                    ),
+                    destination_root=(
+                        selected_directory
+                    ),
+                )
+            finally:
+                connection.close()
+
+        except (
+            sqlite3.Error,
+            ValueError,
+            RuntimeError,
+            OSError,
+        ) as error:
+            QMessageBox.critical(
+                self,
+                "CSV-Export fehlgeschlagen",
+                (
+                    "Die Mannschaftsdaten konnten "
+                    "nicht als CSV exportiert werden.\n"
+                    f"{error}"
+                ),
+            )
+            return
+
+        csv_files = list(
+            output_path.glob(
+                "*.csv"
+            )
+        )
+
+        QMessageBox.information(
+            self,
+            "CSV-Export abgeschlossen",
+            (
+                f"{team_name} wurde erfolgreich "
+                "exportiert.\n\n"
+                f"{len(csv_files)} CSV-Dateien\n"
                 f"{output_path}"
             ),
         )
