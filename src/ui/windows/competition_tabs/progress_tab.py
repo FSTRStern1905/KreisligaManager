@@ -4,6 +4,8 @@ import sqlite3
 from pathlib import Path
 
 from PySide6.QtCharts import QValueAxis
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QPen
 from PySide6.QtWidgets import (
     QComboBox,
     QHBoxLayout,
@@ -25,6 +27,9 @@ from src.services.statistics_service import (
 from src.ui.charts.base_line_chart import (
     BaseLineChart,
 )
+from src.ui.charts.points_progress_chart import (
+    PointsProgressChart,
+)
 
 
 DATABASE_PATH = Path(
@@ -33,15 +38,18 @@ DATABASE_PATH = Path(
 
 
 class CompetitionProgressTab(QWidget):
+    WIN_COLOR = "#2f9e44"
+    DRAW_COLOR = "#d4a72c"
+    LOSS_COLOR = "#d94848"
+    LINE_COLOR = "#2f6fa3"
+
     def __init__(
         self,
     ) -> None:
         super().__init__()
 
         self.competition_id: int | None = None
-
         self.progress_data: list[dict] = []
-
         self._competition_changed = True
 
         self.setup_ui()
@@ -165,15 +173,42 @@ class CompetitionProgressTab(QWidget):
             0,
         )
 
-        self.points_chart = BaseLineChart(
-            title="Punkteentwicklung nach Spieltag",
-            x_axis_title="Spieltag",
-            y_axis_title="Punkte",
+        self.result_legend_label = QLabel(
+            "● 3 Punkte   ● 1 Punkt   ● 0 Punkte"
         )
+
+        self.result_legend_label.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        self.result_legend_label.setTextFormat(
+            Qt.TextFormat.RichText
+        )
+
+        self.result_legend_label.setText(
+            (
+                f'<span style="color:{self.WIN_COLOR};">●</span> '
+                '3 Punkte&nbsp;&nbsp;&nbsp;'
+                f'<span style="color:{self.DRAW_COLOR};">●</span> '
+                '1 Punkt&nbsp;&nbsp;&nbsp;'
+                f'<span style="color:{self.LOSS_COLOR};">●</span> '
+                '0 Punkte'
+            )
+        )
+
+        self.result_legend_label.setVisible(
+            False
+        )
+
+        self.points_chart = PointsProgressChart()
 
         self.points_chart.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding,
+        )
+
+        points_layout.addWidget(
+            self.result_legend_label
         )
 
         points_layout.addWidget(
@@ -330,7 +365,8 @@ class CompetitionProgressTab(QWidget):
                     (
                         f"{competition_name} | "
                         f"Verlauf bis Spieltag "
-                        f"{last_matchday}"
+                        f"{last_matchday} | "
+                        "Quelle: importierte Spieldaten"
                     )
                 )
 
@@ -339,7 +375,8 @@ class CompetitionProgressTab(QWidget):
                     (
                         f"{competition_name} | "
                         "Keine abgeschlossenen "
-                        "Spieltage"
+                        "Spieltage | "
+                        "Quelle: importierte Spieldaten"
                     )
                 )
 
@@ -525,6 +562,7 @@ class CompetitionProgressTab(QWidget):
         self.points_chart.clear()
 
         if not progress:
+            self.result_legend_label.setVisible(False)
             self.points_chart.show_empty_chart(
                 "Keine Punkteentwicklung vorhanden"
             )
@@ -533,6 +571,9 @@ class CompetitionProgressTab(QWidget):
         maximum_matchday = 0
         maximum_points = 0
         series_count = 0
+        single_team = len(progress) == 1
+
+        self.result_legend_label.setVisible(single_team)
 
         for team in progress:
             points_progress = team.get(
@@ -543,90 +584,62 @@ class CompetitionProgressTab(QWidget):
             if not points_progress:
                 continue
 
-            points: list[
-                tuple[
-                    float,
-                    float,
-                ]
-            ] = [
-                (
-                    0.0,
-                    0.0,
-                )
-            ]
+            points = [(0.0, 0.0)]
+            win_points = []
+            draw_points = []
+            loss_points = []
+            previous_points = 0
 
             for row in points_progress:
-                matchday = int(
-                    row["matchday"]
-                )
+                matchday = int(row["matchday"])
+                team_points = int(row["points"])
+                gained_points = team_points - previous_points
 
-                team_points = int(
-                    row["points"]
+                point = (
+                    float(matchday),
+                    float(team_points),
                 )
+                points.append(point)
 
-                points.append(
-                    (
-                        float(matchday),
-                        float(team_points),
-                    )
-                )
+                if single_team:
+                    if gained_points >= 3:
+                        win_points.append(point)
+                    elif gained_points == 1:
+                        draw_points.append(point)
+                    else:
+                        loss_points.append(point)
 
+                previous_points = team_points
                 maximum_matchday = max(
                     maximum_matchday,
                     matchday,
                 )
-
                 maximum_points = max(
                     maximum_points,
                     team_points,
                 )
 
-            self.points_chart.create_line_series(
+            self.points_chart.add_team(
                 name=team["team_name"],
                 points=points,
-                show_points=True,
+                single_team=single_team,
+                wins=win_points,
+                draws=draw_points,
+                losses=loss_points,
             )
-
             series_count += 1
 
         if series_count == 0:
+            self.result_legend_label.setVisible(False)
             self.points_chart.show_empty_chart(
                 "Keine Punkteentwicklung vorhanden"
             )
             return
 
-        self.points_chart.set_x_range(
-            0,
-            max(
-                1,
-                maximum_matchday,
-            ),
+        self.points_chart.set_ranges(
+            maximum_matchday=maximum_matchday,
+            maximum_points=maximum_points,
         )
-
-        self.points_chart.set_x_tick_interval(
-            1
-        )
-
-        padding = max(
-            3,
-            round(
-                maximum_points * 0.08
-            ),
-        )
-
-        self.points_chart.set_y_range(
-            0,
-            max(
-                3,
-                maximum_points + padding,
-            ),
-        )
-
-        self.points_chart.set_y_tick_interval(
-            5
-        )
-
-        self.points_chart.restore_chart_title()
 
     def show_position_progress(
         self,
@@ -707,38 +720,39 @@ class CompetitionProgressTab(QWidget):
             ),
         )
 
-        self.position_chart.set_x_tick_interval(
-            1
-        )
+        x_interval = 1
 
-        maximum_position = max(
-            2,
-            team_count,
+        if maximum_matchday > 20:
+            x_interval = 2
+
+        if maximum_matchday > 36:
+            x_interval = 3
+
+        self.position_chart.set_x_tick_interval(
+            x_interval
         )
 
         self.position_chart.set_y_range(
             1,
-            maximum_position,
+            max(
+                2,
+                team_count,
+            ),
         )
 
         self.position_chart.axis_y.setLabelFormat(
-            "%d"
+            "%.0f"
         )
 
         self.position_chart.axis_y.setTickType(
-            QValueAxis.TickType.TicksDynamic
+            QValueAxis.TickType.TicksFixed
         )
 
-        self.position_chart.axis_y.setTickAnchor(
-            1.0
-        )
-
-        self.position_chart.axis_y.setTickInterval(
-            1.0
-        )
-
-        self.position_chart.axis_y.setMinorTickCount(
-            0
+        self.position_chart.axis_y.setTickCount(
+            max(
+                2,
+                team_count,
+            )
         )
 
         self.position_chart.set_y_axis_reversed(
@@ -756,7 +770,6 @@ class CompetitionProgressTab(QWidget):
         self,
     ) -> None:
         self.progress_data = []
-
         self._competition_changed = True
 
         self.team_combo.blockSignals(
@@ -779,6 +792,10 @@ class CompetitionProgressTab(QWidget):
         )
 
         self.team_combo.setEnabled(
+            False
+        )
+
+        self.result_legend_label.setVisible(
             False
         )
 

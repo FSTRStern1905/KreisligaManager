@@ -429,10 +429,6 @@ class CompetitionStatisticsHubTab(QWidget):
                     self.form_tab,
                     "Form",
                 ),
-                (
-                    self.progress_tab,
-                    "Punkteverlauf",
-                ),
             ]
         )
 
@@ -440,7 +436,7 @@ class CompetitionStatisticsHubTab(QWidget):
             [
                 (
                     self.result_distribution_tab,
-                    "Ergebnisse",
+                    "Verteilung",
                 ),
                 (
                     self.result_margin_tab,
@@ -464,6 +460,10 @@ class CompetitionStatisticsHubTab(QWidget):
                     "Übersicht",
                 ),
                 (
+                    self.goal_timeline_tab,
+                    "Torphasen",
+                ),
+                (
                     self.team_goal_phase_tab,
                     "Früh/Spät",
                 ),
@@ -472,16 +472,8 @@ class CompetitionStatisticsHubTab(QWidget):
                     "Halbzeiten",
                 ),
                 (
-                    self.goal_state_tab,
-                    "Spielstand",
-                ),
-                (
                     self.opening_goal_tab,
                     "Toreröffnung",
-                ),
-                (
-                    self.goal_timeline_tab,
-                    "Torphasen",
                 ),
             ]
         )
@@ -489,8 +481,8 @@ class CompetitionStatisticsHubTab(QWidget):
         self.match_flow_group = StatisticsGroupTab(
             [
                 (
-                    self.streaks_tab,
-                    "Serien",
+                    self.goal_state_tab,
+                    "Spielstand",
                 ),
                 (
                     self.lead_comeback_tab,
@@ -500,18 +492,22 @@ class CompetitionStatisticsHubTab(QWidget):
                     self.halftime_result_tab,
                     "Halbzeit → Endstand",
                 ),
+                (
+                    self.streaks_tab,
+                    "Serien",
+                ),
             ]
         )
 
         self.comparison_group = StatisticsGroupTab(
             [
                 (
-                    self.home_away_tab,
-                    "Heim/Auswärts",
-                ),
-                (
                     self.comparison_tab,
                     "Mannschaften",
+                ),
+                (
+                    self.home_away_tab,
+                    "Heim/Auswärts",
                 ),
                 (
                     self.head_to_head_tab,
@@ -533,6 +529,19 @@ class CompetitionStatisticsHubTab(QWidget):
                 (
                     self.fairplay_tab,
                     "Fairplay",
+                ),
+            ]
+        )
+
+        self.development_group = StatisticsGroupTab(
+            [
+                (
+                    self.progress_tab,
+                    "Punkteverlauf",
+                ),
+                (
+                    self.team_development_tab,
+                    "Mannschaftsentwicklung",
                 ),
             ]
         )
@@ -573,7 +582,7 @@ class CompetitionStatisticsHubTab(QWidget):
         )
 
         self.tabs.addTab(
-            self.team_development_tab,
+            self.development_group,
             "Entwicklung",
         )
 

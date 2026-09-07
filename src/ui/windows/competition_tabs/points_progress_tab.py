@@ -23,7 +23,7 @@ class CompetitionPointsProgressTab(
         )
 
         self.chart_widget = BaseLineChart(
-            title="Punkteverlauf nach Spieltagen",
+            title="Punkteentwicklung im Saisonverlauf",
             x_axis_title="Spieltag",
             y_axis_title="Punkte",
         )
@@ -71,10 +71,34 @@ class CompetitionPointsProgressTab(
                     matchdays=matchdays,
                 )
 
+                leader = max(
+                    teams,
+                    key=lambda team: (
+                        int(team["progress"][-1]["points"])
+                        if team.get("progress")
+                        else -1
+                    ),
+                    default=None,
+                )
+
+                leader_text = ""
+
+                if leader and leader.get("progress"):
+                    leader_points = int(
+                        leader["progress"][-1]["points"]
+                    )
+                    leader_text = (
+                        f" | 🟢 Führend: "
+                        f"{leader['team_name']} "
+                        f"– {leader_points} Pkt."
+                    )
+
                 self.set_info_text(
                     f"{competition_name} | "
                     f"{len(teams)} Mannschaften | "
-                    f"{len(matchdays)} Spieltage"
+                    f"Stand: Spieltag {max(matchdays)}"
+                    f"{leader_text} | "
+                    f"Quelle: importierte Spieldaten"
                 )
 
                 self.set_refresh_enabled(
@@ -148,8 +172,16 @@ class CompetitionPointsProgressTab(
             ),
         )
 
+        x_interval = 1
+
+        if len(matchdays) > 20:
+            x_interval = 2
+
+        if len(matchdays) > 36:
+            x_interval = 3
+
         self.chart_widget.set_axis_tick_intervals(
-            x_interval=1,
+            x_interval=x_interval,
             y_interval=5,
         )
 
@@ -163,7 +195,7 @@ class CompetitionPointsProgressTab(
         remainder = maximum_points % 5
 
         if remainder == 0:
-            return maximum_points + 5
+            return maximum_points
 
         return maximum_points + (
             5 - remainder

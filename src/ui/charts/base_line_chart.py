@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from PySide6.QtCharts import (
     QLineSeries,
+    QScatterSeries,
     QValueAxis,
 )
 from PySide6.QtCore import QPointF, QMargins, Qt
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QColor, QFont
 from PySide6.QtWidgets import QWidget
 
 from src.ui.charts.base_chart import BaseChart
@@ -294,6 +295,58 @@ class BaseLineChart(BaseChart):
         series.setPointsVisible(
             show_points
         )
+
+        self.chart.addSeries(
+            series
+        )
+
+        series.attachAxis(
+            self.axis_x
+        )
+
+        series.attachAxis(
+            self.axis_y
+        )
+
+        return series
+
+    def create_scatter_series(
+        self,
+        name: str,
+        points: list[
+            tuple[
+                float,
+                float,
+            ]
+        ],
+        color: str,
+        marker_size: float = 9.0,
+    ) -> QScatterSeries:
+        series = QScatterSeries()
+
+        series.setName(
+            name
+        )
+
+        series.setMarkerSize(
+            float(marker_size)
+        )
+
+        series.setColor(
+            QColor(color)
+        )
+
+        series.setBorderColor(
+            QColor(color)
+        )
+
+        for x_value, y_value in points:
+            series.append(
+                QPointF(
+                    float(x_value),
+                    float(y_value),
+                )
+            )
 
         self.chart.addSeries(
             series
