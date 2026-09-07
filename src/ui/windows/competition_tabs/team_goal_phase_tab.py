@@ -3,24 +3,17 @@ from __future__ import annotations
 import sqlite3
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QAbstractItemView,
-    QComboBox,
-    QHBoxLayout,
     QHeaderView,
-    QLabel,
-    QTabWidget,
+    QProgressBar,
     QTableWidget,
     QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
 )
 
 from src.services.statistics.team_goal_phase_service import (
     TeamGoalPhaseService,
-)
-from src.ui.charts.base_bar_chart import (
-    BaseBarChart,
 )
 from src.ui.windows.competition_tabs.base_statistics_tab import (
     BaseStatisticsTab,
@@ -30,6 +23,20 @@ from src.ui.windows.competition_tabs.base_statistics_tab import (
 class CompetitionTeamGoalPhaseTab(
     BaseStatisticsTab
 ):
+    """
+    Früh-/Spät-Analyse mit stärkerer visueller Gewichtung.
+
+    Ziel:
+    - weniger Zahlenfriedhof
+    - Prozentwerte direkt als Balken lesbar
+    - positive / negative Auffälligkeiten schnell erkennbar
+    - Datenbasis transparent benennen
+    """
+
+    EARLY_COLOR = "#6f767f"
+    LATE_COLOR = "#2f9e44"
+    CONCEDED_COLOR = "#d94848"
+
     def __init__(
         self,
     ) -> None:
@@ -42,74 +49,10 @@ class CompetitionTeamGoalPhaseTab(
 
         self.table = QTableWidget()
 
-        self.inner_tabs = QTabWidget()
-
-        self.league_tab = QWidget()
-        self.team_tab = QWidget()
-        self.goals_tab = QWidget()
-        self.conceded_tab = QWidget()
-
-        self.team_table = QTableWidget()
-
-        self.goals_chart = BaseBarChart(
-            title="Frühe / späte Tore vs. Liga-Ø",
-            x_axis_title="Spielphase",
-            y_axis_title="Tore",
-        )
-        self.goals_chart.show_legend(
-            True
-        )
-
-        self.conceded_chart = BaseBarChart(
-            title="Frühe / späte Gegentore vs. Liga-Ø",
-            x_axis_title="Spielphase",
-            y_axis_title="Gegentore",
-        )
-        self.conceded_chart.show_legend(
-            True
-        )
-
-        self.team_selector_widget = QWidget()
-        selector_layout = QHBoxLayout(
-            self.team_selector_widget
-        )
-        selector_layout.setContentsMargins(
-            8,
-            0,
-            0,
-            0,
-        )
-        selector_layout.setSpacing(
-            8
-        )
-
-        selector_layout.addWidget(
-            QLabel("Mannschaft:")
-        )
-
-        self.team_combo = QComboBox()
-        self.team_combo.setMinimumWidth(
-            260
-        )
-        selector_layout.addWidget(
-            self.team_combo
-        )
-
-        self.statistics_cache: list[dict] = []
-
         self.setup_table()
-        self.setup_team_table()
-        self.setup_tabs()
-
-        self.team_combo.currentIndexChanged.connect(
-            self.team_changed
-        )
-        self.inner_tabs.currentChanged.connect(
-            self.inner_tab_changed
-        )
 
         self.add_content_widget(
-            self.inner_tabs,
+            self.table,
             stretch=1,
         )
 
@@ -119,7 +62,7 @@ class CompetitionTeamGoalPhaseTab(
         self,
     ) -> None:
         self.table.setColumnCount(
-            10
+            8
         )
 
         self.table.setHorizontalHeaderLabels(
@@ -127,12 +70,10 @@ class CompetitionTeamGoalPhaseTab(
                 "Tab.",
                 "Mannschaft",
                 "Tore 0–15",
-                "Anteil früh %",
-                "Gegentore 0–15",
+                "Frühe Tore",
                 "Tore 76–90",
-                "Anteil spät %",
-                "Gegentore 76–90",
-                "Späte Gegentore %",
+                "Späte Tore",
+                "Späte Gegentore",
                 "Bilanz 76–90",
             ]
         )
@@ -157,6 +98,19 @@ class CompetitionTeamGoalPhaseTab(
             False
         )
 
+        self.table.setSortingEnabled(
+            False
+        )
+
+        self.table.setToolTip(
+            (
+                "Frühe Tore: Anteil der eigenen Tore in Minute 0–15.\n"
+                "Späte Tore: Anteil der eigenen Tore in Minute 76–90.\n"
+                "Späte Gegentore: Anteil der Gegentore in Minute 76–90.\n"
+                "Bilanz 76–90: eigene Tore minus Gegentore in dieser Phase."
+            )
+        )
+
         header = (
             self.table.horizontalHeader()
         )
@@ -171,442 +125,49 @@ class CompetitionTeamGoalPhaseTab(
             QHeaderView.ResizeMode.Stretch,
         )
 
-        for column in range(
-            2,
-            10,
-        ):
-            header.setSectionResizeMode(
-                column,
-                QHeaderView.ResizeMode.ResizeToContents,
-            )
-
-    def setup_team_table(
-        self,
-    ) -> None:
-        self.team_table.setColumnCount(
-            5
-        )
-        self.team_table.setHorizontalHeaderLabels(
-            [
-                "Phase",
-                "Tore",
-                "Gegentore",
-                "Bilanz",
-                "Anteil Tore %",
-            ]
-        )
-        self.team_table.setEditTriggers(
-            QAbstractItemView.EditTrigger.NoEditTriggers
-        )
-        self.team_table.setSelectionMode(
-            QAbstractItemView.SelectionMode.NoSelection
-        )
-        self.team_table.setAlternatingRowColors(
-            True
-        )
-        self.team_table.verticalHeader().setVisible(
-            False
-        )
-
-        header = self.team_table.horizontalHeader()
         header.setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch
+            2,
+            QHeaderView.ResizeMode.Fixed,
         )
 
-    def setup_tabs(
-        self,
-    ) -> None:
-        league_layout = QVBoxLayout(
-            self.league_tab
-        )
-        league_layout.setContentsMargins(
-            0,
-            0,
-            0,
-            0,
-        )
-        league_layout.addWidget(
-            self.table
+        self.table.setColumnWidth(
+            2,
+            78,
         )
 
-        team_layout = QVBoxLayout(
-            self.team_tab
-        )
-        team_layout.setContentsMargins(
-            0,
-            0,
-            0,
-            0,
-        )
-        team_layout.addWidget(
-            self.team_table
+        header.setSectionResizeMode(
+            3,
+            QHeaderView.ResizeMode.Stretch,
         )
 
-        goals_layout = QVBoxLayout(
-            self.goals_tab
-        )
-        goals_layout.setContentsMargins(
-            0,
-            0,
-            0,
-            0,
-        )
-        goals_layout.addWidget(
-            self.goals_chart
+        header.setSectionResizeMode(
+            4,
+            QHeaderView.ResizeMode.Fixed,
         )
 
-        conceded_layout = QVBoxLayout(
-            self.conceded_tab
-        )
-        conceded_layout.setContentsMargins(
-            0,
-            0,
-            0,
-            0,
-        )
-        conceded_layout.addWidget(
-            self.conceded_chart
+        self.table.setColumnWidth(
+            4,
+            78,
         )
 
-        self.inner_tabs.addTab(
-            self.league_tab,
-            "Liga",
-        )
-        self.inner_tabs.addTab(
-            self.team_tab,
-            "Mannschaft",
-        )
-        self.inner_tabs.addTab(
-            self.goals_tab,
-            "Erzielte Tore",
-        )
-        self.inner_tabs.addTab(
-            self.conceded_tab,
-            "Gegentore",
+        header.setSectionResizeMode(
+            5,
+            QHeaderView.ResizeMode.Stretch,
         )
 
-        self.inner_tabs.setCornerWidget(
-            self.team_selector_widget
-        )
-        self.team_selector_widget.setVisible(
-            False
+        header.setSectionResizeMode(
+            6,
+            QHeaderView.ResizeMode.Stretch,
         )
 
-    def populate_team_combo(
-        self,
-        statistics: list[dict],
-    ) -> None:
-        previous_team_id = (
-            self.team_combo.currentData()
+        header.setSectionResizeMode(
+            7,
+            QHeaderView.ResizeMode.Fixed,
         )
 
-        self.team_combo.blockSignals(
-            True
-        )
-        self.team_combo.clear()
-
-        for team in sorted(
-            statistics,
-            key=lambda item: str(
-                item["team_name"]
-            ).lower(),
-        ):
-            self.team_combo.addItem(
-                str(
-                    team["team_name"]
-                ),
-                int(
-                    team["team_id"]
-                ),
-            )
-
-        if previous_team_id is not None:
-            for index in range(
-                self.team_combo.count()
-            ):
-                if (
-                    self.team_combo.itemData(
-                        index
-                    )
-                    == previous_team_id
-                ):
-                    self.team_combo.setCurrentIndex(
-                        index
-                    )
-                    break
-
-        self.team_combo.blockSignals(
-            False
-        )
-
-    def inner_tab_changed(
-        self,
-        index: int,
-    ) -> None:
-        current_widget = self.inner_tabs.widget(
-            index
-        )
-        needs_team = current_widget in (
-            self.team_tab,
-            self.goals_tab,
-            self.conceded_tab,
-        )
-
-        self.team_selector_widget.setVisible(
-            needs_team
-        )
-
-        if needs_team:
-            self.load_selected_team()
-
-    def team_changed(
-        self,
-        index: int,
-    ) -> None:
-        if index >= 0:
-            self.load_selected_team()
-
-    def load_selected_team(
-        self,
-    ) -> None:
-        team_id = self.team_combo.currentData()
-
-        if (
-            team_id is None
-            or not self.statistics_cache
-        ):
-            return
-
-        team = next(
-            (
-                item
-                for item in self.statistics_cache
-                if int(
-                    item["team_id"]
-                ) == int(
-                    team_id
-                )
-            ),
-            None,
-        )
-
-        if team is None:
-            return
-
-        self.populate_team_table(
-            team
-        )
-        self.populate_goals_chart(
-            team
-        )
-        self.populate_conceded_chart(
-            team
-        )
-
-    def populate_team_table(
-        self,
-        team: dict,
-    ) -> None:
-        rows = [
-            (
-                "0–15 Min.",
-                int(
-                    team["early_goals"]
-                ),
-                int(
-                    team["early_goals_against"]
-                ),
-                int(
-                    team["early_goals"]
-                )
-                - int(
-                    team["early_goals_against"]
-                ),
-                float(
-                    team["early_goal_percentage"]
-                ),
-            ),
-            (
-                "76–90 Min.",
-                int(
-                    team["late_goals"]
-                ),
-                int(
-                    team["late_goals_against"]
-                ),
-                int(
-                    team["late_balance"]
-                ),
-                float(
-                    team["late_goal_percentage"]
-                ),
-            ),
-        ]
-
-        self.team_table.setRowCount(
-            len(
-                rows
-            )
-        )
-
-        for row_index, row in enumerate(
-            rows
-        ):
-            phase, goals, against, balance, percentage = row
-
-            balance_text = (
-                f"+{balance}"
-                if balance > 0
-                else str(
-                    balance
-                )
-            )
-
-            values = [
-                phase,
-                goals,
-                against,
-                balance_text,
-                f"{percentage:.1f} %",
-            ]
-
-            for column_index, value in enumerate(
-                values
-            ):
-                item = QTableWidgetItem(
-                    str(
-                        value
-                    )
-                )
-                item.setTextAlignment(
-                    Qt.AlignmentFlag.AlignCenter
-                )
-                self.team_table.setItem(
-                    row_index,
-                    column_index,
-                    item,
-                )
-
-    def _league_average(
-        self,
-        key: str,
-    ) -> float:
-        if not self.statistics_cache:
-            return 0.0
-
-        return sum(
-            float(
-                team[key]
-            )
-            for team in self.statistics_cache
-        ) / len(
-            self.statistics_cache
-        )
-
-    def _populate_average_chart(
-        self,
-        chart: BaseBarChart,
-        series_name: str,
-        team_values: list[float],
-        league_values: list[float],
-        lower_is_better: bool,
-    ) -> None:
-        chart.clear()
-
-        chart.set_categories(
-            [
-                "0–15 Min.",
-                "76–90 Min.",
-            ]
-        )
-
-        chart.create_bar_series(
-            name=series_name,
-            values=team_values,
-        )
-
-        chart.create_total_labels(
-            team_values
-        )
-
-        maximum = max(
-            team_values
-            + league_values
-        )
-        padding = max(
-            2.0,
-            maximum * 0.22,
-        )
-
-        chart.set_value_range(
-            minimum=0,
-            maximum=maximum + padding,
-        )
-
-        chart.create_reference_markers(
-            reference_values=league_values,
-            comparison_values=team_values,
-            lower_is_better=lower_is_better,
-        )
-
-        chart.restore_chart_title()
-
-    def populate_goals_chart(
-        self,
-        team: dict,
-    ) -> None:
-        team_values = [
-            float(
-                team["early_goals"]
-            ),
-            float(
-                team["late_goals"]
-            ),
-        ]
-        league_values = [
-            self._league_average(
-                "early_goals"
-            ),
-            self._league_average(
-                "late_goals"
-            ),
-        ]
-
-        self._populate_average_chart(
-            chart=self.goals_chart,
-            series_name="Erzielte Tore",
-            team_values=team_values,
-            league_values=league_values,
-            lower_is_better=False,
-        )
-
-    def populate_conceded_chart(
-        self,
-        team: dict,
-    ) -> None:
-        team_values = [
-            float(
-                team["early_goals_against"]
-            ),
-            float(
-                team["late_goals_against"]
-            ),
-        ]
-        league_values = [
-            self._league_average(
-                "early_goals_against"
-            ),
-            self._league_average(
-                "late_goals_against"
-            ),
-        ]
-
-        self._populate_average_chart(
-            chart=self.conceded_chart,
-            series_name="Gegentore",
-            team_values=team_values,
-            league_values=league_values,
-            lower_is_better=True,
+        self.table.setColumnWidth(
+            7,
+            84,
         )
 
     def load_data(
@@ -642,17 +203,6 @@ class CompetitionTeamGoalPhaseTab(
                     )
                 )
 
-                self.statistics_cache = [
-                    dict(
-                        team
-                    )
-                    for team in statistics
-                ]
-
-                self.populate_team_combo(
-                    statistics
-                )
-
                 self.populate_table(
                     statistics
                 )
@@ -678,9 +228,9 @@ class CompetitionTeamGoalPhaseTab(
                 if best_late_team is not None:
                     info_parts.append(
                         (
-                            "Spätzünder: "
+                            "🟢 Spätstärkstes Team: "
                             f"{best_late_team['team_name']} "
-                            "– "
+                            "· "
                             f"{best_late_team['late_goal_percentage']:.1f} %"
                         )
                     )
@@ -688,12 +238,16 @@ class CompetitionTeamGoalPhaseTab(
                 if worst_late_team is not None:
                     info_parts.append(
                         (
-                            "Später Einbruch: "
+                            "🔴 Anfällig spät: "
                             f"{worst_late_team['team_name']} "
-                            "– "
+                            "· "
                             f"{worst_late_team['late_conceded_percentage']:.1f} %"
                         )
                     )
+
+                info_parts.append(
+                    "Quelle: importierte Spieldaten"
+                )
 
                 self.set_info_text(
                     " | ".join(
@@ -704,8 +258,6 @@ class CompetitionTeamGoalPhaseTab(
                 self.set_refresh_enabled(
                     True
                 )
-
-            self.load_selected_team()
 
         except (
             sqlite3.Error,
@@ -732,10 +284,43 @@ class CompetitionTeamGoalPhaseTab(
         for row_index, team in enumerate(
             statistics
         ):
+            team_id = int(
+                team["team_id"]
+            )
+
+            position_item = (
+                self._create_center_item(
+                    team["position"],
+                    team_id,
+                )
+            )
+
+            team_item = QTableWidgetItem(
+                str(
+                    team["team_name"]
+                )
+            )
+            team_item.setData(
+                Qt.ItemDataRole.UserRole,
+                team_id,
+            )
+
+            early_goals_item = (
+                self._create_center_item(
+                    team["early_goals"],
+                    team_id,
+                )
+            )
+
+            late_goals_item = (
+                self._create_center_item(
+                    team["late_goals"],
+                    team_id,
+                )
+            )
+
             late_balance = int(
-                team[
-                    "late_balance"
-                ]
+                team["late_balance"]
             )
 
             late_balance_text = (
@@ -746,49 +331,217 @@ class CompetitionTeamGoalPhaseTab(
                 )
             )
 
-            values = [
-                team["position"],
-                team["team_name"],
-                team["early_goals"],
-                (
-                    f"{team['early_goal_percentage']:.1f} %"
-                ),
-                team["early_goals_against"],
-                team["late_goals"],
-                (
-                    f"{team['late_goal_percentage']:.1f} %"
-                ),
-                team["late_goals_against"],
-                (
-                    f"{team['late_conceded_percentage']:.1f} %"
-                ),
-                late_balance_text,
-            ]
-
-            for column_index, value in enumerate(
-                values
-            ):
-                item = QTableWidgetItem(
-                    str(
-                        value
-                    )
+            late_balance_item = (
+                self._create_center_item(
+                    late_balance_text,
+                    team_id,
                 )
+            )
 
-                if column_index != 1:
-                    item.setTextAlignment(
-                        Qt.AlignmentFlag.AlignCenter
-                    )
+            self._style_balance_item(
+                late_balance_item,
+                late_balance,
+            )
 
-                item.setData(
-                    Qt.ItemDataRole.UserRole,
-                    team["team_id"],
+            self.table.setItem(
+                row_index,
+                0,
+                position_item,
+            )
+
+            self.table.setItem(
+                row_index,
+                1,
+                team_item,
+            )
+
+            self.table.setItem(
+                row_index,
+                2,
+                early_goals_item,
+            )
+
+            self.table.setCellWidget(
+                row_index,
+                3,
+                self._create_percentage_bar(
+                    value=float(
+                        team[
+                            "early_goal_percentage"
+                        ]
+                    ),
+                    color=self.EARLY_COLOR,
+                    tooltip=(
+                        "Anteil aller eigenen Tore "
+                        "in Minute 0–15"
+                    ),
+                ),
+            )
+
+            self.table.setItem(
+                row_index,
+                4,
+                late_goals_item,
+            )
+
+            self.table.setCellWidget(
+                row_index,
+                5,
+                self._create_percentage_bar(
+                    value=float(
+                        team[
+                            "late_goal_percentage"
+                        ]
+                    ),
+                    color=self.LATE_COLOR,
+                    tooltip=(
+                        "Anteil aller eigenen Tore "
+                        "in Minute 76–90"
+                    ),
+                ),
+            )
+
+            self.table.setCellWidget(
+                row_index,
+                6,
+                self._create_percentage_bar(
+                    value=float(
+                        team[
+                            "late_conceded_percentage"
+                        ]
+                    ),
+                    color=self.CONCEDED_COLOR,
+                    tooltip=(
+                        "Anteil aller Gegentore "
+                        "in Minute 76–90"
+                    ),
+                ),
+            )
+
+            self.table.setItem(
+                row_index,
+                7,
+                late_balance_item,
+            )
+
+        self.table.resizeRowsToContents()
+
+    @staticmethod
+    def _create_center_item(
+        value: object,
+        team_id: int,
+    ) -> QTableWidgetItem:
+        item = QTableWidgetItem(
+            str(
+                value
+            )
+        )
+
+        item.setTextAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        item.setData(
+            Qt.ItemDataRole.UserRole,
+            team_id,
+        )
+
+        return item
+
+    @staticmethod
+    def _create_percentage_bar(
+        value: float,
+        color: str,
+        tooltip: str,
+    ) -> QProgressBar:
+        normalized_value = max(
+            0.0,
+            min(
+                100.0,
+                value,
+            ),
+        )
+
+        bar = QProgressBar()
+
+        bar.setRange(
+            0,
+            1000,
+        )
+
+        bar.setValue(
+            int(
+                round(
+                    normalized_value * 10
                 )
+            )
+        )
 
-                self.table.setItem(
-                    row_index,
-                    column_index,
-                    item,
+        bar.setFormat(
+            f"{normalized_value:.1f} %"
+        )
+
+        bar.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
+        )
+
+        bar.setTextVisible(
+            True
+        )
+
+        bar.setToolTip(
+            tooltip
+        )
+
+        bar.setMinimumHeight(
+            22
+        )
+
+        bar.setStyleSheet(
+            f"""
+            QProgressBar {{
+                border: 1px solid #3a3f46;
+                border-radius: 4px;
+                background-color: #202327;
+                color: #f2f2f2;
+                text-align: center;
+                font-weight: 600;
+            }}
+
+            QProgressBar::chunk {{
+                background-color: {color};
+                border-radius: 3px;
+            }}
+            """
+        )
+
+        return bar
+
+    @staticmethod
+    def _style_balance_item(
+        item: QTableWidgetItem,
+        value: int,
+    ) -> None:
+        if value > 0:
+            item.setForeground(
+                QColor(
+                    "#55b96b"
                 )
+            )
+
+        elif value < 0:
+            item.setForeground(
+                QColor(
+                    "#e05a5a"
+                )
+            )
+
+        else:
+            item.setForeground(
+                QColor(
+                    "#d4a72c"
+                )
+            )
 
     @staticmethod
     def _get_best_team(
@@ -820,56 +573,12 @@ class CompetitionTeamGoalPhaseTab(
     def clear_content(
         self,
     ) -> None:
-        self.statistics_cache = []
-
-        if hasattr(
+        if not hasattr(
             self,
             "table",
         ):
-            self.table.setRowCount(
-                0
-            )
+            return
 
-        if hasattr(
-            self,
-            "team_table",
-        ):
-            self.team_table.setRowCount(
-                0
-            )
-
-        if hasattr(
-            self,
-            "team_combo",
-        ):
-            self.team_combo.blockSignals(
-                True
-            )
-            self.team_combo.clear()
-            self.team_combo.blockSignals(
-                False
-            )
-
-        if hasattr(
-            self,
-            "goals_chart",
-        ):
-            self.goals_chart.show_empty_chart(
-                "Keine Daten"
-            )
-
-        if hasattr(
-            self,
-            "conceded_chart",
-        ):
-            self.conceded_chart.show_empty_chart(
-                "Keine Daten"
-            )
-
-        if hasattr(
-            self,
-            "team_selector_widget",
-        ):
-            self.team_selector_widget.setVisible(
-                False
-            )
+        self.table.setRowCount(
+            0
+        )
