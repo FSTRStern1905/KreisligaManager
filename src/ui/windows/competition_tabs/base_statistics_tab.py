@@ -1,13 +1,12 @@
+from __future__ import annotations
+
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
 
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QFrame,
     QHBoxLayout,
-    QLabel,
     QMessageBox,
     QPushButton,
     QSizePolicy,
@@ -16,6 +15,10 @@ from PySide6.QtWidgets import (
 )
 
 from src.services.statistics_service import StatisticsService
+from src.services.data_quality_service import DataQualityService
+from src.ui.widgets.statistics_header_widget import (
+    StatisticsHeaderWidget,
+)
 
 
 DATABASE_PATH = Path(
@@ -36,31 +39,33 @@ class BaseStatisticsTab(QWidget):
         self.page_title = title
         self.content_widget: QWidget | None = None
 
-        self.title_label = QLabel(title)
+        self.statistics_header = StatisticsHeaderWidget(
+            title=title,
+            subtitle="Kein Wettbewerb ausgewählt",
+        )
 
-        self.info_label = QLabel(
-            "Kein Wettbewerb ausgewählt"
+        self.title_label = (
+            self.statistics_header.title_label
+        )
+        self.info_label = (
+            self.statistics_header.subtitle_label
         )
 
         self.refresh_button = QPushButton(
             refresh_button_text
         )
 
-        self.header_frame = QFrame()
-        self.header_frame.setObjectName(
-            "StatisticsHeaderFrame"
-        )
-
         self.main_layout = QVBoxLayout()
-        self.header_frame_layout = QVBoxLayout()
-        self.header_layout = QHBoxLayout()
+        self.header_row = QHBoxLayout()
         self.content_layout = QVBoxLayout()
 
         self.setup_ui()
         self.connect_signals()
         self.clear_data()
 
-    def setup_ui(self) -> None:
+    def setup_ui(
+        self,
+    ) -> None:
         self.setObjectName(
             "StatisticsTab"
         )
@@ -76,25 +81,14 @@ class BaseStatisticsTab(QWidget):
             18
         )
 
-        self.header_frame_layout.setContentsMargins(
-            18,
-            16,
-            18,
-            16,
-        )
-
-        self.header_frame_layout.setSpacing(
-            8
-        )
-
-        self.header_layout.setContentsMargins(
+        self.header_row.setContentsMargins(
             0,
             0,
             0,
             0,
         )
 
-        self.header_layout.setSpacing(
+        self.header_row.setSpacing(
             12
         )
 
@@ -107,28 +101,6 @@ class BaseStatisticsTab(QWidget):
 
         self.content_layout.setSpacing(
             14
-        )
-
-        self.title_label.setObjectName(
-            "PageTitle"
-        )
-
-        self.title_label.setAlignment(
-            Qt.AlignmentFlag.AlignVCenter
-            | Qt.AlignmentFlag.AlignLeft
-        )
-
-        self.info_label.setObjectName(
-            "InfoLabel"
-        )
-
-        self.info_label.setWordWrap(
-            True
-        )
-
-        self.info_label.setAlignment(
-            Qt.AlignmentFlag.AlignVCenter
-            | Qt.AlignmentFlag.AlignLeft
         )
 
         self.refresh_button.setObjectName(
@@ -148,30 +120,18 @@ class BaseStatisticsTab(QWidget):
             QSizePolicy.Policy.Fixed,
         )
 
-        self.header_layout.addWidget(
-            self.title_label
+        self.header_row.addWidget(
+            self.statistics_header,
+            1,
         )
 
-        self.header_layout.addStretch()
-
-        self.header_layout.addWidget(
-            self.refresh_button
+        self.header_row.addWidget(
+            self.refresh_button,
+            0,
         )
 
-        self.header_frame_layout.addLayout(
-            self.header_layout
-        )
-
-        self.header_frame_layout.addWidget(
-            self.info_label
-        )
-
-        self.header_frame.setLayout(
-            self.header_frame_layout
-        )
-
-        self.main_layout.addWidget(
-            self.header_frame
+        self.main_layout.addLayout(
+            self.header_row
         )
 
         self.main_layout.addLayout(
@@ -183,7 +143,9 @@ class BaseStatisticsTab(QWidget):
             self.main_layout
         )
 
-    def connect_signals(self) -> None:
+    def connect_signals(
+        self,
+    ) -> None:
         self.refresh_button.clicked.connect(
             self.refresh
         )
@@ -199,23 +161,87 @@ class BaseStatisticsTab(QWidget):
             return
 
         self.load_data()
+        self._update_data_quality_header()
 
-    def refresh(self) -> None:
+    def refresh(
+        self,
+    ) -> None:
         if self.competition_id is None:
             self.clear_data()
             return
 
         self.load_data()
+        self._update_data_quality_header()
 
-    def load_data(self) -> None:
+    def _update_data_quality_header(
+        self,
+    ) -> None:
+        if self.competition_id is None:
+            return
+
+        try:
+            with self.database_connection() as connection:
+                service = DataQualityService(
+                    connection
+                )
+                quality = service.get_competition_quality(
+                    self.competition_id
+                )
+
+            self.statistics_header.set_source(
+                quality.source_text
+            )
+            self.statistics_header.set_quality_percent(
+                quality.overall_percent
+            )
+            self.statistics_header.set_data_status(
+                quality.data_status_text
+            )
+            self.statistics_header.set_current_timestamp()
+
+        except Exception as error:
+            print(
+                "[DATA QUALITY] "
+                f"{self.page_title}: {error}"
+            )
+            self.statistics_header.set_source(
+                "Unbekannt"
+            )
+            self.statistics_header.set_quality(
+                "Nicht bewertet",
+                StatisticsHeaderWidget.QUALITY_UNKNOWN,
+            )
+            self.statistics_header.set_data_status(
+                "Datenstand nicht ermittelbar"
+            )
+            self.statistics_header.set_current_timestamp()
+
+    def load_data(
+        self,
+    ) -> None:
         raise NotImplementedError(
             "load_data() muss in der Unterklasse "
             "implementiert werden."
         )
 
-    def clear_data(self) -> None:
-        self.info_label.setText(
+    def clear_data(
+        self,
+    ) -> None:
+        self.set_info_text(
             "Kein Wettbewerb ausgewählt"
+        )
+
+        self.statistics_header.set_data_status(
+            "Datenstand unbekannt"
+        )
+
+        self.statistics_header.set_quality(
+            "Nicht bewertet",
+            StatisticsHeaderWidget.QUALITY_UNKNOWN,
+        )
+
+        self.statistics_header.set_updated_at(
+            None
         )
 
         self.refresh_button.setEnabled(
@@ -224,7 +250,9 @@ class BaseStatisticsTab(QWidget):
 
         self.clear_content()
 
-    def clear_content(self) -> None:
+    def clear_content(
+        self,
+    ) -> None:
         pass
 
     def add_content_widget(
@@ -253,7 +281,7 @@ class BaseStatisticsTab(QWidget):
         self,
         text: str,
     ) -> None:
-        self.info_label.setText(
+        self.statistics_header.set_subtitle(
             text
         )
 
@@ -278,8 +306,41 @@ class BaseStatisticsTab(QWidget):
         title: str,
     ) -> None:
         self.page_title = title
-        self.title_label.setText(
+
+        self.statistics_header.set_title(
             title
+        )
+
+    def set_data_source(
+        self,
+        source: str,
+    ) -> None:
+        self.statistics_header.set_source(
+            source
+        )
+
+    def set_data_quality(
+        self,
+        percent: float | None,
+    ) -> None:
+        self.statistics_header.set_quality_percent(
+            percent
+        )
+
+    def set_data_status(
+        self,
+        text: str,
+    ) -> None:
+        self.statistics_header.set_data_status(
+            text
+        )
+
+    def set_last_updated(
+        self,
+        value,
+    ) -> None:
+        self.statistics_header.set_updated_at(
+            value
         )
 
     @contextmanager
