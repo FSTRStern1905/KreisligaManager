@@ -30,6 +30,8 @@ class CompetitionDataQuality:
         default_factory=list
     )
     overall_percent: float | None = None
+    core_percent: float | None = None
+    detail_percent: float | None = None
 
     @property
     def source_text(self) -> str:
@@ -42,13 +44,18 @@ class CompetitionDataQuality:
 
     @property
     def quality_label(self) -> str:
-        if self.overall_percent is None:
+        value = self.core_percent
+
+        if value is None:
             return "Nicht bewertet"
 
-        if self.overall_percent >= 90.0:
+        if value >= 95.0:
+            return "Sehr gut"
+
+        if value >= 85.0:
             return "Gut"
 
-        if self.overall_percent >= 70.0:
+        if value >= 70.0:
             return "Teilweise"
 
         return "Lückenhaft"
@@ -86,6 +93,10 @@ class DataQualityService:
     Wichtig:
     Die Prozentwerte messen Vollständigkeit/Abdeckung,
     nicht die inhaltliche Richtigkeit der Quelle.
+
+    Ergebnisqualität wird bei laufenden Saisons nur gegen
+    tatsächlich abgeschlossene Spiele gemessen. Der
+    Saisonfortschritt bleibt separat im Datenstand sichtbar.
 
     Detailmetriken werden nur auf Spiele bezogen, die
     als detail_imported markiert sind. Dadurch wird ein
@@ -174,11 +185,25 @@ class DataQualityService:
                 )
             )
 
-        overall_percent = (
-            self._calculate_overall(
-                metrics
-            )
+        core_percent = self._calculate_group_score(
+            metrics=metrics,
+            keys={
+                "results",
+                "lineups",
+                "player_stats",
+                "goal_assignment",
+                "card_assignment",
+            },
         )
+
+        detail_percent = self._calculate_group_score(
+            metrics=metrics,
+            keys={
+                "formations",
+            },
+        )
+
+        overall_percent = core_percent
 
         return CompetitionDataQuality(
             competition_id=competition_id,
@@ -201,6 +226,8 @@ class DataQualityService:
             ),
             metrics=metrics,
             overall_percent=overall_percent,
+            core_percent=core_percent,
+            detail_percent=detail_percent,
         )
 
     def _get_competition(
@@ -274,23 +301,28 @@ class DataQualityService:
         competition_id: int,
         completed_matches: int,
     ) -> DataQualityMetric:
-        total_matches = self._scalar(
-            """
-            SELECT COUNT(*)
-            FROM matches
-            WHERE competition_id = ?
-            """,
-            (
-                competition_id,
-            ),
-        )
+        if completed_matches <= 0:
+            return DataQualityMetric(
+                key="results",
+                label="Ergebnisse",
+                available=0,
+                expected=0,
+                percent=None,
+                note=(
+                    "Noch keine abgeschlossenen "
+                    "Spiele vorhanden"
+                ),
+            )
 
         return self._metric(
             key="results",
             label="Ergebnisse",
             available=completed_matches,
-            expected=total_matches,
-            note="Spiele mit eingetragenem Endergebnis",
+            expected=completed_matches,
+            note=(
+                "Abgeschlossene Spiele mit "
+                "eingetragenem Endergebnis"
+            ),
         )
 
     def _build_detail_metrics(
@@ -673,14 +705,18 @@ class DataQualityService:
                 display
             )
 
-    def _calculate_overall(
+    def _calculate_group_score(
         self,
         metrics: list[DataQualityMetric],
+        keys: set[str],
     ) -> float | None:
         percentages = [
             metric.percent
             for metric in metrics
-            if metric.percent is not None
+            if (
+                metric.key in keys
+                and metric.percent is not None
+            )
         ]
 
         if not percentages:

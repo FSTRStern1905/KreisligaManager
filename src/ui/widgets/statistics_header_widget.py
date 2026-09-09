@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
@@ -15,6 +15,38 @@ from PySide6.QtWidgets import (
 from src.ui.theme.colors import Colors
 from src.ui.theme.metrics import Metrics
 from src.ui.theme.typography import Typography
+
+
+class ClickableMetaLabel(QLabel):
+    clicked = Signal()
+
+    def __init__(
+        self,
+        text: str = "",
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(
+            text,
+            parent,
+        )
+
+        self.setCursor(
+            Qt.CursorShape.PointingHandCursor
+        )
+
+    def mousePressEvent(
+        self,
+        event,
+    ) -> None:
+        if (
+            event.button()
+            == Qt.MouseButton.LeftButton
+        ):
+            self.clicked.emit()
+
+        super().mousePressEvent(
+            event
+        )
 
 
 class StatisticsHeaderWidget(QFrame):
@@ -69,13 +101,17 @@ class StatisticsHeaderWidget(QFrame):
         )
 
         self.source_label = QLabel()
-        self.quality_label = QLabel()
+        self.quality_label = ClickableMetaLabel()
         self.data_status_label = QLabel()
         self.updated_label = QLabel()
 
         self._setup_ui()
         self._apply_style()
         self._refresh_metadata()
+
+        self.quality_label.setToolTip(
+            "Datenqualität im Detail anzeigen"
+        )
 
     def _setup_ui(
         self,
@@ -476,3 +512,9 @@ class StatisticsHeaderWidget(QFrame):
         self.set_updated_at(
             datetime.now()
         )
+
+
+    def quality_clicked_signal(
+        self,
+    ):
+        return self.quality_label.clicked

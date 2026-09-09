@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
 
 from src.services.statistics_service import StatisticsService
 from src.services.data_quality_service import DataQualityService
+from src.ui.dialogs.data_quality_dialog import DataQualityDialog
 from src.ui.widgets.statistics_header_widget import (
     StatisticsHeaderWidget,
 )
@@ -149,6 +150,41 @@ class BaseStatisticsTab(QWidget):
         self.refresh_button.clicked.connect(
             self.refresh
         )
+
+        self.statistics_header.quality_clicked_signal().connect(
+            self.open_data_quality_dialog
+        )
+
+    def open_data_quality_dialog(
+        self,
+    ) -> None:
+        if self.competition_id is None:
+            return
+
+        try:
+            with self.database_connection() as connection:
+                service = DataQualityService(
+                    connection
+                )
+                quality = service.get_competition_quality(
+                    self.competition_id
+                )
+
+            dialog = DataQualityDialog(
+                quality=quality,
+                parent=self,
+            )
+            dialog.exec()
+
+        except Exception as error:
+            self.show_error(
+                message=(
+                    "Die Datenqualität konnte "
+                    "nicht geladen werden."
+                ),
+                error=error,
+                title="Datenqualität",
+            )
 
     def set_competition(
         self,
