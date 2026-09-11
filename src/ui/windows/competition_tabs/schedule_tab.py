@@ -1,5 +1,6 @@
 import sqlite3
 from pathlib import Path
+from datetime import datetime
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -16,7 +17,19 @@ from PySide6.QtWidgets import (
 from src.database.repositories.competition_repository import (
     CompetitionRepository,
 )
+from src.database.repositories.association_repository import AssociationRepository
+from src.database.repositories.club_repository import ClubRepository
+from src.database.repositories.league_repository import LeagueRepository
 from src.database.repositories.match_repository import MatchRepository
+from src.database.repositories.season_repository import SeasonRepository
+from src.database.repositories.team_repository import TeamRepository
+from src.importer.fussballde.browser import FussballDeBrowser
+from src.importer.fussballde.complete_season_importer import (
+    CompleteSeasonImporter,
+    ParsedScheduleAdapter,
+)
+from src.importer.fussballde.parsers.schedule_parser import ScheduleParser
+from src.services.imports.schedule_import_service import ScheduleImportService
 from src.services.match_service import MatchService
 from src.services.season_service import SeasonService
 from src.ui.dialogs.match_dialog import MatchDialog
@@ -110,7 +123,7 @@ class CompetitionScheduleTab(QWidget):
         )
 
         self.refresh_button.clicked.connect(
-            self.load_data
+            self.update_schedule
         )
 
         self.schedule_tree.itemDoubleClicked.connect(
@@ -392,6 +405,144 @@ class CompetitionScheduleTab(QWidget):
             connection.close()
 
         self.load_data()
+
+    def update_schedule(self):
+        if self.competition_id is None:
+            QMessageBox.warning(
+                self,
+                "Kein Wettbewerb ausgewählt",
+                "Bitte wähle zuerst einen Wettbewerb aus.",
+            )
+            return
+
+        connection = sqlite3.connect(DATABASE_PATH)
+        browser = FussballDeBrowser()
+
+        try:
+            competition_repository = CompetitionRepository(connection)
+            competition = competition_repository.get_by_id(
+                self.competition_id
+            )
+
+            if competition is None:
+                raise ValueError(
+                    "Der ausgewählte Wettbewerb wurde nicht gefunden."
+                )
+
+            schedule_url = (competition.schedule_url or "").strip()
+
+            if not schedule_url:
+                raise ValueError(
+                    "Für diesen Wettbewerb ist keine "
+                    "FUSSBALL.DE-Spielplan-URL gespeichert."
+                )
+
+            self.refresh_button.setEnabled(False)
+            self.refresh_button.setText("🔄 Aktualisierung läuft ...")
+
+            browser.start(headless=True)
+            browser.open(schedule_url)
+
+            if browser.page is None:
+                raise RuntimeError(
+                    "Die FUSSBALL.DE-Seite konnte nicht geladen werden."
+                )
+
+            CompleteSeasonImporter._prepare_full_schedule_range(
+                browser.page
+            )
+
+            parser = ScheduleParser(browser.page)
+            parsed_schedule = parser.parse()
+
+            if not getattr(parsed_schedule, "matches", None):
+                raise ValueError(
+                    "Im FUSSBALL.DE-Spielplan wurden keine Spiele gefunden."
+                )
+
+            schedule_import_service = ScheduleImportService(
+                association_repository=AssociationRepository(connection),
+                league_repository=LeagueRepository(connection),
+                season_repository=SeasonRepository(connection),
+                club_repository=ClubRepository(connection),
+                team_repository=TeamRepository(connection),
+                competition_repository=competition_repository,
+                match_repository=MatchRepository(connection),
+            )
+
+            result = schedule_import_service.import_schedule(
+                parser=ParsedScheduleAdapter(parsed_schedule),
+                schedule_only=False,
+            )
+
+            synced_competition_id = (
+                schedule_import_service.last_competition_id
+            )
+
+            if (
+                synced_competition_id is not None
+                and int(synced_competition_id) != int(self.competition_id)
+            ):
+                raise RuntimeError(
+                    "Der geladene FUSSBALL.DE-Spielplan gehört "
+                    "nicht zum ausgewählten Wettbewerb."
+                )
+
+            sync_time = datetime.now().isoformat(
+                timespec="seconds"
+            )
+
+            competition_repository.update_schedule_sync(
+                competition_id=self.competition_id,
+                schedule_url=schedule_url,
+                last_schedule_sync=sync_time,
+            )
+
+            connection.commit()
+
+            created = int(
+                getattr(result, "matches_created", 0)
+            )
+            updated = int(
+                getattr(result, "matches_updated", 0)
+            )
+            unchanged = int(
+                getattr(result, "matches_unchanged", 0)
+            )
+
+            QMessageBox.information(
+                self,
+                "Spielplan aktualisiert",
+                (
+                    "Der Spielplan wurde mit FUSSBALL.DE "
+                    "synchronisiert.\n\n"
+                    f"Neu: {created}\n"
+                    f"Aktualisiert: {updated}\n"
+                    f"Unverändert: {unchanged}"
+                ),
+            )
+
+        except Exception as error:
+            connection.rollback()
+
+            QMessageBox.critical(
+                self,
+                "Aktualisierung fehlgeschlagen",
+                (
+                    "Der Spielplan konnte nicht aktualisiert "
+                    f"werden:\n\n{error}"
+                ),
+            )
+
+        finally:
+            browser.close()
+            connection.close()
+
+            self.refresh_button.setText(
+                "🔄 Aktualisieren"
+            )
+
+            self.load_data()
 
     def format_status(
         self,
