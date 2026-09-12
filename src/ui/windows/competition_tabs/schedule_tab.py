@@ -1,9 +1,11 @@
+import re
 import sqlite3
 from pathlib import Path
 from datetime import datetime
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QApplication,
     QHBoxLayout,
     QLabel,
     QMessageBox,
@@ -28,6 +30,9 @@ from src.importer.fussballde.browser import FussballDeBrowser
 from src.importer.fussballde.complete_season_importer import (
     CompleteSeasonImporter,
     ParsedScheduleAdapter,
+)
+from src.importer.fussballde.match_detail_importer import (
+    MatchDetailImporter,
 )
 from src.importer.fussballde.parsers.schedule_parser import ScheduleParser
 from src.services.imports.schedule_import_service import ScheduleImportService
@@ -420,7 +425,9 @@ class CompetitionScheduleTab(QWidget):
         browser = FussballDeBrowser()
 
         try:
-            competition_repository = CompetitionRepository(connection)
+            competition_repository = CompetitionRepository(
+                connection
+            )
             competition = competition_repository.get_by_id(
                 self.competition_id
             )
@@ -430,7 +437,9 @@ class CompetitionScheduleTab(QWidget):
                     "Der ausgewählte Wettbewerb wurde nicht gefunden."
                 )
 
-            schedule_url = (competition.schedule_url or "").strip()
+            schedule_url = (
+                competition.schedule_url or ""
+            ).strip()
 
             if not schedule_url:
                 schedule_url, accepted = QInputDialog.getText(
@@ -481,7 +490,10 @@ class CompetitionScheduleTab(QWidget):
                 )
 
             self.refresh_button.setEnabled(False)
-            self.refresh_button.setText("🔄 Aktualisierung läuft ...")
+            self.refresh_button.setText(
+                "🔄 Spielplan wird aktualisiert ..."
+            )
+            QApplication.processEvents()
 
             browser.start(headless=True)
             browser.open(schedule_url)
@@ -498,23 +510,43 @@ class CompetitionScheduleTab(QWidget):
             parser = ScheduleParser(browser.page)
             parsed_schedule = parser.parse()
 
-            if not getattr(parsed_schedule, "matches", None):
+            if not getattr(
+                parsed_schedule,
+                "matches",
+                None,
+            ):
                 raise ValueError(
                     "Im FUSSBALL.DE-Spielplan wurden keine Spiele gefunden."
                 )
 
             schedule_import_service = ScheduleImportService(
-                association_repository=AssociationRepository(connection),
-                league_repository=LeagueRepository(connection),
-                season_repository=SeasonRepository(connection),
-                club_repository=ClubRepository(connection),
-                team_repository=TeamRepository(connection),
-                competition_repository=competition_repository,
-                match_repository=MatchRepository(connection),
+                association_repository=AssociationRepository(
+                    connection
+                ),
+                league_repository=LeagueRepository(
+                    connection
+                ),
+                season_repository=SeasonRepository(
+                    connection
+                ),
+                club_repository=ClubRepository(
+                    connection
+                ),
+                team_repository=TeamRepository(
+                    connection
+                ),
+                competition_repository=(
+                    competition_repository
+                ),
+                match_repository=MatchRepository(
+                    connection
+                ),
             )
 
             result = schedule_import_service.import_schedule(
-                parser=ParsedScheduleAdapter(parsed_schedule),
+                parser=ParsedScheduleAdapter(
+                    parsed_schedule
+                ),
                 schedule_only=False,
             )
 
@@ -524,7 +556,8 @@ class CompetitionScheduleTab(QWidget):
 
             if (
                 synced_competition_id is not None
-                and int(synced_competition_id) != int(self.competition_id)
+                and int(synced_competition_id)
+                != int(self.competition_id)
             ):
                 raise RuntimeError(
                     "Der geladene FUSSBALL.DE-Spielplan gehört "
@@ -544,26 +577,115 @@ class CompetitionScheduleTab(QWidget):
             connection.commit()
 
             created = int(
-                getattr(result, "matches_created", 0)
+                getattr(
+                    result,
+                    "matches_created",
+                    0,
+                )
             )
             updated = int(
-                getattr(result, "matches_updated", 0)
+                getattr(
+                    result,
+                    "matches_updated",
+                    0,
+                )
             )
             unchanged = int(
-                getattr(result, "matches_unchanged", 0)
+                getattr(
+                    result,
+                    "matches_unchanged",
+                    0,
+                )
             )
 
-            QMessageBox.information(
-                self,
-                "Spielplan aktualisiert",
-                (
-                    "Der Spielplan wurde mit FUSSBALL.DE "
-                    "synchronisiert.\n\n"
-                    f"Neu: {created}\n"
-                    f"Aktualisiert: {updated}\n"
-                    f"Unverändert: {unchanged}"
-                ),
+            detail_candidates = (
+                self._load_missing_detail_matches(
+                    connection=connection,
+                    competition_id=self.competition_id,
+                )
             )
+
+            details_imported = 0
+            details_failed = 0
+            detail_errors: list[str] = []
+
+            if detail_candidates:
+                detail_importer = MatchDetailImporter(
+                    connection=connection
+                )
+
+                for index, detail_match in enumerate(
+                    detail_candidates,
+                    start=1,
+                ):
+                    self.refresh_button.setText(
+                        "🔄 Details "
+                        f"{index}/{len(detail_candidates)}"
+                    )
+                    QApplication.processEvents()
+
+                    match_url = (
+                        self._extract_fussballde_url(
+                            detail_match["notes"]
+                        )
+                    )
+
+                    if not match_url:
+                        details_failed += 1
+                        detail_errors.append(
+                            "Keine Spiel-URL: "
+                            f"{detail_match['home_team']} - "
+                            f"{detail_match['away_team']}"
+                        )
+                        continue
+
+                    try:
+                        detail_importer.import_from_page(
+                            page=browser.page,
+                            source_url=match_url,
+                        )
+                        details_imported += 1
+
+                    except Exception as error:
+                        details_failed += 1
+                        detail_errors.append(
+                            f"{detail_match['home_team']} - "
+                            f"{detail_match['away_team']}: "
+                            f"{error}"
+                        )
+
+            message = (
+                "Der Spielplan wurde mit FUSSBALL.DE "
+                "synchronisiert.\n\n"
+                f"Neu: {created}\n"
+                f"Aktualisiert: {updated}\n"
+                f"Unverändert: {unchanged}\n\n"
+                "Detaildaten neuer/fehlender beendeter Spiele:\n"
+                f"Importiert: {details_imported}\n"
+                f"Fehlgeschlagen: {details_failed}"
+            )
+
+            if detail_errors:
+                message += (
+                    "\n\nErste Hinweise:\n"
+                    + "\n".join(
+                        f"- {error}"
+                        for error in detail_errors[:3]
+                    )
+                )
+
+            if details_failed:
+                QMessageBox.warning(
+                    self,
+                    "Spielplan aktualisiert",
+                    message,
+                )
+            else:
+                QMessageBox.information(
+                    self,
+                    "Spielplan aktualisiert",
+                    message,
+                )
 
         except Exception as error:
             connection.rollback()
@@ -586,6 +708,104 @@ class CompetitionScheduleTab(QWidget):
             )
 
             self.load_data()
+
+    @staticmethod
+    def _load_missing_detail_matches(
+        connection: sqlite3.Connection,
+        competition_id: int,
+    ) -> list[dict]:
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT
+                matches.match_id,
+                matches.notes,
+                home_team.name,
+                away_team.name
+            FROM matches
+            INNER JOIN teams AS home_team
+                ON home_team.team_id =
+                   matches.home_team_id
+            INNER JOIN teams AS away_team
+                ON away_team.team_id =
+                   matches.away_team_id
+            WHERE
+                matches.competition_id = ?
+                AND matches.status = 'finished'
+                AND (
+                    COALESCE(
+                        matches.detail_imported,
+                        0
+                    ) = 0
+                    OR (
+                        COALESCE(
+                            matches.home_goals,
+                            0
+                        )
+                        + COALESCE(
+                            matches.away_goals,
+                            0
+                        ) > 0
+                        AND NOT EXISTS (
+                            SELECT 1
+                            FROM events
+                            INNER JOIN event_types
+                                ON event_types.event_type_id =
+                                   events.event_type_id
+                            WHERE
+                                events.match_id =
+                                matches.match_id
+                                AND event_types.code IN (
+                                    'GOAL',
+                                    'PENALTY_GOAL',
+                                    'OWN_GOAL'
+                                )
+                        )
+                    )
+                )
+            ORDER BY
+                COALESCE(
+                    matches.matchday,
+                    9999
+                ),
+                COALESCE(
+                    matches.match_date,
+                    ''
+                ),
+                matches.match_id
+            """,
+            (
+                competition_id,
+            ),
+        )
+
+        return [
+            {
+                "match_id": int(row[0]),
+                "notes": row[1] or "",
+                "home_team": row[2] or "",
+                "away_team": row[3] or "",
+            }
+            for row in cursor.fetchall()
+        ]
+
+    @staticmethod
+    def _extract_fussballde_url(
+        notes: str,
+    ) -> str:
+        match = re.search(
+            r"https?://(?:www\.)?fussball\.de/\S+",
+            notes or "",
+            re.IGNORECASE,
+        )
+
+        if not match:
+            return ""
+
+        return match.group(0).rstrip(
+            ".,;)"
+        )
 
     def format_status(
         self,
