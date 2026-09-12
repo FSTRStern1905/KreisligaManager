@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QMessageBox,
+    QInputDialog,
     QPushButton,
     QTreeWidget,
     QTreeWidgetItem,
@@ -432,9 +433,51 @@ class CompetitionScheduleTab(QWidget):
             schedule_url = (competition.schedule_url or "").strip()
 
             if not schedule_url:
-                raise ValueError(
-                    "Für diesen Wettbewerb ist keine "
-                    "FUSSBALL.DE-Spielplan-URL gespeichert."
+                schedule_url, accepted = QInputDialog.getText(
+                    self,
+                    "FUSSBALL.DE-Spielplan-URL",
+                    (
+                        "Für diesen Wettbewerb ist noch keine "
+                        "FUSSBALL.DE-Spielplan-URL gespeichert.\n\n"
+                        "Bitte die Wettbewerbs-/Staffel-URL eingeben:"
+                    ),
+                )
+
+                if not accepted:
+                    return
+
+                schedule_url = schedule_url.strip()
+
+                if not schedule_url:
+                    QMessageBox.warning(
+                        self,
+                        "URL fehlt",
+                        "Es wurde keine URL eingegeben.",
+                    )
+                    return
+
+                if (
+                    "fussball.de" not in schedule_url.casefold()
+                    or not schedule_url.startswith(
+                        ("https://", "http://")
+                    )
+                ):
+                    QMessageBox.warning(
+                        self,
+                        "Ungültige URL",
+                        (
+                            "Bitte eine gültige FUSSBALL.DE-URL "
+                            "eingeben."
+                        ),
+                    )
+                    return
+
+                competition_repository.update_schedule_sync(
+                    competition_id=self.competition_id,
+                    schedule_url=schedule_url,
+                    last_schedule_sync=(
+                        competition.last_schedule_sync
+                    ),
                 )
 
             self.refresh_button.setEnabled(False)

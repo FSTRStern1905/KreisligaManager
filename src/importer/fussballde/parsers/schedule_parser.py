@@ -242,6 +242,69 @@ class ScheduleParser(BaseParser):
             away_score=away_score,
         )
 
+        if (
+            "föhren" in home_team.casefold()
+            and "issel" in away_team.casefold()
+        ):
+            score_cell = row.select_one(
+                "td.column-score"
+            )
+
+            print("\n" + "=" * 80)
+            print("DEBUG SPIELPLAN: SV Föhren II - TuS Issel")
+            print("=" * 80)
+            print(f"Datum: {date_value}")
+            print(f"Anstoß: {time_value}")
+            print(f"Row-Text: {row_text!r}")
+            print(f"home_score: {home_score!r}")
+            print(f"away_score: {away_score!r}")
+            print(f"status: {status!r}")
+
+            if isinstance(score_cell, Tag):
+                print(
+                    "Score-Text:",
+                    repr(self._get_text(score_cell)),
+                )
+                print(
+                    "Score-HTML:",
+                    str(score_cell),
+                )
+
+                score_left = score_cell.select_one(
+                    ".score-left"
+                )
+                score_right = score_cell.select_one(
+                    ".score-right"
+                )
+
+                if isinstance(score_left, Tag):
+                    print(
+                        "score-left Text:",
+                        repr(self._get_text(score_left)),
+                    )
+                    print(
+                        "score-left HTML:",
+                        str(score_left),
+                    )
+                else:
+                    print("score-left: NICHT GEFUNDEN")
+
+                if isinstance(score_right, Tag):
+                    print(
+                        "score-right Text:",
+                        repr(self._get_text(score_right)),
+                    )
+                    print(
+                        "score-right HTML:",
+                        str(score_right),
+                    )
+                else:
+                    print("score-right: NICHT GEFUNDEN")
+            else:
+                print("td.column-score: NICHT GEFUNDEN")
+
+            print("=" * 80 + "\n")
+
         return ScheduleMatch(
             match_id=match_id,
             fixture_number=fixture_number,

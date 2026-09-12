@@ -165,6 +165,28 @@ class CompleteSeasonImporter:
                 )
             )
 
+            competition_id = (
+                self.schedule_import_service.last_competition_id
+            )
+
+            if competition_id is not None:
+                self.connection.execute(
+                    """
+                    UPDATE competitions
+                    SET
+                        schedule_url = ?,
+                        last_schedule_sync = ?
+                    WHERE competition_id = ?
+                    """,
+                    (
+                        normalized_url,
+                        datetime.now().isoformat(
+                            timespec="seconds"
+                        ),
+                        int(competition_id),
+                    ),
+                )
+
             finished_matches = [
                 schedule_match
                 for schedule_match in schedule_matches
