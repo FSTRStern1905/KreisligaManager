@@ -95,12 +95,17 @@ class TableProgressService:
         )
 
         for team in result:
-            progress = team[
-                "progress"
-            ]
+            progress = self._filter_progress_by_played_games(
+                team["progress"]
+            )
+
+            team["progress"] = progress
 
             team["positions"] = [
                 {
+                    "played": row[
+                        "played"
+                    ],
                     "matchday": row[
                         "matchday"
                     ],
@@ -113,6 +118,9 @@ class TableProgressService:
 
             team["points_progress"] = [
                 {
+                    "played": row[
+                        "played"
+                    ],
                     "matchday": row[
                         "matchday"
                     ],
@@ -140,10 +148,15 @@ class TableProgressService:
                     latest["matchday"]
                 )
 
+                team["current_played"] = (
+                    latest["played"]
+                )
+
             else:
                 team["current_position"] = None
                 team["current_points"] = 0
                 team["current_matchday"] = None
+                team["current_played"] = 0
 
         result.sort(
             key=lambda team: (
@@ -161,6 +174,38 @@ class TableProgressService:
         )
 
         return result
+
+
+    @staticmethod
+    def _filter_progress_by_played_games(
+        progress: list[dict],
+    ) -> list[dict]:
+        filtered: list[dict] = []
+        seen_played: set[int] = set()
+
+        for row in progress:
+            played = int(
+                row.get(
+                    "played",
+                    0,
+                )
+            )
+
+            if played <= 0:
+                continue
+
+            if played in seen_played:
+                continue
+
+            seen_played.add(
+                played
+            )
+
+            filtered.append(
+                row
+            )
+
+        return filtered
 
     def get_team_progress(
         self,
@@ -258,6 +303,7 @@ class TableProgressService:
                 "current_position": None,
                 "current_points": 0,
                 "current_matchday": None,
+                "current_played": 0,
             }
 
         return teams

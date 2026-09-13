@@ -201,6 +201,9 @@ class CompetitionProgressTab(QWidget):
         )
 
         self.points_chart = PointsProgressChart()
+        self.points_chart.axis_x.setTitleText(
+            "Spiele"
+        )
 
         self.points_chart.setSizePolicy(
             QSizePolicy.Policy.Expanding,
@@ -230,8 +233,8 @@ class CompetitionProgressTab(QWidget):
         )
 
         self.position_chart = BaseLineChart(
-            title="Tabellenplatz nach Spieltag",
-            x_axis_title="Spieltag",
+            title="Tabellenplatz nach absolvierten Spielen",
+            x_axis_title="Spiele",
             y_axis_title="Platz",
         )
 
@@ -350,22 +353,25 @@ class CompetitionProgressTab(QWidget):
 
             self.update_charts()
 
-            matchdays = (
-                progress_service.get_matchdays(
-                    self.competition_id
-                )
+            maximum_played = max(
+                (
+                    int(
+                        team.get(
+                            "current_played",
+                            0,
+                        )
+                    )
+                    for team in self.progress_data
+                ),
+                default=0,
             )
 
-            if matchdays:
-                last_matchday = max(
-                    matchdays
-                )
-
+            if maximum_played > 0:
                 self.info_label.setText(
                     (
                         f"{competition_name} | "
-                        f"Verlauf bis Spieltag "
-                        f"{last_matchday} | "
+                        f"Verlauf bis {maximum_played} "
+                        "absolvierte Spiele | "
                         "Quelle: importierte Spieldaten"
                     )
                 )
@@ -374,8 +380,7 @@ class CompetitionProgressTab(QWidget):
                 self.info_label.setText(
                     (
                         f"{competition_name} | "
-                        "Keine abgeschlossenen "
-                        "Spieltage | "
+                        "Keine abgeschlossenen Spiele | "
                         "Quelle: importierte Spieldaten"
                     )
                 )
@@ -568,7 +573,7 @@ class CompetitionProgressTab(QWidget):
             )
             return
 
-        maximum_matchday = 0
+        maximum_games = 0
         maximum_points = 0
         series_count = 0
         single_team = len(progress) == 1
@@ -591,12 +596,12 @@ class CompetitionProgressTab(QWidget):
             previous_points = 0
 
             for row in points_progress:
-                matchday = int(row["matchday"])
+                played = int(row["played"])
                 team_points = int(row["points"])
                 gained_points = team_points - previous_points
 
                 point = (
-                    float(matchday),
+                    float(played),
                     float(team_points),
                 )
                 points.append(point)
@@ -610,9 +615,9 @@ class CompetitionProgressTab(QWidget):
                         loss_points.append(point)
 
                 previous_points = team_points
-                maximum_matchday = max(
-                    maximum_matchday,
-                    matchday,
+                maximum_games = max(
+                    maximum_games,
+                    played,
                 )
                 maximum_points = max(
                     maximum_points,
@@ -637,7 +642,7 @@ class CompetitionProgressTab(QWidget):
             return
 
         self.points_chart.set_ranges(
-            maximum_matchday=maximum_matchday,
+            maximum_matchday=maximum_games,
             maximum_points=maximum_points,
         )
 
@@ -653,7 +658,7 @@ class CompetitionProgressTab(QWidget):
             )
             return
 
-        maximum_matchday = 0
+        maximum_games = 0
 
         team_count = len(
             self.progress_data
@@ -678,8 +683,8 @@ class CompetitionProgressTab(QWidget):
             ] = []
 
             for row in positions:
-                matchday = int(
-                    row["matchday"]
+                played = int(
+                    row["played"]
                 )
 
                 position = int(
@@ -688,14 +693,14 @@ class CompetitionProgressTab(QWidget):
 
                 points.append(
                     (
-                        float(matchday),
+                        float(played),
                         float(position),
                     )
                 )
 
-                maximum_matchday = max(
-                    maximum_matchday,
-                    matchday,
+                maximum_games = max(
+                    maximum_games,
+                    played,
                 )
 
             self.position_chart.create_line_series(
@@ -716,16 +721,16 @@ class CompetitionProgressTab(QWidget):
             1,
             max(
                 2,
-                maximum_matchday,
+                maximum_games,
             ),
         )
 
         x_interval = 1
 
-        if maximum_matchday > 20:
+        if maximum_games > 20:
             x_interval = 2
 
-        if maximum_matchday > 36:
+        if maximum_games > 36:
             x_interval = 3
 
         self.position_chart.set_x_tick_interval(
