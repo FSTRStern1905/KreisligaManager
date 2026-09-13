@@ -23,8 +23,8 @@ class CompetitionPointsProgressTab(
         )
 
         self.chart_widget = BaseLineChart(
-            title="Punkteentwicklung im Saisonverlauf",
-            x_axis_title="Spieltag",
+            title="Punkteentwicklung nach absolvierten Spielen",
+            x_axis_title="Absolvierte Spiele",
             y_axis_title="Punkte",
         )
 
@@ -62,13 +62,8 @@ class CompetitionPointsProgressTab(
                     self.competition_id
                 )
 
-                matchdays = service.get_matchdays(
-                    self.competition_id
-                )
-
                 self.populate_chart(
                     teams=teams,
-                    matchdays=matchdays,
                 )
 
                 leader = max(
@@ -93,10 +88,18 @@ class CompetitionPointsProgressTab(
                         f"– {leader_points} Pkt."
                     )
 
+                maximum_played = max(
+                    (
+                        int(team.get("played", 0))
+                        for team in teams
+                    ),
+                    default=0,
+                )
+
                 self.set_info_text(
                     f"{competition_name} | "
                     f"{len(teams)} Mannschaften | "
-                    f"Stand: Spieltag {max(matchdays)}"
+                    f"Max. {maximum_played} absolvierte Spiele"
                     f"{leader_text} | "
                     f"Quelle: importierte Spieldaten"
                 )
@@ -120,24 +123,24 @@ class CompetitionPointsProgressTab(
     def populate_chart(
         self,
         teams: list[dict],
-        matchdays: list[int],
     ) -> None:
         self.chart_widget.clear()
 
-        if not teams or not matchdays:
+        if not teams:
             self.chart_widget.show_empty_chart(
                 "Keine Spieldaten vorhanden"
             )
             return
 
         maximum_points = 0
+        maximum_played = 0
 
         for team in teams:
             series_points = []
 
             for entry in team["progress"]:
-                matchday = int(
-                    entry["matchday"]
+                match_number = int(
+                    entry["match_number"]
                 )
 
                 points = int(
@@ -146,7 +149,7 @@ class CompetitionPointsProgressTab(
 
                 series_points.append(
                     (
-                        matchday,
+                        match_number,
                         points,
                     )
                 )
@@ -154,6 +157,11 @@ class CompetitionPointsProgressTab(
                 maximum_points = max(
                     maximum_points,
                     points,
+                )
+
+                maximum_played = max(
+                    maximum_played,
+                    match_number,
                 )
 
             self.chart_widget.create_line_series(
@@ -165,7 +173,10 @@ class CompetitionPointsProgressTab(
 
         self.chart_widget.set_axis_ranges(
             x_min=0,
-            x_max=max(matchdays),
+            x_max=max(
+                1,
+                maximum_played,
+            ),
             y_min=0,
             y_max=self.calculate_axis_maximum(
                 maximum_points
@@ -174,10 +185,10 @@ class CompetitionPointsProgressTab(
 
         x_interval = 1
 
-        if len(matchdays) > 20:
+        if maximum_played > 20:
             x_interval = 2
 
-        if len(matchdays) > 36:
+        if maximum_played > 36:
             x_interval = 3
 
         self.chart_widget.set_axis_tick_intervals(

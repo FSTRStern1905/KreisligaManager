@@ -30,6 +30,9 @@ from src.ui.windows.competition_tabs.away_table_tab import (
 from src.ui.windows.competition_tabs.clean_sheet_tab import (
     CompetitionCleanSheetTab,
 )
+from src.ui.windows.competition_tabs.dropped_points_tab import (
+    CompetitionDroppedPointsTab,
+)
 from src.ui.windows.competition_tabs.comparison_tab import (
     CompetitionComparisonTab,
 )
@@ -295,6 +298,10 @@ class CompetitionStatisticsHubTab(QWidget):
             CompetitionProgressTab()
         )
 
+        self.dropped_points_tab = (
+            CompetitionDroppedPointsTab()
+        )
+
         self.streaks_tab = (
             CompetitionStreaksTab()
         )
@@ -388,6 +395,7 @@ class CompetitionStatisticsHubTab(QWidget):
             self.away_tab,
             self.form_tab,
             self.progress_tab,
+            self.dropped_points_tab,
             self.streaks_tab,
             self.result_distribution_tab,
             self.clean_sheet_tab,
@@ -533,12 +541,21 @@ class CompetitionStatisticsHubTab(QWidget):
             ]
         )
 
-        self.development_group = StatisticsGroupTab(
+        self.points_group = StatisticsGroupTab(
             [
                 (
                     self.progress_tab,
                     "Punkteverlauf",
                 ),
+                (
+                    self.dropped_points_tab,
+                    "Liegen gelassene Punkte",
+                ),
+            ]
+        )
+
+        self.development_group = StatisticsGroupTab(
+            [
                 (
                     self.team_development_tab,
                     "Mannschaftsentwicklung",
@@ -579,6 +596,11 @@ class CompetitionStatisticsHubTab(QWidget):
         self.tabs.addTab(
             self.players_group,
             "Spieler",
+        )
+
+        self.tabs.addTab(
+            self.points_group,
+            "Punkte",
         )
 
         self.tabs.addTab(
@@ -688,6 +710,13 @@ class CompetitionStatisticsHubTab(QWidget):
             )
         )
 
+        report_type = str(
+            options.get(
+                "report_type",
+                "short",
+            )
+        )
+
         safe_team_name = self._safe_filename(
             team_name
         )
@@ -741,6 +770,9 @@ class CompetitionStatisticsHubTab(QWidget):
                         ),
                         selected_sections=(
                             selected_sections
+                        ),
+                        report_type=(
+                            report_type
                         ),
                     )
                 )

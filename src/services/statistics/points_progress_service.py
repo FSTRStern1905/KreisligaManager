@@ -34,44 +34,27 @@ class PointsProgressService:
         if not matches:
             return list(teams.values())
 
-        matchdays = sorted(
-            {
-                match["matchday"]
-                for match in matches
-            }
-        )
-
-        matches_by_matchday: dict[
-            int,
-            list[dict],
-        ] = {}
-
         for match in matches:
-            matchday = match["matchday"]
-
-            matches_by_matchday.setdefault(
-                matchday,
-                [],
-            ).append(match)
-
-        for matchday in matchdays:
-            matchday_matches = (
-                matches_by_matchday.get(
-                    matchday,
-                    [],
-                )
+            affected_team_ids = (
+                match["home_team_id"],
+                match["away_team_id"],
             )
 
-            for match in matchday_matches:
-                self._apply_match_points(
-                    teams=teams,
-                    match=match,
-                )
+            self._apply_match_points(
+                teams=teams,
+                match=match,
+            )
 
-            for team in teams.values():
+            for team_id in affected_team_ids:
+                if team_id not in teams:
+                    continue
+
+                team = teams[team_id]
+
                 team["progress"].append(
                     {
-                        "matchday": matchday,
+                        "match_number": team["played"],
+                        "matchday": match["matchday"],
                         "points": team["points"],
                         "played": team["played"],
                     }
@@ -141,6 +124,7 @@ class PointsProgressService:
                 "points": 0,
                 "progress": [
                     {
+                        "match_number": 0,
                         "matchday": 0,
                         "points": 0,
                         "played": 0,
@@ -191,6 +175,8 @@ class PointsProgressService:
             SELECT
                 match_id,
                 matchday,
+                match_date,
+                kickoff_time,
                 home_team_id,
                 away_team_id,
                 home_goals,
@@ -203,6 +189,14 @@ class PointsProgressService:
                 AND home_goals IS NOT NULL
                 AND away_goals IS NOT NULL
             ORDER BY
+                CASE
+                    WHEN match_date IS NULL
+                         OR match_date = ''
+                    THEN 1
+                    ELSE 0
+                END,
+                match_date,
+                kickoff_time,
                 matchday,
                 match_id
             """,

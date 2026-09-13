@@ -28,6 +28,9 @@ DATABASE_PATH = Path(
 
 
 class TeamPdfExportDialog(QDialog):
+    REPORT_TYPE_SHORT = "short"
+    REPORT_TYPE_FULL = "full"
+
     def __init__(
         self,
         competition_id: int,
@@ -53,10 +56,16 @@ class TeamPdfExportDialog(QDialog):
         )
 
         self.setMinimumWidth(
-            520
+            560
         )
 
         self.team_combo = QComboBox()
+        self.report_type_combo = QComboBox()
+
+        self.report_info_label = QLabel()
+        self.report_info_label.setWordWrap(
+            True
+        )
 
         self.select_all_checkbox = QCheckBox(
             "Alle Inhalte auswählen"
@@ -83,6 +92,7 @@ class TeamPdfExportDialog(QDialog):
         self.setup_ui()
         self.connect_signals()
         self.load_teams()
+        self.update_report_type_ui()
 
     def setup_ui(
         self,
@@ -111,8 +121,8 @@ class TeamPdfExportDialog(QDialog):
         )
 
         info = QLabel(
-            "Wähle eine Mannschaft und die Inhalte "
-            "für den späteren PDF-Report aus."
+            "Wähle eine Mannschaft und den gewünschten "
+            "PDF-Bericht aus."
         )
 
         info.setWordWrap(
@@ -131,12 +141,38 @@ class TeamPdfExportDialog(QDialog):
             self.team_combo
         )
 
-        content_group = QGroupBox(
+        report_group = QGroupBox(
+            "Berichtstyp"
+        )
+
+        report_layout = QVBoxLayout(
+            report_group
+        )
+
+        self.report_type_combo.addItem(
+            "Kurzreport",
+            self.REPORT_TYPE_SHORT,
+        )
+
+        self.report_type_combo.addItem(
+            "Vollständiger Teamreport",
+            self.REPORT_TYPE_FULL,
+        )
+
+        report_layout.addWidget(
+            self.report_type_combo
+        )
+
+        report_layout.addWidget(
+            self.report_info_label
+        )
+
+        self.content_group = QGroupBox(
             "Inhalte"
         )
 
         content_layout = QVBoxLayout(
-            content_group
+            self.content_group
         )
 
         content_layout.addWidget(
@@ -208,7 +244,11 @@ class TeamPdfExportDialog(QDialog):
         )
 
         layout.addWidget(
-            content_group
+            report_group
+        )
+
+        layout.addWidget(
+            self.content_group
         )
 
         layout.addStretch()
@@ -226,6 +266,10 @@ class TeamPdfExportDialog(QDialog):
 
         self.create_button.clicked.connect(
             self.accept_export
+        )
+
+        self.report_type_combo.currentIndexChanged.connect(
+            self.update_report_type_ui
         )
 
         self.select_all_checkbox.toggled.connect(
@@ -317,10 +361,85 @@ class TeamPdfExportDialog(QDialog):
         finally:
             connection.close()
 
+    def update_report_type_ui(
+        self,
+    ) -> None:
+        report_type = self.get_report_type()
+
+        is_full_report = (
+            report_type
+            == self.REPORT_TYPE_FULL
+        )
+
+        if is_full_report:
+            self.report_info_label.setText(
+                "Der vollständige Teamreport enthält automatisch "
+                "alle verfügbaren Statistikbereiche, Tabellen und "
+                "Grafiken. Die einzelnen Inhalte müssen nicht "
+                "separat ausgewählt werden."
+            )
+
+            self.select_all_checkbox.blockSignals(
+                True
+            )
+            self.select_all_checkbox.setChecked(
+                True
+            )
+            self.select_all_checkbox.blockSignals(
+                False
+            )
+
+            self.select_all_checkbox.setEnabled(
+                False
+            )
+
+            for checkbox in (
+                self.section_checkboxes.values()
+            ):
+                checkbox.blockSignals(
+                    True
+                )
+                checkbox.setChecked(
+                    True
+                )
+                checkbox.setEnabled(
+                    False
+                )
+                checkbox.blockSignals(
+                    False
+                )
+
+            return
+
+        self.report_info_label.setText(
+            "Der Kurzreport entspricht dem bisherigen kompakten "
+            "Teambericht. Die gewünschten Inhalte können frei "
+            "ausgewählt werden."
+        )
+
+        self.select_all_checkbox.setEnabled(
+            True
+        )
+
+        for checkbox in (
+            self.section_checkboxes.values()
+        ):
+            checkbox.setEnabled(
+                True
+            )
+
+        self.update_select_all_state()
+
     def select_all_sections(
         self,
         checked: bool,
     ) -> None:
+        if (
+            self.get_report_type()
+            == self.REPORT_TYPE_FULL
+        ):
+            return
+
         for checkbox in (
             self.section_checkboxes.values()
         ):
@@ -339,6 +458,12 @@ class TeamPdfExportDialog(QDialog):
     def update_select_all_state(
         self,
     ) -> None:
+        if (
+            self.get_report_type()
+            == self.REPORT_TYPE_FULL
+        ):
+            return
+
         all_checked = all(
             checkbox.isChecked()
             for checkbox in (
@@ -369,7 +494,11 @@ class TeamPdfExportDialog(QDialog):
             )
             return
 
-        if not self.get_selected_sections():
+        if (
+            self.get_report_type()
+            == self.REPORT_TYPE_SHORT
+            and not self.get_selected_sections()
+        ):
             QMessageBox.warning(
                 self,
                 "Keine Inhalte",
@@ -403,6 +532,23 @@ class TeamPdfExportDialog(QDialog):
             self.team_combo.currentText()
         )
 
+    def get_report_type(
+        self,
+    ) -> str:
+        report_type = (
+            self.report_type_combo.currentData()
+        )
+
+        if report_type not in {
+            self.REPORT_TYPE_SHORT,
+            self.REPORT_TYPE_FULL,
+        }:
+            return self.REPORT_TYPE_SHORT
+
+        return str(
+            report_type
+        )
+
     def get_selected_sections(
         self,
     ) -> list[str]:
@@ -423,6 +569,8 @@ class TeamPdfExportDialog(QDialog):
                 self.get_team_id(),
             "team_name":
                 self.get_team_name(),
+            "report_type":
+                self.get_report_type(),
             "sections":
                 self.get_selected_sections(),
         }
