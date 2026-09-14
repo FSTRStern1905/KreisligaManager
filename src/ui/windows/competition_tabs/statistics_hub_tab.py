@@ -17,6 +17,12 @@ from PySide6.QtWidgets import (
 from src.services.export.team_statistics_pdf_service import (
     TeamStatisticsPdfService,
 )
+from src.services.export.prematch_statistics_service import (
+    PrematchStatisticsService,
+)
+from src.services.prematch_pdf_exporter import (
+    PrematchPdfExporter,
+)
 from src.services.team_statistics_pdf_exporter import (
     TeamStatisticsPdfExporter,
 )
@@ -107,6 +113,9 @@ from src.ui.windows.competition_tabs.team_development_tab import (
 )
 from src.ui.dialogs.team_pdf_export_dialog import (
     TeamPdfExportDialog,
+)
+from src.ui.dialogs.prematch_pdf_export_dialog import (
+    PrematchPdfExportDialog,
 )
 from src.ui.dialogs.team_csv_export_dialog import (
     TeamCsvExportDialog,
@@ -204,6 +213,7 @@ class CompetitionStatisticsHubTab(QWidget):
         self.competition_id: int | None = None
         self.statistic_tabs: list[QWidget] = []
         self.last_export_options: dict | None = None
+        self.last_prematch_data: dict | None = None
 
         self.setup_ui()
         self.connect_signals()
@@ -247,6 +257,18 @@ class CompetitionStatisticsHubTab(QWidget):
 
         self.export_bar.addWidget(
             self.export_button
+        )
+
+        self.prematch_export_button = QPushButton(
+            "⚔ Prematch-Report"
+        )
+
+        self.prematch_export_button.setEnabled(
+            False
+        )
+
+        self.export_bar.addWidget(
+            self.prematch_export_button
         )
 
         self.csv_export_button = QPushButton(
@@ -624,6 +646,10 @@ class CompetitionStatisticsHubTab(QWidget):
             self.open_team_pdf_export_dialog
         )
 
+        self.prematch_export_button.clicked.connect(
+            self.open_prematch_pdf_export_dialog
+        )
+
         self.csv_export_button.clicked.connect(
             self.open_team_csv_export_dialog
         )
@@ -640,12 +666,17 @@ class CompetitionStatisticsHubTab(QWidget):
             competition_id is not None
         )
 
+        self.prematch_export_button.setEnabled(
+            competition_id is not None
+        )
+
         self.csv_export_button.setEnabled(
             competition_id is not None
         )
 
         if competition_id is None:
             self.last_export_options = None
+            self.last_prematch_data = None
 
         for tab in self.statistic_tabs:
             if hasattr(
@@ -655,6 +686,190 @@ class CompetitionStatisticsHubTab(QWidget):
                 tab.set_competition(
                     competition_id
                 )
+
+    def open_prematch_pdf_export_dialog(
+        self,
+    ) -> None:
+        if self.competition_id is None:
+            return
+
+        try:
+            dialog = PrematchPdfExportDialog(
+                competition_id=self.competition_id,
+                parent=self,
+            )
+        except ValueError as error:
+            QMessageBox.critical(
+                self,
+                "Prematch-Report",
+                str(
+                    error
+                ),
+            )
+            return
+
+        result = dialog.exec()
+
+        if (
+            result
+            != QDialog.DialogCode.Accepted
+        ):
+            return
+
+        options = dialog.get_export_options()
+
+        team_a_id = options.get(
+            "team_a_id"
+        )
+        team_b_id = options.get(
+            "team_b_id"
+        )
+
+        if (
+            team_a_id is None
+            or team_b_id is None
+        ):
+            return
+
+        self.last_export_options = options
+
+        try:
+            connection = sqlite3.connect(
+                DATABASE_PATH
+            )
+
+            connection.row_factory = (
+                sqlite3.Row
+            )
+
+            try:
+                service = (
+                    PrematchStatisticsService(
+                        connection
+                    )
+                )
+
+                comparison_data = (
+                    service.build_comparison_data(
+                        competition_id=(
+                            self.competition_id
+                        ),
+                        team_a_id=int(
+                            team_a_id
+                        ),
+                        team_b_id=int(
+                            team_b_id
+                        ),
+                    )
+                )
+            finally:
+                connection.close()
+
+        except (
+            sqlite3.Error,
+            ValueError,
+            RuntimeError,
+        ) as error:
+            QMessageBox.critical(
+                self,
+                "Prematch-Report",
+                (
+                    "Der Vergleichsdatensatz konnte "
+                    "nicht erstellt werden.\n"
+                    f"{error}"
+                ),
+            )
+            return
+
+        self.last_prematch_data = comparison_data
+
+        team_a = comparison_data.get(
+            "team_a",
+            {},
+        )
+        team_b = comparison_data.get(
+            "team_b",
+            {},
+        )
+
+        team_a_name = str(
+            team_a.get(
+                "team_name",
+                "",
+            )
+        )
+        team_b_name = str(
+            team_b.get(
+                "team_name",
+                "",
+            )
+        )
+
+        safe_team_a = self._safe_filename(
+            team_a_name
+        )
+        safe_team_b = self._safe_filename(
+            team_b_name
+        )
+
+        default_path = Path(
+            "exports/pdf"
+        ) / (
+            f"{safe_team_a}_vs_"
+            f"{safe_team_b}_Prematch.pdf"
+        )
+
+        default_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Prematch-Report als PDF speichern",
+            str(
+                default_path
+            ),
+            "PDF-Dateien (*.pdf)",
+        )
+
+        if not file_path:
+            return
+
+        try:
+            exporter = PrematchPdfExporter()
+
+            output_path = exporter.export(
+                destination_path=file_path,
+                report_data=comparison_data,
+            )
+
+        except (
+            ValueError,
+            RuntimeError,
+            OSError,
+        ) as error:
+            QMessageBox.critical(
+                self,
+                "Prematch-PDF fehlgeschlagen",
+                (
+                    "Der Prematch-Report konnte "
+                    "nicht als PDF exportiert werden.\n"
+                    f"{error}"
+                ),
+            )
+            return
+
+        QMessageBox.information(
+            self,
+            "Prematch-PDF erstellt",
+            (
+                "Der Prematch-Report wurde "
+                "erfolgreich erstellt.\n\n"
+                f"{team_a_name} vs. {team_b_name}\n"
+                f"{output_path}"
+            ),
+        )
 
     def open_team_pdf_export_dialog(
         self,
