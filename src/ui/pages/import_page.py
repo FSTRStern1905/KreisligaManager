@@ -45,6 +45,9 @@ from src.importer.fussballde.complete_season_importer import (
     CompleteSeasonImporter,
     CompleteSeasonImportResult,
 )
+from src.ui.dialogs.fussballde_competition_dialog import (
+    FussballDeCompetitionDialog,
+)
 from src.services.imports.import_connection import (
     ImportConnection,
     create_import_connection,
@@ -165,9 +168,34 @@ class ImportPage(QWidget):
             None,
         )
 
+        self.select_competition_button = QPushButton(
+            "Staffel auswählen"
+        )
+        self.select_competition_button.setMinimumWidth(
+            160
+        )
+
+        url_layout = QHBoxLayout()
+        url_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+        url_layout.setSpacing(
+            10
+        )
+        url_layout.addWidget(
+            self.url_input,
+            1,
+        )
+        url_layout.addWidget(
+            self.select_competition_button
+        )
+
         form_layout.addRow(
             "Wettbewerbs-URL:",
-            self.url_input,
+            url_layout,
         )
         form_layout.addRow(
             "Detailspiele:",
@@ -265,8 +293,36 @@ class ImportPage(QWidget):
         self.import_button.clicked.connect(
             self.start_import
         )
+        self.select_competition_button.clicked.connect(
+            self.select_fussballde_competition
+        )
         self.url_input.returnPressed.connect(
             self.start_import
+        )
+
+    def select_fussballde_competition(
+        self,
+    ) -> None:
+        dialog = FussballDeCompetitionDialog(
+            self
+        )
+
+        if not dialog.exec():
+            return
+
+        selected_url = dialog.get_selected_url()
+
+        if not selected_url:
+            return
+
+        self.url_input.setText(
+            selected_url
+        )
+
+        self.show_result(
+            "✔ Staffel ausgewählt\n\n"
+            f"{selected_url}\n\n"
+            "Die Staffel kann jetzt importiert werden."
         )
 
     def refresh_data(self) -> None:
@@ -381,7 +437,9 @@ class ImportPage(QWidget):
                 )
             )
             validation_result = (
-                validation_service.validate()
+                validation_service.validate(
+                    competition_id=result.competition_id,
+                )
             )
 
             validation_report = (
@@ -506,6 +564,9 @@ class ImportPage(QWidget):
         running: bool,
     ) -> None:
         self.url_input.setDisabled(
+            running
+        )
+        self.select_competition_button.setDisabled(
             running
         )
         self.detail_limit_combo.setDisabled(

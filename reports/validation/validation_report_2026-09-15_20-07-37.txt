@@ -1,0 +1,37 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+⚠ Tore und Endergebnisse
+    ⚠ Keine abgeschlossenen Spiele mit Ergebnis gefunden.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Keine Aufstellungs- oder Spielerstatistikdaten gefunden.
+
+✔ Einsatzminuten
+    Keine Auffälligkeiten.
+
+✔ Karten
+    Keine Auffälligkeiten.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     3
+INFO:                     0
+WARNUNG:                  2
+FEHLER:                   0
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        60.0 %
+Gewichtete Datenqualität:  84.0 %
+Einzelinfos:               0
+Einzelwarnungen:           2
+Einzelfehler:              0
+
+ERGEBNIS: MIT WARNUNGEN ABGESCHLOSSEN
+
+============================================================

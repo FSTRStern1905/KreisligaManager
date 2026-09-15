@@ -1,0 +1,54 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+⚠ Tore und Endergebnisse
+    ⚠ Spiel 31961: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31969: TuS Mayen - SG 06 Betzdorf; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 1. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 31973: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 31987: Events enthalten 3 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 31993: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 31995: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 31997: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 32001: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 32003: Events enthalten 5 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 32005: Events enthalten 2 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 32008: Events enthalten 4 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 32011: Events enthalten 6 Tore, player_match_stats enthalten 2.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 31968, TuS Mayen: 3 Einwechslungen, 4 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 31968, TuS Mayen: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31970, TuS Kirchberg: 940 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32001, SG Malberg: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32013, SG Malberg: 977 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=170, player_match_stats=41.
+    ⚠ RED_CARD: Events=9, player_match_stats=3.
+    ⚠ 4 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 116 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  4
+FEHLER:                   0
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  68.0 %
+Einzelinfos:               0
+Einzelwarnungen:           21
+Einzelfehler:              0
+
+ERGEBNIS: MIT WARNUNGEN ABGESCHLOSSEN
+
+============================================================

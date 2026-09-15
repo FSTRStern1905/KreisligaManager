@@ -21,6 +21,7 @@ from src.services.imports.schedule_import_service import (
 @dataclass(slots=True)
 class CompleteSeasonImportResult:
     schedule_result: Any = None
+    competition_id: int | None = None
     matches_found: int = 0
     match_details_imported: int = 0
     match_details_failed: int = 0
@@ -124,6 +125,18 @@ class CompleteSeasonImporter:
                     "nicht geladen."
                 )
 
+            schedule_url = self._build_schedule_url(
+                normalized_url
+            )
+
+            if schedule_url != browser.page.url:
+                print(
+                    "Öffne vollständigen Staffelspielplan..."
+                )
+                browser.open(
+                    schedule_url
+                )
+
             self._prepare_full_schedule_range(
                 browser.page
             )
@@ -170,6 +183,10 @@ class CompleteSeasonImporter:
             )
 
             if competition_id is not None:
+                result.competition_id = int(
+                    competition_id
+                )
+
                 self.connection.execute(
                     """
                     UPDATE competitions
@@ -310,6 +327,43 @@ class CompleteSeasonImporter:
         finally:
             browser.close()
 
+    @staticmethod
+    def _build_schedule_url(
+        url: str,
+    ) -> str:
+        """
+        Wandelt eine Staffel-Übersicht in den vollständigen
+        Staffelspielplan um.
+
+        Beispiel:
+            /spieltagsuebersicht/...#!/
+        wird zu:
+            /spielplan/...#!/section/matchplan
+        """
+        schedule_url = url.strip()
+
+        schedule_url = re.sub(
+            r"/spieltagsuebersicht/",
+            "/spielplan/",
+            schedule_url,
+            count=1,
+            flags=re.IGNORECASE,
+        )
+
+        schedule_url = re.sub(
+            r"#!/.*$",
+            "#!/section/matchplan",
+            schedule_url,
+        )
+
+        if "#!" not in schedule_url:
+            schedule_url = (
+                schedule_url.rstrip("/")
+                + "#!/section/matchplan"
+            )
+
+        return schedule_url
+
     @classmethod
     def _prepare_full_schedule_range(
         cls,
@@ -410,58 +464,20 @@ class CompleteSeasonImporter:
             value=current_to,
         )
 
-        fixture_form = page.locator(
-            "form[data-ajax-resource*='ajax.fixturelist']"
-        )
-
-        if fixture_form.count() < 1:
-            print(
-                "WARNUNG: Staffelspielplan-Formular wurde "
-                "nicht gefunden. Import läuft mit aktuellem "
-                "Zeitraum weiter."
-            )
-            return
-
-        submit_button = fixture_form.first.locator(
-            "button[type='submit']"
-        )
-
-        if submit_button.count() < 1:
-            print(
-                "WARNUNG: Submit-Button des Staffelspielplans "
-                "wurde nicht gefunden. Import läuft mit aktuellem "
-                "Zeitraum weiter."
-            )
-            return
-
         try:
-            with page.expect_response(
-                lambda response: (
-                    "ajax.fixturelist"
-                    in response.url
-                ),
-                timeout=10000,
-            ):
-                submit_button.first.click(
-                    force=True
-                )
-        except Exception:
-            # Fallback: Klick ausführen und anschließend kurz auf
-            # die AJAX-Aktualisierung warten.
-            try:
-                submit_button.first.click(
-                    force=True
-                )
-            except Exception as error:
-                print(
-                    "WARNUNG: Staffelspielplan konnte nicht "
-                    "neu geladen werden: "
-                    f"{error}"
-                )
-                return
+            to_input.first.press(
+                "Enter"
+            )
+        except Exception as error:
+            print(
+                "WARNUNG: Staffelspielplan konnte nicht "
+                "neu geladen werden: "
+                f"{error}"
+            )
+            return
 
         page.wait_for_timeout(
-            1800
+            2200
         )
 
         try:

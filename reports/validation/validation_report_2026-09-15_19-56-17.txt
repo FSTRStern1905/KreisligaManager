@@ -1,0 +1,601 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✖ Tore und Endergebnisse
+    ⚠ Spiel 5: Events enthalten 7 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 8: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 16: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 22: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 64: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 66: Events enthalten 6 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 74: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 76: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 78: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 111: Events enthalten 4 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 123: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 150: SV Föhren - FSG Ehrang-Pfalzel; Liveticker unvollständig: Ergebnis enthält 9 Tore, Events enthalten 1. Es fehlen 8 Tor-Events.
+    ⚠ Spiel 150: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 155: FSG Ehrang-Pfalzel - SV Trier-Irsch; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 5. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 169: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 187: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 197: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 222: Events enthalten 10 Tore, player_match_stats enthalten 9.
+    ⚠ Spiel 227: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 234: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 244: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 255: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 268: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 303: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 319: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 322: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 329: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 333: TSG Hoffenheim - Borussia Mönchengladbach; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 5. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 333: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 335: Hamburger SV - Bayer 04 Leverkusen; Liveticker unvollständig: Ergebnis enthält 1 Tore, Events enthalten 0. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 341: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 377: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 378: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 388: Events enthalten 6 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 396: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 401: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 402: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 404: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 414: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 433: Events enthalten 3 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 434: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 436: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 438: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 440: Events enthalten 4 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 443: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 448: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 452: Events enthalten 3 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 455: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 462: Events enthalten 6 Tore, player_match_stats enthalten 5.
+    ⚠ Spiel 470: Events enthalten 6 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 473: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 474: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 478: Events enthalten 4 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 486: Events enthalten 4 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 498: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 500: SV Stuttgarter Kickers - SV Sandhausen; Liveticker unvollständig: Ergebnis enthält 5 Tore, Events enthalten 0. Es fehlen 5 Tor-Events.
+    ⚠ Spiel 501: SC Freiburg II - FC 08 Homburg; Liveticker unvollständig: Ergebnis enthält 8 Tore, Events enthalten 0. Es fehlen 8 Tor-Events.
+    ⚠ Spiel 517: SC Freiburg II - SG Sonnenhof Großaspach; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 0. Es fehlen 6 Tor-Events.
+    ⚠ Spiel 520: 1. FSV Mainz 05 II - SV Stuttgarter Kickers; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 527: TSV Steinbach Haiger - 1. FSV Mainz 05 II; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 0. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 535: TSV Steinbach Haiger - SV Stuttgarter Kickers; Liveticker unvollständig: Ergebnis enthält 1 Tore, Events enthalten 0. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 538: FC-Astoria Walldorf - SGV Freiberg Fußball; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 0. Es fehlen 4 Tor-Events.
+    ⚠ Spiel 539: 1. FSV Mainz 05 II - SG Barockstadt Fulda-Lehnerz; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 0. Es fehlen 4 Tor-Events.
+    ⚠ Spiel 540: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 543: SV Sandhausen - TSG Balingen Fußball; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 553: TSV Steinbach Haiger - SG Sonnenhof Großaspach; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 0. Es fehlen 4 Tor-Events.
+    ⚠ Spiel 554: SC Freiburg II - SG Barockstadt Fulda-Lehnerz; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 557: 1. FSV Mainz 05 II - FC 08 Homburg; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 0. Es fehlen 4 Tor-Events.
+    ⚠ Spiel 559: Bahlinger SC - FSV Frankfurt; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 0. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 562: SGV Freiberg Fußball - KSV Hessen Kassel; Liveticker unvollständig: Ergebnis enthält 5 Tore, Events enthalten 0. Es fehlen 5 Tor-Events.
+    ⚠ Spiel 563: FSV Frankfurt - SC Freiburg II; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 568: TSV Schott Mainz - 1. FSV Mainz 05 II; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 571: TSV Steinbach Haiger - FC Bayern Alzenau; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 0. Es fehlen 6 Tor-Events.
+    ⚠ Spiel 572: SV Stuttgarter Kickers - SGV Freiberg Fußball; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 0. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 577: 1. FSV Mainz 05 II - SV Eintracht-Trier; Liveticker unvollständig: Ergebnis enthält 5 Tore, Events enthalten 0. Es fehlen 5 Tor-Events.
+    ⚠ Spiel 584: Bahlinger SC - 1. FSV Mainz 05 II; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 0. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 589: TSV Steinbach Haiger - SGV Freiberg Fußball; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 0. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 639: Bahlinger SC - TSV Steinbach Haiger; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 648: SV Eintracht-Trier - TSV Steinbach Haiger; Liveticker unvollständig: Ergebnis enthält 2 Tore, Events enthalten 0. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 658: SG Sonnenhof Großaspach - FC-Astoria Walldorf; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 5. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 669: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 679: SC Freiburg II - SV Sandhausen; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 0. Es fehlen 4 Tor-Events.
+    ⚠ Spiel 701: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 763: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 771: Events enthalten 2 Tore, player_match_stats enthalten 1.
+    ⚠ Spiel 816: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 817: Events enthalten 7 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 31055: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 31056: KSV Hessen Kassel - Eintracht Frankfurt II; Liveticker unvollständig: Ergebnis enthält 3 Tore, Events enthalten 0. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 31058: SV Sandhausen - TSV Steinbach Haiger; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 3. Es fehlen 1 Tor-Events.
+    ⚠ Spiel 31058: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31060: Events enthalten 3 Tore, player_match_stats enthalten 2.
+    ⚠ Spiel 31062: 1. FC Kaiserslautern II - SGV Heilbronn-Freiberg; Liveticker unvollständig: Ergebnis enthält 5 Tore, Events enthalten 1. Es fehlen 4 Tor-Events.
+    ⚠ Spiel 31062: Events enthalten 1 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31075: Events enthalten 4 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31076: Kickers Offenbach - 1. FSV Mainz 05 II; Liveticker unvollständig: Ergebnis enthält 4 Tore, Events enthalten 1. Es fehlen 3 Tor-Events.
+    ⚠ Spiel 31090: Events enthalten 5 Tore, player_match_stats enthalten 3.
+    ⚠ Spiel 31104: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 31124: SG Rascheid II - DJK Morscheid; Liveticker unvollständig: Ergebnis enthält 6 Tore, Events enthalten 0. Es fehlen 6 Tor-Events.
+    ⚠ Spiel 31125: Events enthalten 6 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 31130: Events enthalten 7 Tore, player_match_stats enthalten 6.
+    ⚠ Spiel 31311: Events enthalten 5 Tore, player_match_stats enthalten 4.
+    ⚠ Spiel 31453: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31454: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31455: Events enthalten 4 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31456: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31457: Events enthalten 8 Tore, player_match_stats enthalten 0.
+    ⚠ Spiel 31857: FSG Ehrang-Pfalzel III - SG Leiwen-Köwerich III; Liveticker unvollständig: Ergebnis enthält 5 Tore, Events enthalten 3. Es fehlen 2 Tor-Events.
+    ⚠ Spiel 31857: Events enthalten 3 Tore, player_match_stats enthalten 0.
+    ✖ Spiel 817: KSV Hessen Kassel - Kickers Offenbach; Events enthalten mehr Tore als das offizielle Ergebnis: Ergebnis=3, Events=7.
+
+✖ Aufstellungen und Wechsel
+    ⚠ Spiel 13, SG Serrig: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 30, SG Kenn: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 71, DJK St. Matthias Trier: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 73, FSG Ehrang-Pfalzel: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 94, SG Weintal Oberemmel: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 96, DJK Pluwig-Gusterath: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 122, FSV Trier-Tarforst II: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 131, SG Weintal Oberemmel: 0 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 131, VfL Trier: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 168, SG Niederkell Waldweiler: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 168, TuS Schillingen: 0 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 493, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 510, SV Stuttgarter Kickers: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 529, SV Stuttgarter Kickers: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 546, SV Stuttgarter Kickers: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 555, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 581, SV Stuttgarter Kickers: 3 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 590, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 605, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 609, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 618, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 625, Kickers Offenbach: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 627, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 641, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 682, 1. FSV Mainz 05 II: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 720, 1. FSV Mainz 05 II: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 782, SV Stuttgarter Kickers: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31055, 1. FSV Mainz 05 II: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31061, VfR Aalen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31063, SSV Ulm 1846 Fussball: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31065, VfR Aalen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31077, VfR Aalen: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31110, SG Rascheid II: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 31110, SV Trier-Irsch II: 0 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 31119, SV Farschweiler: 0 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 31119, SV Trier-Irsch II: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31127, SG Niederkell Kell: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 31275, SSG Kernscheid: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31275, SV Mehring II: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31278, SV Bekond II: 4 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31284, FSG Ehrang-Pfalzel II: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31284, SG FLRK Fell II: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31285, SV Bekond II: 0 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 31285, SV Trier-Olewig II: 0 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 31286, SG FLRK Fell II: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31286, TuS Issel: 0 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 31290, SG Pölich-Schleich II: 0 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 31290, SG Ruwertal Gutweiler III: 0 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 31297, VfL Trier III: 2 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 31298, FSG Ehrang-Pfalzel II: 0 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 31298, SV Föhren II: 0 Einwechslungen, 5 Auswechslungen.
+    ⚠ Spiel 31304, SG Pölich-Schleich II: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 31304, VfL Trier III: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 31308, SV Bekond II: 0 Einwechslungen, 1 Auswechslungen.
+    ⚠ Spiel 31308, SV Trier-Irsch III: 0 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 31311, FSV Trier-Tarforst III: 3 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 31838, SSG Kernscheid II: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 31838, TSG Trier-Biewer: 0 Einwechslungen, 5 Auswechslungen.
+    ✖ Spiel 31845, SG Leiwen-Köwerich III: 9 Startspieler statt 11.
+    ✖ Spiel 31845, SSG Kernscheid II: 9 Startspieler statt 11.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 14, FSV Trier-Tarforst II: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 21, SG Niederkell Waldweiler: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 41, DJK St. Matthias Trier: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 47, FSV Trier-Tarforst II: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 54, SG Kenn: 1170 Mannschaftsminuten statt 990.
+    ⚠ Spiel 74, SV Trier-Irsch: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 98, SG Kanzem: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 141, SV Trier-Irsch: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 148, SG Kanzem: 1170 Mannschaftsminuten statt 990.
+    ⚠ Spiel 161, SV Föhren: 1080 Mannschaftsminuten statt 990.
+    ⚠ Spiel 165, SV Trier-Irsch: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 184, TSG Hoffenheim: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 185, SV Werder Bremen: 991 Mannschaftsminuten statt 990.
+    ⚠ Spiel 186, Sport-Club Freiburg: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 187, 1. FC Köln: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 187, 1. FSV Mainz 05: 960 Mannschaftsminuten statt 990.
+    ⚠ Spiel 188, Borussia Mönchengladbach: 1054 Mannschaftsminuten statt 990.
+    ⚠ Spiel 188, Hamburger SV: 1054 Mannschaftsminuten statt 990.
+    ⚠ Spiel 189, VfB Stuttgart: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 190, Borussia Dortmund: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 191, 1. FC Heidenheim 1846: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 192, 1. FC Union Berlin: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 194, SV Werder Bremen: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 195, Borussia Mönchengladbach: 906 Mannschaftsminuten statt 990.
+    ⚠ Spiel 195, VfB Stuttgart: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 198, TSG Hoffenheim: 1039 Mannschaftsminuten statt 990.
+    ⚠ Spiel 199, 1. FC Köln: 1048 Mannschaftsminuten statt 990.
+    ⚠ Spiel 199, Sport-Club Freiburg: 1000 Mannschaftsminuten statt 990.
+    ⚠ Spiel 200, Hamburger SV: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 201, Hamburger SV: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 202, Bayer 04 Leverkusen: 959 Mannschaftsminuten statt 990.
+    ⚠ Spiel 203, Sport-Club Freiburg: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 203, VfB Stuttgart: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 204, 1. FSV Mainz 05: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 207, 1. FC Union Berlin: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 207, TSG Hoffenheim: 1026 Mannschaftsminuten statt 990.
+    ⚠ Spiel 208, FC Augsburg: 1035 Mannschaftsminuten statt 990.
+    ⚠ Spiel 209, 1. FC Heidenheim 1846: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 209, Borussia Dortmund: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 210, Bayer 04 Leverkusen: 1044 Mannschaftsminuten statt 990.
+    ⚠ Spiel 210, Borussia Mönchengladbach: 910 Mannschaftsminuten statt 990.
+    ⚠ Spiel 211, Eintracht Frankfurt: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 213, 1. FC Köln: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 215, VfB Stuttgart: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 216, 1. FSV Mainz 05: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 218, 1. FC Heidenheim 1846: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 218, Hamburger SV: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 220, Sport-Club Freiburg: 1042 Mannschaftsminuten statt 990.
+    ⚠ Spiel 220, TSG Hoffenheim: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 221, 1. FSV Mainz 05: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 222, Borussia Mönchengladbach: 952 Mannschaftsminuten statt 990.
+    ⚠ Spiel 224, 1. FC Union Berlin: 1063 Mannschaftsminuten statt 990.
+    ⚠ Spiel 224, Hamburger SV: 1040 Mannschaftsminuten statt 990.
+    ⚠ Spiel 227, 1. FC Köln: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 227, VfB Stuttgart: 1028 Mannschaftsminuten statt 990.
+    ⚠ Spiel 228, 1. FC Union Berlin: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 228, Bayer 04 Leverkusen: 1055 Mannschaftsminuten statt 990.
+    ⚠ Spiel 233, Borussia Mönchengladbach: 1055 Mannschaftsminuten statt 990.
+    ⚠ Spiel 233, Sport-Club Freiburg: 1083 Mannschaftsminuten statt 990.
+    ⚠ Spiel 235, 1. FC Köln: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 236, Hamburger SV: 1035 Mannschaftsminuten statt 990.
+    ⚠ Spiel 237, Borussia Dortmund: 1040 Mannschaftsminuten statt 990.
+    ⚠ Spiel 238, Eintracht Frankfurt: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 238, Sport-Club Freiburg: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 240, Hamburger SV: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 241, VfB Stuttgart: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 242, 1. FC Union Berlin: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 243, TSG Hoffenheim: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 244, 1. FC Heidenheim 1846: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 244, SV Werder Bremen: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 245, FC Augsburg: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 246, Bayer 04 Leverkusen: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 246, Sport-Club Freiburg: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 247, Eintracht Frankfurt: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 248, 1. FC Köln: 1086 Mannschaftsminuten statt 990.
+    ⚠ Spiel 248, Borussia Dortmund: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 249, 1. FC Union Berlin: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 250, VfB Stuttgart: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 251, Borussia Mönchengladbach: 919 Mannschaftsminuten statt 990.
+    ⚠ Spiel 252, RB Leipzig: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 253, 1. FC Heidenheim 1846: 1002 Mannschaftsminuten statt 990.
+    ⚠ Spiel 253, TSG Hoffenheim: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 254, Hamburger SV: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 256, SV Werder Bremen: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 257, VfB Stuttgart: 1054 Mannschaftsminuten statt 990.
+    ⚠ Spiel 258, TSG Hoffenheim: 1024 Mannschaftsminuten statt 990.
+    ⚠ Spiel 259, FC Augsburg: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 263, 1. FC Köln: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 263, Hamburger SV: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 264, 1. FC Heidenheim 1846: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 265, Eintracht Frankfurt: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 266, Sport-Club Freiburg: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 267, SV Werder Bremen: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 269, 1. FC Köln: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 271, TSG Hoffenheim: 1030 Mannschaftsminuten statt 990.
+    ⚠ Spiel 273, Sport-Club Freiburg: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 274, VfB Stuttgart: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 275, 1. FSV Mainz 05: 988 Mannschaftsminuten statt 990.
+    ⚠ Spiel 275, TSG Hoffenheim: 1035 Mannschaftsminuten statt 990.
+    ⚠ Spiel 276, SV Werder Bremen: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 278, FC Augsburg: 1033 Mannschaftsminuten statt 990.
+    ⚠ Spiel 280, 1. FC Heidenheim 1846: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 284, Eintracht Frankfurt: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 285, 1. FSV Mainz 05: 928 Mannschaftsminuten statt 990.
+    ⚠ Spiel 285, Sport-Club Freiburg: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 286, 1. FC Köln: 1050 Mannschaftsminuten statt 990.
+    ⚠ Spiel 287, Borussia Mönchengladbach: 1031 Mannschaftsminuten statt 990.
+    ⚠ Spiel 287, RB Leipzig: 1046 Mannschaftsminuten statt 990.
+    ⚠ Spiel 288, 1. FC Union Berlin: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 289, FC Augsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 289, TSG Hoffenheim: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 290, Hamburger SV: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 290, VfB Stuttgart: 1040 Mannschaftsminuten statt 990.
+    ⚠ Spiel 291, TSG Hoffenheim: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 294, VfB Stuttgart: 981 Mannschaftsminuten statt 990.
+    ⚠ Spiel 295, 1. FC Union Berlin: 1043 Mannschaftsminuten statt 990.
+    ⚠ Spiel 296, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 296, FC Augsburg: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 297, Sport-Club Freiburg: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 298, 1. FC Köln: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 299, SV Werder Bremen: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 301, 1. FC Köln: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 302, Eintracht Frankfurt: 1078 Mannschaftsminuten statt 990.
+    ⚠ Spiel 302, FC Augsburg: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 303, Borussia Dortmund: 953 Mannschaftsminuten statt 990.
+    ⚠ Spiel 303, Sport-Club Freiburg: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 304, SV Werder Bremen: 985 Mannschaftsminuten statt 990.
+    ⚠ Spiel 306, 1. FC Union Berlin: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 306, RB Leipzig: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 307, 1. FC Heidenheim 1846: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 307, FC St. Pauli: 945 Mannschaftsminuten statt 990.
+    ⚠ Spiel 308, Hamburger SV: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 308, TSG Hoffenheim: 1046 Mannschaftsminuten statt 990.
+    ⚠ Spiel 309, Borussia Dortmund: 1009 Mannschaftsminuten statt 990.
+    ⚠ Spiel 310, 1. FSV Mainz 05: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 310, FC St. Pauli: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 311, RB Leipzig: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 312, TSG Hoffenheim: 1035 Mannschaftsminuten statt 990.
+    ⚠ Spiel 312, VfB Stuttgart: 1055 Mannschaftsminuten statt 990.
+    ⚠ Spiel 313, Sport-Club Freiburg: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 314, FC Augsburg: 1114 Mannschaftsminuten statt 990.
+    ⚠ Spiel 314, SV Werder Bremen: 1041 Mannschaftsminuten statt 990.
+    ⚠ Spiel 315, 1. FC Heidenheim 1846: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 316, 1. FC Köln: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 317, Hamburger SV: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 319, Bayer 04 Leverkusen: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 319, VfB Stuttgart: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 320, Borussia Dortmund: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 321, Hamburger SV: 984 Mannschaftsminuten statt 990.
+    ⚠ Spiel 321, Sport-Club Freiburg: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 322, SV Werder Bremen: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 322, TSG Hoffenheim: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 323, FC Augsburg: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 324, 1. FSV Mainz 05: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 326, 1. FC Heidenheim 1846: 1032 Mannschaftsminuten statt 990.
+    ⚠ Spiel 327, Borussia Dortmund: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 327, SV Werder Bremen: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 328, 1. FC Heidenheim 1846: 1043 Mannschaftsminuten statt 990.
+    ⚠ Spiel 329, Sport-Club Freiburg: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 330, VfB Stuttgart: 1036 Mannschaftsminuten statt 990.
+    ⚠ Spiel 332, 1. FC Union Berlin: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 332, FC Augsburg: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 335, Hamburger SV: 1051 Mannschaftsminuten statt 990.
+    ⚠ Spiel 338, Eintracht Frankfurt: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 338, SV Werder Bremen: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 339, 1. FC Union Berlin: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 339, VfB Stuttgart: 1004 Mannschaftsminuten statt 990.
+    ⚠ Spiel 340, 1. FC Heidenheim 1846: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 340, VfL Wolfsburg: 1021 Mannschaftsminuten statt 990.
+    ⚠ Spiel 341, FC Augsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 341, Sport-Club Freiburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 342, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 342, TSG Hoffenheim: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 343, 1. FC Köln: 1078 Mannschaftsminuten statt 990.
+    ⚠ Spiel 344, Borussia Mönchengladbach: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 344, Hamburger SV: 1061 Mannschaftsminuten statt 990.
+    ⚠ Spiel 345, FC Augsburg: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 346, Bayer 04 Leverkusen: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 346, SV Werder Bremen: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 347, Eintracht Frankfurt: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 347, TSG Hoffenheim: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 348, 1. FC Köln: 1003 Mannschaftsminuten statt 990.
+    ⚠ Spiel 348, Sport-Club Freiburg: 1025 Mannschaftsminuten statt 990.
+    ⚠ Spiel 350, VfB Stuttgart: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 352, FC St. Pauli: 1084 Mannschaftsminuten statt 990.
+    ⚠ Spiel 352, Hamburger SV: 1112 Mannschaftsminuten statt 990.
+    ⚠ Spiel 353, 1. FC Heidenheim 1846: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 354, Bayer 04 Leverkusen: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 354, Eintracht Frankfurt: 992 Mannschaftsminuten statt 990.
+    ⚠ Spiel 355, 1. FC Heidenheim 1846: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 355, Borussia Dortmund: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 356, 1. FSV Mainz 05: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 357, SV Werder Bremen: 992 Mannschaftsminuten statt 990.
+    ⚠ Spiel 359, FC Augsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 360, TSG Hoffenheim: 997 Mannschaftsminuten statt 990.
+    ⚠ Spiel 361, 1. FC Köln: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 362, Hamburger SV: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 363, TSG Hoffenheim: 955 Mannschaftsminuten statt 990.
+    ⚠ Spiel 364, Sport-Club Freiburg: 974 Mannschaftsminuten statt 990.
+    ⚠ Spiel 366, Bayer 04 Leverkusen: 1059 Mannschaftsminuten statt 990.
+    ⚠ Spiel 366, Borussia Mönchengladbach: 911 Mannschaftsminuten statt 990.
+    ⚠ Spiel 367, Borussia Dortmund: 992 Mannschaftsminuten statt 990.
+    ⚠ Spiel 368, 1. FC Union Berlin: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 368, Eintracht Frankfurt: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 369, VfB Stuttgart: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 370, 1. FC Heidenheim 1846: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 370, Hamburger SV: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 371, 1. FC Köln: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 372, Bayer 04 Leverkusen: 1021 Mannschaftsminuten statt 990.
+    ⚠ Spiel 373, Borussia Mönchengladbach: 925 Mannschaftsminuten statt 990.
+    ⚠ Spiel 373, Eintracht Frankfurt: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 374, 1. FSV Mainz 05: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 374, Borussia Dortmund: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 377, 1. FC Köln: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 377, VfB Stuttgart: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 378, 1. FC Heidenheim 1846: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 378, FC Augsburg: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 379, Sport-Club Freiburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 379, TSG Hoffenheim: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 380, Hamburger SV: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 383, Hamburger SV: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 385, FC Augsburg: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 386, 1. FC Union Berlin: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 386, Bayer 04 Leverkusen: 1041 Mannschaftsminuten statt 990.
+    ⚠ Spiel 387, SV Werder Bremen: 1031 Mannschaftsminuten statt 990.
+    ⚠ Spiel 388, 1. FC Heidenheim 1846: 1056 Mannschaftsminuten statt 990.
+    ⚠ Spiel 388, VfB Stuttgart: 1052 Mannschaftsminuten statt 990.
+    ⚠ Spiel 389, TSG Hoffenheim: 991 Mannschaftsminuten statt 990.
+    ⚠ Spiel 390, Bayer 04 Leverkusen: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 391, Eintracht Frankfurt: 1102 Mannschaftsminuten statt 990.
+    ⚠ Spiel 391, Sport-Club Freiburg: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, 1. FC Heidenheim 1846: 1084 Mannschaftsminuten statt 990.
+    ⚠ Spiel 393, SV Werder Bremen: 1021 Mannschaftsminuten statt 990.
+    ⚠ Spiel 394, VfB Stuttgart: 992 Mannschaftsminuten statt 990.
+    ⚠ Spiel 394, VfL Wolfsburg: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 396, 1. FC Köln: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 396, FC Augsburg: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 397, TSG Hoffenheim: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 398, Hamburger SV: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 399, Borussia Mönchengladbach: 955 Mannschaftsminuten statt 990.
+    ⚠ Spiel 400, Bayer 04 Leverkusen: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 400, Sport-Club Freiburg: 1018 Mannschaftsminuten statt 990.
+    ⚠ Spiel 401, VfB Stuttgart: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 402, FC Augsburg: 1047 Mannschaftsminuten statt 990.
+    ⚠ Spiel 403, Hamburger SV: 1026 Mannschaftsminuten statt 990.
+    ⚠ Spiel 403, VfL Wolfsburg: 1050 Mannschaftsminuten statt 990.
+    ⚠ Spiel 404, SV Werder Bremen: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 405, Eintracht Frankfurt: 1024 Mannschaftsminuten statt 990.
+    ⚠ Spiel 405, FC St. Pauli: 1065 Mannschaftsminuten statt 990.
+    ⚠ Spiel 406, 1. FC Heidenheim 1846: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 406, TSG Hoffenheim: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 407, 1. FC Köln: 993 Mannschaftsminuten statt 990.
+    ⚠ Spiel 408, FC Bayern München: 936 Mannschaftsminuten statt 990.
+    ⚠ Spiel 409, Eintracht Frankfurt: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 410, FC Augsburg: 1030 Mannschaftsminuten statt 990.
+    ⚠ Spiel 411, Sport-Club Freiburg: 1032 Mannschaftsminuten statt 990.
+    ⚠ Spiel 412, 1. FSV Mainz 05: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 412, SV Werder Bremen: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 413, VfB Stuttgart: 1032 Mannschaftsminuten statt 990.
+    ⚠ Spiel 415, VfL Wolfsburg: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 416, 1. FC Köln: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 416, Hamburger SV: 1014 Mannschaftsminuten statt 990.
+    ⚠ Spiel 418, Hamburger SV: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 419, 1. FSV Mainz 05: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 419, Eintracht Frankfurt: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 420, TSG Hoffenheim: 1055 Mannschaftsminuten statt 990.
+    ⚠ Spiel 421, SV Werder Bremen: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 421, VfL Wolfsburg: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 422, VfB Stuttgart: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 424, 1. FC Heidenheim 1846: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 425, 1. FC Köln: 1006 Mannschaftsminuten statt 990.
+    ⚠ Spiel 425, Borussia Mönchengladbach: 905 Mannschaftsminuten statt 990.
+    ⚠ Spiel 426, Bayer 04 Leverkusen: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 427, 1. FC Köln: 998 Mannschaftsminuten statt 990.
+    ⚠ Spiel 428, Sport-Club Freiburg: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 429, SV Werder Bremen: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 430, Borussia Dortmund: 1016 Mannschaftsminuten statt 990.
+    ⚠ Spiel 430, VfB Stuttgart: 1013 Mannschaftsminuten statt 990.
+    ⚠ Spiel 432, 1. FC Union Berlin: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 434, Hamburger SV: 987 Mannschaftsminuten statt 990.
+    ⚠ Spiel 436, Sport-Club Freiburg: 1042 Mannschaftsminuten statt 990.
+    ⚠ Spiel 438, Hamburger SV: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 438, VfB Stuttgart: 1030 Mannschaftsminuten statt 990.
+    ⚠ Spiel 439, Eintracht Frankfurt: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 439, VfL Wolfsburg: 1034 Mannschaftsminuten statt 990.
+    ⚠ Spiel 440, FC Augsburg: 991 Mannschaftsminuten statt 990.
+    ⚠ Spiel 440, TSG Hoffenheim: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 442, 1. FC Heidenheim 1846: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 442, 1. FC Union Berlin: 1045 Mannschaftsminuten statt 990.
+    ⚠ Spiel 443, SV Werder Bremen: 968 Mannschaftsminuten statt 990.
+    ⚠ Spiel 444, VfB Stuttgart: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 445, Bayer 04 Leverkusen: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 445, FC Augsburg: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 446, RB Leipzig: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 447, Sport-Club Freiburg: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 448, Hamburger SV: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 448, SV Werder Bremen: 1019 Mannschaftsminuten statt 990.
+    ⚠ Spiel 449, Borussia Mönchengladbach: 918 Mannschaftsminuten statt 990.
+    ⚠ Spiel 451, 1. FC Köln: 1001 Mannschaftsminuten statt 990.
+    ⚠ Spiel 452, Borussia Dortmund: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 452, TSG Hoffenheim: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 453, Sport-Club Freiburg: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 455, 1. FC Union Berlin: 1056 Mannschaftsminuten statt 990.
+    ⚠ Spiel 456, SV Werder Bremen: 1015 Mannschaftsminuten statt 990.
+    ⚠ Spiel 456, VfB Stuttgart: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 457, Borussia Mönchengladbach: 1017 Mannschaftsminuten statt 990.
+    ⚠ Spiel 457, VfL Wolfsburg: 1037 Mannschaftsminuten statt 990.
+    ⚠ Spiel 458, FC Augsburg: 994 Mannschaftsminuten statt 990.
+    ⚠ Spiel 460, 1. FC Köln: 1038 Mannschaftsminuten statt 990.
+    ⚠ Spiel 461, TSG Hoffenheim: 1053 Mannschaftsminuten statt 990.
+    ⚠ Spiel 463, RB Leipzig: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 465, Sport-Club Freiburg: 1040 Mannschaftsminuten statt 990.
+    ⚠ Spiel 466, SV Werder Bremen: 1078 Mannschaftsminuten statt 990.
+    ⚠ Spiel 467, Borussia Mönchengladbach: 920 Mannschaftsminuten statt 990.
+    ⚠ Spiel 468, 1. FC Köln: 1008 Mannschaftsminuten statt 990.
+    ⚠ Spiel 468, 1. FC Union Berlin: 1022 Mannschaftsminuten statt 990.
+    ⚠ Spiel 469, 1. FSV Mainz 05: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 470, VfB Stuttgart: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 471, Eintracht Frankfurt: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 472, 1. FSV Mainz 05: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 474, VfB Stuttgart: 1005 Mannschaftsminuten statt 990.
+    ⚠ Spiel 476, Borussia Mönchengladbach: 932 Mannschaftsminuten statt 990.
+    ⚠ Spiel 476, FC Augsburg: 1029 Mannschaftsminuten statt 990.
+    ⚠ Spiel 477, SV Werder Bremen: 905 Mannschaftsminuten statt 990.
+    ⚠ Spiel 477, TSG Hoffenheim: 1024 Mannschaftsminuten statt 990.
+    ⚠ Spiel 478, 1. FC Heidenheim 1846: 1011 Mannschaftsminuten statt 990.
+    ⚠ Spiel 478, 1. FC Köln: 1023 Mannschaftsminuten statt 990.
+    ⚠ Spiel 479, Sport-Club Freiburg: 1012 Mannschaftsminuten statt 990.
+    ⚠ Spiel 480, 1. FC Köln: 999 Mannschaftsminuten statt 990.
+    ⚠ Spiel 482, Eintracht Frankfurt: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 482, VfB Stuttgart: 1028 Mannschaftsminuten statt 990.
+    ⚠ Spiel 483, Sport-Club Freiburg: 1020 Mannschaftsminuten statt 990.
+    ⚠ Spiel 484, SV Werder Bremen: 1010 Mannschaftsminuten statt 990.
+    ⚠ Spiel 485, Borussia Mönchengladbach: 923 Mannschaftsminuten statt 990.
+    ⚠ Spiel 485, TSG Hoffenheim: 995 Mannschaftsminuten statt 990.
+    ⚠ Spiel 486, FC Augsburg: 1025 Mannschaftsminuten statt 990.
+    ⚠ Spiel 488, 1. FC Heidenheim 1846: 1007 Mannschaftsminuten statt 990.
+    ⚠ Spiel 488, 1. FSV Mainz 05: 996 Mannschaftsminuten statt 990.
+    ⚠ Spiel 510, SV Stuttgarter Kickers: 977 Mannschaftsminuten statt 990.
+    ⚠ Spiel 529, SV Stuttgarter Kickers: 962 Mannschaftsminuten statt 990.
+    ⚠ Spiel 546, SV Stuttgarter Kickers: 973 Mannschaftsminuten statt 990.
+    ⚠ Spiel 547, TSV Steinbach Haiger: 962 Mannschaftsminuten statt 990.
+    ⚠ Spiel 555, SV Stuttgarter Kickers: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 567, Bahlinger SC: 912 Mannschaftsminuten statt 990.
+    ⚠ Spiel 581, SV Stuttgarter Kickers: 920 Mannschaftsminuten statt 990.
+    ⚠ Spiel 605, SV Stuttgarter Kickers: 975 Mannschaftsminuten statt 990.
+    ⚠ Spiel 609, SV Stuttgarter Kickers: 959 Mannschaftsminuten statt 990.
+    ⚠ Spiel 618, SV Stuttgarter Kickers: 957 Mannschaftsminuten statt 990.
+    ⚠ Spiel 620, Kickers Offenbach: 960 Mannschaftsminuten statt 990.
+    ⚠ Spiel 625, Kickers Offenbach: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 636, SV Sandhausen: 973 Mannschaftsminuten statt 990.
+    ⚠ Spiel 682, 1. FSV Mainz 05 II: 982 Mannschaftsminuten statt 990.
+    ⚠ Spiel 725, FSV Frankfurt: 959 Mannschaftsminuten statt 990.
+    ⚠ Spiel 756, FC Bayern Alzenau: 969 Mannschaftsminuten statt 990.
+    ⚠ Spiel 761, FC 08 Homburg: 947 Mannschaftsminuten statt 990.
+    ⚠ Spiel 782, SV Stuttgarter Kickers: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 804, FC 08 Homburg: 983 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31057, SSV Ulm 1846 Fussball: 954 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31061, VfR Aalen: 967 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31063, SSV Ulm 1846 Fussball: 963 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31065, VfR Aalen: 939 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31077, VfR Aalen: 976 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31085, VfR Mannheim: 927 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31091, SG Osburg Thomm Lorscheid: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31091, SV Trier-Irsch II: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31093, DJK Morscheid: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31093, SG Niederkell Kell: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31099, DJK Morscheid: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31099, SG Ruwertal Gutweiler II: 540 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31100, TuS Mosella Schweich III: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31105, FSG Ehrang-Pfalzel: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31105, SV Trier-Irsch II: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31106, FV Hunsrückhöhe Morbach II: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31113, SG Ruwertal Gutweiler II: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31121, DJK Morscheid: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31130, FSG Ehrang-Pfalzel: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31130, SG Pölich-Schleich: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31272, SG FLRK Fell II: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31276, SG Pölich-Schleich II: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31276, SV Trier-Olewig II: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31278, SV Bekond II: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31278, TuS Issel: 540 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31291, SSG Kernscheid: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31296, SG Osburg Thomm Lorscheid II: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31296, SG Pölich-Schleich II: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31301, SG FLRK Fell II: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31301, SV Trier-Irsch III: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31311, FSV Trier-Tarforst III: 962 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31835, SG Zewen III: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31835, SV Eintracht Ruwer: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31857, SG Leiwen-Köwerich III: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31858, SG Weintal Krettnach III: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 31858, TSG Trier-Biewer: 810 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=3988, player_match_stats=1416.
+    ⚠ YELLOW_RED_CARD: Events=46, player_match_stats=37.
+    ⚠ RED_CARD: Events=79, player_match_stats=26.
+    ⚠ 41 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 2336 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     1
+INFO:                     0
+WARNUNG:                  2
+FEHLER:                   2
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        20.0 %
+Gewichtete Datenqualität:  44.0 %
+Einzelinfos:               0
+Einzelwarnungen:           565
+Einzelfehler:              3
+
+ERGEBNIS: FEHLER GEFUNDEN
+
+============================================================
