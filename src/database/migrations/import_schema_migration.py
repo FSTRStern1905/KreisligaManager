@@ -13,6 +13,7 @@ class ImportSchemaMigration:
         self._extend_clubs_table()
         self._extend_leagues_table()
         self._extend_seasons_table()
+        self._extend_competitions_table()
         self._extend_teams_table()
         self._extend_players_table()
         self._extend_matches_table()
@@ -71,6 +72,13 @@ class ImportSchemaMigration:
             table="seasons",
             column="active",
             definition="INTEGER NOT NULL DEFAULT 0",
+        )
+
+    def _extend_competitions_table(self) -> None:
+        self._add_column_if_missing(
+            table="competitions",
+            column="source",
+            definition="TEXT NOT NULL DEFAULT 'manual'",
         )
 
     def _extend_teams_table(self) -> None:

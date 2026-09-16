@@ -192,7 +192,8 @@ class CompleteSeasonImporter:
                     UPDATE competitions
                     SET
                         schedule_url = ?,
-                        last_schedule_sync = ?
+                        last_schedule_sync = ?,
+                        source = 'fussball.de'
                     WHERE competition_id = ?
                     """,
                     (
