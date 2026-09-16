@@ -363,10 +363,27 @@ class ImportValidationService:
             )
             squad_size = int(squad_size or 0)
 
-            if starters != 11:
+            if 1 <= starters <= 10:
+                warnings.append(
+                    f"Spiel {match_id}, {team_name}: "
+                    f"{starters} Startspieler statt 11. "
+                    "Möglicherweise Unterzahl oder "
+                    "unvollständige Aufstellungsdaten."
+                )
+
+            elif starters > 11:
                 errors.append(
                     f"Spiel {match_id}, {team_name}: "
-                    f"{starters} Startspieler statt 11."
+                    f"{starters} Startspieler. "
+                    "Mehr als 11 Startspieler sind ungültig."
+                )
+
+            elif starters == 0:
+                warnings.append(
+                    f"Spiel {match_id}, {team_name}: "
+                    "Keine Startspieler erkannt. "
+                    "Aufstellungsdaten möglicherweise "
+                    "nicht vorhanden."
                 )
 
             if substitutions_in != substitutions_out:

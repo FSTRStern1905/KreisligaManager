@@ -1,0 +1,57 @@
+============================================================
+IMPORT-VALIDIERUNG
+============================================================
+
+✔ Datenintegrität
+    Keine Auffälligkeiten.
+
+✔ Tore und Endergebnisse
+    Keine Auffälligkeiten.
+
+⚠ Aufstellungen und Wechsel
+    ⚠ Spiel 32249, JSG Ruwertal: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 32249, Jugendfußballverein Hunsrück-Hochwald II: 0 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 32251, JSG Ehrang-Pfalzel: 1 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 32256, JSG Vorderer Hochwald Osburg: 2 Einwechslungen, 4 Auswechslungen.
+    ⚠ Spiel 32257, JSG Ehrang-Pfalzel: 1 Einwechslungen, 2 Auswechslungen.
+    ⚠ Spiel 32258, JSG Saar Ayl: 10 Startspieler statt 11. Möglicherweise Unterzahl oder unvollständige Aufstellungsdaten.
+    ⚠ Spiel 32259, JSG Ruwertal: 0 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 32259, JSG Vorderer Hochwald Osburg: 0 Einwechslungen, 3 Auswechslungen.
+    ⚠ Spiel 32260, JSG Ehrang-Pfalzel: 3 Einwechslungen, 4 Auswechslungen.
+
+⚠ Einsatzminuten
+    ⚠ Spiel 32251, JSG Ehrang-Pfalzel: 936 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32251, JSG Vorderer Hochwald Osburg: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32252, JSG Trier-Irsch II (U20): 540 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32252, Jugendfußballverein Hunsrück-Hochwald II: 720 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32254, JSG Ehrang-Pfalzel: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32254, JSG Ruwertal: 630 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32257, JSG Ehrang-Pfalzel: 810 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32257, JSG Saar Ayl: 900 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32260, JSG Ehrang-Pfalzel: 795 Mannschaftsminuten statt 990.
+    ⚠ Spiel 32260, JSG Trier-Irsch II (U20): 900 Mannschaftsminuten statt 990.
+
+⚠ Karten
+    ⚠ YELLOW_CARD: Events=41, player_match_stats=0.
+    ⚠ RED_CARD: Events=1, player_match_stats=0.
+    ⚠ 1 RED_CARD-Events besitzen keine Spielerzuordnung.
+    ⚠ 41 YELLOW_CARD-Events besitzen keine Spielerzuordnung.
+
+============================================================
+ZUSAMMENFASSUNG
+============================================================
+
+PASS:                     2
+INFO:                     0
+WARNUNG:                  3
+FEHLER:                   0
+Prüfungen insgesamt:      5
+Reine Erfolgsquote:        40.0 %
+Gewichtete Datenqualität:  76.0 %
+Einzelinfos:               0
+Einzelwarnungen:           23
+Einzelfehler:              0
+
+ERGEBNIS: MIT WARNUNGEN ABGESCHLOSSEN
+
+============================================================
