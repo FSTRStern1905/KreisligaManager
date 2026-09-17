@@ -33,6 +33,9 @@ from src.ui.windows.competition_tabs.matches_tab import (
 from src.ui.windows.competition_tabs.overview_tab import (
     CompetitionOverviewTab,
 )
+from src.ui.windows.competition_tabs.prediction_tab import (
+    CompetitionPredictionTab,
+)
 from src.ui.windows.competition_tabs.schedule_tab import (
     CompetitionScheduleTab,
 )
@@ -256,6 +259,10 @@ class CompetitionWorkspace(QWidget):
             CompetitionStatisticsHubTab()
         )
 
+        self.prediction_tab = (
+            CompetitionPredictionTab()
+        )
+
         self.register_tab(
             self.overview_tab,
             "Übersicht",
@@ -284,6 +291,11 @@ class CompetitionWorkspace(QWidget):
         self.register_tab(
             self.statistics_hub_tab,
             "Statistiken",
+        )
+
+        self.register_tab(
+            self.prediction_tab,
+            "🔮 Prognose",
         )
 
         return self.tabs

@@ -27,6 +27,40 @@ class ExpectedGoals:
 
 
 @dataclass(frozen=True, slots=True)
+class ExpectedGoalsStep:
+    name: str
+    home: float
+    away: float
+
+
+@dataclass(frozen=True, slots=True)
+class ExpectedGoalsBreakdown:
+    league_average_home_goals: float
+    league_average_away_goals: float
+
+    home_attack_strength: float
+    home_defense_strength: float
+    away_attack_strength: float
+    away_defense_strength: float
+
+    home_form_factor: float
+    away_form_factor: float
+
+    home_opponent_factor: float
+    away_opponent_factor: float
+
+    home_player_factor: float
+    away_player_factor: float
+
+    home_lineup_factor: float
+    away_lineup_factor: float
+
+    steps: tuple[ExpectedGoalsStep, ...]
+
+    final_expected_goals: ExpectedGoals
+
+
+@dataclass(frozen=True, slots=True)
 class PoissonPrediction:
     expected_goals: ExpectedGoals
     home_win_probability: float
@@ -35,7 +69,9 @@ class PoissonPrediction:
     score_probabilities: tuple[ScoreProbability, ...]
 
     @property
-    def most_likely_scores(self) -> tuple[ScoreProbability, ...]:
+    def most_likely_scores(
+        self,
+    ) -> tuple[ScoreProbability, ...]:
         return tuple(
             sorted(
                 self.score_probabilities,
@@ -125,6 +161,7 @@ class PoissonModel:
         home_distribution = self._distribution(
             expected.home
         )
+
         away_distribution = self._distribution(
             expected.away
         )
@@ -155,12 +192,18 @@ class PoissonModel:
 
                 if home_goals > away_goals:
                     home_win += probability
+
                 elif home_goals < away_goals:
                     away_win += probability
+
                 else:
                     draw += probability
 
-        total = home_win + draw + away_win
+        total = (
+            home_win
+            + draw
+            + away_win
+        )
 
         if total <= 0.0:
             raise RuntimeError(
@@ -176,7 +219,10 @@ class PoissonModel:
             ScoreProbability(
                 home_goals=item.home_goals,
                 away_goals=item.away_goals,
-                probability=item.probability / total,
+                probability=(
+                    item.probability
+                    / total
+                ),
             )
             for item in scores
         )
@@ -203,6 +249,38 @@ class PoissonModel:
         home_lineup_strength: LineupStrength | None = None,
         away_lineup_strength: LineupStrength | None = None,
     ) -> ExpectedGoals:
+        breakdown = (
+            self.calculate_expected_goals_breakdown(
+                home_team=home_team,
+                away_team=away_team,
+                league=league,
+                home_form=home_form,
+                away_form=away_form,
+                home_opponent_strength=home_opponent_strength,
+                away_opponent_strength=away_opponent_strength,
+                home_player_strength=home_player_strength,
+                away_player_strength=away_player_strength,
+                home_lineup_strength=home_lineup_strength,
+                away_lineup_strength=away_lineup_strength,
+            )
+        )
+
+        return breakdown.final_expected_goals
+
+    def calculate_expected_goals_breakdown(
+        self,
+        home_team: TeamStrength,
+        away_team: TeamStrength,
+        league: LeagueStrength,
+        home_form: TeamForm | None = None,
+        away_form: TeamForm | None = None,
+        home_opponent_strength: OpponentStrength | None = None,
+        away_opponent_strength: OpponentStrength | None = None,
+        home_player_strength: TeamPlayerStrength | None = None,
+        away_player_strength: TeamPlayerStrength | None = None,
+        home_lineup_strength: LineupStrength | None = None,
+        away_lineup_strength: LineupStrength | None = None,
+    ) -> ExpectedGoalsBreakdown:
         if league.matches_played <= 0:
             raise ValueError(
                 "Keine historischen Ligaspiele vorhanden."
@@ -220,66 +298,232 @@ class PoissonModel:
             * home_team.home_defense_strength
         )
 
+        steps: list[ExpectedGoalsStep] = [
+            ExpectedGoalsStep(
+                name="Teamstärke",
+                home=home_expected,
+                away=away_expected,
+            )
+        ]
+
+        home_form_factor = 1.0
+        away_form_factor = 1.0
+
         if (
             self.form_weight > 0.0
             and home_form is not None
             and away_form is not None
         ):
-            home_form_factor = (
+            raw_home_form_factor = (
                 home_form.attack_factor
                 * away_form.defense_factor
             )
-            away_form_factor = (
+
+            raw_away_form_factor = (
                 away_form.attack_factor
                 * home_form.defense_factor
             )
 
-            home_expected *= self._blend_factor(
+            home_form_factor = (
+                self._blend_factor(
+                    raw_home_form_factor
+                )
+            )
+
+            away_form_factor = (
+                self._blend_factor(
+                    raw_away_form_factor
+                )
+            )
+
+            home_expected *= (
                 home_form_factor
             )
-            away_expected *= self._blend_factor(
+
+            away_expected *= (
                 away_form_factor
             )
+
+        steps.append(
+            ExpectedGoalsStep(
+                name="Form",
+                home=home_expected,
+                away=away_expected,
+            )
+        )
+
+        home_opponent_factor = 1.0
+        away_opponent_factor = 1.0
 
         if (
             self.opponent_strength_weight > 0.0
             and home_opponent_strength is not None
             and away_opponent_strength is not None
         ):
-            home_expected *= self._blend_opponent_strength(
-                home_opponent_strength.schedule_factor
+            home_opponent_factor = (
+                self._blend_opponent_strength(
+                    home_opponent_strength.schedule_factor
+                )
             )
-            away_expected *= self._blend_opponent_strength(
-                away_opponent_strength.schedule_factor
+
+            away_opponent_factor = (
+                self._blend_opponent_strength(
+                    away_opponent_strength.schedule_factor
+                )
             )
+
+            home_expected *= (
+                home_opponent_factor
+            )
+
+            away_expected *= (
+                away_opponent_factor
+            )
+
+        steps.append(
+            ExpectedGoalsStep(
+                name="Gegnerstärke",
+                home=home_expected,
+                away=away_expected,
+            )
+        )
+
+        home_player_factor = 1.0
+        away_player_factor = 1.0
 
         if (
             self.player_strength_weight > 0.0
             and home_player_strength is not None
             and away_player_strength is not None
         ):
-            home_expected *= self._blend_player_strength(
-                home_player_strength.relative_team_player_factor
+            home_player_factor = (
+                self._blend_player_strength(
+                    home_player_strength
+                    .relative_team_player_factor
+                )
             )
-            away_expected *= self._blend_player_strength(
-                away_player_strength.relative_team_player_factor
+
+            away_player_factor = (
+                self._blend_player_strength(
+                    away_player_strength
+                    .relative_team_player_factor
+                )
             )
+
+            home_expected *= (
+                home_player_factor
+            )
+
+            away_expected *= (
+                away_player_factor
+            )
+
+        steps.append(
+            ExpectedGoalsStep(
+                name="Spielerstärke",
+                home=home_expected,
+                away=away_expected,
+            )
+        )
+
+        home_lineup_factor = 1.0
+        away_lineup_factor = 1.0
 
         if (
             self.lineup_strength_weight > 0.0
             and home_lineup_strength is not None
             and away_lineup_strength is not None
         ):
-            home_expected *= self._blend_lineup_strength(
-                home_lineup_strength.relative_lineup_factor
-            )
-            away_expected *= self._blend_lineup_strength(
-                away_lineup_strength.relative_lineup_factor
+            home_lineup_factor = (
+                self._blend_lineup_strength(
+                    home_lineup_strength
+                    .relative_lineup_factor
+                )
             )
 
-        return ExpectedGoals(
-            home=max(home_expected, 0.0),
-            away=max(away_expected, 0.0),
+            away_lineup_factor = (
+                self._blend_lineup_strength(
+                    away_lineup_strength
+                    .relative_lineup_factor
+                )
+            )
+
+            home_expected *= (
+                home_lineup_factor
+            )
+
+            away_expected *= (
+                away_lineup_factor
+            )
+
+        steps.append(
+            ExpectedGoalsStep(
+                name="Startelf",
+                home=home_expected,
+                away=away_expected,
+            )
+        )
+
+        final_expected = ExpectedGoals(
+            home=max(
+                home_expected,
+                0.0,
+            ),
+            away=max(
+                away_expected,
+                0.0,
+            ),
+        )
+
+        return ExpectedGoalsBreakdown(
+            league_average_home_goals=(
+                league.average_home_goals
+            ),
+            league_average_away_goals=(
+                league.average_away_goals
+            ),
+            home_attack_strength=(
+                home_team.home_attack_strength
+            ),
+            home_defense_strength=(
+                home_team.home_defense_strength
+            ),
+            away_attack_strength=(
+                away_team.away_attack_strength
+            ),
+            away_defense_strength=(
+                away_team.away_defense_strength
+            ),
+            home_form_factor=(
+                home_form_factor
+            ),
+            away_form_factor=(
+                away_form_factor
+            ),
+            home_opponent_factor=(
+                home_opponent_factor
+            ),
+            away_opponent_factor=(
+                away_opponent_factor
+            ),
+            home_player_factor=(
+                home_player_factor
+            ),
+            away_player_factor=(
+                away_player_factor
+            ),
+            home_lineup_factor=(
+                home_lineup_factor
+            ),
+            away_lineup_factor=(
+                away_lineup_factor
+            ),
+            steps=tuple(
+                steps
+            ),
+            final_expected_goals=(
+                final_expected
+            ),
         )
 
     def _blend_factor(
@@ -288,7 +532,8 @@ class PoissonModel:
     ) -> float:
         return (
             (1.0 - self.form_weight)
-            + self.form_weight * form_factor
+            + self.form_weight
+            * form_factor
         )
 
     def _blend_opponent_strength(
@@ -296,7 +541,10 @@ class PoissonModel:
         schedule_factor: float,
     ) -> float:
         return (
-            (1.0 - self.opponent_strength_weight)
+            (
+                1.0
+                - self.opponent_strength_weight
+            )
             + self.opponent_strength_weight
             * schedule_factor
         )
@@ -306,7 +554,10 @@ class PoissonModel:
         relative_factor: float,
     ) -> float:
         return (
-            (1.0 - self.player_strength_weight)
+            (
+                1.0
+                - self.player_strength_weight
+            )
             + self.player_strength_weight
             * relative_factor
         )
@@ -316,7 +567,10 @@ class PoissonModel:
         relative_factor: float,
     ) -> float:
         return (
-            (1.0 - self.lineup_strength_weight)
+            (
+                1.0
+                - self.lineup_strength_weight
+            )
             + self.lineup_strength_weight
             * relative_factor
         )
@@ -330,7 +584,9 @@ class PoissonModel:
                 goals=goals,
                 expected_goals=expected_goals,
             )
-            for goals in range(self.max_goals + 1)
+            for goals in range(
+                self.max_goals + 1
+            )
         )
 
     @staticmethod
@@ -347,7 +603,11 @@ class PoissonModel:
             )
 
         return (
-            math.exp(-expected_goals)
+            math.exp(
+                -expected_goals
+            )
             * expected_goals**goals
-            / math.factorial(goals)
+            / math.factorial(
+                goals
+            )
         )
