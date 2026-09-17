@@ -4,8 +4,14 @@ import math
 from dataclasses import dataclass
 
 from src.services.prediction.form_service import TeamForm
+from src.services.prediction.lineup_strength_service import (
+    LineupStrength,
+)
 from src.services.prediction.opponent_strength_service import (
     OpponentStrength,
+)
+from src.services.prediction.player_strength_service import (
+    TeamPlayerStrength,
 )
 from src.services.prediction.prediction_models import ScoreProbability
 from src.services.prediction.team_strength_service import (
@@ -45,6 +51,8 @@ class PoissonModel:
         max_goals: int = 10,
         form_weight: float = 0.0,
         opponent_strength_weight: float = 0.0,
+        player_strength_weight: float = 0.0,
+        lineup_strength_weight: float = 0.75,
     ) -> None:
         if max_goals < 5:
             raise ValueError(
@@ -62,10 +70,28 @@ class PoissonModel:
                 "0.0 und 2.0 liegen."
             )
 
+        if not 0.0 <= player_strength_weight <= 2.0:
+            raise ValueError(
+                "player_strength_weight muss zwischen "
+                "0.0 und 2.0 liegen."
+            )
+
+        if not 0.0 <= lineup_strength_weight <= 1.5:
+            raise ValueError(
+                "lineup_strength_weight muss zwischen "
+                "0.0 und 1.5 liegen."
+            )
+
         self.max_goals = max_goals
         self.form_weight = form_weight
         self.opponent_strength_weight = (
             opponent_strength_weight
+        )
+        self.player_strength_weight = (
+            player_strength_weight
+        )
+        self.lineup_strength_weight = (
+            lineup_strength_weight
         )
 
     def predict(
@@ -77,6 +103,10 @@ class PoissonModel:
         away_form: TeamForm | None = None,
         home_opponent_strength: OpponentStrength | None = None,
         away_opponent_strength: OpponentStrength | None = None,
+        home_player_strength: TeamPlayerStrength | None = None,
+        away_player_strength: TeamPlayerStrength | None = None,
+        home_lineup_strength: LineupStrength | None = None,
+        away_lineup_strength: LineupStrength | None = None,
     ) -> PoissonPrediction:
         expected = self.calculate_expected_goals(
             home_team=home_team,
@@ -86,6 +116,10 @@ class PoissonModel:
             away_form=away_form,
             home_opponent_strength=home_opponent_strength,
             away_opponent_strength=away_opponent_strength,
+            home_player_strength=home_player_strength,
+            away_player_strength=away_player_strength,
+            home_lineup_strength=home_lineup_strength,
+            away_lineup_strength=away_lineup_strength,
         )
 
         home_distribution = self._distribution(
@@ -164,6 +198,10 @@ class PoissonModel:
         away_form: TeamForm | None = None,
         home_opponent_strength: OpponentStrength | None = None,
         away_opponent_strength: OpponentStrength | None = None,
+        home_player_strength: TeamPlayerStrength | None = None,
+        away_player_strength: TeamPlayerStrength | None = None,
+        home_lineup_strength: LineupStrength | None = None,
+        away_lineup_strength: LineupStrength | None = None,
     ) -> ExpectedGoals:
         if league.matches_played <= 0:
             raise ValueError(
@@ -215,6 +253,30 @@ class PoissonModel:
                 away_opponent_strength.schedule_factor
             )
 
+        if (
+            self.player_strength_weight > 0.0
+            and home_player_strength is not None
+            and away_player_strength is not None
+        ):
+            home_expected *= self._blend_player_strength(
+                home_player_strength.relative_team_player_factor
+            )
+            away_expected *= self._blend_player_strength(
+                away_player_strength.relative_team_player_factor
+            )
+
+        if (
+            self.lineup_strength_weight > 0.0
+            and home_lineup_strength is not None
+            and away_lineup_strength is not None
+        ):
+            home_expected *= self._blend_lineup_strength(
+                home_lineup_strength.relative_lineup_factor
+            )
+            away_expected *= self._blend_lineup_strength(
+                away_lineup_strength.relative_lineup_factor
+            )
+
         return ExpectedGoals(
             home=max(home_expected, 0.0),
             away=max(away_expected, 0.0),
@@ -237,6 +299,26 @@ class PoissonModel:
             (1.0 - self.opponent_strength_weight)
             + self.opponent_strength_weight
             * schedule_factor
+        )
+
+    def _blend_player_strength(
+        self,
+        relative_factor: float,
+    ) -> float:
+        return (
+            (1.0 - self.player_strength_weight)
+            + self.player_strength_weight
+            * relative_factor
+        )
+
+    def _blend_lineup_strength(
+        self,
+        relative_factor: float,
+    ) -> float:
+        return (
+            (1.0 - self.lineup_strength_weight)
+            + self.lineup_strength_weight
+            * relative_factor
         )
 
     def _distribution(

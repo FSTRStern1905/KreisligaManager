@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 
 
@@ -130,3 +131,22 @@ class BacktestMatchResult:
             (predicted[outcome] - actual[outcome]) ** 2
             for outcome in ("1", "X", "2")
         )
+
+    @property
+    def log_loss(self) -> float:
+        probabilities = {
+            "1": self.prediction.home_win_probability,
+            "X": self.prediction.draw_probability,
+            "2": self.prediction.away_win_probability,
+        }
+
+        actual_probability = probabilities[self.actual_outcome]
+
+        epsilon = 1e-15
+        safe_probability = max(
+            min(actual_probability, 1.0 - epsilon),
+            epsilon,
+        )
+
+        return -math.log(safe_probability)
+
