@@ -27,6 +27,9 @@ from src.ui.widgets.page_header import PageHeader
 from src.ui.widgets.primary_button import PrimaryButton
 from src.ui.widgets.secondary_button import SecondaryButton
 from src.ui.widgets.toolbar import Toolbar
+from src.ui.windows.competition_tabs.match_center_tab import (
+    CompetitionMatchCenterTab,
+)
 from src.ui.windows.competition_tabs.matches_tab import (
     CompetitionMatchesTab,
 )
@@ -263,6 +266,10 @@ class CompetitionWorkspace(QWidget):
             CompetitionPredictionTab()
         )
 
+        self.match_center_tab = (
+            CompetitionMatchCenterTab()
+        )
+
         self.register_tab(
             self.overview_tab,
             "Übersicht",
@@ -296,6 +303,11 @@ class CompetitionWorkspace(QWidget):
         self.register_tab(
             self.prediction_tab,
             "🔮 Prognose",
+        )
+
+        self.register_tab(
+            self.match_center_tab,
+            "⚽ Match-Center",
         )
 
         return self.tabs
