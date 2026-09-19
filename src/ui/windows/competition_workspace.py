@@ -4,7 +4,9 @@ import sqlite3
 from pathlib import Path
 
 from PySide6.QtWidgets import (
+    QComboBox,
     QHBoxLayout,
+    QLabel,
     QMessageBox,
     QTabWidget,
     QVBoxLayout,
@@ -66,6 +68,7 @@ class CompetitionWorkspace(QWidget):
 
         self.competitions = []
         self.filtered_competitions = []
+        self.competition_filter_data = {}
 
         self.selected_competition_id: int | None = None
         self.competition_tabs: list[QWidget] = []
@@ -125,6 +128,72 @@ class CompetitionWorkspace(QWidget):
         self.toolbar.add_action(
             self.new_button
         )
+
+        self.filter_widget = QWidget()
+        filter_layout = QHBoxLayout(
+            self.filter_widget
+        )
+        filter_layout.setContentsMargins(
+            0,
+            0,
+            0,
+            0,
+        )
+        filter_layout.setSpacing(8)
+
+        self.season_filter = QComboBox()
+        self.season_filter.addItem(
+            "Alle Saisons",
+            None,
+        )
+
+        self.level_filter = QComboBox()
+        self.level_filter.addItem(
+            "Alle Liga-Level",
+            None,
+        )
+
+        self.source_filter = QComboBox()
+        self.source_filter.addItem(
+            "Echte Daten",
+            "real",
+        )
+        self.source_filter.addItem(
+            "Alle Quellen",
+            "all",
+        )
+        self.source_filter.addItem(
+            "Demo",
+            "demo",
+        )
+        self.source_filter.addItem(
+            "Manuell",
+            "manual",
+        )
+
+        filter_layout.addWidget(
+            QLabel("Saison")
+        )
+        filter_layout.addWidget(
+            self.season_filter
+        )
+        filter_layout.addSpacing(8)
+
+        filter_layout.addWidget(
+            QLabel("Liga-Level")
+        )
+        filter_layout.addWidget(
+            self.level_filter
+        )
+        filter_layout.addSpacing(8)
+
+        filter_layout.addWidget(
+            QLabel("Quelle")
+        )
+        filter_layout.addWidget(
+            self.source_filter
+        )
+        filter_layout.addStretch(1)
 
         content_layout = QHBoxLayout()
 
@@ -220,6 +289,10 @@ class CompetitionWorkspace(QWidget):
 
         main_layout.addWidget(
             self.toolbar
+        )
+
+        main_layout.addWidget(
+            self.filter_widget
         )
 
         main_layout.addLayout(
@@ -333,6 +406,16 @@ class CompetitionWorkspace(QWidget):
             self.filter_competitions
         )
 
+        self.season_filter.currentIndexChanged.connect(
+            self._filters_changed
+        )
+        self.level_filter.currentIndexChanged.connect(
+            self._filters_changed
+        )
+        self.source_filter.currentIndexChanged.connect(
+            self._filters_changed
+        )
+
         self.refresh_button.clicked.connect(
             self.refresh
         )
@@ -383,6 +466,11 @@ class CompetitionWorkspace(QWidget):
                 service.get_all_competitions()
             )
 
+            self._load_filter_data(
+                connection
+            )
+            self._populate_filters()
+
         except sqlite3.Error as error:
             QMessageBox.critical(
                 self,
@@ -427,6 +515,14 @@ class CompetitionWorkspace(QWidget):
                 None
             )
 
+    def _filters_changed(
+        self,
+        _index: int = 0,
+    ) -> None:
+        self.filter_competitions(
+            self.toolbar.search_bar.text()
+        )
+
     def filter_competitions(
         self,
         search_text: str = "",
@@ -435,6 +531,16 @@ class CompetitionWorkspace(QWidget):
             search_text
             .strip()
             .casefold()
+        )
+
+        season_filter = (
+            self.season_filter.currentData()
+        )
+        level_filter = (
+            self.level_filter.currentData()
+        )
+        source_filter = (
+            self.source_filter.currentData()
         )
 
         rows = []
@@ -448,6 +554,13 @@ class CompetitionWorkspace(QWidget):
                 row = self._competition_row(
                     connection,
                     competition,
+                )
+
+                filter_data = (
+                    self.competition_filter_data.get(
+                        competition.competition_id,
+                        {},
+                    )
                 )
 
                 searchable_text = (
@@ -464,16 +577,51 @@ class CompetitionWorkspace(QWidget):
                 ):
                     continue
 
-                rows.append(
-                    row
+                if (
+                    season_filter is not None
+                    and row["season"]
+                    != season_filter
+                ):
+                    continue
+
+                if (
+                    level_filter is not None
+                    and filter_data.get(
+                        "league_level"
+                    )
+                    != level_filter
+                ):
+                    continue
+
+                source = filter_data.get(
+                    "source",
+                    "manual",
                 )
+
+                if (
+                    source_filter == "real"
+                    and source == "demo"
+                ):
+                    continue
+
+                if (
+                    source_filter == "demo"
+                    and source != "demo"
+                ):
+                    continue
+
+                if (
+                    source_filter == "manual"
+                    and source != "manual"
+                ):
+                    continue
+
+                rows.append(row)
 
         finally:
             connection.close()
 
-        self.filtered_competitions = (
-            rows
-        )
+        self.filtered_competitions = rows
 
         self.competition_table.set_rows(
             rows,
@@ -486,13 +634,277 @@ class CompetitionWorkspace(QWidget):
             )
 
         else:
-            self.selected_competition_id = (
-                None
-            )
-
+            self.selected_competition_id = None
             self.set_competition_for_tabs(
                 None
             )
+
+    def _load_filter_data(
+        self,
+        connection: sqlite3.Connection,
+    ) -> None:
+        self.competition_filter_data.clear()
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "PRAGMA table_info(competitions)"
+        )
+        competition_columns = {
+            row[1]
+            for row in cursor.fetchall()
+        }
+
+        has_source = (
+            "source" in competition_columns
+        )
+
+        for competition in self.competitions:
+            cursor.execute(
+                """
+                SELECT name
+                FROM leagues
+                WHERE league_id = ?
+                """,
+                (competition.league_id,),
+            )
+            league_result = cursor.fetchone()
+            league_name = (
+                league_result[0]
+                if league_result is not None
+                else "Keine Liga"
+            )
+
+            cursor.execute(
+                """
+                SELECT name
+                FROM seasons
+                WHERE season_id = ?
+                """,
+                (competition.season_id,),
+            )
+            season_result = cursor.fetchone()
+            season_name = (
+                season_result[0]
+                if season_result is not None
+                else "Keine Saison"
+            )
+
+            source = "manual"
+
+            if has_source:
+                cursor.execute(
+                    """
+                    SELECT source
+                    FROM competitions
+                    WHERE competition_id = ?
+                    """,
+                    (competition.competition_id,),
+                )
+                source_result = cursor.fetchone()
+
+                if (
+                    source_result is not None
+                    and source_result[0]
+                ):
+                    source = str(
+                        source_result[0]
+                    ).strip().lower()
+
+            self.competition_filter_data[
+                competition.competition_id
+            ] = {
+                "season": season_name,
+                "source": source,
+                "league_level": (
+                    self._league_level(
+                        league_name,
+                        competition.name,
+                    )
+                ),
+            }
+
+    def _populate_filters(
+        self,
+    ) -> None:
+        current_season = (
+            self.season_filter.currentData()
+        )
+        current_level = (
+            self.level_filter.currentData()
+        )
+
+        seasons = sorted(
+            {
+                data["season"]
+                for data in (
+                    self.competition_filter_data
+                    .values()
+                )
+                if data.get("season")
+            },
+            reverse=True,
+        )
+
+        levels = {
+            data["league_level"]
+            for data in (
+                self.competition_filter_data
+                .values()
+            )
+            if data.get("league_level")
+        }
+
+        level_order = (
+            "Bundesliga",
+            "2. Bundesliga",
+            "3. Liga",
+            "Regionalliga",
+            "Oberliga",
+            "Verbands-/Landesliga",
+            "Bezirksliga",
+            "Kreisliga",
+            "Reserveklasse",
+            "Jugend",
+            "Sonstige",
+        )
+
+        self.season_filter.blockSignals(True)
+        self.level_filter.blockSignals(True)
+
+        self.season_filter.clear()
+        self.season_filter.addItem(
+            "Alle Saisons",
+            None,
+        )
+
+        for season in seasons:
+            self.season_filter.addItem(
+                season,
+                season,
+            )
+
+        self.level_filter.clear()
+        self.level_filter.addItem(
+            "Alle Liga-Level",
+            None,
+        )
+
+        for level in level_order:
+            if level in levels:
+                self.level_filter.addItem(
+                    level,
+                    level,
+                )
+
+        self._restore_filter(
+            self.season_filter,
+            current_season,
+        )
+        self._restore_filter(
+            self.level_filter,
+            current_level,
+        )
+
+        self.season_filter.blockSignals(False)
+        self.level_filter.blockSignals(False)
+
+    @staticmethod
+    def _restore_filter(
+        combo: QComboBox,
+        value,
+    ) -> None:
+        index = combo.findData(value)
+
+        combo.setCurrentIndex(
+            index
+            if index >= 0
+            else 0
+        )
+
+    @staticmethod
+    def _league_level(
+        league_name: str,
+        competition_name: str,
+    ) -> str:
+        text = (
+            f"{league_name} "
+            f"{competition_name}"
+        ).casefold()
+
+        youth_terms = (
+            "a-junior",
+            "b-junior",
+            "c-junior",
+            "d-junior",
+            "e-junior",
+            "f-junior",
+            "junioren",
+            "juniorinnen",
+            "jugend",
+            "u19",
+            "u18",
+            "u17",
+            "u16",
+            "u15",
+            "u14",
+            "u13",
+            "u12",
+            "u11",
+            "u10",
+            "u9",
+        )
+
+        if any(
+            term in text
+            for term in youth_terms
+        ):
+            return "Jugend"
+
+        if "2. bundesliga" in text:
+            return "2. Bundesliga"
+
+        if "bundesliga" in text:
+            return "Bundesliga"
+
+        if (
+            "3. liga" in text
+            or "3.liga" in text
+        ):
+            return "3. Liga"
+
+        if "regionalliga" in text:
+            return "Regionalliga"
+
+        if "oberliga" in text:
+            return "Oberliga"
+
+        if any(
+            term in text
+            for term in (
+                "verbandsliga",
+                "landesliga",
+                "rheinlandliga",
+            )
+        ):
+            return "Verbands-/Landesliga"
+
+        if "bezirksliga" in text:
+            return "Bezirksliga"
+
+        if any(
+            term in text
+            for term in (
+                "kreisliga",
+                "kreisklasse",
+            )
+        ):
+            return "Kreisliga"
+
+        if "reserveklasse" in text:
+            return "Reserveklasse"
+
+        return "Sonstige"
 
     def _competition_row(
         self,
