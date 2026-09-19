@@ -47,6 +47,9 @@ from src.ui.windows.competition_tabs.schedule_tab import (
 from src.ui.windows.competition_tabs.statistics_hub_tab import (
     CompetitionStatisticsHubTab,
 )
+from src.ui.windows.competition_tabs.stadium_map_tab import (
+    CompetitionStadiumMapTab,
+)
 from src.ui.windows.competition_tabs.table_tab import (
     CompetitionTableTab,
 )
@@ -343,6 +346,10 @@ class CompetitionWorkspace(QWidget):
             CompetitionMatchCenterTab()
         )
 
+        self.stadium_map_tab = (
+            CompetitionStadiumMapTab()
+        )
+
         self.register_tab(
             self.overview_tab,
             "Übersicht",
@@ -381,6 +388,11 @@ class CompetitionWorkspace(QWidget):
         self.register_tab(
             self.match_center_tab,
             "⚽ Match-Center",
+        )
+
+        self.register_tab(
+            self.stadium_map_tab,
+            "🗺️ Karte",
         )
 
         return self.tabs
