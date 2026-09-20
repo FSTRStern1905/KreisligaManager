@@ -31,7 +31,6 @@ class CompetitionStadiumMapTab(QWidget):
         super().__init__(parent)
 
         self.competition_id: int | None = None
-
         self.setup_ui()
 
     def setup_ui(
@@ -400,7 +399,9 @@ class CompetitionStadiumMapTab(QWidget):
                         city,
                         address,
                         latitude,
-                        longitude
+                        longitude,
+                        postal_code,
+                        federal_state
                     FROM stadiums
                     WHERE
                         latitude IS NOT NULL
@@ -417,7 +418,9 @@ class CompetitionStadiumMapTab(QWidget):
                         s.city,
                         s.address,
                         s.latitude,
-                        s.longitude
+                        s.longitude,
+                        s.postal_code,
+                        s.federal_state
                     FROM stadiums AS s
                     INNER JOIN matches AS m
                         ON m.stadium_id = s.stadium_id
@@ -456,6 +459,14 @@ class CompetitionStadiumMapTab(QWidget):
                         "longitude": float(
                             row["longitude"]
                         ),
+                        "postal_code": (
+                            row["postal_code"]
+                            or ""
+                        ),
+                        "federal_state": (
+                            row["federal_state"]
+                            or ""
+                        ),
                     }
                 )
 
@@ -466,113 +477,65 @@ class CompetitionStadiumMapTab(QWidget):
                 usage_rows = cursor.execute(
                     """
                     SELECT
-                        home_team_id,
-                        stadium_id,
-                        COUNT(*) AS home_matches
-                    FROM matches
+                        ts.team_id,
+                        ts.stadium_id,
+                        ts.role,
+                        ts.home_matches,
+                        t.name AS team_name
+                    FROM team_stadiums AS ts
+                    INNER JOIN teams AS t
+                        ON t.team_id = ts.team_id
                     WHERE
-                        competition_id = ?
-                        AND stadium_id IS NOT NULL
-                    GROUP BY
-                        home_team_id,
-                        stadium_id
+                        ts.competition_id = ?
                     ORDER BY
-                        home_team_id,
-                        home_matches DESC,
-                        stadium_id
+                        ts.stadium_id,
+                        ts.home_matches DESC,
+                        t.name
                     """,
                     (self.competition_id,),
                 ).fetchall()
 
-                usage_by_team = {}
+                usage_by_stadium = {}
 
                 for usage_row in usage_rows:
-                    team_id = usage_row["home_team_id"]
+                    stadium_id = usage_row[
+                        "stadium_id"
+                    ]
 
-                    usage_by_team.setdefault(
-                        team_id,
+                    usage_by_stadium.setdefault(
+                        stadium_id,
                         [],
                     ).append(
                         {
-                            "stadium_id":
-                                usage_row["stadium_id"],
+                            "team":
+                                usage_row["team_name"],
                             "home_matches":
                                 usage_row["home_matches"],
+                            "role":
+                                usage_row["role"],
                         }
                     )
 
-                main_stadium_by_team = {}
-
-                for team_id, usages in (
-                    usage_by_team.items()
-                ):
-                    if usages:
-                        main_stadium_by_team[
-                            team_id
-                        ] = usages[0]["stadium_id"]
-
-                team_names = {
-                    row["team_id"]: row["name"]
-                    for row in cursor.execute(
-                        """
-                        SELECT team_id, name
-                        FROM teams
-                        """
-                    ).fetchall()
-                }
-
                 for stadium in stadiums:
-                    stadium_id = stadium["id"]
-                    main_for = []
-                    alternate_for = []
-                    usage_details = []
+                    usage_details = (
+                        usage_by_stadium.get(
+                            stadium["id"],
+                            [],
+                        )
+                    )
 
-                    for team_id, usages in (
-                        usage_by_team.items()
-                    ):
-                        for usage in usages:
-                            if (
-                                usage["stadium_id"]
-                                != stadium_id
-                            ):
-                                continue
+                    main_for = [
+                        usage["team"]
+                        for usage in usage_details
+                        if usage["role"] == "main"
+                    ]
 
-                            team_name = team_names.get(
-                                team_id,
-                                f"Mannschaft {team_id}",
-                            )
-                            home_matches = usage[
-                                "home_matches"
-                            ]
-
-                            is_main = (
-                                main_stadium_by_team.get(
-                                    team_id
-                                )
-                                == stadium_id
-                            )
-
-                            usage_details.append(
-                                {
-                                    "team": team_name,
-                                    "home_matches":
-                                        home_matches,
-                                    "role": (
-                                        "main"
-                                        if is_main
-                                        else "alternate"
-                                    ),
-                                }
-                            )
-
-                            if is_main:
-                                main_for.append(
-                                    team_name
-                                )
-                            else:
-                                alternate_for.append(
-                                    team_name
-                                )
+                    alternate_for = [
+                        usage["team"]
+                        for usage in usage_details
+                        if usage["role"]
+                        == "alternate"
+                    ]
 
                     stadium["is_main"] = bool(
                         main_for
@@ -878,23 +841,10 @@ class CompetitionStadiumMapTab(QWidget):
     const showStates = {str(show_states).lower()};
     const highlightActive =
         {str(highlight_active).lower()};
-
-    /*
-     * Zwei Qualitätsstufen:
-     *
-     * - LOW: schnelle Darstellung der Bundesländer
-     * - HIGH: präzise Punkt-in-Polygon-Zuordnung für
-     *   Grenzstädte wie Ulm / Neu-Ulm
-     */
     const STATES_DISPLAY_URL =
         "https://raw.githubusercontent.com/"
         + "isellsoap/deutschlandGeoJSON/master/"
         + "2_bundeslaender/4_niedrig.geo.json";
-
-    const STATES_DETECTION_URL =
-        "https://raw.githubusercontent.com/"
-        + "isellsoap/deutschlandGeoJSON/master/"
-        + "2_bundeslaender/1_sehr_hoch.geo.json";
 
 
 
@@ -946,112 +896,6 @@ class CompetitionStadiumMapTab(QWidget):
             || properties.NAME_0
             || "Bundesland"
         );
-    }}
-
-    function pointInRing(point, ring) {{
-        const x = point[0];
-        const y = point[1];
-
-        let inside = false;
-
-        for (
-            let i = 0, j = ring.length - 1;
-            i < ring.length;
-            j = i++
-        ) {{
-            const xi = ring[i][0];
-            const yi = ring[i][1];
-            const xj = ring[j][0];
-            const yj = ring[j][1];
-
-            const intersects =
-                ((yi > y) !== (yj > y))
-                && (
-                    x
-                    < (
-                        (xj - xi)
-                        * (y - yi)
-                        / ((yj - yi) || 1e-12)
-                        + xi
-                    )
-                );
-
-            if (intersects) {{
-                inside = !inside;
-            }}
-        }}
-
-        return inside;
-    }}
-
-    function pointInPolygon(point, polygon) {{
-        if (!polygon || polygon.length === 0) {{
-            return false;
-        }}
-
-        if (!pointInRing(point, polygon[0])) {{
-            return false;
-        }}
-
-        for (let i = 1; i < polygon.length; i++) {{
-            if (pointInRing(point, polygon[i])) {{
-                return false;
-            }}
-        }}
-
-        return true;
-    }}
-
-    function pointInFeature(point, feature) {{
-        if (!feature.geometry) {{
-            return false;
-        }}
-
-        const geometry = feature.geometry;
-
-        if (geometry.type === "Polygon") {{
-            return pointInPolygon(
-                point,
-                geometry.coordinates
-            );
-        }}
-
-        if (geometry.type === "MultiPolygon") {{
-            return geometry.coordinates.some(
-                polygon => pointInPolygon(
-                    point,
-                    polygon
-                )
-            );
-        }}
-
-        return false;
-    }}
-
-    function participatingStates(statesGeoJson) {{
-        const active = new Set();
-
-        statesGeoJson.features.forEach(
-            feature => {{
-                const hasStadium = stadiums.some(
-                    stadium => pointInFeature(
-                        [
-                            stadium.longitude,
-                            stadium.latitude
-                        ],
-                        feature
-                    )
-                );
-
-                if (hasStadium) {{
-                    active.add(
-                        featureName(feature)
-                    );
-                }}
-            }}
-        );
-
-        return active;
     }}
 
     stadiums.forEach(
@@ -1193,191 +1037,32 @@ class CompetitionStadiumMapTab(QWidget):
         }}
     );
 
-    Promise.all([
-        fetch(
-            STATES_DISPLAY_URL
-        ).then(
-            response => {{
-                if (!response.ok) {{
-                    throw new Error(
-                        "Bundesländer-Darstellung konnte "
-                        + "nicht geladen werden."
-                    );
-                }}
+    const activeStates = new Set(
+        stadiums
+            .map(
+                stadium =>
+                    stadium.federal_state
+            )
+            .filter(Boolean)
+    );
 
-                return response.json();
-            }}
-        ),
-
-        fetch(
-            STATES_DETECTION_URL
-        ).then(
-            response => {{
-                if (!response.ok) {{
-                    throw new Error(
-                        "Präzise Bundeslanddaten konnten "
-                        + "nicht geladen werden."
-                    );
-                }}
-
-                return response.json();
-            }}
-        )
-    ])
+    fetch(
+        STATES_DISPLAY_URL
+    )
     .then(
-        async ([statesGeoJson, detectionGeoJson]) => {{
-            /*
-             * Bundesland-Zuordnung:
-             * 1. PLZ/Adresse, wenn eindeutig vorhanden
-             * 2. hochauflösendes GeoJSON als Fallback
-             *
-             * Das verhindert Grenzfehler wie beim
-             * Donaustadion Ulm.
-             */
-            function postalCodeFromStadium(stadium) {{
-                const source = [
-                    stadium.name || "",
-                    stadium.address || "",
-                    stadium.city || ""
-                ].join(" ");
-
-                const match =
-                    source.match(
-                        /(?:^|[^0-9])([0-9]{{5}})(?:[^0-9]|$)/
-                    );
-
-                return match ? match[1] : null;
+        response => {{
+            if (!response.ok) {{
+                throw new Error(
+                    "Bundesländer-Darstellung konnte "
+                    + "nicht geladen werden."
+                );
             }}
 
-            function stateFromGeometry(stadium) {{
-                for (const feature
-                    of detectionGeoJson.features) {{
-                    if (
-                        pointInFeature(
-                            [
-                                stadium.longitude,
-                                stadium.latitude
-                            ],
-                            feature
-                        )
-                    ) {{
-                        return featureName(feature);
-                    }}
-                }}
-
-                return null;
-            }}
-
-            /*
-             * Exakte PLZ-/Ortszuordnung über OpenPLZ.
-             * Das API-Ergebnis enthält direkt federalState.name.
-             *
-             * Bei Netzwerk-/API-Fehlern bleibt das
-             * hochauflösende GeoJSON der Fallback.
-             */
-            const postalStateCache = new Map();
-
-            async function stateFromPostalCode(stadium) {{
-                const postalCode =
-                    postalCodeFromStadium(stadium);
-
-                if (!postalCode) {{
-                    return null;
-                }}
-
-                if (postalStateCache.has(postalCode)) {{
-                    return postalStateCache.get(postalCode);
-                }}
-
-                try {{
-                    const url =
-                        "https://openplzapi.org/de/Localities"
-                        + "?postalCode="
-                        + encodeURIComponent(postalCode)
-                        + "&page=1&pageSize=50";
-
-                    const response = await fetch(url);
-
-                    if (!response.ok) {{
-                        throw new Error(
-                            "OpenPLZ HTTP "
-                            + response.status
-                        );
-                    }}
-
-                    const localities =
-                        await response.json();
-
-                    const stateNames =
-                        Array.from(
-                            new Set(
-                                localities
-                                    .map(
-                                        locality =>
-                                            locality.federalState
-                                            && locality.federalState.name
-                                    )
-                                    .filter(Boolean)
-                            )
-                        );
-
-                    /*
-                     * Eine deutsche PLZ kann mehrere Orte
-                     * enthalten. Solange alle Treffer im
-                     * selben Bundesland liegen, ist die
-                     * Zuordnung eindeutig.
-                     */
-                    const stateName =
-                        stateNames.length === 1
-                        ? stateNames[0]
-                        : null;
-
-                    postalStateCache.set(
-                        postalCode,
-                        stateName
-                    );
-
-                    return stateName;
-                }}
-                catch (error) {{
-                    console.warn(
-                        "OpenPLZ-Fallback für "
-                        + postalCode + ":",
-                        error
-                    );
-
-                    postalStateCache.set(
-                        postalCode,
-                        null
-                    );
-
-                    return null;
-                }}
-            }}
-
-            const activeStates = new Set();
-
-            await Promise.all(
-                stadiums.map(
-                    async stadium => {{
-                        const stateName =
-                            await stateFromPostalCode(
-                                stadium
-                            )
-                            || stateFromGeometry(
-                                stadium
-                            );
-
-                        if (stateName) {{
-                            activeStates.add(
-                                stateName
-                            );
-                        }}
-                    }}
-                )
-            );
-
-
+            return response.json();
+        }}
+    )
+    .then(
+        statesGeoJson => {{
             /*
              * Deutschland-Außengrenze als echte Außenkante.
              *

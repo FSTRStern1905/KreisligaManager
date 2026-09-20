@@ -87,6 +87,12 @@ class StadiumGeocodingService:
                 ),
             )
 
+        expected_postal_code = self._extract_postal_code(
+            name=name,
+            city=city,
+            address=address,
+        )
+
         queries = self._build_queries(
             name=name,
             city=city,
@@ -126,6 +132,28 @@ class StadiumGeocodingService:
             if result is None:
                 continue
 
+            if not self._postal_code_matches(
+                result=result,
+                expected_postal_code=expected_postal_code,
+            ):
+                returned_postal_code = (
+                    self._postal_code_from_result(
+                        result
+                    )
+                )
+
+                errors.append(
+                    (
+                        f"{query}: "
+                        "PLZ stimmt nicht überein "
+                        f"(erwartet "
+                        f"{expected_postal_code}, "
+                        f"Treffer "
+                        f"{returned_postal_code or 'ohne PLZ'})"
+                    )
+                )
+                continue
+
             try:
                 latitude = float(
                     result["lat"]
@@ -144,10 +172,19 @@ class StadiumGeocodingService:
                 "display_name"
             )
 
-            self._save_coordinates(
+            postal_code = self._postal_code_from_result(
+                result
+            )
+            federal_state = self._state_from_result(
+                result
+            )
+
+            self._save_location(
                 stadium_id=stadium_id,
                 latitude=latitude,
                 longitude=longitude,
+                postal_code=postal_code,
+                federal_state=federal_state,
             )
 
             return GeocodingResult(
@@ -459,6 +496,123 @@ class StadiumGeocodingService:
 
         return normalized in pitch_terms
 
+    def _extract_postal_code(
+        self,
+        *,
+        name: str | None,
+        city: str | None,
+        address: str | None,
+    ) -> str | None:
+        source = " ".join(
+            str(value or "")
+            for value in (
+                name,
+                address,
+                city,
+            )
+        )
+
+        match = re.search(
+            r"(?<!\\d)(\\d{5})(?!\\d)",
+            source,
+        )
+
+        if match is None:
+            return None
+
+        return match.group(1)
+
+    def _postal_code_from_result(
+        self,
+        result: dict,
+    ) -> str | None:
+        address = result.get("address")
+
+        if not isinstance(address, dict):
+            return None
+
+        postal_code = address.get(
+            "postcode"
+        )
+
+        if not postal_code:
+            return None
+
+        match = re.search(
+            r"(?<!\\d)(\\d{5})(?!\\d)",
+            str(postal_code),
+        )
+
+        if match is None:
+            return None
+
+        return match.group(1)
+
+    def _postal_code_matches(
+        self,
+        *,
+        result: dict,
+        expected_postal_code: str | None,
+    ) -> bool:
+        if expected_postal_code is None:
+            return True
+
+        returned_postal_code = (
+            self._postal_code_from_result(
+                result
+            )
+        )
+
+        if returned_postal_code is None:
+            return False
+
+        return (
+            returned_postal_code
+            == expected_postal_code
+        )
+
+    def _state_from_result(
+        self,
+        result: dict,
+    ) -> str | None:
+        address = result.get("address")
+
+        if not isinstance(address, dict):
+            return None
+
+        state = address.get("state")
+
+        if not state:
+            return None
+
+        state = str(state).strip()
+
+        aliases = {
+            "Baden-Wurttemberg":
+                "Baden-Württemberg",
+            "North Rhine-Westphalia":
+                "Nordrhein-Westfalen",
+            "Rhineland-Palatinate":
+                "Rheinland-Pfalz",
+            "Lower Saxony":
+                "Niedersachsen",
+            "Saxony":
+                "Sachsen",
+            "Saxony-Anhalt":
+                "Sachsen-Anhalt",
+            "Thuringia":
+                "Thüringen",
+            "Bavaria":
+                "Bayern",
+            "Hesse":
+                "Hessen",
+        }
+
+        return aliases.get(
+            state,
+            state,
+        )
+
     def _request_nominatim(
         self,
         query: str,
@@ -519,23 +673,36 @@ class StadiumGeocodingService:
 
         return data[0]
 
-    def _save_coordinates(
+    def _save_location(
         self,
+        *,
         stadium_id: int,
         latitude: float,
         longitude: float,
+        postal_code: str | None,
+        federal_state: str | None,
     ) -> None:
         self.cursor.execute(
             """
             UPDATE stadiums
             SET
                 latitude = ?,
-                longitude = ?
+                longitude = ?,
+                postal_code = COALESCE(
+                    ?,
+                    postal_code
+                ),
+                federal_state = COALESCE(
+                    ?,
+                    federal_state
+                )
             WHERE stadium_id = ?
             """,
             (
                 latitude,
                 longitude,
+                postal_code,
+                federal_state,
                 stadium_id,
             ),
         )
